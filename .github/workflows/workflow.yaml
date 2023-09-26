@@ -33,18 +33,14 @@ jobs:
     needs: [build-and-test]
     steps:
       - name: login
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
-          run: ls -la && pwd
-
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-      - name: Build and Deploy
-        uses: docker/build-push-action@v5
+      - name: Build and push
+        uses: docker/build-push-action@v3
         with:
-          context: ./
-          file: ./Dockerfile
+          context: ./edutie-frontend/
+          file: ./edutie-frontend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/edutie-frontend:${{ github.sha }}
-          build-args: |
-            APP_VERSION=${{ github.sha }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/spring-for-graphql:{{ github.sha }}
