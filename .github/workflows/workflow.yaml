@@ -23,12 +23,14 @@ jobs:
         run: npm run build
   
   test:
+    runs-on: ubuntu-latest
     needs: build
     steps:
       - name: Test
         run: npm test
 
   deploy:
+    runs-on: ubuntu-latest
     steps:
       - name: Build and Deploy
         uses: docker/build-push-action@v5
