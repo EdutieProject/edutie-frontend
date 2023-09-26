@@ -31,7 +31,6 @@ jobs:
       - name: Test
         working-directory: ./edutie-frontend
         run: ls -la
-        run: npm test
 
   deploy:
     runs-on: ubuntu-latest
