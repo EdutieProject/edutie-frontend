@@ -29,7 +29,6 @@ jobs:
     needs: build
     steps:
       - name: Test
-        working-directory: ./edutie-frontend
         run: ls -la
 
   deploy:
