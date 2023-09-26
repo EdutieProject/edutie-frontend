@@ -32,10 +32,18 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-and-test]
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: login
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push
-        run: ls -la
+        uses: docker/build-push-action@v3
+        with:
+          run: ls -la
+          context: ./edutie-frontend/
+          file: ./edutie-frontend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/edutie-frontend:latest
