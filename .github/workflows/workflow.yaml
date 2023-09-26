@@ -21,10 +21,12 @@ jobs:
 
       - name: Build
         run: npm run build
-
+  
+  test:
       - name: Test
         run: npm test
-
+        
+  deploy:
       - name: Build and Deploy
         uses: docker/build-push-action@v5
         with:
