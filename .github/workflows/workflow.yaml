@@ -43,7 +43,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           run: ls -la
-          context: ./edutie-frontend/
-          file: ./edutie-frontend/Dockerfile
+          context: ./
+          file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/edutie-frontend:latest
