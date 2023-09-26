@@ -43,4 +43,4 @@ jobs:
           context: ./edutie-frontend/
           file: ./edutie-frontend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/spring-for-graphql:{{ github.sha }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/spring-for-graphql:latest
