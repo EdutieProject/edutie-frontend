@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  build and test:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,12 +24,6 @@ jobs:
         working-directory: ./edutie-frontend
         run: npm run build
   
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
       - name: Test
         working-directory: ./edutie-frontend
         run: npm test
