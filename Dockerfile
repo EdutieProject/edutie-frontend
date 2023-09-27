@@ -7,7 +7,7 @@ COPY . .
 RUN cd edutie-frontend && npx tailwindcss -i ./src/index.css -o ./dist/output.css && npm run build
 
 # Production stage
-FROM nginx:alpine as production
+FROM nginx:1.24.0-alpine-slim as production
 COPY --from=build /app/edutie-frontend/dist/ /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 5173
