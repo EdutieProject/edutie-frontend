@@ -1,33 +1,50 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import Circle from './components/Circle'
+import PathUp from './components/Paths/Path1'
+import { useQuery, gql,ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+
 import './App.css'
+import { Grid } from '@mui/material'
+import LessonTreeGenerator from './components/LessonTreeGenerator';
+import Login from './components/Logowanie/Login';
+import AccountPage from './components/Account/AccountPage';
+import Home from './components/Home/Home';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Lessons from "./components/Lessons/LessonsTrees";
+import LessonTrees from './components/Lessons/LessonsTrees';
+import SignIn from './components/Auth/Login';
+import SignUp from './components/Auth/SignUp';
+
+const GetQuery = gql`
+  query GetQuery {
+    lessons {
+      id
+      name
+      next
+      active
+      previous
+    }
+}`;
 
 function App() {
   const [count, setCount] = useState(0)
+  // const { data, loading, error } = useQuery(GetQuery);
 
+  // if (loading) return "Loading...";
+  // if (error) return <pre>{error.message}</pre>
+  
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/account" element={<AccountPage />}/>
+        <Route path="/trees" element={<LessonTrees/>}/>
+        <Route path="/lesson" element={ <LessonTreeGenerator/>} />
+        <Route path="/signin" element={<SignIn/>}/>
+        <Route path="/signup" element={<SignUp/>}/>
+      </Routes>
+    </BrowserRouter>
     </>
   )
 }
