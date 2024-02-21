@@ -1,4 +1,4 @@
-import { Box, Button, Container } from "@mui/material";
+import { Box, Button, Container, Fab, Typography } from "@mui/material";
 import HomeView from "./HomeView";
 import TaskView from "./TaskView";
 import ScienceView from "./ScienceView";
@@ -29,7 +29,14 @@ export default function DevelopmentViewList(props) {
     ];
 
     if (currentView != null) 
-        return currentView;
+        return (
+        <>
+            {currentView}
+            <Fab style={{position: "absolute", bottom: 16}} onClick={()=>setCurrentView(null)}>
+                <Typography>Wróć</Typography>
+            </Fab>
+        </>
+            );
 
     return (<Container>
         <Box sx={{display: "flex", flexDirection: "column", gap: 2}}>
