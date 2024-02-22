@@ -8,7 +8,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LessonTrees from './components/Lessons/LessonsTrees';
 import SignIn from './components/Auth/Login';
 import SignUp from './components/Auth/SignUp';
-import DevelopmentViewList from "./views/DevelopmentViewList";
 
 const GetQuery = gql`
   query GetQuery {
@@ -36,7 +35,6 @@ function App() {
         <Route path="/lesson" element={ <LessonTreeGenerator/>} />
         <Route path="/signin" element={<SignIn/>}/>
         <Route path="/signup" element={<SignUp/>}/>
-        <Route path="/dev" element={<DevelopmentViewList/>}/>
       </Routes>
     </BrowserRouter>
   )
