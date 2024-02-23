@@ -9,9 +9,8 @@ import Socials from "./Socials";
 export default function Home()
 {
     return(
-        <>
-        <Container maxWidth="xl">
-            <Header/>
+        <Container maxWidth={false}>
+            <Header left={"1"} middle={"2"} right={"3"}/>
             
             <Grid container direction='row' spacing={4}>
                 <Grid item xs={12}>
@@ -57,6 +56,5 @@ export default function Home()
                 </Grid>
             </Grid>
         </Container>
-        </>
     )
 }

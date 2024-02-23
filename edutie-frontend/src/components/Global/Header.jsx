@@ -1,70 +1,63 @@
-import { Toolbar, Typography, IconButton, AppBar, Grid, Button } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Container } from '@mui/system';
-import { makeStyles } from '@mui/styles';
+import { AppBar, Box } from '@mui/material';
 
-const useStyles = makeStyles({
-  headerButton:{
-    backgroundColor: "#21b6ae",
-      padding: "18px 36px",
-  },
-  headerButtonTypography:{
-      color:'white'
-  }
-})
+function chooseVariant(variants, searchedVariant) {
+  return variants.find((o)=> o.name == searchedVariant).element;
+}
 
-export default function Header({title})
+const headerVariants = {
+  left: [
+    { name: "1", element: <>variant 1</> },
+    { name: "2", element: <>variant 2</> },
+    { name: "3", element: <>variant 3</> },
+  ],
+  middle: [
+    { name: "1", element: <>variant 1</> },
+    { name: "2", element: <>variant 2</> },
+    { name: "3", element: <>variant 3</> },
+  ],
+  right: [
+    { name: "1", element: <>variant 1</> },
+    { name: "2", element: <>variant 2</> },
+    { name: "3", element: <>variant 3</> },
+  ]
+}
+
+
+// const useStyles = makeStyles({
+//   headerGeneral : {
+//     display: "flex",
+//     justifyContent: 'space-between'
+//   }
+// })
+
+export default function Header({left, middle, right})
 {
-    const classes = useStyles();
+    const styles = {
+      headerGeneral : {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: 'space-between',
+      },
+      headerInternal: {
+        p: 2
+      }
+    };
+
+    let leftElement = chooseVariant(headerVariants.left, left);
+    let middleElement = chooseVariant(headerVariants.middle, middle);
+    let rightElement = chooseVariant(headerVariants.right, right);
+
     return(
-        <AppBar height={30} >
-            <Toolbar  sx={{backgroundColor:'#14AE5C'}}>
-              <Grid container spacing={4}>
-                  <Grid item>     
-                    <Button href="/"  className={classes.headerButton}>           
-                      <Typography variant='h5' className={classes.headerButtonTypography}>
-                            Home
-                      </Typography>
-                    </Button> 
-                  </Grid>
-                  
-
-                  <Grid item>
-                    <Button href="/trees" className={classes.headerButton}> 
-                    <Typography variant='h5' className={classes.headerButtonTypography}>
-                      ILearningTrees
-                    </Typography>
-                    </Button>
-                  </Grid>
-
-                  <Grid item>
-                    <Button href="/account" className={classes.headerButton}> 
-                      <Typography variant='h5' className={classes.headerButtonTypography}>
-                        Profile
-                      </Typography>
-                    </Button>
-                  </Grid>
-                  <Grid item>
-                    <Button href="/signin" className={classes.headerButton}> 
-                      <Typography variant='h5' className={classes.headerButtonTypography}>
-                        Sign In
-                      </Typography>
-                    </Button>
-                  </Grid>
-                   <Grid item>
-                    <Button href="/signup" className={classes.headerButton}> 
-                      <Typography variant='h5' className={classes.headerButtonTypography}>
-                       Sign Up 
-                      </Typography>
-                    </Button>
-                  </Grid>
- 
-              </Grid>
-
-              <Typography variant="h5" fontWeight={600}>
-                Edutie
-              </Typography>
-            </Toolbar>
+        <AppBar style={styles.headerGeneral}>
+          <Box sx={styles.headerInternal}>
+            { leftElement ? leftElement : <></> }
+          </Box>
+          <Box sx={styles.headerInternal}>
+            { middleElement ? middleElement : <></> }
+          </Box>
+          <Box sx={styles.headerInternal}>
+            { rightElement ? rightElement : <></> }
+          </Box>
         </AppBar>
     )
     
