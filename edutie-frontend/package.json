@@ -17,6 +17,7 @@
     "@fontsource/inter": "^5.0.13",
     "@material-ui/icons": "^4.11.3",
     "@mui/icons-material": "^5.14.14",
+    "@mui/joy": "",
     "@mui/material": "^5.14.14",
     "@mui/styles": "^5.14.18",
     "@mui/system": "^5.15.9",
