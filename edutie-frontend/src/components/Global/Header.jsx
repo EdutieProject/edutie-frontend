@@ -6,7 +6,7 @@ import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles({
   headerButton:{
     backgroundColor: "#21b6ae",
-      padding: "18px 36px",
+    padding: "18px 36px",
   },
   headerButtonTypography:{
       color:'white'

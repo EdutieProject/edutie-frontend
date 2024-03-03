@@ -1,13 +1,23 @@
 import { Container, Typography, Button, Grid, Box } from "@mui/material";
 import User from '../../assets/User.png';
-import PieChart from "./PieChart";
+import PieChart from "../Global/PieChart";
 import Header from "../Global/Header"
-import LineChart from "./LineChart";
+import LineChart from "../Global/LineChart";
 // const User = require('../../assets/User.png')
 
 function UserCircle(){
     const size = 250;
     const pSize = (size * 0.08);
+    
+    const setTitleInMiddle = {
+        textAlign:'center',
+        fontWeight:600
+    }
+
+    const setTitleInMiddle_h5 = {
+        textAlign:'center',
+        fontWeight:400
+    }
     return(
         <Grid container spacing={1} direction={'column'} mb={10}>
             <Grid item>
@@ -17,10 +27,10 @@ function UserCircle(){
             </Grid>
         
             <Grid item>     
-                <Typography variant="h4" sx={{fontWeight:600}}>Jan Kowalski</Typography>    
+                <Typography variant="h3" sx={setTitleInMiddle}>Jan Kowalski</Typography>    
             </Grid>
             <Grid item spacing={1}>     
-                <Typography variant="h4" sx={{fontWeight:100}}>#302103</Typography>    
+                <Typography variant="h5" sx={setTitleInMiddle_h5}>#302103</Typography>    
             </Grid>
         </Grid>
         )
@@ -78,26 +88,29 @@ function UserSettings(){
 
 export default function AccountPage(){
 
+    const componentsTitle = {
+        textAlign:'center', 
+    }
+    
     return (
-        <>
-            <Header title={"ILearningProfile"}/>
-            <Container  width={2000} sx={{backgroundColor:'white', flex:1, alignItems:'center', justifyItems:'center',  width:'100%', margin:0, padding:0}}>
-                <Grid rowSpacing={5} container direction="row">
-                    <Grid item xs={12}>
-                        <Typography>ILearningProfile</Typography>
-                        <UserSettings/>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Typography>Predispositions</Typography>
-                        <PieChart/>
-
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Typography>Learning Statistics</Typography>
-                        <LineChart/>
-                    </Grid>
-                </Grid>
-            </Container>
-        </>
+        <Container>
+        <Grid width="80vw" container direction="row" >
+            <Grid item xs={12}>
+                <Typography variant="h4" sx={{ 
+                    textAlign:'center', 
+                    marginBottom:4, 
+                    fontWeight:200   }}>ILearningProfile</Typography>
+                <UserSettings/>
+            </Grid>
+            <Grid item xs={6}>
+                <Typography variant="h5" sx={componentsTitle}>Predispositions</Typography>
+                <PieChart/>
+            </Grid>
+            <Grid item xs={6}>
+                <Typography variant="h5" sx={componentsTitle}>Learning Statistics</Typography>
+                <LineChart/>
+            </Grid>
+        </Grid>
+     </Container>
     )
 }
