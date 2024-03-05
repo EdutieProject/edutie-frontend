@@ -22,7 +22,6 @@ function PostCard({title, desc}){
         <CardContent>
             <Typography variant="h4" sx={{textAlign:'left'}}>{title}</Typography>
             <Typography variant="small">{desc}</Typography>
-
         </CardContent>
         <CardActions >
             <Button href="/lesson" sx={{
@@ -169,11 +168,10 @@ function CourseCard()
 export default function LessonTrees()
 {
     return(
-        <>
-        <Header/>
-            <Container sx={{}}>
-                <Typography variant="h3" pb={10} pt={0} fontWeight={600}>Przeglądaj setki Kursów</Typography>
-                <Grid container spacing={2} sx={{ flex:1, justifyContent:'center'} }> 
+            <Container>
+            <Grid container  width="80vw" direction='column' > 
+                <Typography variant="h3"  fontWeight={600}>Przeglądaj setki Kursów</Typography>
+                <Grid item container spacing={2} mt={2}> 
                     
                     <Grid item xs={6} sm={4} md={3}>
                         <MultiActionAreaCard img={2} title={"Fizyka"} desc={"lorem ipsum lorem ipsum lorem ipsum"}/>
@@ -194,7 +192,7 @@ export default function LessonTrees()
                         <MultiActionAreaCard img={5} title={"J.Ang"} desc={"lorem ipsum lorem ipsum lorem ipsum"}/>
                     </Grid>
                 </Grid>
+            </Grid>
             </Container>
-        </>
     )
 }

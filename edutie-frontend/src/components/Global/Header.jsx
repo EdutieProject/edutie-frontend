@@ -22,14 +22,6 @@ const headerVariants = {
   ]
 }
 
-
-// const useStyles = makeStyles({
-//   headerGeneral : {
-//     display: "flex",
-//     justifyContent: 'space-between'
-//   }
-// })
-
 export default function Header({left, middle, right})
 {
     const styles = {
