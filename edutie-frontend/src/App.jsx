@@ -17,6 +17,7 @@ import { createTheme } from "@mui/material/styles";
 import { lime, purple, red } from "@mui/material/colors";
 import theme  from "./theme/Theme";
 import Settings from "./components/Settings/Settings";
+import ExcerciseView from "./components/UI/ExcerciseView";
 
 // ##########################
 // Path below is imported for future change from 'createMuiTheme' to 'createTheme'
@@ -57,6 +58,7 @@ function App() {
             <Route path="/signin" element={<SignIn/>}/>
             <Route path="/signup" element={<SignUp/>}/>
             <Route path="/settings" element={<Main page={<Settings/>}/>} />
+            <Route path="/excercise" element={<ExcerciseView/>} />
           </Routes>
         </BrowserRouter>
     </ThemeProvider>

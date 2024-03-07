@@ -14,19 +14,24 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Install dependencies
-        working-directory: ./edutie-frontend
-        run: npm install
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 'latest' # You can specify a version here
 
-      - name: Build
+      - name: Install dependencies with Bun
         working-directory: ./edutie-frontend
-        run: npm run build
-  
-      - name: Test
+        run: bun install
+
+      - name: Build with Vite
         working-directory: ./edutie-frontend
-        run: npm test
+        run: bunx --bun vite build
+
+      - name: Test with Bun
+        working-directory: ./edutie-frontend
+        run: bun test
 
   deploy:
     runs-on: ubuntu-latest
@@ -42,8 +47,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          run: ls -la
-          context: ./
-          file: ./Dockerfile
+          context: ./edutie-frontend
+          file: ./edutie-frontend/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/edutie-frontend:latest
