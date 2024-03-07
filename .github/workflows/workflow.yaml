@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - test
   pull_request:
     branches:
       - main
@@ -16,17 +17,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install dependencies
-        working-directory: ./edutie-frontend
-        run: npm install
+      - name: Install Bun
+        run: curl -fsSL https://bun.sh/install | bash
 
-      - name: Build
+      - name: Install dependencies with Bun
         working-directory: ./edutie-frontend
-        run: npm run build
-  
-      - name: Test
+        run: bun install
+
+      - name: Build with Vite
         working-directory: ./edutie-frontend
-        run: npm test
+        run: bunx --bun vite build
+
+      - name: Test with Bun
+        working-directory: ./edutie-frontend
+        run: bun test
 
   deploy:
     runs-on: ubuntu-latest
