@@ -9,7 +9,7 @@ import LessonTrees
 from './pages/LessonsTrees';
 import SignIn from './pages/Login';
 import SignUp from './pages/Auth/SignUp';
-import { Provider } from 'react-redux'
+import { Provider as ReduxProvider } from 'react-redux'
 import { store } from './features/store'
 import { ThemeProvider,  } from "@mui/material";
 import theme  from "./theme/Theme";
@@ -40,26 +40,24 @@ function App() {
   // if (error) return <pre>{error.message}</pre>
   
   return(
-    // ####################################
-    // Provider is for Redux-store provider
-    // ThemeProvider is for Global MUI Styles
-    // ####################################
-    <Provider store={store}>
-    <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home/>}/>
-            {/* <Route path="/account" element={<Main page={<AccountPage/>}/>}/>
-            <Route path="/trees" element={<Main page={<LessonTrees/>}/>}/>
-            <Route path="/lesson" element={ <LessonTreeGenerator/>} />
-            <Route path="/signin" element={<SignIn/>}/>
-            <Route path="/signup" element={<SignUp/>}/>
-            <Route path="/settings" element={<Main page={<Settings/>}/>} />
-            <Route path="/excercise" element={<ExcerciseView/>} /> */}
-          </Routes>
-        </BrowserRouter>
-    </ThemeProvider>
-    </Provider>
+    <ReduxProvider store={store}>
+      <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home/>}/>
+              {/*  ==== UNCOMMENT ONCE THE BUILD PROBLEM IS RESOLVED
+              <Route path="/account" element={<Main page={<AccountPage/>}/>}/>
+              <Route path="/trees" element={<Main page={<LessonTrees/>}/>}/>
+              <Route path="/lesson" element={ <LessonTreeGenerator/>} />
+              <Route path="/signin" element={<SignIn/>}/>
+              <Route path="/signup" element={<SignUp/>}/>
+              <Route path="/settings" element={<Main page={<Settings/>}/>} />
+              <Route path="/excercise" element={<ExcerciseView/>} /> 
+              */}
+            </Routes>
+          </BrowserRouter>
+      </ThemeProvider>
+    </ReduxProvider>
   )
 }
 
