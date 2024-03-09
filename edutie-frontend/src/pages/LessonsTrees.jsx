@@ -1,7 +1,7 @@
 import { Typography,Card, CardContent, CardActions, Button, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Container } from "@mui/system";
-import Header from "../Global/Header";
+import Header from "../components/Global/Header";
 import { CardActionArea, CardMedia } from "@mui/material";
       
 function PostCard({title, desc}){

@@ -1,8 +1,8 @@
 import { Container, Typography, Button, Grid, Box } from "@mui/material";
 import User from '../../assets/User.png';
-import PieChart from "../Global/PieChart";
-import Header from "../Global/Header"
-import LineChart from "../Global/LineChart";
+import PieChart from "../components/charts/PieChart";
+import Header from "../components/Global/Header"
+import LineChart from "../components/charts/LineChart";
 // const User = require('../../assets/User.png')
 
 function UserCircle(){

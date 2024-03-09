@@ -1,14 +1,14 @@
 import { Card, Typography, Grid, Container } from "@mui/material";
-import Header from "../Global/Header";
+import Header from "../components/Global/Header";
 import { createTheme } from "@mui/material";
-import Widget from "./HomeComponents/Widget"
-import LineChartWidget from "./HomeComponents/LineChartWidget"
-import CircleChart from "./HomeComponents/CircleChart";
-import News from "./HomeComponents/News";
-import Socials from "./HomeComponents/Socials";
-import NavBar from "../Global/NavBar";
-import Welcome from "./HomeComponents/Welcome";
-import EdutiePaper from "./EdutiePaper";
+import Widget from "../components/Home/HomeComponents/Widget"
+import LineChartWidget from "../components/Home/HomeComponents/LineChartWidget"
+import CircleChart from "../components/charts/CircleChart";
+import News from "../components/News";
+import Socials from "../components/Home/HomeComponents/Socials";
+import NavBar from "../components/Global/NavBar";
+import Welcome from "../components/Home/HomeComponents/Welcome";
+import EdutiePaper from "../components/EdutiePaper";
 
 
 const suggestedElements = [
@@ -80,6 +80,5 @@ export default function Home()
                         </Grid>
                     </Grid>
                 </Container>
-
     )
 }

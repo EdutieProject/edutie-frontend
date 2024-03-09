@@ -1,10 +1,5 @@
-import { Card, Typography, Grid, Container, useMediaQuery } from "@mui/material";
-import { createTheme } from "@mui/material";
-import { ThemeProvider } from "@emotion/react";
-import Home from "../components/Home/Home";
-import NavBar from "../components/Global/NavBar";
-import { useSelector } from "react-redux";
-
+import { Typography, Grid, useMediaQuery } from "@mui/material";
+import NavBar from "../../components/Global/NavBar";
 
 
 export default function Main({ page }){
