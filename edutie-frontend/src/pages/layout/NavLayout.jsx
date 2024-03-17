@@ -1,10 +1,11 @@
-import { Typography, Grid, useMediaQuery } from "@mui/material";
+import { Typography, Grid, useMediaQuery, useTheme } from "@mui/material";
 import NavBar from "../../components/Global/NavBar";
 
 
-export default function Main({ page }){
-    const isHeightSmall = useMediaQuery("(min-height: 550px)")
-    const isWidthSmall = useMediaQuery("(min-width: 600px)")
+export default function NavLayout({ children }){
+    const isHeightSmall = useMediaQuery("(min-height: 550px)");
+    const isWidthSmall = useMediaQuery("(min-width: 600px)");
+    const theme = useTheme();
 
     const responsiveNav = () => {
         if(isHeightSmall && !isWidthSmall){
@@ -19,15 +20,14 @@ export default function Main({ page }){
             return <NavBar/>
         }
     }
+    
     return(
-            <Grid container direction='row'>
+            <Grid container direction='row' gap={theme.spacing(1)} padding={0}>
                 <Grid item xs={2} sm={4} md={2}> 
-                    {
-                       responsiveNav() 
-                    }
+                    { responsiveNav() }
                 </Grid>
                 <Grid item xs={10} sm={8} md={10}> 
-                   {page} 
+                    { children } 
                 </Grid>
             </Grid>
     )

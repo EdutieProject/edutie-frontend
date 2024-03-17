@@ -13,7 +13,6 @@ function PathCircle(){
 
 function Path(){
     return(
-        <>
         <Grid  container spacing={4} flexDirection="column">
             <Grid item container spacing={3}>
 
@@ -80,9 +79,6 @@ function Path(){
 
             </Grid>
         </Grid>
-        
-        
-        </>
     )
 }
 

@@ -3,7 +3,7 @@ import { Container,  } from "@mui/system";
 import Circle from "./Circle";
 import { useQuery, gql, ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { useState } from "react";
-import PathUp from "./Path1";
+import PathUp from "./Paths/Path1";
 import Header from './Global/Header'
 
 const GetQuery = gql`
