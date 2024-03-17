@@ -11,6 +11,7 @@ const client = new ApolloClient({
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    {/* //TODO: move providers to one place (file) */}
     <ApolloProvider client={client}>
       <App />
     </ApolloProvider>

@@ -1,3 +1,7 @@
+/**
+DO NOT DELETE THIS FILE.
+This file contains root styling therefore it is relevant. Edit it to change core styling properties.
+**/
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -28,8 +32,14 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
+  min-width: 100vw;
   min-height: 100vh;
+  overflow: hidden;
+}
+
+/* FORCE THE CONTAINING DIV TO BE FULL WIDTH*/
+#root {
+  width: 100%;
 }
 
 h1 {
