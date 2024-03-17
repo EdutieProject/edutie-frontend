@@ -20,8 +20,8 @@ const navElements = [
   {
     id:1,
     icon: {
-      active: <HomeIcon fontSize='large'/>,
-      inactive: <HomeOutlinedIcon fontSize='large'/>
+      active: <HomeIcon/>,
+      inactive: <HomeOutlinedIcon/>
     },
     href: '/',
     
@@ -29,30 +29,31 @@ const navElements = [
   {
     id:2,
     icon: {
-      active: <SchoolIcon fontSize='large'/>,
-      inactive: <SchoolOutlinedIcon fontSize='large'/>
+      active: <SchoolIcon/>,
+      inactive: <SchoolOutlinedIcon/>
     },
     href: '/trees',
   },
   {
     id:3,
     icon: {
-      active: <PersonIcon fontSize='large'/>,
-      inactive: <PersonOutlineIcon fontSize='large'/>
+      active: <PersonIcon/>,
+      inactive: <PersonOutlineIcon/>
     },
     href: '/account',
   },
   {
     id:4,
     icon: {
-      active: <EmailIcon fontSize='large'/>,
-      inactive: <MailOutlineIcon fontSize='large'/>
+      active: <EmailIcon/>,
+      inactive: <MailOutlineIcon/>
     },
     href: '/signin',
   }
 ]
 
-function NavElement({item}) {
+//TODO: integrate into navbar
+function NavElement({item, sx}) {
 
   const dispatch = useDispatch();
   const navigate = useNavigate() 
@@ -66,11 +67,9 @@ function NavElement({item}) {
   }
 
   return(
-        <Box sx={{}}>
-          <IconButton onClick={press}>
-            {activeNavElement == item.id ? item.icon.active : item.icon.inactive}
-          </IconButton>
-        </Box>
+        <IconButton onClick={press} size='large'>
+          {activeNavElement == item.id ? item.icon.active : item.icon.inactive}
+        </IconButton>
   );
 }
 
@@ -92,26 +91,32 @@ export default function NavBar() {
 
   const theme = useTheme();
 
+  // change styling this is fucking ridiculous
   const styles = {
     navBox: {
-      height:'100vh',
       display: "flex",
       flexDirection: "column",
       backgroundColor: theme.palette.primary.main,
-      gap: theme.spacing(1)
+      gap: theme.spacing(2),
+      padding: theme.spacing(2)
     },
+    navElem: {
+      padding: theme.spacing(2)
+    }
   };
   
   return (
     <Box sx={styles.navBox}>
-          <Typography textAlign="center" fontSize="large">
-          E.
-          </Typography>
-          { navElements.map((item) => 
-            <NavElement 
-            key={item.id} 
-            item={item}
-            />) }
+      <Typography textAlign="center" fontSize="large">
+        E.
+      </Typography>
+      { 
+      navElements.map((item) => 
+        <NavElement 
+          key={item.id} 
+          item={item}
+        />) 
+      }
     </Box>
   );
 }
