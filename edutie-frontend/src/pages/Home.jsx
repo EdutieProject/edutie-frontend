@@ -55,7 +55,7 @@ export default function Home()
                 rowGap={theme.spacing(8)} 
                 >
                     <Grid item xs={12} padding={theme.spacing(2)}>
-                            <Typography variant="h1"> Cześć! </Typography>
+                            <Typography variant="h2"> Cześć! </Typography>
                             <Typography variant="subtitle1"> Wróć do nauki 🔜 </Typography>
                             <Tile>
                                 <Typography variant="body">Tutaj powinno być to co ostatnio robiłeś.</Typography>
