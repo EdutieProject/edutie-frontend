@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Typography from '@mui/material/Typography';
 import { Box, IconButton, useTheme } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import SchoolIcon from '@mui/icons-material/School';
@@ -8,7 +7,6 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import SettingsIcon from '@mui/icons-material/Settings';
-import MeetingRoomOutlinedIcon from '@mui/icons-material/MeetingRoomOutlined';
 import { useDispatch, useSelector } from 'react-redux'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
@@ -58,9 +56,9 @@ const navElements = [
     },
     href: '/signin',
   }
-]
+];
 
-//TODO: merge this into the navbar component
+//TODO: how about merging this into the navbar component ?
 function NavElement({item}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
