@@ -20,8 +20,8 @@ const navElements = [
   {
     id:1,
     icon: {
-      active: <HomeIcon/>,
-      inactive: <HomeOutlinedIcon/>
+      active: <HomeIcon fontSize='large'/>,
+      inactive: <HomeOutlinedIcon fontSize='large'/>
     },
     href: '/',
     
@@ -29,93 +29,82 @@ const navElements = [
   {
     id:2,
     icon: {
-      active: <SchoolIcon/>,
-      inactive: <SchoolOutlinedIcon/>
+      active: <SchoolIcon fontSize='large'/>,
+      inactive: <SchoolOutlinedIcon fontSize='large'/>
     },
     href: '/trees',
   },
   {
     id:3,
     icon: {
-      active: <PersonIcon/>,
-      inactive: <PersonOutlineIcon/>
+      active: <PersonIcon fontSize='large'/>,
+      inactive: <PersonOutlineIcon fontSize='large'/>
     },
     href: '/account',
   },
   {
     id:4,
     icon: {
-      active: <EmailIcon/>,
-      inactive: <MailOutlineIcon/>
+      active: <EmailIcon fontSize='large'/>,
+      inactive: <MailOutlineIcon fontSize='large'/>
+    },
+    href: '/signin',
+  },
+  {
+    id:4,
+    icon: {
+      active: <SettingsIcon fontSize='large'/>,
+      inactive: <SettingsOutlinedIcon fontSize='large'/>
     },
     href: '/signin',
   }
 ]
 
-//TODO: integrate into navbar
-function NavElement({item, sx}) {
-
+//TODO: merge this into the navbar component
+function NavElement({item}) {
   const dispatch = useDispatch();
-  const navigate = useNavigate() 
+  const navigate = useNavigate();
+  const theme = useTheme();
 
   const activeNavElement = useSelector(state => state.navigation.activeID)
   
-  const press = () => {
-      console.log('button pressed', id)
-      dispatch(setNavElement(id))
-      navigate(href)
+  const press = (item) => {
+      console.log('button pressed', item.id)
+      dispatch(setNavElement(item.id))
+      navigate(item.href)
   }
 
   return(
-        <IconButton onClick={press} size='large'>
+        <IconButton 
+        onClick={press} 
+        color={ activeNavElement == item.id ? "primary" : "white" } 
+        sx={{backgroundColor: activeNavElement == item.id ? theme.palette.white.main : "transparent"}}
+        size='large'>
           {activeNavElement == item.id ? item.icon.active : item.icon.inactive}
         </IconButton>
   );
 }
 
-// function Footer()
-// {
-
-//   return(
-//       <Typography sx={{postion:'fixed', textAlign:'center', bottom:0 }}>
-//         <IconButton  edge="start" color="inherit" aria-label="menu" >
-//           <SvgIcon sx={{ color:'white', textAlign:'center', fontSize:40 }}>
-//             <MeetingRoomOutlinedIcon/>
-//           </SvgIcon>
-//         </IconButton>
-//       </Typography>
-//   ) 
-// }
-
 export default function NavBar() {
-
   const theme = useTheme();
 
-  // change styling this is fucking ridiculous
+  // different styling approach (?)
   const styles = {
     navBox: {
       display: "flex",
       flexDirection: "column",
       backgroundColor: theme.palette.primary.main,
       gap: theme.spacing(2),
-      padding: theme.spacing(2)
-    },
-    navElem: {
-      padding: theme.spacing(2)
+      padding: theme.spacing(2),
+      boxShadow: 3
     }
   };
   
   return (
     <Box sx={styles.navBox}>
-      <Typography textAlign="center" fontSize="large">
-        E.
-      </Typography>
       { 
-      navElements.map((item) => 
-        <NavElement 
-          key={item.id} 
-          item={item}
-        />) 
+        navElements.map((item) => 
+        <NavElement key={item.id} item={item}/>) 
       }
     </Box>
   );

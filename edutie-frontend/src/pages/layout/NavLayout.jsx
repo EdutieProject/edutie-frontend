@@ -7,6 +7,19 @@ export default function NavLayout({ children }){
     const isWidthSmall = useMediaQuery("(min-width: 600px)");
     const theme = useTheme();
 
+    const styles = {
+        screenBox: {
+            display: "flex", 
+            flexDirection: "row", 
+            justifyItems: "stretch",
+            gap: theme.spacing(2) //TODO: rethink whether gap is needed here
+        },
+        contentBox: {
+            flexGrow: 1, 
+            padding: theme.spacing(2)
+        }
+    };
+
     const responsiveNav = () => {
         if(isHeightSmall && !isWidthSmall){
             return <Typography>Mała szerokość</Typography>
@@ -28,9 +41,9 @@ export default function NavLayout({ children }){
             //         { children } 
             //     </Grid>
             // </Grid>
-            <Container sx={{display: "flex", flexDirection: "row"}}>
+            <Container maxWidth={false} disableGutters sx={{...styles.screenBox, }}>
                 <NavBar/>
-                <Box>
+                <Box sx={styles.contentBox}>
                     { children }
                 </Box>
             </Container>
