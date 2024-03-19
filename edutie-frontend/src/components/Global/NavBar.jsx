@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import { setNavElement } from '../../features/navigation/navigationSlice';
+import { setNavElement } from '../../features/redux/navigation/navigationSlice';
 import { useNavigate } from 'react-router-dom';
 
 const navElements = [

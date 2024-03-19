@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider as ReduxProvider } from 'react-redux'
-import { store } from './features/store'
+import { store } from './features/redux/store'
 import { ThemeProvider,  } from "@mui/material";
 import Home from "./pages/Home"
 import theme  from "./theme/Theme";
