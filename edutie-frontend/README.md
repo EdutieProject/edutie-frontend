@@ -38,10 +38,10 @@ Currently, two official plugins are available:
      - trees/
      - *further folders named after components kind, **not** after the page uniqueness*
    - features/ `folder containing features, specific for react and application-specific functionalities`
-     - redux/  *might be renamed declaratively e.g. "globalstate"*
+     - redux/ 
    - pages/ `folder containing views a.k.a. pages a.k.a. screens.`
      - layout/ `subfolder **only** for layout-related files.`
-   - services/ `folder containing functions for backend interactions` *might be renamed e.g. "api"*
+   - services/ `folder containing functions for backend interactions`
    - theme/ `folder containing main theme, used for styling across the whole app`
 
 Dependencies flow role model: 
