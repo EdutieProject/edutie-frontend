@@ -1,8 +1,8 @@
 import { Button, Grid, Paper, Typography } from "@mui/material";
 
 
-
-
+//// do not use this or fix this component
+// ??????????? wtf
 export default function EdutiePaper({ img, imgWidth, imgHeight, mt, padding, height, width, itemTitle, itemSubTitle})
 {
    return(

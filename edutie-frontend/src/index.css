@@ -1,3 +1,7 @@
+/**
+DO NOT DELETE THIS FILE.
+This file contains root styling therefore it is relevant. Edit it to change core styling properties.
+**/
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -15,6 +19,25 @@
   -webkit-text-size-adjust: 100%;
 }
 
+html {
+  min-height: 100%; 
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  margin: 0;
+  flex-grow: 1; /* html acts as a flex-container for body */
+  display: flex;
+  flex-direction: column;
+}
+
+/* FORCE THE CONTAINING DIV TO BE FULL SIZE*/
+#root {
+  display: flex;
+  flex-grow: 1; /* body acts as a flex-container for #root */
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -22,14 +45,6 @@ a {
 }
 a:hover {
   color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }
 
 h1 {

@@ -1,12 +1,5 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Container  } from '@mui/system';
-import { Grid, SvgIcon } from '@mui/material';
+import { Box, IconButton, useTheme } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import SchoolIcon from '@mui/icons-material/School';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
@@ -14,133 +7,103 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import SettingsIcon from '@mui/icons-material/Settings';
-import MeetingRoomOutlinedIcon from '@mui/icons-material/MeetingRoomOutlined';
-import { Button } from '@mui/material';
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { setNavElement } from '../../features/navigation/navigationSlice';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function NavElement({id, iconActive, iconInactive, href}) {
+const navElements = [
+  {
+    id:1,
+    icon: {
+      active: <HomeIcon fontSize='large'/>,
+      inactive: <HomeOutlinedIcon fontSize='large'/>
+    },
+    href: '/',
+    
+  },
+  {
+    id:2,
+    icon: {
+      active: <SchoolIcon fontSize='large'/>,
+      inactive: <SchoolOutlinedIcon fontSize='large'/>
+    },
+    href: '/trees',
+  },
+  {
+    id:3,
+    icon: {
+      active: <PersonIcon fontSize='large'/>,
+      inactive: <PersonOutlineIcon fontSize='large'/>
+    },
+    href: '/account',
+  },
+  {
+    id:4,
+    icon: {
+      active: <EmailIcon fontSize='large'/>,
+      inactive: <MailOutlineIcon fontSize='large'/>
+    },
+    href: '/signin',
+  },
+  {
+    id:4,
+    icon: {
+      active: <SettingsIcon fontSize='large'/>,
+      inactive: <SettingsOutlinedIcon fontSize='large'/>
+    },
+    href: '/signin',
+  }
+];
 
+//TODO: how about merging this into the navbar component ?
+function NavElement({item}) {
   const dispatch = useDispatch();
-  const navigate = useNavigate() 
+  const navigate = useNavigate();
+  const theme = useTheme();
 
   const activeNavElement = useSelector(state => state.navigation.activeID)
   
-  const press = () => {
-      console.log('button pressed', id)
-      dispatch(setNavElement(id))
-      navigate(href)
+  const press = (item) => {
+      console.log('button pressed', item.id)
+      dispatch(setNavElement(item.id))
+      navigate(item.href)
   }
 
   return(
-        <Grid item>
-            <Typography sx={{ textAlign:'center' }}>
-              <Button onClick={() => press()}  edge="start" color="inherit" aria-label="menu" >
-                <SvgIcon sx={{color:'white', textAlign:'center', fontSize:40 }}>
-                  {activeNavElement == id ? iconActive : iconInactive}
-                </SvgIcon>
-              </Button>
-            </Typography>
-        </Grid>
-  )
-}
-
-function Footer()
-{
-
-  return(
-      <Typography sx={{postion:'fixed', textAlign:'center', bottom:0  }}>
-        <IconButton  edge="start" color="inherit" aria-label="menu" >
-          <SvgIcon sx={{ color:'white', textAlign:'center', fontSize:40 }}>
-            <MeetingRoomOutlinedIcon/>
-          </SvgIcon>
+        <IconButton 
+        onClick={press} 
+        color={ activeNavElement == item.id ? "primary" : "white" } 
+        sx={{backgroundColor: activeNavElement == item.id ? theme.palette.white.main : "transparent"}}
+        size='large'>
+          {activeNavElement == item.id ? item.icon.active : item.icon.inactive}
         </IconButton>
-      </Typography>
-  ) 
+  );
 }
 
 export default function NavBar() {
+  const theme = useTheme();
 
-   
-  const navElements = [
-    {
-      id:1,
-      iconActive: <HomeIcon/>,
-      iconInactive: <HomeOutlinedIcon/>,
-      href: '/',
-      
-    },
-    {
-      id:2,
-      iconActive: <SchoolIcon/>,
-      iconInactive: <SchoolOutlinedIcon/>,
-      href: '/trees',
-    },
-    {
-      id:3,
-      iconActive: <PersonIcon/>,
-      iconInactive:  <PersonOutlineIcon/>,
-      href: '/account',
-    },
-    {
-      id:4,
-      iconActive: <EmailIcon/>,
-      iconInactive: <MailOutlineIcon/> ,
-      href: '/signin',
-    },
-    {
-      id:5,
-      iconActive: <SettingsIcon/>,
-      iconInactive: <SettingsOutlinedIcon/>,
-      href: '/signup',
-    },
-    {
-      id:6,
-      iconActive: <SettingsIcon/>,
-      iconInactive: <SettingsOutlinedIcon/>,
-      href:"/settings"   
-    }    
-  ]
+  // different styling approach (?)
+  const styles = {
+    navBox: {
+      display: "flex",
+      flexDirection: "column",
+      backgroundColor: theme.palette.primary.main,
+      gap: theme.spacing(2),
+      padding: theme.spacing(2),
+      boxShadow: 3
+    }
+  };
   
   return (
-    
-    <Container sx={{
-            borderRadius:8,
-            minHeight:'90vh',
-            width:150,
-            backgroundColor:'background.primary'
-          }} >
-        
-          {/*!!! Title of Navbar !!!*/}
-          <Typography pt={4} sx={{ 
-          fontWeight:600,
-          fontSize:48,
-          color:'white'
-          }} >
-          Edu.
-          </Typography>
-          
-          {/*!!! elements for the navbar !!!*/}
-          <Grid container direction='row' sx={{ 
-                        display:'flex',
-                        height:'70vh',
-                        flexDirection:'column',
-                        alignContent:'center',
-                        justifyContent:'center',
-                        gap:'6%',
-                        flexWrap:'nowrap'
-                        }}>
-            {
-              navElements.map((item) => <NavElement key={item.id} id={item.id} href={item.href} iconActive={item.iconActive} iconInactive={item.iconInactive} />)
-            }
-          </Grid>
-          <Footer/>   
-    </Container>
+    <Box sx={styles.navBox}>
+      { 
+        navElements.map((item) => 
+        <NavElement key={item.id} item={item}/>) 
+      }
+    </Box>
   );
 }
