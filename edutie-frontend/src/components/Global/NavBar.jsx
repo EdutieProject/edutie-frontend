@@ -12,28 +12,28 @@ import DistributedLearningIcon from '../customIcons/DistributedLearningIcon';
 const navElements = [
   {
     id:1,
-    icon: <HomeOutlinedIcon/>,
+    icon: <HomeOutlinedIcon fontSize='large'/>,
     href: '/',
     
   },
   {
     id:2,
-    icon: <SchoolOutlinedIcon/>,
+    icon: <SchoolOutlinedIcon fontSize='large'/>,
     href: '/',
   },
   {
     id:3,
-    icon: <DistributedLearningIcon/>,
+    icon: <DistributedLearningIcon fontSize='large'/>,
     href: '/',
   },
   {
     id:4,
-    icon: <PersonOutlinedIcon/>,
+    icon: <PersonOutlinedIcon fontSize='large'/>,
     href: '/',
   },
   {
     id:5,
-    icon: <SettingsOutlinedIcon/>,
+    icon: <SettingsOutlinedIcon fontSize='large'/>,
     href: '/',
   }
 ];
