@@ -1,60 +1,40 @@
 import * as React from 'react';
 import { Box, IconButton, useTheme } from '@mui/material';
-import HomeIcon from '@mui/icons-material/Home';
-import SchoolIcon from '@mui/icons-material/School';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import PersonIcon from '@mui/icons-material/Person';
-import EmailIcon from '@mui/icons-material/Email';
-import SettingsIcon from '@mui/icons-material/Settings';
 import { useDispatch, useSelector } from 'react-redux'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined'
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { setNavElement } from '../../features/redux/navigation/navigationSlice';
 import { useNavigate } from 'react-router-dom';
+import DistributedLearningIcon from '../customIcons/DistributedLearningIcon';
 
 const navElements = [
   {
     id:1,
-    icon: {
-      active: <HomeIcon fontSize='large'/>,
-      inactive: <HomeOutlinedIcon fontSize='large'/>
-    },
+    icon: <HomeOutlinedIcon fontSize='large'/>,
     href: '/',
     
   },
   {
     id:2,
-    icon: {
-      active: <SchoolIcon fontSize='large'/>,
-      inactive: <SchoolOutlinedIcon fontSize='large'/>
-    },
-    href: '/trees',
+    icon: <SchoolOutlinedIcon fontSize='large'/>,
+    href: '/',
   },
   {
     id:3,
-    icon: {
-      active: <PersonIcon fontSize='large'/>,
-      inactive: <PersonOutlineIcon fontSize='large'/>
-    },
-    href: '/account',
+    icon: <DistributedLearningIcon fontSize='large'/>,
+    href: '/',
   },
   {
     id:4,
-    icon: {
-      active: <EmailIcon fontSize='large'/>,
-      inactive: <MailOutlineIcon fontSize='large'/>
-    },
-    href: '/signin',
+    icon: <PersonOutlinedIcon fontSize='large'/>,
+    href: '/',
   },
   {
-    id:4,
-    icon: {
-      active: <SettingsIcon fontSize='large'/>,
-      inactive: <SettingsOutlinedIcon fontSize='large'/>
-    },
-    href: '/signin',
+    id:5,
+    icon: <SettingsOutlinedIcon fontSize='large'/>,
+    href: '/',
   }
 ];
 
@@ -66,19 +46,22 @@ function NavElement({item}) {
 
   const activeNavElement = useSelector(state => state.navigation.activeID)
   
-  const press = (item) => {
-      console.log('button pressed', item.id)
-      dispatch(setNavElement(item.id))
-      navigate(item.href)
+  const press = (selectedItem) => {
+      console.log('button pressed', selectedItem.id)
+      dispatch(setNavElement(selectedItem.id))
+      navigate(selectedItem.href)
   }
 
   return(
         <IconButton 
-        onClick={press} 
+        onClick={() => press(item)} 
         color={ activeNavElement == item.id ? "primary" : "white" } 
         sx={{backgroundColor: activeNavElement == item.id ? theme.palette.white.main : "transparent"}}
-        size='large'>
-          {activeNavElement == item.id ? item.icon.active : item.icon.inactive}
+        size='large'
+        disableRipple
+        disableFocusRipple
+        >
+          {item.icon}
         </IconButton>
   );
 }
@@ -86,7 +69,6 @@ function NavElement({item}) {
 export default function NavBar() {
   const theme = useTheme();
 
-  // different styling approach (?)
   const styles = {
     navBox: {
       display: "flex",
@@ -94,16 +76,24 @@ export default function NavBar() {
       backgroundColor: theme.palette.primary.main,
       gap: theme.spacing(2),
       padding: theme.spacing(2),
-      boxShadow: 3
+      boxShadow: 3,
+      borderRadius: 10
+    },
+    wrapperBox: {
+      display: "flex",
+      padding: theme.spacing(4)
     }
   };
   
   return (
-    <Box sx={styles.navBox}>
-      { 
-        navElements.map((item) => 
-        <NavElement key={item.id} item={item}/>) 
-      }
+    <Box sx={styles.wrapperBox}>
+      <Box sx={styles.navBox}>
+        { 
+          navElements.map(
+            (item) => <NavElement key={item.id} item={item}/>
+            )
+        }
+      </Box>
     </Box>
   );
 }
