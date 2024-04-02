@@ -1,6 +1,6 @@
 import { Typography, Grid, Box, useTheme, Button, IconButton } from "@mui/material";
 import NavLayout from "./layout/NavLayout";
-import Surface from "../components/Tile";
+import Surface from "../components/Surface";
 import Example from "../components/charts/LineChart";
 import ChevronRight from "@material-ui/icons/ChevronRight"
 import clock from "../assets/img/clock.png"
@@ -52,28 +52,8 @@ export default function Home()
                     </Grid>
                     <Grid item xs={12}>
                         <Grid container flexDirection={"column"} gap={theme.spacing(2)}>
-                            <Surface>
-                                <Grid container justifyContent={"space-around"} alignItems={"center"}>
-                                    <Box sx={styles.surfaceElementTitleBox}>
-                                        <img src={clock} width={48} height={48}/>
-                                        <Typography variant="h6">Hello World!</Typography>
-                                    </Box>
-                                    <IconButton>
-                                        <ChevronRight/>
-                                    </IconButton>
-                                </Grid>
-                            </Surface>
-                            <Surface>
-                                <Grid container justifyContent={"space-around"} alignItems={"center"}>
-                                    <Box sx={styles.surfaceElementTitleBox}>
-                                        <img src={clock} width={48} height={48}/>
-                                        <Typography variant="h6">Hello World!</Typography>
-                                    </Box>
-                                    <IconButton>
-                                        <ChevronRight color="primary"/>
-                                    </IconButton>
-                                </Grid>
-                            </Surface>
+                            <HomeTile imgSrc={clock} title={"Funkcje trygonometryczne w układzie współrzędnych"} middle={"Trygonometria"} right={"18%"}/>
+                            <HomeTile imgSrc={clock} title={"Funkcje trygonometryczne w układzie współrzędnych"} middle={"Trygonometria"} right={"18%"}/>
                         </Grid>
                     </Grid> 
                     <Grid item xs={12} sm={6}>
@@ -83,9 +63,7 @@ export default function Home()
                         <Box sx={styles.suggestionBox}>
                         {
                             suggestedElements.map((item) =>
-                                <Surface>
-                                    <Typography>{item.title}</Typography>
-                                </Surface>
+                                <HomeTile imgSrc={clock} title={item.title} middle={"Geometria"} right={"38%"}/>
                             )
                         }
                         </Box>
@@ -96,4 +74,34 @@ export default function Home()
                 </Grid>
             </NavLayout>
     );
+}
+
+function HomeTile({imgSrc, title, middle, right, href}) {
+    const styles = {
+        surfaceElementTitleBox: {
+            display: "flex",
+            gap: 2,
+            alignItems: "center"
+        }
+    }
+
+    return (
+        <Surface>
+            <Grid container justifyContent={"space-around"} alignItems={"center"}>
+                <Box sx={styles.surfaceElementTitleBox}>
+                    <img src={imgSrc} width={48} height={48} />
+                    <Typography variant="h6">{title}</Typography>
+                </Box>
+                <Typography variant="body1">
+                    {middle}
+                </Typography>
+                <Typography variant="body1">
+                    {right}
+                </Typography>
+                <Button variant="contained" disableElevation endIcon={<ChevronRight/>} href={href}>
+                    Przejdź
+                </Button>
+            </Grid>
+        </Surface>
+    )
 }
