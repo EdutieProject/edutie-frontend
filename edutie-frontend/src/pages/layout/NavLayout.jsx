@@ -11,12 +11,12 @@ export default function NavLayout({ children, mode }){
             display: "flex", 
             flexDirection: "row", 
             justifyItems: "stretch",
-            gap: theme.spacing(2),
             paddingX: theme.spacing(2)
         },
         contentBox: {
             flexGrow: 1, 
-            padding: theme.spacing(2)
+            padding: theme.spacing(2),
+            paddingX: theme.spacing(16)
         },
     };
 
@@ -24,7 +24,7 @@ export default function NavLayout({ children, mode }){
             <Container maxWidth={false} disableGutters sx={styles.screenBox}>
                 <NavBar/>
                 <Box sx={styles.contentBox}>
-                        { children }
+                    { children }
                 </Box>
             </Container>
     );
