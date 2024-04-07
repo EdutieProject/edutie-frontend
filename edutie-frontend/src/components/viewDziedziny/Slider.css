@@ -1,0 +1,105 @@
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /* You can adjust the height as needed */
+}
+
+/* old implementation
+ .slider-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  border-radius: 1.3em;
+  justify-content: center;
+  align-items: center;
+} */
+
+/* new one */
+.slider-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.slider-image.visible {
+  opacity: 1;
+}
+
+.slider-image.hidden {
+  display: none;
+}
+
+
+.prev-button,
+.next-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 2em;
+  color: white;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.prev-button {
+  left: 1em;
+}
+.next-button {
+  right: 1em;
+}
+
+.header {
+  font-size: 4em;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 10%;
+  /* Adjust this value for one-third of the height */
+  color: white;
+  z-index: 1;
+  text-shadow:
+    -2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000,
+    2px 2px 0 #000;
+}
+
+.mini-nav {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 10%; /* Adjust the bottom property as needed */
+  display: flex;
+  justify-content: space-between;
+  width: 20%;
+  height: 10%;
+  background-color: #888888; /* Grey background color */
+  border-radius: 2.5em; /* Radius for smooth edges */
+  padding: 5px;
+}
+.mini-nav button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.slider-container button {
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.mini-nav button img {
+  width: 2.5em; /* Set the desired width */
+  height: 2.5em; /* Set the desired height */
+}
