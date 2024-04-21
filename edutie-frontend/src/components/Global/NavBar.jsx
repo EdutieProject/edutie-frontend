@@ -66,7 +66,7 @@ function NavElement({item}) {
   );
 }
 
-export default function NavBar() {
+export default function NavBar(height="auto") {
   const theme = useTheme();
 
   const styles = {
@@ -77,7 +77,8 @@ export default function NavBar() {
       gap: theme.spacing(2),
       padding: theme.spacing(2),
       boxShadow: 3,
-      borderRadius: 10
+      borderRadius: 10,
+      height: height
     },
     wrapperBox: {
       display: "flex",

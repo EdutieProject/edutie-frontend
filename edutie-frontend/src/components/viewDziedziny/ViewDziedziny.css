@@ -5,7 +5,7 @@ body,
     display: grid !important;
     width: 100%;
     height: 100vh;
-    padding: 0 0.1em;
+    padding: 0em;
     /* Ensure the root div takes up the full height of the viewport */
 }
 
@@ -18,11 +18,12 @@ body,
 
 
 .container {
+    
     height: 95vh;
     display: grid;
     width: 100%;
     grid-template-rows: 2fr 30fr;
-    grid-template-columns: 1fr 5fr;
+    grid-template-columns: 1fr 6fr;
     grid-template-areas:
         "nav search"
         "nav main";
@@ -32,24 +33,27 @@ body,
 
 
 .gallery {
-    border-radius: 1.3em;
     display: grid;
     grid-area: main;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
+    padding: 0 0.5em;
 }
 
 .wrapper{
     grid-row: 1/4;
     grid-column: 1/4;
+    border-radius: 1em;
+    overflow: hidden
+    
 }
 
 .search{
     grid-area: search;
     text-align: center;
+    padding: 0.5em 0;
 }
 
 .nav{
     grid-area: nav;
-    height: 100vh;
 }

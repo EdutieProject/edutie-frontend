@@ -5,6 +5,7 @@ import Slider from "./Slider";
 import grawitacja from "./staticPhotos/grawitacja.svg";
 import ladunki from "./staticPhotos/ladunki.svg";
 import aerodynamika from "./staticPhotos/aeorodynamika.svg";
+import TextField from '@mui/material/TextField';
 
 import NavBar from '../Global/NavBar';
 
@@ -28,10 +29,9 @@ export default function ViewDziedziny() {
 
         <div className="root">
             <div className="container">
-            <div className='search'>wyszukaj</div>
-            <div className='nav'><NavBar/></div>
+            <div className='search'><TextField id="outlined-basic" label="Wyszukaj kurs" variant="outlined" /></div>
+            <div className='nav'><NavBar height="90vh"/></div>
                 <div className="gallery">
-                    
                     <div className="wrapper">
                         <Slider images={images} headerTexts={headerTexts}/>
                     </div>
