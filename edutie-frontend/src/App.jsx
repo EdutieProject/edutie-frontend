@@ -5,6 +5,7 @@ import { ThemeProvider,  } from "@mui/material";
 import Home from "./pages/Home"
 import theme  from "./theme/Theme";
 
+import ViewDziedziny from "./components/viewDziedziny/ViewDziedziny";
 
 export default function App() {
   return(
@@ -13,6 +14,7 @@ export default function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home/>}/>
+              <Route path="/dziedzina" element={<ViewDziedziny/>} />
             </Routes>
           </BrowserRouter>
       </ThemeProvider>
