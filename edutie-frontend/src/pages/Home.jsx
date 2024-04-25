@@ -47,7 +47,7 @@ export default function Home()
             <NavLayout>                    
                 <Grid container rowGap={theme.spacing(4)} paddingY={theme.spacing(4)}>
                     <Grid item xs={12}>
-                            <Typography variant="h2">Cześć Michał!</Typography>
+                            <Typography variant="h2" fontFamily="Baloo">Cześć Michał!</Typography>
                             <Typography variant="subtitle1">Dobrze cię znowu widzieć</Typography>
                     </Grid>
                     <Grid item xs={12}>
