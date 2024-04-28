@@ -3,6 +3,9 @@ import { grey, green } from '@mui/material/colors'
 
 
 const theme = createTheme({
+  typography: {
+    fontFamily: "Geologica"
+  },
   palette: {
     primary: {
       // main: "#1FB45E"
