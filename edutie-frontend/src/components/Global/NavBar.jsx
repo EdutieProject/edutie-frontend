@@ -66,7 +66,7 @@ function NavElement({item}) {
   );
 }
 
-export default function NavBar(height="auto") {
+export default function NavBar() {
   const theme = useTheme();
 
   const styles = {
@@ -74,11 +74,9 @@ export default function NavBar(height="auto") {
       display: "flex",
       flexDirection: "column",
       backgroundColor: theme.palette.primary.main,
-      gap: theme.spacing(2),
-      padding: theme.spacing(2),
-      boxShadow: 3,
-      borderRadius: 10,
-      height: height
+      gap: theme.spacing(4),
+      padding: theme.spacing(4),
+      boxShadow: 3
     },
     wrapperBox: {
       display: "flex",
@@ -87,14 +85,12 @@ export default function NavBar(height="auto") {
   };
   
   return (
-    <Box sx={styles.wrapperBox}>
-      <Box sx={styles.navBox}>
+    <Box sx={styles.navBox}>
         { 
           navElements.map(
             (item) => <NavElement key={item.id} item={item}/>
             )
         }
-      </Box>
     </Box>
   );
 }
