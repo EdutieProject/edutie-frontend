@@ -22,6 +22,10 @@ const headerVariants = {
   ]
 }
 
+/**
+ * This component was meant to be a veritcal nav. Now it is no longer used and might be deleted in the future
+ * @returns JSX element 
+ */
 export default function Header({left, middle, right})
 {
     const styles = {

@@ -19,7 +19,7 @@ const navElements = [
   {
     id:2,
     icon: <SchoolOutlinedIcon fontSize='large'/>,
-    href: '/',
+    href: '/learn',
   },
   {
     id:3,
