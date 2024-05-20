@@ -1,6 +1,6 @@
 import { Typography, Grid, Box, useTheme, Button, IconButton } from "@mui/material";
 import NavLayout from "./layout/NavLayout";
-import Surface from "../components/Global/Surface";
+import Surface from "../components/global/Surface";
 import Example from "../components/charts/LineChart";
 import ChevronRight from "@material-ui/icons/ChevronRight"
 import clock from "../assets/img/clock.png"

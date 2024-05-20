@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import NavLayout from './layout/NavLayout';
 import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 import ScienceCarousel from '../components/slider/ScienceCarousel';
-import Surface from '../components/Global/Surface';
+import Surface from '../components/global/Surface';
 import { useState } from 'react';
 import { getAllSciences, getCourseById, getCoursesOfScience } from '../services/StudyProgramServices';
 import { ChevronRight } from '@mui/icons-material';

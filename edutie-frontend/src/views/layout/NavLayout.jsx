@@ -1,5 +1,5 @@
 import { useTheme, Container, Box } from "@mui/material";
-import NavBar from "../../components/Global/NavBar";
+import NavBar from "../../components/global/NavBar";
 
 
 export default function NavLayout({ children, mode }){

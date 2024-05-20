@@ -1,7 +1,7 @@
 import { Container, Typography, Button, Grid, Box } from "@mui/material";
 import User from '../../assets/User.png';
 import PieChart from "../components/charts/PieChart";
-import Header from "../components/Global/Header"
+import Header from "../components/global/Header"
 import LineChart from "../components/charts/LineChart";
 // const User = require('../../assets/User.png')
 
