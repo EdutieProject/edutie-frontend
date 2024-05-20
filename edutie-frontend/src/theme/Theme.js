@@ -13,12 +13,6 @@ const theme = createTheme({
     },
     surface: {
       main: grey[200]
-    },
-    white: {
-      main: "#FFFFFF"
-    },
-    black: {
-      main: "#000000"
     }
   },
 });

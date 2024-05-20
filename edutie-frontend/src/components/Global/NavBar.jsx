@@ -56,7 +56,7 @@ function NavElement({item}) {
         <IconButton 
         onClick={() => press(item)} 
         color={ activeNavElement == item.id ? "primary" : "white" } 
-        sx={{backgroundColor: activeNavElement == item.id ? theme.palette.white.main : "transparent"}}
+        sx={{backgroundColor: activeNavElement == item.id ? theme.palette.common.white : "transparent"}}
         size='large'
         disableRipple
         disableFocusRipple
