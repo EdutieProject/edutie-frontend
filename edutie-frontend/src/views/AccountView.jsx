@@ -86,7 +86,7 @@ function UserSettings(){
         </Container>)
 }
 
-export default function AccountPage(){
+export default function AccountView(){
 
     const componentsTitle = {
         textAlign:'center', 

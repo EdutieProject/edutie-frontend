@@ -2,11 +2,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider as ReduxProvider } from 'react-redux'
 import { store } from './features/redux/store'
 import { ThemeProvider,  } from "@mui/material";
-import HomePage from "./pages/HomePage"
 import theme  from "./theme/Theme";
 
-import LearnPage from "./pages/LearnPage";
-import SamplePage from "./pages/SamplePage";
+import HomeView from "./views/HomeView";
+import LearnView from "./views/LearnView";
+import PlaygroundView from "./views/PlaygroundView";
+
 
 export default function App() {
   return(
@@ -14,9 +15,9 @@ export default function App() {
       <ThemeProvider theme={theme}>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<HomePage/>}/>
-              <Route path="/learn" element={<LearnPage/>} />
-              <Route path="/sample" element={<SamplePage/>} />
+              <Route path="/" element={<HomeView/>}/>
+              <Route path="/learn" element={<LearnView/>} />
+              <Route path="/playground" element={<PlaygroundView/>} />
             </Routes>
           </BrowserRouter>
       </ThemeProvider>

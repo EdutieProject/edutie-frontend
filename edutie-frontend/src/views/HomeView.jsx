@@ -26,7 +26,7 @@ const suggestedElements = [
     }
 ]
 
-export default function HomePage()
+export default function HomeView()
 {
     const theme = useTheme();
 
