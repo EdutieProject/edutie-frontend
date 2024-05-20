@@ -34,7 +34,7 @@ const navElements = [
   {
     id:5,
     icon: <SettingsOutlinedIcon fontSize='large'/>,
-    href: '/',
+    href: '/playground',
   }
 ];
 

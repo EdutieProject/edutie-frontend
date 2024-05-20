@@ -13,7 +13,7 @@ import { ChevronRight } from '@mui/icons-material';
 import { useEffect } from 'react';
 
 
-export default function LearnPage() {
+export default function LearnView() {
     const theme = useTheme();
     const sciences = getAllSciences();
     const [selectedScience, setSelectedScience] = useState(sciences[0]);
