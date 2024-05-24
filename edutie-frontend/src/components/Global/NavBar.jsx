@@ -1,68 +1,70 @@
 import * as React from 'react';
 import { Box, IconButton, useTheme } from '@mui/material';
-import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import { useDispatch, useSelector } from 'react-redux'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined'
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { setNavElement } from '../../features/redux/navigation/navigationSlice';
 import { useNavigate } from 'react-router-dom';
 import DistributedLearningIcon from '../customIcons/DistributedLearningIcon';
+import { navigationPaths } from '../../config/navigation';
+import { AndroidOutlined, MenuBook } from '@mui/icons-material';
 
 const navElements = [
   {
-    id:1,
-    icon: <HomeOutlinedIcon fontSize='large'/>,
-    href: '/',
-    
+    id: 1,
+    icon: <HomeOutlinedIcon fontSize='large' />,
+    href: navigationPaths.home,
+
   },
   {
-    id:2,
-    icon: <SchoolOutlinedIcon fontSize='large'/>,
-    href: '/learn',
+    id: 2,
+    icon: <MenuBook fontSize='large' />,
+    href: navigationPaths.exercise,
   },
   {
-    id:3,
-    icon: <DistributedLearningIcon fontSize='large'/>,
-    href: '/',
+    id: 3,
+    icon: <DistributedLearningIcon fontSize='large' />,
+    href: navigationPaths.courses,
   },
   {
-    id:4,
-    icon: <PersonOutlinedIcon fontSize='large'/>,
-    href: '/',
+    id: 4,
+    icon: <PersonOutlinedIcon fontSize='large' />,
+    href: navigationPaths.account,
   },
   {
-    id:5,
-    icon: <SettingsOutlinedIcon fontSize='large'/>,
+    id: 5,
+    icon: <AndroidOutlined fontSize='large' />,
     href: '/playground',
   }
 ];
 
 //TODO: how about merging this into the navbar component ?
-function NavElement({item}) {
+function NavElement({ item }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
 
   const activeNavElement = useSelector(state => state.navigation.activeID)
-  
+
   const press = (selectedItem) => {
-      console.log('button pressed', selectedItem.id)
-      dispatch(setNavElement(selectedItem.id))
-      navigate(selectedItem.href)
+    console.log('button pressed', selectedItem.id)
+    dispatch(setNavElement(selectedItem.id))
+    navigate(selectedItem.href)
   }
 
-  return(
-        <IconButton 
-        onClick={() => press(item)} 
-        color={ activeNavElement == item.id ? "primary" : "white" } 
-        sx={{backgroundColor: activeNavElement == item.id ? theme.palette.common.white : "transparent"}}
-        size='large'
-        disableRipple
-        disableFocusRipple
-        >
-          {item.icon}
-        </IconButton>
+  return (
+    <IconButton
+      onClick={() => press(item)}
+      sx={{
+        backgroundColor: activeNavElement == item.id ? theme.palette.common.white : "transparent",
+        color: activeNavElement == item.id ? theme.palette.primary.main : theme.palette.common.white,
+        transform: "scale(1.3)"
+      }}
+      disableRipple
+      disableFocusRipple
+    >
+      {item.icon}
+    </IconButton>
   );
 }
 
@@ -83,14 +85,14 @@ export default function NavBar() {
       padding: theme.spacing(4)
     }
   };
-  
+
   return (
     <Box sx={styles.navBox}>
-        { 
-          navElements.map(
-            (item) => <NavElement key={item.id} item={item}/>
-            )
-        }
+      {
+        navElements.map(
+          (item) => <NavElement key={item.id} item={item} />
+        )
+      }
     </Box>
   );
 }

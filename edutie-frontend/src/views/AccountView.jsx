@@ -1,9 +1,7 @@
 import { Container, Typography, Button, Grid, Box } from "@mui/material";
-import User from '../../assets/User.png';
+import User from '../assets/img/User.png';
 import PieChart from "../components/charts/PieChart";
-import Header from "../components/global/Header"
 import LineChart from "../components/charts/LineChart";
-// const User = require('../../assets/User.png')
 
 function UserCircle(){
     const size = 250;
@@ -43,7 +41,7 @@ function UserSettings(){
             
 
             <Grid container direction={'column'} spacing={3}>
-            {/* <Grid item>
+            <Grid item>
                 <Button sx={{
                     borderRadius:5, 
                     boxShadow:12, 
@@ -81,7 +79,7 @@ function UserSettings(){
                     }}} variant="contained">                     
                     <Typography>SETTINGS</Typography> 
                 </Button>
-            </Grid>*/}
+            </Grid>
             </Grid>
         </Container>)
 }
