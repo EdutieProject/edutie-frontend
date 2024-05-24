@@ -1,26 +1,26 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Provider as ReduxProvider } from 'react-redux'
-import { store } from './features/redux/store'
-import { ThemeProvider,  } from "@mui/material";
-import theme  from "./theme/Theme";
+import { Provider as ReduxProvider } from "react-redux";
+import { store } from "./features/redux/store";
+import { ThemeProvider } from "@mui/material";
+import theme from "./theme/Theme";
 
 import HomeView from "./views/HomeView";
 import LearnView from "./views/LearnView";
 import PlaygroundView from "./views/PlaygroundView";
 
-
 export default function App() {
-  return(
+  return (
     <ReduxProvider store={store}>
       <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<HomeView/>}/>
-              <Route path="/learn" element={<LearnView/>} />
-              <Route path="/playground" element={<PlaygroundView/>} />
-            </Routes>
-          </BrowserRouter>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<HomeView />} />
+            <Route path="/learn" element={<LearnView />} />
+            <Route path="/playground" element={<PlaygroundView />} />
+            <Route path="/account" element={<AccountView />} />
+          </Routes>
+        </BrowserRouter>
       </ThemeProvider>
     </ReduxProvider>
-  )
+  );
 }
