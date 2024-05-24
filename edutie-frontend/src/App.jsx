@@ -7,6 +7,7 @@ import theme from "./theme/Theme";
 import HomeView from "./views/HomeView";
 import LearnView from "./views/LearnView";
 import PlaygroundView from "./views/PlaygroundView";
+import AccountView from "./views/AccountView";
 
 export default function App() {
   return (
