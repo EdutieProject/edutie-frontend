@@ -22,6 +22,7 @@ export default function App() {
             <Route path={navigationPaths.account} element={<AccountView />} />
             <Route path="/playground" element={<PlaygroundView />} />
             <Route path="/account" element={<AccountView />} />
+            <Route path="/tree" element={<TreeSegView />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
