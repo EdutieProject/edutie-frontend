@@ -2,7 +2,6 @@ import { Container, Typography, Button, Grid, Box } from "@mui/material";
 import User from "../assets/img/User.png";
 import PieChart from "../components/charts/PieChart";
 import LineChart from "../components/charts/LineChart";
-// const User = require('../../assets/User.png')
 
 function UserCircle() {
   const size = 250;
@@ -55,45 +54,57 @@ function UserSettings() {
       <UserCircle />
 
       <Grid container direction={"column"} spacing={3}>
-        {/* <Grid item>
-                <Button sx={{
-                    borderRadius:5, 
-                    boxShadow:12, 
-                    bgcolor:'#AEF10F', 
-                    color:'black', 
-                    '&:hover': {
-                        backgroundColor: '#fff',
-                        color: 'black',
-                    }}} variant="contained"> 
-                    <Typography>Predispositions</Typography> 
-                </Button>
-            </Grid>
-            <Grid item>
-            <Button sx={{
-                    borderRadius:5, 
-                    boxShadow:12, 
-                    bgcolor:'#AEF10F', 
-                    color:'black', 
-                    '&:hover': {
-                        backgroundColor: '#fff',
-                        color: 'black',
-                    }}} variant="contained">                     
-                    <Typography>LEARNING STATISTICS</Typography> 
-                </Button>
-            </Grid> 
-            <Grid item>
-                <Button sx={{
-                    borderRadius:5, 
-                    boxShadow:12, 
-                    bgcolor:'#AEF10F', 
-                    color:'black', 
-                    '&:hover': {
-                        backgroundColor: '#fff',
-                        color: 'black',
-                    }}} variant="contained">                     
-                    <Typography>SETTINGS</Typography> 
-                </Button>
-            </Grid>*/}
+        <Grid item>
+          <Button
+            sx={{
+              borderRadius: 5,
+              boxShadow: 12,
+              bgcolor: "#AEF10F",
+              color: "black",
+              "&:hover": {
+                backgroundColor: "#fff",
+                color: "black",
+              },
+            }}
+            variant="contained"
+          >
+            <Typography>Predispositions</Typography>
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            sx={{
+              borderRadius: 5,
+              boxShadow: 12,
+              bgcolor: "#AEF10F",
+              color: "black",
+              "&:hover": {
+                backgroundColor: "#fff",
+                color: "black",
+              },
+            }}
+            variant="contained"
+          >
+            <Typography>LEARNING STATISTICS</Typography>
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            sx={{
+              borderRadius: 5,
+              boxShadow: 12,
+              bgcolor: "#AEF10F",
+              color: "black",
+              "&:hover": {
+                backgroundColor: "#fff",
+                color: "black",
+              },
+            }}
+            variant="contained"
+          >
+            <Typography>SETTINGS</Typography>
+          </Button>
+        </Grid>
       </Grid>
     </Container>
   );
