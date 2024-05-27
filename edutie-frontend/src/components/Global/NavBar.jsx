@@ -6,30 +6,30 @@ import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined'
 import { setNavElement } from '../../features/redux/navigation/navigationSlice';
 import { useNavigate } from 'react-router-dom';
 import DistributedLearningIcon from '../customIcons/DistributedLearningIcon';
-import { navigationPaths } from '../../config/navigation';
+import { navigationPath } from '../../config/navigation';
 import { AndroidOutlined, MenuBook } from '@mui/icons-material';
 
 const navElements = [
   {
     id: 1,
     icon: <HomeOutlinedIcon fontSize='large' />,
-    href: navigationPaths.home,
+    href: navigationPath.home,
 
   },
   {
     id: 2,
     icon: <MenuBook fontSize='large' />,
-    href: navigationPaths.exercise,
+    href: navigationPath.exercise,
   },
   {
     id: 3,
     icon: <DistributedLearningIcon fontSize='large' />,
-    href: navigationPaths.courses,
+    href: navigationPath.courses,
   },
   {
     id: 4,
     icon: <PersonOutlinedIcon fontSize='large' />,
-    href: navigationPaths.account,
+    href: navigationPath.account,
   },
   {
     id: 5,

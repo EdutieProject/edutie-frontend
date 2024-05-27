@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { getAllSciences, getCourseById, getCoursesOfScience } from '../services/StudyProgramServices';
 import { ChevronRight } from '@mui/icons-material';
 import { useEffect } from 'react';
+import { navigationPath } from '../config/navigation';
 
 
 export default function LearnView() {
@@ -85,7 +86,7 @@ function ViewCourse({ courseId }) {
                     <Typography variant='body1'>
                         {course.description}
                     </Typography>
-                    <Button fullWidth variant='contained'>Przejdź do kursu</Button>
+                    <Button fullWidth variant='contained' href={navigationPath.fillPath(navigationPath.learningTree, "eifwcbi", "ui9webefwb")}>Przejdź do kursu</Button>
                 </Grid>
             </Grid>
             
