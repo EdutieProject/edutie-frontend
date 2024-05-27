@@ -5,7 +5,7 @@ import { ThemeProvider } from "@mui/material";
 import theme from "./theme/Theme";
 
 import HomeView from "./views/HomeView";
-import LearnView from "./views/LearnView";
+import CoursesView from "./views/CoursesView";
 import PlaygroundView from "./views/PlaygroundView";
 import AccountView from "./views/AccountView";
 import { navigationPaths } from "./config/navigation";
@@ -18,7 +18,7 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path={navigationPaths.home} element={<HomeView />} />
-            <Route path={navigationPaths.courses} element={<LearnView />} />
+            <Route path={navigationPaths.courses} element={<CoursesView />} />
             <Route path={navigationPaths.account} element={<AccountView />} />
             <Route path="/playground" element={<PlaygroundView />} />
             <Route path="/account" element={<AccountView />} />
