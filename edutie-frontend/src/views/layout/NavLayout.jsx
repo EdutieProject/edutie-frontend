@@ -14,7 +14,7 @@ export default function NavLayout({ children, mode }){
         },
         contentBox: {
             flexGrow: 1, 
-            padding: theme.spacing(2),
+            padding: theme.spacing(8),
             paddingX: theme.spacing(16)
         },
     };

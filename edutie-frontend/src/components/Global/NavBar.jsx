@@ -9,6 +9,7 @@ import DistributedLearningIcon from '../customIcons/DistributedLearningIcon';
 import { navigationPath } from '../../config/navigation';
 import { AndroidOutlined, MenuBook } from '@mui/icons-material';
 
+//TODO: move to navigation config
 const navElements = [
   {
     id: 1,
@@ -19,7 +20,7 @@ const navElements = [
   {
     id: 2,
     icon: <MenuBook fontSize='large' />,
-    href: navigationPath.exercise,
+    href: navigationPath.fillPath(navigationPath.exercise, "DUPA", "DUPA2"),
   },
   {
     id: 3,
