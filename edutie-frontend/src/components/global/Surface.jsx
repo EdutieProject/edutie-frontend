@@ -3,7 +3,7 @@ import { Box, styled } from "@mui/material";
 const StyledBox = styled(Box)(({ theme }) => ({
     background: theme.palette.surface.main,
     padding: theme.spacing(2),
-    borderRadius: 4,
+    borderRadius: 20,
 }))
 
 /**
