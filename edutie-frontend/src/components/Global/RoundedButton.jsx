@@ -1,7 +1,7 @@
 import { ButtonBase, Typography, useTheme } from "@mui/material";
 
 
-export default function RoundedButton({label, active = false}) {
+export default function RoundedButton({label, active = false, onClick}) {
     const theme = useTheme();
     return (
         <ButtonBase
@@ -18,7 +18,8 @@ export default function RoundedButton({label, active = false}) {
                 backgroundColor: active ? theme.palette.primary.dark : theme.palette.grey[200]
             },
             transition: "ease 200ms"
-        }}>
+        }} 
+        onClick={onClick}>
             <Typography variant="h6" fontFamily={"Baloo"}>{label}</Typography>
         </ButtonBase>
     );
