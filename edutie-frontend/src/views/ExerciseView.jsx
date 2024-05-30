@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Box, Button, TextField, TextareaAutosize, Typography, useTheme } from '@mui/material';
+import { Box, Button, Grid, TextField, TextareaAutosize, Typography, useTheme } from '@mui/material';
 import NavLayout from './layout/NavLayout';
 import RoundedButton from '../components/Global/RoundedButton';
 import { useParams } from 'react-router-dom';
 import Surface from '../components/global/Surface';
 import useEnumValue from '../hooks/alternative/useEnumValue';
+import CircleButton from '../components/Global/CircleButton';
+import { ChevronRight } from '@mui/icons-material';
 
 export default function ExcerciseView() {
   const theme = useTheme();
@@ -12,9 +14,6 @@ export default function ExcerciseView() {
   const Views = Object.freeze({ THEORY: useEnumValue("THEORY"), ACTIVITY: useEnumValue("ACTIVITY")})
   const [ currentView, setCurrentView ] = useState(Views.THEORY); 
 
-  console.log("rerender - current val: ", currentView);
-  console.log("comparison with activity: ", currentView == Views.ACTIVITY);
-  console.log("comparison with thoery: ", currentView == Views.THEORY);
   return (
     <NavLayout mode={"flex"}>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -83,7 +82,18 @@ function TheoryBlock() {
           </ul>
         </Surface>
         <Surface sx={{ gridArea: "bottom" }}>
-          <Typography fontFamily={"Baloo"} variant='h4' marginY={theme.spacing(2)}>Twój zeszyt</Typography>
+          <Grid container spacing={theme.spacing(2)}>
+            <Grid item xs={4}>
+              <Typography fontFamily={"Baloo"} variant='h4' marginY={theme.spacing(2)}>Twój zeszyt</Typography>
+            </Grid>
+            <Grid item xs={4}>
+              Hello
+            </Grid>
+            <Grid item xs={4}>
+              Wrld
+            </Grid>
+          </Grid>
+          
         </Surface>
       </TheoryLayout>
   )
@@ -125,12 +135,32 @@ function ActivityBlock() {
           <Typography variant='body1'>Opisz swoje rozwiązanie. Posłuż się przygotowanym do tego szablonem</Typography>
           <TextField multiline fullWidth sx={{backgroundColor: theme.palette.common.white, outline: "none", border: "none", borderRadius: 10, marginY: theme.spacing(4), paddingY: theme.spacing(2), "& fieldset": { border: 'none' },}} minRows={8} maxRows={16}/>
         </Surface>
-        <Surface sx={{ gridArea: "bottom" }}>
+        <Surface sx={{ gridArea: "bottom", display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
           <Typography fontFamily={"Baloo"} variant='h4' marginY={theme.spacing(2)}>Użyj podpowiedzi</Typography>
+          <Box sx={{ display: "flex", justifyContent: "flex-end", gap: theme.spacing(2) }}>
+            <HintTile hintText={"Hello"}/>
+            <HintTile hintText={"World"}/>
+            <HintTile hintText={"Hello"}/>
+            <HintTile hintText={"Universe"}/>
+          </Box>
         </Surface>
-        <Box sx={{gridArea: "button"}}>
-          <Button variant='contained'>:)</Button>
+        <Box sx={{gridArea: "button", display: "flex", alignItems: "center", justifyContent: "center"}}>
+          <CircleButton size={theme.spacing(7)} onClick={()=>console.log("Button click!")}>
+            {/* <ChevronRight sx={{color: theme.palette.common.white, fontSize: 64}}/> */}
+            <Typography fontFamily={"Baloo"} fontSize={64} color={theme.palette.common.white}>{">"}</Typography>
+          </CircleButton>
         </Box>
       </ActivityLayout>
   )
+}
+
+function HintTile({ hintText }) {
+  const theme = useTheme();
+  const [revealed, setRevealed] = useState(false);
+    
+  return (
+    <Surface sx={{backgroundColor: theme.palette.common.white, flex: "0 0 auto", aspectRatio: "5/3"}}>
+      <Typography variant='body1'>{hintText}</Typography>
+    </Surface>
+  );
 }

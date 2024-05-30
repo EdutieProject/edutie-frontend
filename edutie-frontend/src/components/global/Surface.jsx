@@ -1,4 +1,4 @@
-import { Box, styled } from "@mui/material";
+import { Box, styled, useTheme } from "@mui/material";
 
 const StyledBox = styled(Box)(({ theme }) => ({
     background: theme.palette.surface.main,
@@ -8,12 +8,15 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 /**
  * A surface-like component providing a rounded tile to encompass content.
- * @param children Component's children 
+ * @param {Object} props Component's props
+ * @param {import("react").JSX.Element[]} props.children Component's children
+ * @param {import("@mui/material").SxProps} props.sx custom styles
  * @returns React Component
  */
 export default function Surface({ children, sx }) {
+    const theme = useTheme();
     return (
-        <StyledBox sx={{ boxShadow: 1, ...sx }}>
+        <StyledBox sx={{ boxShadow: theme.shadows[4], ...sx }}>
             {children}
         </StyledBox>
     );

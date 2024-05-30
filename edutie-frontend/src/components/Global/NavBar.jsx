@@ -79,7 +79,7 @@ export default function NavBar() {
       backgroundColor: theme.palette.primary.main,
       gap: theme.spacing(4),
       padding: theme.spacing(4),
-      boxShadow: 3
+      boxShadow: theme.shadows[4]
     },
     wrapperBox: {
       display: "flex",
