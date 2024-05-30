@@ -4,6 +4,7 @@ import Surface from "../components/global/Surface";
 import Example from "../components/charts/LineChart";
 import ChevronRight from "@material-ui/icons/ChevronRight"
 import clock from "../assets/img/clock.png"
+import { useEffect, useState } from "react";
 
 const suggestedElements = [
     {
@@ -29,6 +30,19 @@ const suggestedElements = [
 export default function HomeView()
 {
     const theme = useTheme();
+    const [data, setData] = useState();
+    console.log(data);
+
+    const loadDataAsync = async () => {
+        const response = await fetch("http://localhost:8081/api/v1/learning/courses?scienceId=7a0d1b78-3c08-4abf-ba28-2e71e0f3126f");
+        const movies = await response.json();
+        console.log(movies);
+        setData(movies);
+    };
+
+    useEffect(()=>{
+        loadDataAsync();
+    },[]);
 
     const styles = {
         suggestionBox: {

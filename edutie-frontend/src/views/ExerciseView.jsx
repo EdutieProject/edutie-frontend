@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Box, Button, Grid, TextField, TextareaAutosize, Typography, useTheme } from '@mui/material';
+import { Box, Grid, TextField, Typography, useTheme } from '@mui/material';
 import NavLayout from './layout/NavLayout';
-import RoundedButton from '../components/Global/RoundedButton';
+import RoundedButton from '../components/global/RoundedButton';
 import { useParams } from 'react-router-dom';
 import Surface from '../components/global/Surface';
 import useEnumValue from '../hooks/alternative/useEnumValue';
-import CircleButton from '../components/Global/CircleButton';
-import { ChevronRight } from '@mui/icons-material';
+import CircleButton from '../components/global/CircleButton';
 
 export default function ExcerciseView() {
   const theme = useTheme();
