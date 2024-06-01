@@ -8,7 +8,7 @@ import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 import ScienceCarousel from '../components/slider/ScienceCarousel';
 import Surface from '../components/global/Surface';
 import { useState } from 'react';
-import { getAllSciences, getCourseById, getCoursesOfScience } from '../services/StudyProgramServices';
+import { getAllSciences, getCourseById, getCoursesOfScience } from '../services/mock/MockedStudyProgramServices';
 import { ChevronRight } from '@mui/icons-material';
 import { useEffect } from 'react';
 import { navigationPath } from '../config/navigation';
