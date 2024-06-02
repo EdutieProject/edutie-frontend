@@ -1,7 +1,8 @@
-import { Button, Box, Grid } from "@mui/material";
+import { Button, Box, Grid, Typography } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import React, { useState } from "react";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import Circle from "./Global/Circle";
 
 const dane = [
   {
@@ -42,115 +43,162 @@ export default function Tree() {
   );
   const [lessonMain, setLessonMain] = useState(postepUsera);
   return (
-    <>
+    <Box
+      sx={{
+        border: "1px solid",
+        borderColor: "blue",
+        width: "100%",
+        display: "grid",
+        gridTemplateColumns: "0.8fr 0.8fr 0.8fr 0.8fr 0.8fr",
+        gridTemplateRows: "1fr 1fr",
+        gridTemplateAreas: `"parent connect1 this-lesson connect2 children" "parent connect1 this-lesson connect3 children"`,
+      }}
+    >
       <Box
         sx={{
-          display: "flex",
-          p: 1,
-          m: 1,
           border: "1px solid",
-          borderColor: (theme) =>
-            theme.palette.mode === "dark" ? "grey.800" : "grey.300",
-          borderRadius: 2,
+          borderColor: "green",
+          gridArea: "parent",
+          display: "flex",
+        }}
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Circle size="5vw">
+          <RadioButtonUncheckedIcon />
+        </Circle>
+        <Button
+          onClick={() => {
+            setLessonMain(dane[lessonMain].parentId);
+            setChildrenLessons(dane[dane[lessonMain].parentId].childrenIds);
+          }}
+          startIcon={
+            dane[lessonMain].parentId != "core" &&
+            dane[dane[lessonMain].parentId].done === true ? (
+              <CheckCircleIcon />
+            ) : (
+              <RadioButtonUncheckedIcon />
+            )
+          }
+        >
+          {dane[lessonMain].parentId != "core"
+            ? dane[dane[lessonMain].parentId].name
+            : "Core"}
+        </Button>
+      </Box>
+      <Box
+        sx={{
+          gridArea: "connect1",
+          border: "1px solid",
+          borderColor: "green",
+          display: "flex",
+        }}
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Typography variant="h3" color="grey">
+          – – – – –
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          border: "1px solid",
+          borderColor: "green",
+          gridArea: "this-lesson",
+          display: "flex",
+        }}
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Circle size="8vw" />
+        <Button
+          startIcon={
+            dane[lessonMain].done === true ? (
+              <CheckCircleIcon />
+            ) : (
+              <RadioButtonUncheckedIcon />
+            )
+          }
+        >
+          {dane[lessonMain].name}
+        </Button>
+      </Box>
+      <Box
+        sx={{
+          gridArea: "connect2",
+          border: "1px solid",
+          borderColor: "green",
+          display: "flex",
+        }}
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Typography
+          sx={{ transform: "rotate(-15deg)" }}
+          variant="h3"
+          color="grey"
+        >
+          – – – – –
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          gridArea: "connect3",
+          border: "1px solid",
+          borderColor: "green",
+          display: "flex",
+        }}
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Typography
+          sx={{ transform: "rotate(15deg)" }}
+          variant="h3"
+          color="grey"
+        >
+          – – – – –
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          border: "1px solid",
+          borderColor: "green",
+          gridArea: "children",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        <Grid
-          xs={4}
-          sx={{
-            display: "flex",
-            p: 1,
-            m: 1,
-            border: "1px solid",
-            borderColor: (theme) =>
-              theme.palette.mode === "dark" ? "grey.800" : "grey.300",
-            borderRadius: 2,
-          }}
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Button
-            onClick={() => {
-              setLessonMain(dane[lessonMain].parentId);
-              setChildrenLessons(dane[dane[lessonMain].parentId].childrenIds);
-            }}
-            startIcon={
-              dane[lessonMain].parentId != "core" &&
-              dane[dane[lessonMain].parentId].done === true ? (
-                <CheckCircleIcon />
-              ) : (
-                <RadioButtonUncheckedIcon />
-              )
-            }
-          >
-            {dane[lessonMain].parentId != "core"
-              ? dane[dane[lessonMain].parentId].name
-              : "Core"}
-          </Button>
-        </Grid>
-        <Grid
-          xs={4}
-          sx={{
-            display: "flex",
-            p: 1,
-            m: 1,
-            border: "1px solid",
-            borderColor: (theme) =>
-              theme.palette.mode === "dark" ? "grey.800" : "grey.300",
-            borderRadius: 2,
-          }}
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Button
-            startIcon={
-              dane[lessonMain].done === true ? (
-                <CheckCircleIcon />
-              ) : (
-                <RadioButtonUncheckedIcon />
-              )
-            }
-          >
-            {dane[lessonMain].name}
-          </Button>
-        </Grid>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          {childrenLessons.map((item) => {
-            return (
-              <Grid
-                xs
-                sx={{
-                  display: "flex",
-                  p: 1,
-                  m: 1,
+        {childrenLessons.map((item) => {
+          return (
+            <Grid
+              sx={{
+                display: "flex",
+                p: 1,
+                m: 1,
+              }}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Circle size="5vw" />
+              <Button
+                onClick={() => {
+                  setLessonMain(item);
+                  setChildrenLessons(dane[item].childrenIds);
                 }}
-                justifyContent="center"
-                alignItems="center"
+                startIcon={
+                  dane[item].done === true ? (
+                    <CheckCircleIcon />
+                  ) : (
+                    <RadioButtonUncheckedIcon />
+                  )
+                }
               >
-                <Button
-                  onClick={() => {
-                    setLessonMain(item);
-                    setChildrenLessons(dane[item].childrenIds);
-                  }}
-                  startIcon={
-                    dane[item].done === true ? (
-                      <CheckCircleIcon />
-                    ) : (
-                      <RadioButtonUncheckedIcon />
-                    )
-                  }
-                >
-                  {dane[item].name}
-                </Button>
-              </Grid>
-            );
-          })}
-        </Box>
+                {dane[item].name}
+              </Button>
+            </Grid>
+          );
+        })}
       </Box>
-    </>
+    </Box>
   );
 }
