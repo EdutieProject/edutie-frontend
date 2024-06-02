@@ -1,5 +1,5 @@
-import grawitacja from "../assets/svg/pictures/grawitacja.svg";
-import ladunki from "../assets/svg/pictures/ladunki.svg";
+import grawitacja from "../../assets/svg/pictures/grawitacja.svg";
+import ladunki from "../../assets/svg/pictures/ladunki.svg";
 
 export const allSciences = [
     {

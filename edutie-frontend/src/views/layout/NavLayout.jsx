@@ -14,8 +14,10 @@ export default function NavLayout({ children, mode }){
         },
         contentBox: {
             flexGrow: 1, 
-            padding: theme.spacing(2),
-            paddingX: theme.spacing(16)
+            padding: theme.spacing(8),
+            paddingX: theme.spacing(16),
+            display: mode == "flex" ? "flex" : "block",
+            flexDirection: "column"
         },
     };
 

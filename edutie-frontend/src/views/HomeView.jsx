@@ -4,6 +4,7 @@ import Surface from "../components/global/Surface";
 import Example from "../components/charts/LineChart";
 import ChevronRight from "@material-ui/icons/ChevronRight"
 import clock from "../assets/img/clock.png"
+import { useEffect, useState } from "react";
 
 const suggestedElements = [
     {
