@@ -64,27 +64,25 @@ export default function Tree() {
         justifyContent="center"
         alignItems="center"
       >
-        <Circle size="5vw">
-          <RadioButtonUncheckedIcon />
-        </Circle>
-        <Button
+        <Circle
+          size="5vw"
           onClick={() => {
             setLessonMain(dane[lessonMain].parentId);
             setChildrenLessons(dane[dane[lessonMain].parentId].childrenIds);
           }}
-          startIcon={
-            dane[lessonMain].parentId != "core" &&
-            dane[dane[lessonMain].parentId].done === true ? (
-              <CheckCircleIcon />
-            ) : (
-              <RadioButtonUncheckedIcon />
-            )
-          }
         >
+          {dane[lessonMain].parentId != "core" &&
+          dane[lessonMain].done === true ? (
+            <CheckCircleIcon />
+          ) : (
+            <RadioButtonUncheckedIcon />
+          )}
+        </Circle>
+        <Typography sx={{ m: 1 }}>
           {dane[lessonMain].parentId != "core"
             ? dane[dane[lessonMain].parentId].name
             : "Core"}
-        </Button>
+        </Typography>
       </Box>
       <Box
         sx={{
@@ -110,18 +108,14 @@ export default function Tree() {
         justifyContent="center"
         alignItems="center"
       >
-        <Circle size="8vw" />
-        <Button
-          startIcon={
-            dane[lessonMain].done === true ? (
-              <CheckCircleIcon />
-            ) : (
-              <RadioButtonUncheckedIcon />
-            )
-          }
-        >
-          {dane[lessonMain].name}
-        </Button>
+        <Circle size="8vw">
+          {dane[lessonMain].done === true ? (
+            <CheckCircleIcon />
+          ) : (
+            <RadioButtonUncheckedIcon />
+          )}
+        </Circle>
+        <Typography sx={{ m: 1 }}>{dane[lessonMain].name}</Typography>
       </Box>
       <Box
         sx={{
@@ -179,22 +173,20 @@ export default function Tree() {
               justifyContent="center"
               alignItems="center"
             >
-              <Circle size="5vw" />
-              <Button
+              <Circle
+                size="5vw"
                 onClick={() => {
                   setLessonMain(item);
                   setChildrenLessons(dane[item].childrenIds);
                 }}
-                startIcon={
-                  dane[item].done === true ? (
-                    <CheckCircleIcon />
-                  ) : (
-                    <RadioButtonUncheckedIcon />
-                  )
-                }
               >
-                {dane[item].name}
-              </Button>
+                {dane[item].done === true ? (
+                  <CheckCircleIcon />
+                ) : (
+                  <RadioButtonUncheckedIcon />
+                )}
+              </Circle>
+              <Typography sx={{ m: 1 }}>{dane[item].name}</Typography>
             </Grid>
           );
         })}

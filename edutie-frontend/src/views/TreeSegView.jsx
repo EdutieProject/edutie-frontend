@@ -12,6 +12,7 @@ export default function TreeSegView() {
         <Box
           sx={{
             width: "100%",
+            height: "100%",
             display: "grid",
             gridTemplateColumns: "1fr",
             gridTemplateRows: "1fr 0.8fr 0.8fr",
@@ -22,8 +23,20 @@ export default function TreeSegView() {
             <Tree />
           </Box>
 
-          <Box justifyContent="center" sx={{ gridArea: "footer" }}>
-            <Surface sx={{ display: "flex", flexDirection: "column" }}>
+          <Box
+            justifyContent="center"
+            sx={{
+              border: "1px solid",
+              borderColor: "black",
+              gridArea: "footer",
+            }}
+          >
+            <Surface
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
               <Grid
                 container
                 direction="column"
