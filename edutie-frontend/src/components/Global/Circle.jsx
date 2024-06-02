@@ -1,5 +1,4 @@
 import { Avatar } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 export default function Circle(props) {
   return (
     <Avatar
@@ -9,8 +8,9 @@ export default function Circle(props) {
         width: props.size,
         height: props.size,
       }}
+      onClick={props.onClick}
     >
-      <CheckCircleIcon />
+      {props.children}
     </Avatar>
   );
 }
