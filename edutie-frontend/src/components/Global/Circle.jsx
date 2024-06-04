@@ -4,7 +4,6 @@ export default function Circle(props) {
     <Avatar
       sx={{
         backgroundColor: "#4CAF50",
-        fontSize: "3rem",
         width: props.size,
         height: props.size,
       }}

@@ -5,7 +5,6 @@ import { ThemeProvider } from "@mui/material";
 import theme from "./theme/Theme";
 
 import HomeView from "./views/HomeView";
-import CoursesView from "./views/CoursesView";
 import PlaygroundView from "./views/PlaygroundView";
 import AccountView from "./views/AccountView";
 import { navigationPath } from "./config/navigation";
@@ -19,7 +18,6 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path={navigationPath.home} element={<HomeView />} />
-            <Route path={navigationPath.courses} element={<LearnView />} />
             <Route path={navigationPath.exercise} element={<ExcerciseView />} />
             <Route path={navigationPath.account} element={<AccountView />} />
             <Route path={navigationPath.segment} element={<PlaygroundView />} />
