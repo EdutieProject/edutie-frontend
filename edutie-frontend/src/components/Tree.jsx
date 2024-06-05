@@ -1,34 +1,35 @@
-import { Button, Box, Grid, Typography } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import React, { useState } from "react";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import { Box, Grid, Typography } from "@mui/material";
+import React, { useReducer, useState } from "react";
 import Circle from "./Global/Circle";
+import { getSegments } from "../services/studyProgramLearningService";
 
-const dane = [
+//const segmentData = getSegments("ID SEGMENTU POSTEPU USERA/OSTATNI DONE")
+
+const segmentData = [
   {
     id: 0,
-    name: "lekcja nr jeden",
+    name: "Trójkąty w świecie",
     parentId: "core",
-    childrenIds: [1, 2],
+    childrenIds: [1, 2, 3],
     done: true,
   },
   {
     id: 1,
-    name: "lekcja nr dwa",
+    name: "Podział ze względu na kąty",
     parentId: 0,
     childrenIds: [3],
     done: true,
   },
   {
     id: 2,
-    name: "lekcja nr trzy",
+    name: "Podział ze względu na boki",
     parentId: 0,
     childrenIds: [],
     done: false,
   },
   {
     id: 3,
-    name: "lekcja nr cztery",
+    name: "Własności trójkątów",
     parentId: 1,
     childrenIds: [],
     done: false,
@@ -37,126 +38,84 @@ const dane = [
 
 const postepUsera = 0; //poprzez postep Usera rozumiem id poziomu, na ktorym ostatnio user skonczyl nauke
 
+// const reducer = (state, action) => {
+//   switch (action.type) {
+//     case "DECREASE":
+//       return {
+//         mainLesson: segmentData[mainLesson].parentId,
+//         childrenLessons:
+//           segmentData[segmentData[mainLesson].parentId].childrenIds,
+//       };
+//   }
+// };
+
 export default function Tree() {
+  // const [state, dispatch] = useReducer(reducer, {mainLesson: postepUsera, childrenLessons: segmentData[postepUsera].childrenIds})
+  const [mainLesson, setMainLesson] = useState(postepUsera);
   const [childrenLessons, setChildrenLessons] = useState(
-    dane[postepUsera].childrenIds
+    segmentData[postepUsera].childrenIds
   );
-  const [lessonMain, setLessonMain] = useState(postepUsera);
+
   return (
     <Box
       sx={{
-        border: "1px solid",
-        borderColor: "blue",
         width: "100%",
         display: "grid",
-        gridTemplateColumns: "0.8fr 0.8fr 0.8fr 0.8fr 0.8fr",
-        gridTemplateRows: "1fr 1fr",
-        gridTemplateAreas: `"parent connect1 this-lesson connect2 children" "parent connect1 this-lesson connect3 children"`,
+        gridTemplateColumns: "0.8fr  0.8fr  0.8fr",
+        gridTemplateRows: "1fr",
+        gridTemplateAreas: `"parent this-lesson children" `,
       }}
     >
       <Box
         sx={{
-          border: "1px solid",
-          borderColor: "green",
           gridArea: "parent",
           display: "flex",
+          flexDirection: "column",
         }}
         justifyContent="center"
         alignItems="center"
       >
         <Circle
-          size="5vw"
+          size="7vw"
           onClick={() => {
-            setLessonMain(dane[lessonMain].parentId);
-            setChildrenLessons(dane[dane[lessonMain].parentId].childrenIds);
+            setMainLesson(segmentData[mainLesson].parentId);
+            setChildrenLessons(
+              segmentData[segmentData[mainLesson].parentId].childrenIds
+            );
           }}
         >
-          {dane[lessonMain].parentId != "core" &&
-          dane[lessonMain].done === true ? (
-            <CheckCircleIcon />
-          ) : (
-            <RadioButtonUncheckedIcon />
-          )}
+          <Typography fontSize="4vw">
+            {segmentData[mainLesson].parentId == "core" &&
+            segmentData[mainLesson].done === true
+              ? "✓"
+              : "✕"}
+          </Typography>
         </Circle>
+
         <Typography sx={{ m: 1 }}>
-          {dane[lessonMain].parentId != "core"
-            ? dane[dane[lessonMain].parentId].name
-            : "Core"}
+          {segmentData[mainLesson].parentId != "core"
+            ? segmentData[segmentData[mainLesson].parentId].name
+            : "Wstęp do działu Trójkąty"}
         </Typography>
       </Box>
       <Box
         sx={{
-          gridArea: "connect1",
-          border: "1px solid",
-          borderColor: "green",
-          display: "flex",
-        }}
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Typography variant="h3" color="grey">
-          – – – – –
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          border: "1px solid",
-          borderColor: "green",
           gridArea: "this-lesson",
           display: "flex",
+          flexDirection: "column",
         }}
         justifyContent="center"
         alignItems="center"
       >
-        <Circle size="8vw">
-          {dane[lessonMain].done === true ? (
-            <CheckCircleIcon />
-          ) : (
-            <RadioButtonUncheckedIcon />
-          )}
+        <Circle size="12vw">
+          <Typography fontSize="7vw">
+            {segmentData[mainLesson].done === true ? "✓" : "✕"}
+          </Typography>
         </Circle>
-        <Typography sx={{ m: 1 }}>{dane[lessonMain].name}</Typography>
+        <Typography sx={{ m: 1 }}>{segmentData[mainLesson].name}</Typography>
       </Box>
       <Box
         sx={{
-          gridArea: "connect2",
-          border: "1px solid",
-          borderColor: "green",
-          display: "flex",
-        }}
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Typography
-          sx={{ transform: "rotate(-15deg)" }}
-          variant="h3"
-          color="grey"
-        >
-          – – – – –
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          gridArea: "connect3",
-          border: "1px solid",
-          borderColor: "green",
-          display: "flex",
-        }}
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Typography
-          sx={{ transform: "rotate(15deg)" }}
-          variant="h3"
-          color="grey"
-        >
-          – – – – –
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          border: "1px solid",
-          borderColor: "green",
           gridArea: "children",
           display: "flex",
           flexDirection: "column",
@@ -169,24 +128,23 @@ export default function Tree() {
                 display: "flex",
                 p: 1,
                 m: 1,
+                flexDirection: "column",
               }}
               justifyContent="center"
               alignItems="center"
             >
               <Circle
-                size="5vw"
+                size="6vw"
                 onClick={() => {
-                  setLessonMain(item);
-                  setChildrenLessons(dane[item].childrenIds);
+                  setMainLesson(item);
+                  setChildrenLessons(segmentData[item].childrenIds);
                 }}
               >
-                {dane[item].done === true ? (
-                  <CheckCircleIcon />
-                ) : (
-                  <RadioButtonUncheckedIcon />
-                )}
+                <Typography fontSize="3vw">
+                  {segmentData[item].done === true ? "✓" : "✕"}
+                </Typography>
               </Circle>
-              <Typography sx={{ m: 1 }}>{dane[item].name}</Typography>
+              <Typography sx={{ m: 1 }}>{segmentData[item].name}</Typography>
             </Grid>
           );
         })}

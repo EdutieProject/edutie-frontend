@@ -26,8 +26,6 @@ export default function TreeSegView() {
         <Box
           justifyContent="center"
           sx={{
-            border: "1px solid",
-            borderColor: "black",
             gridArea: "footer",
           }}
         >
@@ -43,10 +41,7 @@ export default function TreeSegView() {
               justifyContent="center"
               alignItems="flex-start"
             >
-              <Typography variant="h5">
-                Zadania
-                {/* Zadania - {dane[lessonMain].name} */}
-              </Typography>
+              <Typography variant="h5">Zadania</Typography>
               <Typography>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 Curabitur sit amet interdum tellus, nec consectetur mi. Nulla et
@@ -54,28 +49,61 @@ export default function TreeSegView() {
                 lobortis dictum. Nunc lorem nisl, laoreet at placerat in,
                 tincidunt eget nisl.
               </Typography>
-              <Grid container direction="row" columnGap={5} alignItems="center">
-                <Grid justifyContent="center">
-                  <Typography variant="h4">1</Typography>
-                  <Typography>liczba podejsc</Typography>
+              <Grid
+                container
+                direction="row"
+                columnGap={5}
+                alignItems="center"
+                justifyContent="flex-start"
+                sx={{ marginTop: 2 }}
+              >
+                <Grid
+                  xs="2"
+                  container
+                  direction="column"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Typography variant="h5">3</Typography>
+                  <Typography>LICZBA PODEJŚĆ</Typography>
                 </Grid>
-                <Grid justifyContent="center">
-                  <Typography variant="h4">1</Typography>
-                  <Typography>liczba zaliczen</Typography>
+                <Grid
+                  xs="2"
+                  container
+                  direction="column"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Typography variant="h5">1</Typography>
+                  <Typography>LICZBA ZALICZEŃ</Typography>
                 </Grid>
-                <Grid justifyContent="center">
-                  <Typography variant="h4">1</Typography>
-                  <Typography>sredni wynik</Typography>
+                <Grid
+                  xs="2"
+                  container
+                  direction="column"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Typography variant="h5">74%</Typography>
+                  <Typography>ŚREDNI WYNIK</Typography>
+                </Grid>
+                <Grid
+                  xs
+                  container
+                  direction="column"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Button
+                    variant="contained"
+                    disableElevation
+                    endIcon={<ChevronRight />}
+                  >
+                    Zobacz poprzednie wyniki
+                  </Button>
                 </Grid>
               </Grid>
             </Grid>
-            <Button
-              variant="contained"
-              disableElevation
-              endIcon={<ChevronRight />}
-            >
-              Zobacz poprzednie wyniki
-            </Button>
           </Surface>
         </Box>
       </Box>
