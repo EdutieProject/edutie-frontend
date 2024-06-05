@@ -1,43 +1,9 @@
 import * as React from 'react';
 import { Box, IconButton, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux'
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined'
 import { setNavElement } from '../../features/redux/navigation/navigationSlice';
 import { useNavigate } from 'react-router-dom';
-import DistributedLearningIcon from '../customIcons/DistributedLearningIcon';
-import { navigationPath } from '../../config/navigation';
-import { AndroidOutlined, MenuBook } from '@mui/icons-material';
-
-//TODO: move to navigation config
-const navElements = [
-  {
-    id: 1,
-    icon: <HomeOutlinedIcon fontSize='large' />,
-    href: navigationPath.home,
-
-  },
-  {
-    id: 2,
-    icon: <MenuBook fontSize='large' />,
-    href: navigationPath.fillPath(navigationPath.exercise, "DUPA", "DUPA2"),
-  },
-  {
-    id: 3,
-    icon: <DistributedLearningIcon fontSize='large' />,
-    href: navigationPath.courses,
-  },
-  {
-    id: 4,
-    icon: <PersonOutlinedIcon fontSize='large' />,
-    href: navigationPath.account,
-  },
-  {
-    id: 5,
-    icon: <AndroidOutlined fontSize='large' />,
-    href: '/playground',
-  }
-];
+import { navElements } from "../../config/navigation"
 
 //TODO: how about merging this into the navbar component ?
 function NavElement({ item }) {
@@ -59,7 +25,7 @@ function NavElement({ item }) {
       sx={{
         backgroundColor: activeNavElement == item.id ? theme.palette.common.white : "transparent",
         color: activeNavElement == item.id ? theme.palette.primary.main : theme.palette.common.white,
-        transform: "scale(1.3)"
+        transform: "scale(1.4)"
       }}
       disableRipple
       disableFocusRipple
