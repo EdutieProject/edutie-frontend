@@ -10,14 +10,15 @@ export default function NavLayout({ children, mode }){
         screenBox: {
             display: "flex", 
             flexDirection: "row", 
-            justifyItems: "stretch"
+            justifyItems: "stretch",
+            height: "100vh"
         },
         contentBox: {
             flexGrow: 1, 
             padding: theme.spacing(8),
             paddingX: theme.spacing(16),
             display: mode == "flex" ? "flex" : "block",
-            flexDirection: "column"
+            flexDirection: "column",
         },
     };
 
