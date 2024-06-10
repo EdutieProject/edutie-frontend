@@ -11,11 +11,9 @@ export default function TreeSegView() {
       <Box
         sx={{
           flexGrow: 1,
-          width: "100%",
-          height: "100%",
+          boxSizing: "border-box",
           display: "grid",
-          gridTemplateColumns: "1fr",
-          gridTemplateRows: "1fr 0.8fr 0.8fr",
+          gridTemplateRows: "repeat(3, 1fr)",
           gridTemplateAreas: `"tree" "tree" "footer"`,
         }}
       >
@@ -24,84 +22,72 @@ export default function TreeSegView() {
         </Box>
 
         <Box
-          justifyContent="center"
           sx={{
             gridArea: "footer",
           }}
         >
-          <Surface
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
+          <Surface>
+            <Typography fontFamily="Baloo" variant="h4">
+              Zadania
+            </Typography>
+            <Typography>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+              sit amet interdum tellus, nec consectetur mi. Nulla et efficitur
+              purus, ut faucibus leo. Sed tempus pretium ante lobortis dictum.
+              Nunc lorem nisl, laoreet at placerat in, tincidunt eget nisl.
+            </Typography>
             <Grid
               container
-              direction="column"
-              justifyContent="center"
-              alignItems="flex-start"
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
             >
-              <Typography variant="h5">Zadania</Typography>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Curabitur sit amet interdum tellus, nec consectetur mi. Nulla et
-                efficitur purus, ut faucibus leo. Sed tempus pretium ante
-                lobortis dictum. Nunc lorem nisl, laoreet at placerat in,
-                tincidunt eget nisl.
-              </Typography>
-              <Grid
-                container
-                direction="row"
-                columnGap={5}
-                alignItems="center"
-                justifyContent="flex-start"
-                sx={{ marginTop: 2 }}
-              >
-                <Grid
-                  xs="2"
-                  container
-                  direction="column"
-                  justifyContent="center"
-                  alignItems="center"
+              <Grid item xs={2}>
+                <Typography
+                  fontFamily="Baloo"
+                  sx={{ textAlign: "center" }}
+                  variant="h4"
                 >
-                  <Typography variant="h5">3</Typography>
-                  <Typography>LICZBA PODEJŚĆ</Typography>
-                </Grid>
-                <Grid
-                  xs="2"
-                  container
-                  direction="column"
-                  justifyContent="center"
-                  alignItems="center"
+                  3
+                </Typography>
+                <Typography sx={{ textAlign: "center" }}>
+                  LICZBA PODEJŚĆ
+                </Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Typography
+                  fontFamily="Baloo"
+                  sx={{ textAlign: "center" }}
+                  variant="h4"
                 >
-                  <Typography variant="h5">1</Typography>
-                  <Typography>LICZBA ZALICZEŃ</Typography>
-                </Grid>
-                <Grid
-                  xs="2"
-                  container
-                  direction="column"
-                  justifyContent="center"
-                  alignItems="center"
+                  1
+                </Typography>
+                <Typography sx={{ textAlign: "center" }}>
+                  LICZBA ZALICZEŃ
+                </Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Typography
+                  fontFamily="Baloo"
+                  sx={{ textAlign: "center" }}
+                  variant="h4"
                 >
-                  <Typography variant="h5">74%</Typography>
-                  <Typography>ŚREDNI WYNIK</Typography>
-                </Grid>
-                <Grid
-                  xs
-                  container
-                  direction="column"
-                  justifyContent="center"
-                  alignItems="center"
+                  74%
+                </Typography>
+                <Typography sx={{ textAlign: "center" }}>
+                  ŚREDNI WYNIK
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Button
+                  style={{ borderRadius: 50 }}
+                  sx={{ boxShadow: theme.shadows[4] }}
+                  variant="contained"
+                  disableElevation
+                  endIcon={<ChevronRight />}
                 >
-                  <Button
-                    variant="contained"
-                    disableElevation
-                    endIcon={<ChevronRight />}
-                  >
-                    Zobacz poprzednie wyniki
-                  </Button>
-                </Grid>
+                  Zobacz poprzednie wyniki
+                </Button>
               </Grid>
             </Grid>
           </Surface>
