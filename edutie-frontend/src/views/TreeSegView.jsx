@@ -23,6 +23,7 @@ export default function TreeSegView() {
 
         <Box
           sx={{
+            marginTop: 2,
             gridArea: "footer",
           }}
         >

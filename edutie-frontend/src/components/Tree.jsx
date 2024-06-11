@@ -205,6 +205,41 @@ export default function Tree() {
                 </Typography>
               </Grid>
             );
+          } else if (childrenLessons.length === 1) {
+            return (
+              <Grid
+                key={item}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Circle
+                  size="7vw"
+                  onClick={() => {
+                    setMainLesson(item);
+                    setChildrenLessons(segmentData[item].childrenIds);
+                  }}
+                >
+                  <Typography fontSize="4vw">
+                    {segmentData[item].done === true ? "✓" : "✕"}
+                  </Typography>
+                </Circle>
+                <Typography
+                  fontSize="1vw"
+                  fontFamily="Baloo"
+                  sx={{
+                    textAlign: "center",
+                    position: "absolute",
+                    marginTop: "10vw",
+                  }}
+                >
+                  {segmentData[item].name}
+                </Typography>
+              </Grid>
+            );
           } else {
             return (
               <Grid
@@ -232,9 +267,8 @@ export default function Tree() {
                   fontFamily="Baloo"
                   sx={{
                     textAlign: "center",
-                    m: 1,
-                    // position: "absolute",
-                    // marginTop: "10vw",
+                    marginTop: 1,
+                    marginBottom: 1,
                   }}
                 >
                   {segmentData[item].name}
