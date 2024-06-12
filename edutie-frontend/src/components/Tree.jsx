@@ -5,63 +5,66 @@ import {
   getSegments,
   getCourses,
   getLessons,
+  getSciences,
 } from "../services/studyProgramLearningService";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { useTheme } from "@mui/material";
 
-//const segmentData = getSegments("ID SEGMENTU POSTEPU USERA/OSTATNI DONE")
+// const segmentData = [
+//   {
+//     id: 0,
+//     name: "Trójkąty w świecie",
+//     parentId: "core",
+//     childrenIds: [1, 2, 3],
+//     done: true,
+//   },
+//   {
+//     id: 1,
+//     name: "Podział ze względu na kąty",
+//     parentId: 0,
+//     childrenIds: [3],
+//     done: true,
+//   },
+//   {
+//     id: 2,
+//     name: "Podział ze względu na boki",
+//     parentId: 0,
+//     childrenIds: [],
+//     done: false,
+//   },
+//   {
+//     id: 3,
+//     name: "Własności trójkątów",
+//     parentId: 1,
+//     childrenIds: [],
+//     done: false,
+//   },
+// ];
 
-const segmentData = [
-  {
-    id: 0,
-    name: "Trójkąty w świecie",
-    parentId: "core",
-    childrenIds: [1, 2, 3],
-    done: true,
-  },
-  {
-    id: 1,
-    name: "Podział ze względu na kąty",
-    parentId: 0,
-    childrenIds: [3],
-    done: true,
-  },
-  {
-    id: 2,
-    name: "Podział ze względu na boki",
-    parentId: 0,
-    childrenIds: [],
-    done: false,
-  },
-  {
-    id: 3,
-    name: "Własności trójkątów",
-    parentId: 1,
-    childrenIds: [],
-    done: false,
-  },
-];
-
-const postepUsera = 0; //poprzez postep Usera rozumiem id poziomu, na ktorym ostatnio user skonczyl nauke
+// const postepUsera = 0; //poprzez postep Usera rozumiem id poziomu, na ktorym ostatnio user skonczyl nauke
 
 export default function Tree() {
   const theme = useTheme();
 
   const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const [lessonsData, setLessonsData] = useState({ data: null });
-  const [mainLesson, setMainLesson] = useState(postepUsera); //tutaj powinno byc id segmentu na ktorym uzytkownik ostatni zakonczyl nauke
-  const [childrenLessons, setChildrenLessons] = useState(
-    segmentData[postepUsera].childrenIds
-  );
+  const [segmentsData, setSegmentsData] = useState({ data: null });
+  const [mainSegmentId, setMainSegmentId] = useState({ data: null });
+  const [childrenSegmentsIds, setChildrenSegmentsIds] = useState({
+    data: null,
+  });
 
   useEffect(() => {
     setIsLoading(true);
     try {
-      getSegments().then((sciences) =>
+      getSciences().then((sciences) =>
         getCourses(sciences.data[0].id).then((courses) =>
           getLessons(courses.data[0].id).then((lessons) =>
-            setLessonsData(lessons)
+            getSegments(lessons.data[0].lesson.id).then((segments) => {
+              setSegmentsData(segments);
+              setMainSegmentId(segments[0].id);
+              setChildrenSegmentsIds(segments[0].previousElement);
+            })
           )
         )
       );
@@ -69,12 +72,13 @@ export default function Tree() {
       console.log(e);
       setError(e);
     } finally {
-      setIsLoading(true);
+      setIsLoading(false);
     }
   }, []);
   if (error) {
     return error.name;
   }
+
   return (
     <Box
       sx={{
@@ -100,15 +104,16 @@ export default function Tree() {
             <Circle
               size="7vw"
               onClick={() => {
-                setMainLesson(segmentData[mainLesson].parentId); //setMainLesson(lessonsData[mainLesson].previousElement)
-                setChildrenLessons(
-                  segmentData[segmentData[mainLesson].parentId].childrenIds // setChildrenLessons(lessonsData[lessonsData[mainLesson].previousElement].nextElements);
+                setMainSegmentId(segmentsData[mainSegmentId].previousElement);
+                setChildrenSegmentsIds(
+                  segmentsData[segmentsData[mainSegmentId].previousElement]
+                    .nextElements
                 );
               }}
             >
               <Typography fontSize="4vw">
-                {segmentData[mainLesson].parentId == "core" && // =="undefined"
-                segmentData[mainLesson].done === true
+                {segmentsData[mainSegmentId].previousElement == "undefined" ||
+                segmentsData[mainSegmentId].done === true
                   ? "✓"
                   : "✕"}
               </Typography>
@@ -119,8 +124,8 @@ export default function Tree() {
               fontFamily="Baloo"
               sx={{ position: "absolute", marginTop: "10vw" }}
             >
-              {segmentData[mainLesson].parentId != "core"
-                ? segmentData[segmentData[mainLesson].parentId].name
+              {segmentsData[mainSegmentId].previousElement != "undefined"
+                ? segmentsData[segmentsData[mainSegmentId].previousElement].name
                 : "Wstęp do działu Trójkąty"}
             </Typography>
           </Box>
@@ -150,7 +155,7 @@ export default function Tree() {
           >
             <Circle size="12vw">
               <Typography fontSize="7vw">
-                {segmentData[mainLesson].done === true ? "✓" : "✕"}
+                {segmentsData[mainSegmentId].done === true ? "✓" : "✕"}
               </Typography>
             </Circle>
             <Typography
@@ -158,7 +163,7 @@ export default function Tree() {
               fontFamily="Baloo"
               sx={{ position: "absolute", marginTop: "15vw" }}
             >
-              {segmentData[mainLesson].name}
+              {segmentsData[mainSegmentId].name}
             </Typography>
           </Box>
           <Box
@@ -171,7 +176,7 @@ export default function Tree() {
             alignItems="center"
           >
             <Typography>
-              {childrenLessons.length === 0 ? (
+              {childrenSegmentsIds.length === 0 ? (
                 ""
               ) : (
                 <ArrowForwardIosRoundedIcon
@@ -189,8 +194,8 @@ export default function Tree() {
             justifyContent="center"
             alignItems="center"
           >
-            {childrenLessons.map((item, index) => {
-              if (childrenLessons.length === 3 && index === 1) {
+            {childrenSegmentsIds.map((item, index) => {
+              if (childrenSegmentsIds.length === 3 && index === 1) {
                 return (
                   <Grid
                     key={item}
@@ -205,12 +210,12 @@ export default function Tree() {
                     <Circle
                       size="7vw"
                       onClick={() => {
-                        setMainLesson(item);
-                        setChildrenLessons(segmentData[item].childrenIds);
+                        setMainSegmentId(item);
+                        setChildrenSegmentsIds(segmentsData[item].nextElements);
                       }}
                     >
                       <Typography fontSize="4vw">
-                        {segmentData[item].done === true ? "✓" : "✕"}
+                        {segmentsData[item].done === true ? "✓" : "✕"}
                       </Typography>
                     </Circle>
                     <Typography
@@ -221,11 +226,11 @@ export default function Tree() {
                         m: 1,
                       }}
                     >
-                      {segmentData[item].name}
+                      {segmentsData[item].name}
                     </Typography>
                   </Grid>
                 );
-              } else if (childrenLessons.length === 1) {
+              } else if (childrenSegmentsIds.length === 1) {
                 return (
                   <Grid
                     key={item}
@@ -239,12 +244,12 @@ export default function Tree() {
                     <Circle
                       size="7vw"
                       onClick={() => {
-                        setMainLesson(item);
-                        setChildrenLessons(segmentData[item].childrenIds);
+                        setMainSegmentId(item);
+                        setChildrenSegmentsIds(segmentsData[item].nextElements);
                       }}
                     >
                       <Typography fontSize="4vw">
-                        {segmentData[item].done === true ? "✓" : "✕"}
+                        {segmentsData[item].done === true ? "✓" : "✕"}
                       </Typography>
                     </Circle>
                     <Typography
@@ -256,7 +261,7 @@ export default function Tree() {
                         marginTop: "10vw",
                       }}
                     >
-                      {segmentData[item].name}
+                      {segmentsData[item].name}
                     </Typography>
                   </Grid>
                 );
@@ -274,12 +279,12 @@ export default function Tree() {
                     <Circle
                       size="7vw"
                       onClick={() => {
-                        setMainLesson(item);
-                        setChildrenLessons(segmentData[item].childrenIds);
+                        setMainSegmentId(item);
+                        setChildrenSegmentsIds(segmentsData[item].nextElements);
                       }}
                     >
                       <Typography fontSize="4vw">
-                        {segmentData[item].done === true ? "✓" : "✕"}
+                        {segmentsData[item].done === true ? "✓" : "✕"}
                       </Typography>
                     </Circle>
                     <Typography
@@ -291,7 +296,7 @@ export default function Tree() {
                         marginBottom: 1,
                       }}
                     >
-                      {segmentData[item].name}
+                      {segmentsData[item].name}
                     </Typography>
                   </Grid>
                 );
