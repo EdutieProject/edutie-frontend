@@ -20,7 +20,6 @@ export default function TreeSegView() {
         <Box sx={{ gridArea: "tree" }}>
           <Tree />
         </Box>
-
         <Box
           sx={{
             marginTop: 2,
