@@ -1,5 +1,9 @@
 import { LEARNING_API, defaultHeaders } from "./apiConfig";
 
+export async function getSciences() {
+    const response = await fetch(`${LEARNING_API}/sciences`, { method: "GET", headers: defaultHeaders });
+    return await response.json();
+}
 
 export async function getCourses(scienceId) {
     const response = await fetch(`${LEARNING_API}/courses?scienceId=${scienceId}`, { method: "GET", headers: defaultHeaders })
