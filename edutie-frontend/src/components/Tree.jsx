@@ -10,37 +10,6 @@ import {
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { useTheme } from "@mui/material";
 
-// const segmentData = [
-//   {
-//     id: 0,
-//     name: "Trójkąty w świecie",
-//     parentId: "core",
-//     childrenIds: [1, 2, 3],
-//     done: true,
-//   },
-//   {
-//     id: 1,
-//     name: "Podział ze względu na kąty",
-//     parentId: 0,
-//     childrenIds: [3],
-//     done: true,
-//   },
-//   {
-//     id: 2,
-//     name: "Podział ze względu na boki",
-//     parentId: 0,
-//     childrenIds: [],
-//     done: false,
-//   },
-//   {
-//     id: 3,
-//     name: "Własności trójkątów",
-//     parentId: 1,
-//     childrenIds: [],
-//     done: false,
-//   },
-// ];
-
 export default function Tree() {
   const theme = useTheme();
 
@@ -52,6 +21,7 @@ export default function Tree() {
 
   const postepUsera = 0; //poprzez postep Usera rozumiem id poziomu, na ktorym ostatnio user skonczyl nauke
   //UWAGA: ZAMIAST 0 POWINNA ZOSTAC POBRANA ZMIENNA Z BACKENDU, KTORA MOWI O TYM, JAKI JEST POSTEP USERA
+
   useEffect(() => {
     setIsLoading(true);
     try {
@@ -63,7 +33,7 @@ export default function Tree() {
                 setSegmentsData(segments);
                 setMainSegmentId(segments.data[postepUsera].segment.id);
                 setChildrenSegmentsIds(
-                  segments.data[postepUsera].segment.previousElement
+                  segments.data[postepUsera].segment.nextElements
                 );
               }
             )
@@ -82,7 +52,14 @@ export default function Tree() {
   }
   if (!isLoading) {
     console.log(mainSegmentId);
-    console.log(segmentsData.data);
+    console.log(segmentsData);
+    console.log(childrenSegmentsIds);
+    //console.log(mainSegmentId.segment.previousElement);
+
+    const zwrot = segmentsData.data.find(
+      (o) => o.segment.id === "88aad081-a855-4f59-81da-07f6a054e2c2"
+    );
+    console.log(zwrot);
   }
   // return (
   //   <Box
