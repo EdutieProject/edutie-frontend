@@ -3,10 +3,10 @@ import { Box, IconButton, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import { setNavElement } from "../features/redux/navigation/navigationSlice";
+import { setNavElement } from "../../features/redux/navigation/navigationSlice";
 import { useNavigate } from "react-router-dom";
-import DistributedLearningIcon from "./customIcons/DistributedLearningIcon";
-import { navigationPath } from "../config/navigation";
+import DistributedLearningIcon from "../customIcons/DistributedLearningIcon";
+import { navigationPath } from "../../config/navigation";
 import { AndroidOutlined, MenuBook } from "@mui/icons-material";
 
 //TODO: move to navigation config
