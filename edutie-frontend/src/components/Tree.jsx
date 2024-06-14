@@ -1,6 +1,6 @@
 import { Box, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Circle from "./Global/Circle";
+import Circle from "./global/Circle";
 import {
   getSegments,
   getCourses,
@@ -16,27 +16,25 @@ export default function Tree() {
   const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [segmentsData, setSegmentsData] = useState({ data: null });
-  const [mainSegmentId, setMainSegmentId] = useState(-1);
+  const [mainSegment, setMainSegment] = useState({ data: null });
   const [childrenSegmentsIds, setChildrenSegmentsIds] = useState([]);
-
-  const postepUsera = 0; //poprzez postep Usera rozumiem id poziomu, na ktorym ostatnio user skonczyl nauke
-  //UWAGA: ZAMIAST 0 POWINNA ZOSTAC POBRANA ZMIENNA Z BACKENDU, KTORA MOWI O TYM, JAKI JEST POSTEP USERA
 
   useEffect(() => {
     setIsLoading(true);
     try {
       getSciences().then((sciences) =>
-        getCourses(sciences.data[postepUsera].id).then((courses) =>
-          getLessons(courses.data[postepUsera].id).then((lessons) =>
-            getSegments(lessons.data[postepUsera].lesson.id).then(
-              (segments) => {
-                setSegmentsData(segments);
-                setMainSegmentId(segments.data[postepUsera].segment.id);
-                setChildrenSegmentsIds(
-                  segments.data[postepUsera].segment.nextElements
-                );
-              }
-            )
+        getCourses(sciences.data[0].id).then((courses) =>
+          getLessons(courses.data[0].id).then((lessons) =>
+            getSegments(lessons.data[0].lesson.id).then((segments) => {
+              setSegmentsData(segments);
+              setMainSegment(
+                segments.data.find((o) => o.segment.previousElement === null)
+              );
+              setChildrenSegmentsIds(
+                segments.data.find((o) => o.segment.previousElement === null)
+                  .segment.nextElements
+              );
+            })
           )
         )
       );
@@ -50,243 +48,290 @@ export default function Tree() {
   if (error) {
     return error.name;
   }
-  if (!isLoading) {
-    console.log(mainSegmentId);
-    console.log(segmentsData);
-    console.log(childrenSegmentsIds);
-    //console.log(mainSegmentId.segment.previousElement);
 
-    const zwrot = segmentsData.data.find(
-      (o) => o.segment.id === "88aad081-a855-4f59-81da-07f6a054e2c2"
-    );
-    console.log(zwrot);
-  }
-  // return (
-  //   <Box
-  //     sx={{
-  //       flexGrow: 1,
-  //       display: "grid",
-  //       gridTemplateColumns: "0.8fr 0.1fr 0.8fr 0.1fr 0.8fr",
-  //       gridTemplateRows: "1fr",
-  //       gridTemplateAreas: `"parent arrow1 this-lesson arrow2 children" `,
-  //     }}
-  //   >
-  //     {isLoading && <Typography>Poczekaj chwilę...</Typography>}
-  //     {!isLoading && (
-  //       <>
-  //         <Box
-  //           sx={{
-  //             gridArea: "parent",
-  //             display: "flex",
-  //             flexDirection: "column",
-  //           }}
-  //           justifyContent="center"
-  //           alignItems="center"
-  //         >
-  //           <Circle
-  //             size="7vw"
-  //             onClick={() => {
-  //               setMainSegmentId(segmentsData[mainSegmentId].previousElement);
-  //               setChildrenSegmentsIds(
-  //                 segmentsData[segmentsData[mainSegmentId].previousElement]
-  //                   .nextElements
-  //               );
-  //             }}
-  //           >
-  //             <Typography fontSize="4vw">
-  //               {segmentsData[mainSegmentId].previousElement == "undefined" ||
-  //               segmentsData[mainSegmentId].done === true
-  //                 ? "✓"
-  //                 : "✕"}
-  //             </Typography>
-  //           </Circle>
+  return (
+    <Box
+      sx={{
+        flexGrow: 1,
+        display: "grid",
+        gridTemplateColumns: "0.8fr 0.1fr 0.8fr 0.1fr 0.8fr",
+        gridTemplateRows: "1fr",
+        gridTemplateAreas: `"parent arrow1 this-lesson arrow2 children" `,
+      }}
+    >
+      {isLoading && <Typography>Poczekaj chwilę...</Typography>}
+      {!isLoading &&
+        segmentsData.data !== undefined &&
+        segmentsData.data !== null && (
+          <>
+            <Box
+              sx={{
+                gridArea: "parent",
+                display: "flex",
+                flexDirection: "column",
+              }}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Circle
+                size="7vw"
+                onClick={() => {
+                  if (mainSegment.segment.previousElement !== null) {
+                    setMainSegment(
+                      segmentsData.data.find(
+                        (o) =>
+                          o.segment.id ===
+                          mainSegment.segment.previousElement.id
+                      )
+                    );
+                    setChildrenSegmentsIds(mainSegment.segment.nextElements);
+                  }
+                }}
+              >
+                <Typography fontSize="4vw">
+                  {mainSegment.segment.previousElement === null
+                    ? "✓"
+                    : segmentsData.data.find(
+                        (o) =>
+                          o.segment.id ===
+                          mainSegment.segment.previousElement.id
+                      ).segment.done === true
+                    ? "✓"
+                    : "✕"}
+                </Typography>
+              </Circle>
 
-  //           <Typography
-  //             fontSize="1vw"
-  //             fontFamily="Baloo"
-  //             sx={{ position: "absolute", marginTop: "10vw" }}
-  //           >
-  //             {segmentsData[mainSegmentId].previousElement != "undefined"
-  //               ? segmentsData[segmentsData[mainSegmentId].previousElement].name
-  //               : "Wstęp do działu Trójkąty"}
-  //           </Typography>
-  //         </Box>
-  //         <Box
-  //           sx={{
-  //             gridArea: "arrow1",
-  //             display: "flex",
-  //             flexDirection: "column",
-  //           }}
-  //           justifyContent="center"
-  //           alignItems="center"
-  //         >
-  //           <Typography>
-  //             <ArrowForwardIosRoundedIcon
-  //               sx={{ color: theme.palette.grey[500], fontSize: "4vw" }}
-  //             />
-  //           </Typography>
-  //         </Box>
-  //         <Box
-  //           sx={{
-  //             gridArea: "this-lesson",
-  //             display: "flex",
-  //             flexDirection: "column",
-  //           }}
-  //           justifyContent="center"
-  //           alignItems="center"
-  //         >
-  //           <Circle size="12vw">
-  //             <Typography fontSize="7vw">
-  //               {segmentsData[mainSegmentId].done === true ? "✓" : "✕"}
-  //             </Typography>
-  //           </Circle>
-  //           <Typography
-  //             fontSize="2vw"
-  //             fontFamily="Baloo"
-  //             sx={{ position: "absolute", marginTop: "15vw" }}
-  //           >
-  //             {segmentsData[mainSegmentId].name}
-  //           </Typography>
-  //         </Box>
-  //         <Box
-  //           sx={{
-  //             gridArea: "arrow2",
-  //             display: "flex",
-  //             flexDirection: "column",
-  //           }}
-  //           justifyContent="center"
-  //           alignItems="center"
-  //         >
-  //           <Typography>
-  //             {childrenSegmentsIds.length === 0 ? (
-  //               ""
-  //             ) : (
-  //               <ArrowForwardIosRoundedIcon
-  //                 sx={{ color: theme.palette.grey[500], fontSize: "4vw" }}
-  //               />
-  //             )}
-  //           </Typography>
-  //         </Box>
-  //         <Box
-  //           sx={{
-  //             gridArea: "children",
-  //             display: "flex",
-  //             flexDirection: "column",
-  //           }}
-  //           justifyContent="center"
-  //           alignItems="center"
-  //         >
-  //           {childrenSegmentsIds.map((item, index) => {
-  //             if (childrenSegmentsIds.length === 3 && index === 1) {
-  //               return (
-  //                 <Grid
-  //                   key={item}
-  //                   sx={{
-  //                     display: "flex",
-  //                     marginLeft: "7vw",
-  //                     flexDirection: "column",
-  //                   }}
-  //                   justifyContent="center"
-  //                   alignItems="center"
-  //                 >
-  //                   <Circle
-  //                     size="7vw"
-  //                     onClick={() => {
-  //                       setMainSegmentId(item);
-  //                       setChildrenSegmentsIds(segmentsData[item].nextElements);
-  //                     }}
-  //                   >
-  //                     <Typography fontSize="4vw">
-  //                       {segmentsData[item].done === true ? "✓" : "✕"}
-  //                     </Typography>
-  //                   </Circle>
-  //                   <Typography
-  //                     fontSize="1vw"
-  //                     fontFamily="Baloo"
-  //                     sx={{
-  //                       textAlign: "center",
-  //                       m: 1,
-  //                     }}
-  //                   >
-  //                     {segmentsData[item].name}
-  //                   </Typography>
-  //                 </Grid>
-  //               );
-  //             } else if (childrenSegmentsIds.length === 1) {
-  //               return (
-  //                 <Grid
-  //                   key={item}
-  //                   sx={{
-  //                     display: "flex",
-  //                     flexDirection: "column",
-  //                   }}
-  //                   justifyContent="center"
-  //                   alignItems="center"
-  //                 >
-  //                   <Circle
-  //                     size="7vw"
-  //                     onClick={() => {
-  //                       setMainSegmentId(item);
-  //                       setChildrenSegmentsIds(segmentsData[item].nextElements);
-  //                     }}
-  //                   >
-  //                     <Typography fontSize="4vw">
-  //                       {segmentsData[item].done === true ? "✓" : "✕"}
-  //                     </Typography>
-  //                   </Circle>
-  //                   <Typography
-  //                     fontSize="1vw"
-  //                     fontFamily="Baloo"
-  //                     sx={{
-  //                       textAlign: "center",
-  //                       position: "absolute",
-  //                       marginTop: "10vw",
-  //                     }}
-  //                   >
-  //                     {segmentsData[item].name}
-  //                   </Typography>
-  //                 </Grid>
-  //               );
-  //             } else {
-  //               return (
-  //                 <Grid
-  //                   key={item}
-  //                   sx={{
-  //                     display: "flex",
-  //                     flexDirection: "column",
-  //                   }}
-  //                   justifyContent="center"
-  //                   alignItems="center"
-  //                 >
-  //                   <Circle
-  //                     size="7vw"
-  //                     onClick={() => {
-  //                       setMainSegmentId(item);
-  //                       setChildrenSegmentsIds(segmentsData[item].nextElements);
-  //                     }}
-  //                   >
-  //                     <Typography fontSize="4vw">
-  //                       {segmentsData[item].done === true ? "✓" : "✕"}
-  //                     </Typography>
-  //                   </Circle>
-  //                   <Typography
-  //                     fontSize="1vw"
-  //                     fontFamily="Baloo"
-  //                     sx={{
-  //                       textAlign: "center",
-  //                       marginTop: 1,
-  //                       marginBottom: 1,
-  //                     }}
-  //                   >
-  //                     {segmentsData[item].name}
-  //                   </Typography>
-  //                 </Grid>
-  //               );
-  //             }
-  //           })}
-  //         </Box>
-  //       </>
-  //     )}
-  //   </Box>
-  // );
+              <Typography
+                fontSize="1vw"
+                fontFamily="Baloo"
+                sx={{ position: "absolute", marginTop: "10vw" }}
+              >
+                {mainSegment.segment.previousElement != null
+                  ? segmentsData.data.find(
+                      (o) =>
+                        o.segment.id === mainSegment.segment.previousElement.id
+                    ).segment.name
+                  : "Wstęp"}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                gridArea: "arrow1",
+                display: "flex",
+                flexDirection: "column",
+              }}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Typography>
+                <ArrowForwardIosRoundedIcon
+                  sx={{ color: theme.palette.grey[500], fontSize: "4vw" }}
+                />
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                gridArea: "this-lesson",
+                display: "flex",
+                flexDirection: "column",
+              }}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Circle size="12vw">
+                <Typography fontSize="7vw">
+                  {mainSegment.done === true ? "✓" : "✕"}
+                </Typography>
+              </Circle>
+              <Typography
+                fontSize="2vw"
+                fontFamily="Baloo"
+                sx={{ position: "absolute", marginTop: "15vw" }}
+              >
+                {mainSegment.segment.name}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                gridArea: "arrow2",
+                display: "flex",
+                flexDirection: "column",
+              }}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Typography>
+                {childrenSegmentsIds.length === 0 ? (
+                  ""
+                ) : (
+                  <ArrowForwardIosRoundedIcon
+                    sx={{ color: theme.palette.grey[500], fontSize: "4vw" }}
+                  />
+                )}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                gridArea: "children",
+                display: "flex",
+                flexDirection: "column",
+              }}
+              justifyContent="center"
+              alignItems="center"
+            >
+              {childrenSegmentsIds.map((item, index) => {
+                if (childrenSegmentsIds.length === 3 && index === 1) {
+                  return (
+                    <Grid
+                      key={index}
+                      sx={{
+                        display: "flex",
+                        marginLeft: "7vw",
+                        flexDirection: "column",
+                      }}
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <Circle
+                        size="7vw"
+                        onClick={() => {
+                          setMainSegment(
+                            segmentsData.data.find(
+                              (o) => o.segment.id === item.id
+                            )
+                          );
+                          setChildrenSegmentsIds(
+                            mainSegment.segment.nextElements
+                          );
+                        }}
+                      >
+                        <Typography fontSize="4vw">
+                          {segmentsData.data.find(
+                            (o) => o.segment.id === item.id
+                          ).done === true
+                            ? "✓"
+                            : "✕"}
+                        </Typography>
+                      </Circle>
+                      <Typography
+                        fontSize="1vw"
+                        fontFamily="Baloo"
+                        sx={{
+                          textAlign: "center",
+                          m: 1,
+                        }}
+                      >
+                        {
+                          segmentsData.data.find(
+                            (o) => o.segment.id === item.id
+                          ).segment.name
+                        }
+                      </Typography>
+                    </Grid>
+                  );
+                } else if (childrenSegmentsIds.length === 1) {
+                  return (
+                    <Grid
+                      key={index}
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <Circle
+                        size="7vw"
+                        onClick={() => {
+                          setMainSegment(
+                            segmentsData.data.find(
+                              (o) => o.segment.id === item.id
+                            )
+                          );
+                          setChildrenSegmentsIds(
+                            mainSegment.segment.nextElements
+                          );
+                        }}
+                      >
+                        <Typography fontSize="4vw">
+                          {segmentsData.data.find(
+                            (o) => o.segment.id === item.id
+                          ).done === true
+                            ? "✓"
+                            : "✕"}
+                        </Typography>
+                      </Circle>
+                      <Typography
+                        fontSize="1vw"
+                        fontFamily="Baloo"
+                        sx={{
+                          textAlign: "center",
+                          position: "absolute",
+                          marginTop: "10vw",
+                        }}
+                      >
+                        {
+                          segmentsData.data.find(
+                            (o) => o.segment.id === item.id
+                          ).segment.name
+                        }
+                      </Typography>
+                    </Grid>
+                  );
+                } else {
+                  return (
+                    <Grid
+                      key={index}
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <Circle
+                        size="7vw"
+                        onClick={() => {
+                          setMainSegment(
+                            segmentsData.data.find(
+                              (o) => o.segment.id === item.id
+                            )
+                          );
+                          setChildrenSegmentsIds(
+                            mainSegment.segment.nextElements
+                          );
+                        }}
+                      >
+                        <Typography fontSize="4vw">
+                          {segmentsData.data.find(
+                            (o) => o.segment.id === item.id
+                          ).done === true
+                            ? "✓"
+                            : "✕"}
+                        </Typography>
+                      </Circle>
+                      <Typography
+                        fontSize="1vw"
+                        fontFamily="Baloo"
+                        sx={{
+                          textAlign: "center",
+                          marginTop: 1,
+                          marginBottom: 1,
+                        }}
+                      >
+                        {
+                          segmentsData.data.find(
+                            (o) => o.segment.id === item.id
+                          ).segment.name
+                        }
+                      </Typography>
+                    </Grid>
+                  );
+                }
+              })}
+            </Box>
+          </>
+        )}
+    </Box>
+  );
 }
