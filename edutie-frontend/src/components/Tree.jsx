@@ -10,7 +10,7 @@ import {
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { useTheme } from "@mui/material";
 
-export default function Tree() {
+export default function Tree({ childToParent }) {
   const theme = useTheme();
 
   const [error, setError] = useState();
@@ -34,6 +34,7 @@ export default function Tree() {
                 segments.data.find((o) => o.segment.previousElement === null)
                   .segment.nextElements
               );
+              childToParent(mainSegment);
             })
           )
         )
@@ -77,6 +78,13 @@ export default function Tree() {
                 size="7vw"
                 onClick={() => {
                   if (mainSegment.segment.previousElement !== null) {
+                    setChildrenSegmentsIds(
+                      segmentsData.data.find(
+                        (o) =>
+                          o.segment.id ===
+                          mainSegment.segment.previousElement.id
+                      ).segment.nextElements
+                    );
                     setMainSegment(
                       segmentsData.data.find(
                         (o) =>
@@ -84,7 +92,6 @@ export default function Tree() {
                           mainSegment.segment.previousElement.id
                       )
                     );
-                    setChildrenSegmentsIds(mainSegment.segment.nextElements);
                   }
                 }}
               >
@@ -195,13 +202,15 @@ export default function Tree() {
                       <Circle
                         size="7vw"
                         onClick={() => {
+                          setChildrenSegmentsIds(
+                            segmentsData.data.find(
+                              (o) => o.segment.id === item.id
+                            ).segment.nextElements
+                          );
                           setMainSegment(
                             segmentsData.data.find(
                               (o) => o.segment.id === item.id
                             )
-                          );
-                          setChildrenSegmentsIds(
-                            mainSegment.segment.nextElements
                           );
                         }}
                       >
@@ -243,13 +252,15 @@ export default function Tree() {
                       <Circle
                         size="7vw"
                         onClick={() => {
+                          setChildrenSegmentsIds(
+                            segmentsData.data.find(
+                              (o) => o.segment.id === item.id
+                            ).segment.nextElements
+                          );
                           setMainSegment(
                             segmentsData.data.find(
                               (o) => o.segment.id === item.id
                             )
-                          );
-                          setChildrenSegmentsIds(
-                            mainSegment.segment.nextElements
                           );
                         }}
                       >
@@ -292,13 +303,15 @@ export default function Tree() {
                       <Circle
                         size="7vw"
                         onClick={() => {
+                          setChildrenSegmentsIds(
+                            segmentsData.data.find(
+                              (o) => o.segment.id === item.id
+                            ).segment.nextElements
+                          );
                           setMainSegment(
                             segmentsData.data.find(
                               (o) => o.segment.id === item.id
                             )
-                          );
-                          setChildrenSegmentsIds(
-                            mainSegment.segment.nextElements
                           );
                         }}
                       >
