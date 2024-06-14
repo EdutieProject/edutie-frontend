@@ -1,11 +1,17 @@
 import { Button, Typography, Box, Grid, useTheme } from "@mui/material";
 import NavLayout from "./layout/NavLayout";
 import Tree from "../components/Tree.jsx";
-import Surface from "../components/Global/Surface";
+import Surface from "../components/global/Surface";
 import ChevronRight from "@material-ui/icons/ChevronRight";
+import { useState } from "react";
 
 export default function TreeSegView() {
   const theme = useTheme();
+  const [exercise, setExercise] = useState();
+  const [childData, setChildData] = useState({ data: null });
+  const childToParent = (data) => {
+    setChildData(data);
+  };
   return (
     <NavLayout mode="flex">
       <Box
@@ -18,7 +24,8 @@ export default function TreeSegView() {
         }}
       >
         <Box sx={{ gridArea: "tree" }}>
-          <Tree />
+          <Tree childToParent={childToParent} />
+          {console.log(childData)}
         </Box>
         <Box
           sx={{
