@@ -3,15 +3,22 @@ import NavLayout from "./layout/NavLayout";
 import Tree from "../components/Tree.jsx";
 import Surface from "../components/global/Surface";
 import ChevronRight from "@material-ui/icons/ChevronRight";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function TreeSegView() {
   const theme = useTheme();
-  const [exercise, setExercise] = useState();
   const [childData, setChildData] = useState({ data: null });
   const childToParent = (data) => {
     setChildData(data);
   };
+
+  if (childData.data === null) {
+    return (
+      <NavLayout mode="flex">
+        <Tree childToParent={childToParent} />
+      </NavLayout>
+    );
+  }
   return (
     <NavLayout mode="flex">
       <Box
@@ -25,7 +32,6 @@ export default function TreeSegView() {
       >
         <Box sx={{ gridArea: "tree" }}>
           <Tree childToParent={childToParent} />
-          {console.log(childData)}
         </Box>
         <Box
           sx={{
@@ -35,14 +41,9 @@ export default function TreeSegView() {
         >
           <Surface>
             <Typography fontFamily="Baloo" variant="h4">
-              Zadania
+              Zadania - {childData.segment.name}
             </Typography>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-              sit amet interdum tellus, nec consectetur mi. Nulla et efficitur
-              purus, ut faucibus leo. Sed tempus pretium ante lobortis dictum.
-              Nunc lorem nisl, laoreet at placerat in, tincidunt eget nisl.
-            </Typography>
+            <Typography>{childData.segment.snippetDescription}</Typography>
             <Grid
               container
               direction="row"
@@ -55,7 +56,7 @@ export default function TreeSegView() {
                   sx={{ textAlign: "center" }}
                   variant="h4"
                 >
-                  3
+                  {childData.approachesTaken}
                 </Typography>
                 <Typography sx={{ textAlign: "center" }}>
                   LICZBA PODEJŚĆ
@@ -67,7 +68,7 @@ export default function TreeSegView() {
                   sx={{ textAlign: "center" }}
                   variant="h4"
                 >
-                  1
+                  {childData.approachesSucceeded}
                 </Typography>
                 <Typography sx={{ textAlign: "center" }}>
                   LICZBA ZALICZEŃ

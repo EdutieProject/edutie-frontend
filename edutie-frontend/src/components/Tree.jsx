@@ -34,7 +34,9 @@ export default function Tree({ childToParent }) {
                 segments.data.find((o) => o.segment.previousElement === null)
                   .segment.nextElements
               );
-              childToParent(mainSegment);
+              childToParent(
+                segments.data.find((o) => o.segment.previousElement === null)
+              );
             })
           )
         )
@@ -75,6 +77,17 @@ export default function Tree({ childToParent }) {
               alignItems="center"
             >
               <Circle
+                backgroundColor={
+                  mainSegment.segment.previousElement === null
+                    ? theme.palette.primary.main
+                    : segmentsData.data.find(
+                        (o) =>
+                          o.segment.id ===
+                          mainSegment.segment.previousElement.id
+                      ).segment.done === true
+                    ? theme.palette.primary.main
+                    : theme.palette.surface.main
+                }
                 size="7vw"
                 onClick={() => {
                   if (mainSegment.segment.previousElement !== null) {
@@ -92,19 +105,40 @@ export default function Tree({ childToParent }) {
                           mainSegment.segment.previousElement.id
                       )
                     );
+                    childToParent(
+                      segmentsData.data.find(
+                        (o) =>
+                          o.segment.id ===
+                          mainSegment.segment.previousElement.id
+                      )
+                    );
                   }
                 }}
               >
-                <Typography fontSize="4vw">
+                <Typography
+                  color={
+                    mainSegment.segment.previousElement === null
+                      ? ""
+                      : segmentsData.data.find(
+                          (o) =>
+                            o.segment.id ===
+                            mainSegment.segment.previousElement.id
+                        ).segment.done === false
+                      ? theme.palette.primary.main
+                      : ""
+                  }
+                  fontFamily="Baloo"
+                  fontSize="4vw"
+                >
                   {mainSegment.segment.previousElement === null
-                    ? "✓"
+                    ? "x"
                     : segmentsData.data.find(
                         (o) =>
                           o.segment.id ===
                           mainSegment.segment.previousElement.id
                       ).segment.done === true
-                    ? "✓"
-                    : "✕"}
+                    ? "x"
+                    : "?"}
                 </Typography>
               </Circle>
 
@@ -145,9 +179,22 @@ export default function Tree({ childToParent }) {
               justifyContent="center"
               alignItems="center"
             >
-              <Circle size="12vw">
-                <Typography fontSize="7vw">
-                  {mainSegment.done === true ? "✓" : "✕"}
+              <Circle
+                backgroundColor={
+                  mainSegment.done === true
+                    ? theme.palette.primary.main
+                    : theme.palette.surface.main
+                }
+                size="12vw"
+              >
+                <Typography
+                  color={
+                    mainSegment.done === false ? theme.palette.primary.main : ""
+                  }
+                  fontFamily="Baloo"
+                  fontSize="7vw"
+                >
+                  {mainSegment.done === true ? "x" : "?"}
                 </Typography>
               </Circle>
               <Typography
@@ -200,6 +247,13 @@ export default function Tree({ childToParent }) {
                       alignItems="center"
                     >
                       <Circle
+                        backgroundColor={
+                          segmentsData.data.find(
+                            (o) => o.segment.id === item.id
+                          ).done === true
+                            ? theme.palette.primary.main
+                            : theme.palette.surface.main
+                        }
                         size="7vw"
                         onClick={() => {
                           setChildrenSegmentsIds(
@@ -212,14 +266,29 @@ export default function Tree({ childToParent }) {
                               (o) => o.segment.id === item.id
                             )
                           );
+                          childToParent(
+                            segmentsData.data.find(
+                              (o) => o.segment.id === item.id
+                            )
+                          );
                         }}
                       >
-                        <Typography fontSize="4vw">
+                        <Typography
+                          color={
+                            segmentsData.data.find(
+                              (o) => o.segment.id === item.id
+                            ).done === false
+                              ? theme.palette.primary.main
+                              : ""
+                          }
+                          fontFamily="Baloo"
+                          fontSize="4vw"
+                        >
                           {segmentsData.data.find(
                             (o) => o.segment.id === item.id
                           ).done === true
-                            ? "✓"
-                            : "✕"}
+                            ? "x"
+                            : "?"}
                         </Typography>
                       </Circle>
                       <Typography
@@ -250,6 +319,13 @@ export default function Tree({ childToParent }) {
                       alignItems="center"
                     >
                       <Circle
+                        backgroundColor={
+                          segmentsData.data.find(
+                            (o) => o.segment.id === item.id
+                          ).done === true
+                            ? theme.palette.primary.main
+                            : theme.palette.surface.main
+                        }
                         size="7vw"
                         onClick={() => {
                           setChildrenSegmentsIds(
@@ -262,14 +338,29 @@ export default function Tree({ childToParent }) {
                               (o) => o.segment.id === item.id
                             )
                           );
+                          childToParent(
+                            segmentsData.data.find(
+                              (o) => o.segment.id === item.id
+                            )
+                          );
                         }}
                       >
-                        <Typography fontSize="4vw">
+                        <Typography
+                          color={
+                            segmentsData.data.find(
+                              (o) => o.segment.id === item.id
+                            ).done === false
+                              ? theme.palette.primary.main
+                              : ""
+                          }
+                          fontFamily="Baloo"
+                          fontSize="4vw"
+                        >
                           {segmentsData.data.find(
                             (o) => o.segment.id === item.id
                           ).done === true
-                            ? "✓"
-                            : "✕"}
+                            ? "x"
+                            : "?"}
                         </Typography>
                       </Circle>
                       <Typography
@@ -301,6 +392,13 @@ export default function Tree({ childToParent }) {
                       alignItems="center"
                     >
                       <Circle
+                        backgroundColor={
+                          segmentsData.data.find(
+                            (o) => o.segment.id === item.id
+                          ).done === true
+                            ? theme.palette.primary.main
+                            : theme.palette.surface.main
+                        }
                         size="7vw"
                         onClick={() => {
                           setChildrenSegmentsIds(
@@ -313,14 +411,29 @@ export default function Tree({ childToParent }) {
                               (o) => o.segment.id === item.id
                             )
                           );
+                          childToParent(
+                            segmentsData.data.find(
+                              (o) => o.segment.id === item.id
+                            )
+                          );
                         }}
                       >
-                        <Typography fontSize="4vw">
+                        <Typography
+                          color={
+                            segmentsData.data.find(
+                              (o) => o.segment.id === item.id
+                            ).done === false
+                              ? theme.palette.primary.main
+                              : ""
+                          }
+                          fontFamily="Baloo"
+                          fontSize="4vw"
+                        >
                           {segmentsData.data.find(
                             (o) => o.segment.id === item.id
                           ).done === true
-                            ? "✓"
-                            : "✕"}
+                            ? "x"
+                            : "?"}
                         </Typography>
                       </Circle>
                       <Typography
