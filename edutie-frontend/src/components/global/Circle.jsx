@@ -4,7 +4,7 @@ export default function Circle(props) {
   return (
     <Avatar
       sx={{
-        backgroundColor: "#4CAF50",
+        backgroundColor: props.backgroundColor,
         width: props.size,
         height: props.size,
         boxShadow: theme.shadows[4],
