@@ -2,6 +2,8 @@ import { Box, Grid, Typography, useTheme } from "@mui/material";
 import NavLayout from "./layout/NavLayout";
 import { useEffect, useState } from "react";
 import { getCourses, getLessons, getSciences } from "../services/studyProgramLearningService";
+import Xarrow, { Xwrapper, useXarrow } from "react-xarrows";
+import Draggable from 'react-draggable';
 
 class TreeGridInitializer {
     static getFirstLevel(data) {
@@ -30,9 +32,9 @@ export default function LessonTreeView() {
 
     useEffect(() => {
         getSciences()
-        .then(sciences => getCourses(sciences.data[0].id)
-            .then(courses => getLessons(courses.data[0].id)
-                .then(lessons => setLessonsResponse(lessons))));
+            .then(sciences => getCourses(sciences.data[0].id)
+                .then(courses => getLessons(courses.data[0].id)
+                    .then(lessons => setLessonsResponse(lessons))));
     }, []);
 
     if (lessonsResponse.data === null)
@@ -67,7 +69,7 @@ function LessonViewTile({ lessonView }) {
 
     return (
         <Box sx={{ display: "flex", flexDirection: "column", gap: theme.spacing(2), alignItems: "center" }}>
-            <Box id={lessonView.lesson.id} sx={{
+            <Box sx={{
                 borderRadius: 5,
                 border: "3px solid",
                 borderColor: theme.palette.primary.main,
@@ -75,14 +77,20 @@ function LessonViewTile({ lessonView }) {
                 padding: theme.spacing(4),
                 position: "relative"
             }}>
-                <Box sx={{ position: "absolute", top: 0, left: 0, height: "100%", width: "100%", display: "grid", placeItems: "center" }}>
+                <Box id={lessonView.lesson.id} sx={{ position: "absolute", top: 0, left: 0, height: "100%", width: "100%", display: "grid", placeItems: "center", zIndex: 1}}>
                     {lessonView.done ?
                         <Typography variant="h3" color={theme.palette.common.white} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>x</Typography>
                         : <Typography variant="h3" color={theme.palette.primary.main} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>?</Typography>}
 
                 </Box>
+                {
+                    lessonView.lesson.previousElement != null ?
+                        <Xarrow start={lessonView.lesson.id} end={lessonView.lesson.previousElement.id} 
+                        curveness={0.2} color={theme.palette.grey[200]} showHead={false} showTail={false} zIndex={-1}/>
+                        : <></>
+                }
             </Box>
-            <Typography variant="h5" fontFamily={"Baloo"}>{lessonView.lesson.name}</Typography>
+            <Typography variant="h5" fontFamily={"Baloo"} zIndex={1}>{lessonView.lesson.name}</Typography>
         </Box>
     )
 }
