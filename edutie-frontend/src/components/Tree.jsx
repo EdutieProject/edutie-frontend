@@ -124,8 +124,8 @@ export default function Tree({ childToParent }) {
                             o.segment.id ===
                             mainSegment.segment.previousElement.id
                         ).segment.done === false
-                      ? theme.palette.primary.main
-                      : ""
+                      ? ""
+                      : theme.palette.primary.main
                   }
                   fontFamily="Baloo"
                   fontSize="4vw"
