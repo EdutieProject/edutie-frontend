@@ -2,8 +2,8 @@ import { Box, Grid, Typography, useTheme } from "@mui/material";
 import NavLayout from "./layout/NavLayout";
 import { useEffect, useState } from "react";
 import { getCourses, getLessons, getSciences } from "../services/studyProgramLearningService";
-import Xarrow, { Xwrapper, useXarrow } from "react-xarrows";
-import Draggable from 'react-draggable';
+import Xarrow from "react-xarrows";
+import LoadingView from "./common/LoadingView";
 
 class TreeGridInitializer {
     static getFirstLevel(data) {
@@ -38,11 +38,7 @@ export default function LessonTreeView() {
     }, []);
 
     if (lessonsResponse.data === null)
-        return (
-            <NavLayout>
-                <Typography>Loading...</Typography>
-            </NavLayout>
-        );
+        return (<LoadingView />);
 
     let treeLevelsArray = TreeGridInitializer.getTreeAsArray(lessonsResponse.data);
     return (
@@ -61,7 +57,7 @@ export default function LessonTreeView() {
                 }
             </Grid>
         </NavLayout>
-    )
+    );
 }
 
 function LessonViewTile({ lessonView }) {
@@ -77,7 +73,7 @@ function LessonViewTile({ lessonView }) {
                 padding: theme.spacing(4),
                 position: "relative"
             }}>
-                <Box id={lessonView.lesson.id} sx={{ position: "absolute", top: 0, left: 0, height: "100%", width: "100%", display: "grid", placeItems: "center", zIndex: 1}}>
+                <Box id={lessonView.lesson.id} sx={{ position: "absolute", top: 0, left: 0, height: "100%", width: "100%", display: "grid", placeItems: "center", zIndex: 1 }}>
                     {lessonView.done ?
                         <Typography variant="h3" color={theme.palette.common.white} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>x</Typography>
                         : <Typography variant="h3" color={theme.palette.primary.main} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>?</Typography>}
@@ -85,8 +81,8 @@ function LessonViewTile({ lessonView }) {
                 </Box>
                 {
                     lessonView.lesson.previousElement != null ?
-                        <Xarrow start={lessonView.lesson.id} end={lessonView.lesson.previousElement.id} 
-                        curveness={0.2} color={theme.palette.grey[200]} showHead={false} showTail={false} zIndex={-1}/>
+                        <Xarrow start={lessonView.lesson.id} end={lessonView.lesson.previousElement.id}
+                            curveness={0.2} color={theme.palette.grey[200]} showHead={false} showTail={false} zIndex={-1} />
                         : <></>
                 }
             </Box>

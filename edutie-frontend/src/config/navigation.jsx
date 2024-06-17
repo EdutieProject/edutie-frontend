@@ -10,7 +10,7 @@ export const navigationPath = {
     segmentTree: "/lessons/:lessonId",
     segment: "/segments/:segmentId",
     exercise: "/segments/:segmentId/exercises/:resourceId",
-    account: "TODO!",
+    account: "/profiles/:id",
     fillPath: (p, ...args) => {
         let counter = 0;
         return p.split("/").map((o, i) => i == 0 ? "" : o.startsWith(":") ? "/" + args[counter++] : "/" + o).join('');
@@ -28,17 +28,17 @@ export const navElements = [
     {
       id: 2,
       icon: <MenuBook fontSize='large' />,
-      href: navigationPath.fillPath(navigationPath.exercise, "DUPA", "DUPA2"),
+      href: navigationPath.fillPath(navigationPath.exercise, "ID-SEGMENT", "ID_LEARNING_RESOURCE"),
     },
     {
       id: 3,
       icon: <DistributedLearningIcon fontSize='large' color='white'/>,
-      href: navigationPath.fillPath(navigationPath.lessonTree, "LEKCJA_ID")
+      href: navigationPath.fillPath(navigationPath.lessonTree, "ID_KURSU")
     },
     {
       id: 4,
       icon: <PersonOutlinedIcon fontSize='large' />,
-      href: navigationPath.account,
+      href: navigationPath.fillPath(navigationPath.account, "myself"),
     },
     {
       id: 5,
