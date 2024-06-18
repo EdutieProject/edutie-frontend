@@ -19,14 +19,25 @@ function NavElement({ item }) {
     navigate(selectedItem.href);
   };
 
+  let isActive = activeNavElement === item.id;
+
   return (
-    <IconButton
-      onClick={() => press(item)}
-      disableRipple
-      disableFocusRipple
-    >
-      {item.icon(activeNavElement === item.id ? theme.palette.primary.main : theme.palette.common.white)}
-    </IconButton>
+    <Box sx={{
+      paddingX: theme.spacing(4),
+      paddingY: theme.spacing(2),
+      backgroundColor: isActive ? theme.palette.common.white : "transparent",
+      boxShadow: isActive ? theme.shadows[3] : "none",
+      borderRadius: 2,
+      transform: "scaleX(1.1)"
+      }}>
+      <IconButton
+        onClick={() => press(item)}
+        disableRipple
+        disableFocusRipple
+      >
+        {item.icon(isActive ? theme.palette.primary.main : theme.palette.common.white)}
+      </IconButton>
+    </Box>
   );
 }
 
@@ -38,9 +49,9 @@ export default function NavBar() {
       display: "flex",
       flexDirection: "column",
       backgroundColor: theme.palette.primary.main,
-      gap: theme.spacing(4),
-      padding: theme.spacing(4),
+      gap: theme.spacing(2),
       boxShadow: theme.shadows[4],
+      paddingY: theme.spacing(4)
     },
     wrapperBox: {
       display: "flex",
