@@ -1,15 +1,11 @@
 import * as React from "react";
 import { Box, IconButton, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { setNavElement } from "../../features/redux/navigation/navigationSlice";
 import { useNavigate } from "react-router-dom";
-import DistributedLearningIcon from "../customIcons/DistributedLearningIcon";
-import { navElements, navigationPath } from "../../config/navigation";
-import { AndroidOutlined, MenuBook } from "@mui/icons-material";
+import { navElements } from "../../config/navigation";
 
-//TODO: how about merging this into the navbar component ?
+//TODO: refactor & improve redux
 function NavElement({ item }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,7 +14,7 @@ function NavElement({ item }) {
   const activeNavElement = useSelector((state) => state.navigation.activeID);
 
   const press = (selectedItem) => {
-    console.log("button pressed", selectedItem.id);
+    console.log("Navigation button pressed", selectedItem.id);
     dispatch(setNavElement(selectedItem.id));
     navigate(selectedItem.href);
   };
@@ -26,21 +22,10 @@ function NavElement({ item }) {
   return (
     <IconButton
       onClick={() => press(item)}
-      sx={{
-        backgroundColor:
-          activeNavElement == item.id
-            ? theme.palette.common.white
-            : "transparent",
-        color:
-          activeNavElement == item.id
-            ? theme.palette.primary.main
-            : theme.palette.common.white,
-        transform: "scale(1.3)",
-      }}
       disableRipple
       disableFocusRipple
     >
-      {item.icon}
+      {item.icon(activeNavElement === item.id ? theme.palette.primary.main : theme.palette.common.white)}
     </IconButton>
   );
 }
