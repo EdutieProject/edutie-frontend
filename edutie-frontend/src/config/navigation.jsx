@@ -20,39 +20,39 @@ export const navigationPath = {
     }
 }
 
-const getIconColor = (active) => active 
+const iconSize = 40;
 
 //TODO navElements inside navBar or here?
 export const navElements = [
     {
       id: 1,
-      icon: (color) => <EdutieHomeIcon fontSize='large' color={color}/>,
+      icon: (color) => <EdutieHomeIcon fontSize='large' color={color} height={iconSize} width={iconSize}/>,
       href: navigationPath.home,
   
     },
     {
       id: 2,
-      icon: (color) => <ExcerciseNotebookIcon fontSize='large' color={color}/>,
+      icon: (color) => <ExcerciseNotebookIcon fontSize='large' color={color} height={iconSize} width={iconSize}/>,
       href: navigationPath.fillPath(navigationPath.exercise, "ID-SEGMENT", "ID_LEARNING_RESOURCE"),
     },
     {
       id: 3,
-      icon: (color) => <DistributedLearningIcon fontSize='large' color={color}/>,
+      icon: (color) => <DistributedLearningIcon fontSize='large' color={color} height={iconSize} width={iconSize}/>,
       href: navigationPath.fillPath(navigationPath.lessonTree, "ID_KURSU")
     },
     {
       id: 4,
-      icon: (color) => <CoursesCapIcon fontSize='large' color={color}/>,
+      icon: (color) => <CoursesCapIcon fontSize='large' color={color} height={iconSize} width={iconSize}/>,
       href: navigationPath.fillPath(navigationPath.lessonTree, "ID_KURSU")
     },
     {
       id: 5,
-      icon: (color) => <UserIcon fontSize='large' color={color}/>,
+      icon: (color) => <UserIcon fontSize='large' color={color} height={iconSize} width={iconSize}/>,
       href: navigationPath.fillPath(navigationPath.account, "myself"),
     },
     {
       id: 6,
-      icon: (color) => <AndroidOutlined fontSize='large' color={color}/>,
+      icon: (color) => <AndroidOutlined fontSize='large' color={color} height={iconSize} width={iconSize}/>,
       href: '/playground',
     }
 ];

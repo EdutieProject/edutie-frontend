@@ -7,7 +7,7 @@ import { SvgIcon } from "@mui/material";
  */
 export default function ExcerciseNotebookIcon(params) {
     return (
-        <SvgIcon sx={{color: params.color}} htmlColor={params.color}>
+        <SvgIcon sx={{color: params.color, height: params.height, width: params.width}} htmlColor={params.color}>
             <svg width="55" height="55" viewBox="0 0 55 55" fill={params.color} xmlns="http://www.w3.org/2000/svg">
                 <path d="M50.7031 22.3438H48.9844V9.45312H46.4062V7.73438H49.8438C50.0717 7.73438 50.2903 7.82492 50.4514 7.98608C50.6126 8.14724 50.7031 8.36583 50.7031 8.59375V22.3438Z" />
                 <path d="M49.8438 47.2656H5.15625C4.92833 47.2656 4.70974 47.1751 4.54858 47.0139C4.38742 46.8528 4.29688 46.6342 4.29688 46.4062V8.59375C4.29688 8.36583 4.38742 8.14724 4.54858 7.98608C4.70974 7.82492 4.92833 7.73438 5.15625 7.73438H8.59375V9.45312H6.01562V45.5469H48.9844V27.5H50.7031V46.4062C50.7031 46.6342 50.6126 46.8528 50.4514 47.0139C50.2903 47.1751 50.0717 47.2656 49.8438 47.2656Z" />
