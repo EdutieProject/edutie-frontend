@@ -25,11 +25,17 @@ function NavElement({ item }) {
     <Box sx={{
       paddingX: theme.spacing(4),
       paddingY: theme.spacing(2),
-      backgroundColor: isActive ? theme.palette.common.white : "transparent",
-      boxShadow: isActive ? theme.shadows[3] : "none",
-      borderRadius: 2,
-      transform: "scaleX(1.1)"
-      }}>
+      position: "relative"
+    }}>
+      <Box sx={{
+        position: "absolute",
+        top: 0, left: 0, width: "100%", height: "100%",
+        backgroundColor: isActive ? theme.palette.common.white : "transparent",
+        boxShadow: isActive ? theme.shadows[3] : "none",
+        borderRadius: 2,
+        transform: "scaleX(1.08)"
+      }}
+      />
       <IconButton
         onClick={() => press(item)}
         disableRipple
