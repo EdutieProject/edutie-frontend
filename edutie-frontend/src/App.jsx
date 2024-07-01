@@ -23,8 +23,8 @@ export default function App() {
             <Route path={navigationPath.exercise} element={<ExcerciseView />} />
             <Route path={navigationPath.account} element={<AccountView />} />
             <Route path={navigationPath.segment} element={<PlaygroundView />} />
+            <Route path={navigationPath.account} element={<AccountView />} />
             <Route path="/playground" element={<PlaygroundView />} />
-            <Route path="/account" element={<AccountView />} />
             <Route path="/tree" element={<TreeSegView />} />
           </Routes>
         </BrowserRouter>
