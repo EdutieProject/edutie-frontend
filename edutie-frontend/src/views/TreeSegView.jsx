@@ -1,14 +1,15 @@
-import { Button, Typography, Box, Grid, useTheme } from "@mui/material";
+import { Typography, Box, Grid, useTheme } from "@mui/material";
 import NavLayout from "./layout/NavLayout";
 import Tree from "../components/Tree.jsx";
 import Surface from "../components/global/Surface";
-import ChevronRight from "@material-ui/icons/ChevronRight";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CircleButton from "../components/global/CircleButton.jsx";
 import RoundedButton from "../components/global/RoundedButton.jsx";
+import { useParams } from "react-router-dom";
 
-export default function TreeSegView() {
+export default function TreeSegView({ }) {
   const theme = useTheme();
+  const { lessonId } = useParams();
   const [childData, setChildData] = useState({ data: null });
   const childToParent = (data) => {
     setChildData(data);
@@ -17,7 +18,7 @@ export default function TreeSegView() {
   if (childData.data === null) {
     return (
       <NavLayout mode="flex">
-        <Tree childToParent={childToParent} />
+        <Tree childToParent={childToParent} lessonId={lessonId} />
       </NavLayout>
     );
   }
@@ -33,7 +34,7 @@ export default function TreeSegView() {
         }}
       >
         <Box sx={{ gridArea: "tree", display: "flex", alignItems: "center" }}>
-          <Tree childToParent={childToParent} />
+          <Tree childToParent={childToParent} lessonId={lessonId} />
         </Box>
         <Box
           sx={{
@@ -90,8 +91,8 @@ export default function TreeSegView() {
               </Grid>
               <Grid item>
                 <RoundedButton
-                label={"Zobacz poprzednie wyniki"}
-                active={true}>
+                  label={"Zobacz poprzednie wyniki"}
+                  active={true}>
                 </RoundedButton>
               </Grid>
               <Grid item>

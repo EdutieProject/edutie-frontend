@@ -10,7 +10,7 @@ import {
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { useTheme } from "@mui/material";
 
-export default function Tree({ childToParent }) {
+export default function Tree({ childToParent, lessonId }) {
   const theme = useTheme();
 
   const [error, setError] = useState();
@@ -22,25 +22,19 @@ export default function Tree({ childToParent }) {
   useEffect(() => {
     setIsLoading(true);
     try {
-      getSciences().then((sciences) =>
-        getCourses(sciences.data[0].id).then((courses) =>
-          getLessons(courses.data[0].id).then((lessons) =>
-            getSegments(lessons.data[0].lesson.id).then((segments) => {
-              setSegmentsData(segments);
-              setMainSegment(
-                segments.data.find((o) => o.segment.previousElement === null)
-              );
-              setChildrenSegmentsIds(
-                segments.data.find((o) => o.segment.previousElement === null)
-                  .segment.nextElements
-              );
-              childToParent(
-                segments.data.find((o) => o.segment.previousElement === null)
-              );
-            })
-          )
-        )
-      );
+      getSegments(lessonId).then((segments) => {
+        setSegmentsData(segments);
+        setMainSegment(
+          segments.data.find((o) => o.segment.previousElement === null)
+        );
+        setChildrenSegmentsIds(
+          segments.data.find((o) => o.segment.previousElement === null)
+            .segment.nextElements
+        );
+        childToParent(
+          segments.data.find((o) => o.segment.previousElement === null)
+        );
+      });
     } catch (e) {
       console.log(e);
       setError(e);
@@ -81,12 +75,12 @@ export default function Tree({ childToParent }) {
                   mainSegment.segment.previousElement === null
                     ? theme.palette.primary.main
                     : segmentsData.data.find(
-                        (o) =>
-                          o.segment.id ===
-                          mainSegment.segment.previousElement.id
-                      ).segment.done === true
-                    ? theme.palette.primary.main
-                    : theme.palette.surface.main
+                      (o) =>
+                        o.segment.id ===
+                        mainSegment.segment.previousElement.id
+                    ).segment.done === true
+                      ? theme.palette.primary.main
+                      : theme.palette.surface.main
                 }
                 size="7vw"
                 onClick={() => {
@@ -120,12 +114,12 @@ export default function Tree({ childToParent }) {
                     mainSegment.segment.previousElement === null
                       ? ""
                       : segmentsData.data.find(
-                          (o) =>
-                            o.segment.id ===
-                            mainSegment.segment.previousElement.id
-                        ).segment.done === false
-                      ? ""
-                      : theme.palette.primary.main
+                        (o) =>
+                          o.segment.id ===
+                          mainSegment.segment.previousElement.id
+                      ).segment.done === false
+                        ? ""
+                        : theme.palette.primary.main
                   }
                   fontFamily="Baloo"
                   fontSize="4vw"
@@ -133,12 +127,12 @@ export default function Tree({ childToParent }) {
                   {mainSegment.segment.previousElement === null
                     ? "x"
                     : segmentsData.data.find(
-                        (o) =>
-                          o.segment.id ===
-                          mainSegment.segment.previousElement.id
-                      ).segment.done === true
-                    ? "x"
-                    : "?"}
+                      (o) =>
+                        o.segment.id ===
+                        mainSegment.segment.previousElement.id
+                    ).segment.done === true
+                      ? "x"
+                      : "?"}
                 </Typography>
               </Circle>
 
@@ -149,9 +143,9 @@ export default function Tree({ childToParent }) {
               >
                 {mainSegment.segment.previousElement != null
                   ? segmentsData.data.find(
-                      (o) =>
-                        o.segment.id === mainSegment.segment.previousElement.id
-                    ).segment.name
+                    (o) =>
+                      o.segment.id === mainSegment.segment.previousElement.id
+                  ).segment.name
                   : "Wstęp"}
               </Typography>
             </Box>

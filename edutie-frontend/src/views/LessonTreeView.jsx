@@ -1,9 +1,11 @@
-import { Box, Grid, Typography, useTheme } from "@mui/material";
+import { Box, ButtonBase, Grid, Typography, useTheme } from "@mui/material";
 import NavLayout from "./layout/NavLayout";
 import { useEffect, useState } from "react";
 import { getCourses, getLessons, getSciences } from "../services/studyProgramLearningService";
 import Xarrow from "react-xarrows";
 import LoadingView from "./common/LoadingView";
+import { useNavigate } from "react-router-dom";
+import { navigationPath } from "../config/navigation";
 
 class TreeGridInitializer {
     static getFirstLevel(data) {
@@ -62,17 +64,20 @@ export default function LessonTreeView() {
 
 function LessonViewTile({ lessonView }) {
     const theme = useTheme();
+    const navigate = useNavigate();
 
     return (
         <Box sx={{ display: "flex", flexDirection: "column", gap: theme.spacing(2), alignItems: "center" }}>
-            <Box sx={{
+            <ButtonBase sx={{
                 borderRadius: 5,
                 border: "3px solid",
                 borderColor: theme.palette.primary.main,
                 backgroundColor: lessonView.done ? theme.palette.primary.light : theme.palette.surface.main,
                 padding: theme.spacing(4),
                 position: "relative"
-            }}>
+            }}
+            onClick={() => navigate(navigationPath.fillPath(navigationPath.segmentTree, lessonView.lesson.id))}
+            >
                 <Box id={lessonView.lesson.id} sx={{ position: "absolute", top: 0, left: 0, height: "100%", width: "100%", display: "grid", placeItems: "center", zIndex: 1 }}>
                     {lessonView.done ?
                         <Typography variant="h3" color={theme.palette.common.white} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>x</Typography>
@@ -85,7 +90,7 @@ function LessonViewTile({ lessonView }) {
                             curveness={0.2} color={theme.palette.grey[200]} showHead={false} showTail={false} zIndex={-1} />
                         : <></>
                 }
-            </Box>
+            </ButtonBase>
             <Typography variant="h5" fontFamily={"Baloo"} zIndex={1}>{lessonView.lesson.name}</Typography>
         </Box>
     )
