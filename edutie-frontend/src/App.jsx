@@ -10,6 +10,7 @@ import AccountView from "./views/AccountView";
 import { navigationPath } from "./config/navigation";
 import TreeSegView from "./views/TreeSegView";
 import ExcerciseView from "./views/ExerciseView";
+import LessonTreeView from "./views/LessonTreeView";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path={navigationPath.home} element={<HomeView />} />
+            <Route path={navigationPath.lessonTree} element={<LessonTreeView />} />
             <Route path={navigationPath.exercise} element={<ExcerciseView />} />
             <Route path={navigationPath.account} element={<AccountView />} />
             <Route path={navigationPath.segment} element={<PlaygroundView />} />

@@ -2,6 +2,7 @@ import { Container, Typography, Button, Grid, Box } from "@mui/material";
 import User from "../assets/img/User.png";
 import PieChart from "../components/charts/PieChart";
 import LineChart from "../components/charts/LineChart";
+import NavLayout from "./layout/NavLayout";
 
 function UserCircle() {
   const size = 250;
@@ -116,7 +117,7 @@ export default function AccountView() {
   };
 
   return (
-    <Container>
+    <NavLayout>
       <Grid width="80vw" container direction="row">
         <Grid item xs={12}>
           <Typography
@@ -144,6 +145,6 @@ export default function AccountView() {
           <LineChart />
         </Grid>
       </Grid>
-    </Container>
+    </NavLayout>
   );
 }

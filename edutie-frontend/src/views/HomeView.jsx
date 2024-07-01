@@ -98,8 +98,8 @@ function HomeTile({imgSrc, title, middle, right, href}) {
                 </Typography>
                 <Typography variant="body1">
                     {right}
-                </Typography>
-                <Button variant="contained" disableElevation endIcon={<ChevronRight/>} href={href}>
+                </Typography> 
+                <Button variant="contained" disableElevation href={href}>
                     Przejdź
                 </Button>
             </Grid>
