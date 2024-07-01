@@ -4,6 +4,8 @@ import Tree from "../components/Tree.jsx";
 import Surface from "../components/global/Surface";
 import ChevronRight from "@material-ui/icons/ChevronRight";
 import { useEffect, useState } from "react";
+import CircleButton from "../components/global/CircleButton.jsx";
+import RoundedButton from "../components/global/RoundedButton.jsx";
 
 export default function TreeSegView() {
   const theme = useTheme();
@@ -30,7 +32,7 @@ export default function TreeSegView() {
           gridTemplateAreas: `"tree" "tree" "footer"`,
         }}
       >
-        <Box sx={{ gridArea: "tree" }}>
+        <Box sx={{ gridArea: "tree", display: "flex", alignItems: "center" }}>
           <Tree childToParent={childToParent} />
         </Box>
         <Box
@@ -87,15 +89,15 @@ export default function TreeSegView() {
                 </Typography>
               </Grid>
               <Grid item>
-                <Button
-                  style={{ borderRadius: 50 }}
-                  sx={{ boxShadow: theme.shadows[4] }}
-                  variant="contained"
-                  disableElevation
-                  endIcon={<ChevronRight />}
-                >
-                  Zobacz poprzednie wyniki
-                </Button>
+                <RoundedButton
+                label={"Zobacz poprzednie wyniki"}
+                active={true}>
+                </RoundedButton>
+              </Grid>
+              <Grid item>
+                <CircleButton size={theme.spacing(3)}>
+                  <Typography fontFamily={"Baloo"} fontSize={36} color={theme.palette.common.white}>{">"}</Typography>
+                </CircleButton>
               </Grid>
             </Grid>
           </Surface>
