@@ -33,6 +33,8 @@ body {
   /* html acts as a flex-container for body */
   display: flex;
   flex-direction: column;
+  /* hide overflow & allow explicit scroll in the application */
+  overflow: hidden;
 }
 
 /* FORCE THE CONTAINING DIV TO BE FULL SIZE*/

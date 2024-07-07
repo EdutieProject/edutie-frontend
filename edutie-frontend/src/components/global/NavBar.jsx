@@ -1,44 +1,11 @@
 import * as React from "react";
 import { Box, IconButton, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { setNavElement } from "../../features/redux/navigation/navigationSlice";
 import { useNavigate } from "react-router-dom";
-import DistributedLearningIcon from "../customIcons/DistributedLearningIcon";
-import { navigationPath } from "../../config/navigation";
-import { AndroidOutlined, MenuBook } from "@mui/icons-material";
+import { navElements } from "../../config/navigation";
 
-//TODO: move to navigation config
-const navElements = [
-  {
-    id: 1,
-    icon: <HomeOutlinedIcon fontSize="large" />,
-    href: navigationPath.home,
-  },
-  {
-    id: 2,
-    icon: <MenuBook fontSize="large" />,
-    href: navigationPath.fillPath(navigationPath.exercise, "DUPA", "DUPA2"),
-  },
-  {
-    id: 3,
-    icon: <DistributedLearningIcon fontSize="large" />,
-    href: navigationPath.courses,
-  },
-  {
-    id: 4,
-    icon: <PersonOutlinedIcon fontSize="large" />,
-    href: navigationPath.account,
-  },
-  {
-    id: 5,
-    icon: <AndroidOutlined fontSize="large" />,
-    href: "/playground",
-  },
-];
-
-//TODO: how about merging this into the navbar component ?
+//TODO: refactor & improve redux
 function NavElement({ item }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -47,30 +14,36 @@ function NavElement({ item }) {
   const activeNavElement = useSelector((state) => state.navigation.activeID);
 
   const press = (selectedItem) => {
-    console.log("button pressed", selectedItem.id);
+    console.log("Navigation button pressed", selectedItem.id);
     dispatch(setNavElement(selectedItem.id));
     navigate(selectedItem.href);
   };
 
+  let isActive = activeNavElement === item.id;
+
   return (
-    <IconButton
-      onClick={() => press(item)}
-      sx={{
-        backgroundColor:
-          activeNavElement == item.id
-            ? theme.palette.common.white
-            : "transparent",
-        color:
-          activeNavElement == item.id
-            ? theme.palette.primary.main
-            : theme.palette.common.white,
-        transform: "scale(1.3)",
+    <Box sx={{
+      paddingX: theme.spacing(4),
+      paddingY: theme.spacing(2),
+      position: "relative"
+    }}>
+      <Box sx={{
+        position: "absolute",
+        top: 0, left: 0, width: "100%", height: "100%",
+        backgroundColor: isActive ? theme.palette.common.white : "transparent",
+        boxShadow: isActive ? theme.shadows[3] : "none",
+        borderRadius: 2,
+        transform: "scaleX(1.08)"
       }}
-      disableRipple
-      disableFocusRipple
-    >
-      {item.icon}
-    </IconButton>
+      />
+      <IconButton
+        onClick={() => press(item)}
+        disableRipple
+        disableFocusRipple
+      >
+        {item.icon(isActive ? theme.palette.primary.main : theme.palette.common.white)}
+      </IconButton>
+    </Box>
   );
 }
 
@@ -82,9 +55,9 @@ export default function NavBar() {
       display: "flex",
       flexDirection: "column",
       backgroundColor: theme.palette.primary.main,
-      gap: theme.spacing(4),
-      padding: theme.spacing(4),
+      gap: theme.spacing(2),
       boxShadow: theme.shadows[4],
+      paddingY: theme.spacing(4)
     },
     wrapperBox: {
       display: "flex",
