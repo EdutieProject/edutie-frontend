@@ -122,7 +122,7 @@ function HomeTile({ course = { img, title }, lesson = { img, title, tag } }) {
     }
     const Tag = () => (<div style={styles.tag}>{lesson.tag}</div>)
     return (
-        <Surface style={{ padding: "1rem", paddingRight: "2rem" }}>
+      <Surface style={{ padding: "1rem", paddingRight: "2rem" }}>
             <Grid>
                 <Tag />
                 <Grid container justifyContent="space-between">

@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import Surface from '../components/global/Surface';
 import useEnumValue from '../hooks/alternative/useEnumValue';
 import CircleButton from '../components/global/CircleButton';
+import TurnAroundIcon from '../components/customIcons/TurnAroundIcon';
 
 export default function ExcerciseView() {
   const theme = useTheme();
@@ -145,7 +146,6 @@ function ActivityBlock() {
         </Surface>
         <Box sx={{gridArea: "button", display: "flex", alignItems: "center", justifyContent: "center"}}>
           <CircleButton size={theme.spacing(7)} onClick={()=>console.log("Button click!")}>
-            {/* <ChevronRight sx={{color: theme.palette.common.white, fontSize: 64}}/> */}
             <Typography fontFamily={"Baloo"} fontSize={64} color={theme.palette.common.white}>{">"}</Typography>
           </CircleButton>
         </Box>
@@ -156,7 +156,22 @@ function ActivityBlock() {
 function HintTile({ hintText }) {
   const theme = useTheme();
   const [revealed, setRevealed] = useState(false);
-    
+  
+  if (revealed === false)
+    return (
+      <Surface sx={{
+        backgroundColor: theme.palette.secondary.main, 
+        flex: "0 0 auto", 
+        aspectRatio: "5/3",
+        display: "grid",
+        placeItems: "center"
+        }}
+        onClick={()=>setRevealed(true)}
+        >
+        <TurnAroundIcon/>
+      </Surface>
+    );
+
   return (
     <Surface sx={{backgroundColor: theme.palette.common.white, flex: "0 0 auto", aspectRatio: "5/3"}}>
       <Typography variant='body1'>{hintText}</Typography>
