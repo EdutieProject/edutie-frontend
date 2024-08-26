@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import Surface from '../components/global/Surface';
 import useEnumValue from '../hooks/alternative/useEnumValue';
 import CircleButton from '../components/global/CircleButton';
+import TurnAroundIcon from '../components/customIcons/TurnAroundIcon';
 
 import Broke from "../assets/svg/broke.svg";
 import CloseIcon from '@mui/icons-material/Close';
@@ -26,6 +27,7 @@ export default function ExcerciseView() {
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box>
           <Typography fontFamily={"Baloo"} variant='h3'>Elektrowstrząsy</Typography>
+
           <Typography variant="body1">Elektrostatyka - Różnica potencjałów</Typography>
           <SimpleBackdrop></SimpleBackdrop>
         </Box>

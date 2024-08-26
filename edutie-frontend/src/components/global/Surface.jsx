@@ -13,10 +13,10 @@ const StyledBox = styled(Box)(({ theme }) => ({
  * @param {import("@mui/material").SxProps} props.sx custom styles
  * @returns React Component
  */
-export default function Surface({ children, sx }) {
+export default function Surface({ children, sx, onClick }) {
   const theme = useTheme();
   return (
-    <StyledBox sx={{ boxShadow: theme.shadows[4], ...sx }}>
+    <StyledBox sx={{ boxShadow: theme.shadows[4], ...sx }} onClick={onClick}>
       {children}
     </StyledBox>
   );
