@@ -8,7 +8,6 @@ import useEnumValue from '../hooks/alternative/useEnumValue';
 import CircleButton from '../components/global/CircleButton';
 import TurnAroundIcon from '../components/customIcons/TurnAroundIcon';
 
-import Broke from "../assets/svg/broke.svg";
 import CloseIcon from '@mui/icons-material/Close';
 
 import HintTileList from '../features/Flashcards/HintTileList';
