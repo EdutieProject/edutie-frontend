@@ -12,8 +12,14 @@ export const MANAGEMENT_API = `${API_PATH}/management`;
 export const defaultHeaders = {
     Accept: "application/json",
     "Content-Type": "application/json;charset=UTF-8",
-    "Authorization": `Bearer ${await getAuthorizationToken()}`
-}; 
+};
+
+export async function getDefaultHeadersAuthenticated() {
+    return {
+        ...defaultHeaders,
+        "Authorization": `Bearer ${await getAuthorizationToken()}`
+    }
+}
 
 /**
  * Util function for client error generation
