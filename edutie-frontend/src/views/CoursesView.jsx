@@ -17,127 +17,139 @@ import {
   getSciences,
 } from "../services/studyProgramLearningService";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import LoadingView from "./common/LoadingView";
 
 export default function CoursesView() {
   const theme = useTheme();
   const [error, setError] = useState();
-  const [isLoading, setIsLoading] = useState(false);
-  const [coursesData, setCoursesData] = useState({ data: null });
-  const [filteredCourses, setFilteredCourses] = useState();
-  const [scienceName, setScienceName] = useState("");
-  const [sciencesData, setSciencesData] = useState({ data: null });
-  const [mainScienceId, setMainScienceId] = useState(0);
-  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [sciences, setSciences] = useState([]);
+  const [selectedScienceIndex, setSelectedScienceIndex] = useState(0);
 
   useEffect(() => {
     setIsLoading(true);
-    try {
-      getSciences().then((sciences) => {
-        setSciencesData(sciences);
-        setScienceName(sciences.data[mainScienceId].name);
-        getCourses(sciences.data[mainScienceId].id).then((courses) => {
-          setCoursesData(courses.data);
-          setFilteredCourses(courses.data);
-        });
-      });
-    } catch (e) {
-      console.log(e);
-      setError(e);
-    }
-    setIsLoading(false);
-  }, [scienceName]);
+    getSciences()
+      .then(
+        sciencesResponse => {
+          setSciences(sciencesResponse.data);
+          setError(sciencesResponse.error);
+        },
+      )
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  console.log(sciences);
+
 
   if (error) {
-    return error.name;
+    return <NavLayout>{error.code}</NavLayout>
   }
+
+  if (isLoading) {
+    return <LoadingView />;
+  }
+
+
+
   return (
     <NavLayout mode="flex">
-      {isLoading && <Typography>Poczekaj chwilę...</Typography>}
-      {!isLoading && filteredCourses !== undefined && coursesData !== null && (
-        <Grid container direction="row" justifyContent="space-between">
-          <Grid xs={8}>
-            <TextField
-              sx={{ marginBottom: 5 }}
-              id="outlined-search"
-              label="Wyszukaj kurs"
-              type="search"
-              onChange={(event) => {
-                setFilteredCourses(
-                  coursesData.filter((course) =>
-                    course.name
-                      .toLocaleLowerCase()
-                      .includes(event.target.value.toLowerCase())
-                  )
-                );
+      <Grid container direction="row" justifyContent="space-between">
+        <CourseList scienceId={sciences[selectedScienceIndex].id} />
+        <Grid>
+          <Grid
+            container
+            item
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            marginBottom="20px"
+          >
+            <IconButton
+              sx={{ color: "black" }}
+              onClick={() => {
+                if (sciences[selectedScienceIndex - 1]) {
+                  setSelectedScienceIndex(selectedScienceIndex - 1);
+                }
               }}
-            />
-
-            {filteredCourses
-              .slice((page - 1) * 3, page * 3)
-              .map((item, index) => (
-                <Surface sx={{ marginBottom: 6 }} key={index}>
-                  <Typography>{item.name}</Typography>
-                  <Typography>{item.educator.type}</Typography>
-                </Surface>
-              ))}
-            {filteredCourses.length > 3 ? (
-              <Pagination
-                count={Math.ceil(filteredCourses.length / 3)}
-                onChange={(e, value) => setPage(value)}
-              />
-            ) : (
-              <Typography color={theme.palette.surface.main[200]}>
-                Nie ma więcej wyszukiwań...
-              </Typography>
-            )}
-          </Grid>
-
-          <Grid>
-            <Grid
-              container
-              item
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-              marginBottom="20px"
             >
-              <IconButton
-                sx={{ color: "black" }}
-                onClick={() => {
-                  if (sciencesData.data[mainScienceId - 1]) {
-                    setScienceName(sciencesData.data[mainScienceId - 1].name);
-                    setMainScienceId(mainScienceId - 1);
-                  }
-                }}
-              >
-                <ChevronLeft />
-              </IconButton>
-              <Typography fontSize="large">{scienceName}</Typography>
-              <IconButton
-                sx={{ color: "black" }}
-                onClick={() => {
-                  if (sciencesData.data[mainScienceId + 1]) {
-                    setScienceName(sciencesData.data[mainScienceId + 1].name);
-                    setMainScienceId(mainScienceId + 1);
-                  }
-                }}
-              >
-                <ChevronRight />
-              </IconButton>
-            </Grid>
-
-            <img
-              src=".\src\assets\img\ExampleImage.webp"
-              alt="Science Picture"
-              width={250}
-            />
-
-            {
-              //TAGS MISSING
-            }
+              <ChevronLeft />
+            </IconButton>
+            <Typography fontSize="large">{sciences[selectedScienceIndex].name}</Typography>
+            <IconButton
+              sx={{ color: "black" }}
+              onClick={() => {
+                if (sciences[selectedScienceIndex + 1]) {
+                  setSelectedScienceIndex(selectedScienceIndex + 1);
+                }
+              }}
+            >
+              <ChevronRight />
+            </IconButton>
           </Grid>
+          <img
+            src=".\src\assets\img\ExampleImage.webp"
+            alt="Science Picture"
+            width={250}
+          />
         </Grid>
-      )}
+      </Grid>
     </NavLayout>
+  );
+}
+
+function CourseList({ scienceId }) {
+  const [allCourses, setAllCourses] = useState([]);
+
+  useEffect(() => {
+    getCourses(scienceId).then(coursesResponse => setAllCourses(coursesResponse.data));
+  }, []);
+
+  return (<CourseFilter courses={allCourses} />);
+}
+
+function CourseFilter({ courses }) {
+  const theme = useTheme();
+  const [page, setPage] = useState(1);
+  const [displayedCourses, setDisplayedCourses] = useState(courses);
+
+  useEffect(()=>{
+    setDisplayedCourses(courses.slice((page - 1) * 3, page * 3));
+  }, [courses, page]);
+
+  console.log(displayedCourses);
+
+  return (
+    <Grid xs={8}>
+      <TextField
+        sx={{ marginBottom: 5 }}
+        id="outlined-search"
+        label="Wyszukaj kurs"
+        type="search"
+      // onChange={(event) => {
+      //   setDisplayedCourses(
+      //     courses.filter((course) =>
+      //       course.name
+      //         .toLocaleLowerCase()
+      //         .includes(event.target.value.toLowerCase())
+      //     )
+      //   );
+      // }}
+      />
+      {displayedCourses.map((item, index) => (
+          <Surface sx={{ marginBottom: 6 }} key={index}>
+            <Typography>{item.name}</Typography>
+          </Surface>
+        ))}
+      {courses.length > 3 ? (
+        <Pagination
+          count={Math.ceil(courses.length / 3)}
+          onChange={(e, value) => setPage(value)}
+        />
+      ) : (
+        <Typography color={theme.palette.surface.main[200]}>
+          To koniec wyszukiwań...
+        </Typography>
+      )}
+    </Grid>
   );
 }
