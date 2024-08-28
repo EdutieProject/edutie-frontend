@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 
 //CODE IMPORTS
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   getCourses,
   getSciences,
@@ -23,7 +23,7 @@ export default function CoursesView() {
   const theme = useTheme();
   const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [sciences, setSciences] = useState([]);
+  let sciencesData = useRef([]);
   const [selectedScienceIndex, setSelectedScienceIndex] = useState(0);
 
   useEffect(() => {
@@ -31,15 +31,12 @@ export default function CoursesView() {
     getSciences()
       .then(
         sciencesResponse => {
-          setSciences(sciencesResponse.data);
+          sciencesData.current = sciencesResponse.data;
           setError(sciencesResponse.error);
         },
       )
       .finally(() => setIsLoading(false));
   }, []);
-
-  console.log(sciences);
-
 
   if (error) {
     return <NavLayout>{error.code}</NavLayout>
@@ -50,7 +47,7 @@ export default function CoursesView() {
   }
 
 
-
+  let sciences = sciencesData.current;
   return (
     <NavLayout mode="flex">
       <Grid container direction="row" justifyContent="space-between">
@@ -102,7 +99,7 @@ function CourseList({ scienceId }) {
 
   useEffect(() => {
     getCourses(scienceId).then(coursesResponse => setAllCourses(coursesResponse.data));
-  }, []);
+  }, [scienceId]);
 
   return (<CourseFilter courses={allCourses} />);
 }
