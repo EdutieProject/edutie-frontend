@@ -8,6 +8,7 @@ import {
   TextField,
   IconButton,
   Pagination,
+  Box,
 } from "@mui/material";
 
 //CODE IMPORTS
@@ -18,6 +19,7 @@ import {
 } from "../services/studyProgramLearningService";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import LoadingView from "./common/LoadingView";
+import Heading from "../components/global/Heading";
 
 export default function CoursesView() {
   const theme = useTheme();
@@ -107,12 +109,12 @@ function CourseList({ scienceId }) {
     });
   }, [scienceId]);
 
-  console.log(filteredCourses);
+  console.log(filteredCourses); // Note that the list is rendered twice with already proper data
 
   return (
     <Grid xs={8}>
       <TextField
-        sx={{ marginBottom: 5 }}
+        sx={{ marginBottom: theme.spacing(2) }}
         id="outlined-search"
         label="Wyszukaj kurs"
         type="search"
@@ -127,11 +129,11 @@ function CourseList({ scienceId }) {
           );
         }}
       />
-      {filteredCourses.slice((page - 1) * 3, page * 3).map((item, index) => (
-        <Surface sx={{ marginBottom: 6 }} key={index}>
-          <Typography>{item.name}</Typography>
-        </Surface>
-      ))}
+      {
+        filteredCourses
+          .slice((page - 1) * 3, page * 3)
+          .map((course, index) => <CourseTile course={course} key={index} />)
+      }
       {filteredCourses.length > 3 ? (
         <Pagination
           count={Math.ceil(filteredCourses.length / 3)}
@@ -143,5 +145,37 @@ function CourseList({ scienceId }) {
         </Typography>
       )}
     </Grid>
+  );
+}
+
+const CourseTile = ({ course }) => {
+  const theme = useTheme();
+
+  console.log(course);
+  return (
+    <Surface sx={{ my: theme.spacing(4), display: "flex", gap: theme.spacing(4) }}>
+      <Box width={"18%"}>
+        <img src={course.imageSource === null ?
+          "https://thumbs.dreamstime.com/b/trigonometry-formula-line-icon-vector-illustration-sign-isolated-contour-symbol-black-331770196.jpg"
+          : course.imageSource}
+          width="100%"
+        />
+      </Box>
+      <Box flexGrow={1}>
+        <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+          <Heading variant={"h3"}>{course.name}</Heading>
+          <Box sx={{ display: "flex", flexDirection: "row", gap: theme.spacing(2) }}>
+            {course.courseTags.map(tag =>
+              <Box sx={{ borderRadius: 25, backgroundColor: theme.palette.secondary.main, px: theme.spacing(2), py: theme.spacing(1), display: "grid", placeItems: "center" }}>
+                {tag.name}
+              </Box>
+            )}
+          </Box>
+        </Box>
+        <Typography variant="body1">
+          {course.description}
+        </Typography>
+      </Box>
+    </Surface>
   );
 }
