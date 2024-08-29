@@ -42,16 +42,11 @@ export const navElements = [
     {
       id: 4,
       icon: (color) => <CoursesCapIcon color={color} height={iconSize} width={iconSize}/>,
-      href: navigationPath.fillPath(navigationPath.lessonTree, "ID_KURSU")
+      href: navigationPath.courses
     },
     {
       id: 5,
       icon: (color) => <UserIcon color={color} height={iconSize} width={iconSize}/>,
       href: navigationPath.fillPath(navigationPath.account, "myself"),
-    },
-    {
-      id: 6,
-      icon: (color) => <AndroidOutlined color={color} height={iconSize} width={iconSize}/>,
-      href: '/playground',
     }
 ];
