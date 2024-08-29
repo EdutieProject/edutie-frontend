@@ -95,25 +95,19 @@ export default function CoursesView() {
 }
 
 function CourseList({ scienceId }) {
+  const theme = useTheme();
   const [allCourses, setAllCourses] = useState([]);
+  const [filteredCourses, setFilteredCourses] = useState([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    getCourses(scienceId).then(coursesResponse => setAllCourses(coursesResponse.data));
+    getCourses(scienceId).then(coursesResponse => {
+      setAllCourses(coursesResponse.data);
+      setFilteredCourses(coursesResponse.data);
+    });
   }, [scienceId]);
 
-  return (<CourseFilter courses={allCourses} />);
-}
-
-function CourseFilter({ courses }) {
-  const theme = useTheme();
-  const [page, setPage] = useState(1);
-  const [displayedCourses, setDisplayedCourses] = useState(courses);
-
-  useEffect(()=>{
-    setDisplayedCourses(courses.slice((page - 1) * 3, page * 3));
-  }, [courses, page]);
-
-  console.log(displayedCourses);
+  console.log(filteredCourses);
 
   return (
     <Grid xs={8}>
@@ -122,24 +116,25 @@ function CourseFilter({ courses }) {
         id="outlined-search"
         label="Wyszukaj kurs"
         type="search"
-      // onChange={(event) => {
-      //   setDisplayedCourses(
-      //     courses.filter((course) =>
-      //       course.name
-      //         .toLocaleLowerCase()
-      //         .includes(event.target.value.toLowerCase())
-      //     )
-      //   );
-      // }}
+        onChange={(event) => {
+          console.log(event.target.value.toLowerCase());
+          setFilteredCourses(
+            allCourses.filter((course) =>
+              course.name
+                .toLocaleLowerCase()
+                .includes(event.target.value.toLowerCase())
+            )
+          );
+        }}
       />
-      {displayedCourses.map((item, index) => (
-          <Surface sx={{ marginBottom: 6 }} key={index}>
-            <Typography>{item.name}</Typography>
-          </Surface>
-        ))}
-      {courses.length > 3 ? (
+      {filteredCourses.slice((page - 1) * 3, page * 3).map((item, index) => (
+        <Surface sx={{ marginBottom: 6 }} key={index}>
+          <Typography>{item.name}</Typography>
+        </Surface>
+      ))}
+      {filteredCourses.length > 3 ? (
         <Pagination
-          count={Math.ceil(courses.length / 3)}
+          count={Math.ceil(filteredCourses.length / 3)}
           onChange={(e, value) => setPage(value)}
         />
       ) : (

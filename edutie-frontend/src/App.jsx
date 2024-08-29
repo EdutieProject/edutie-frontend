@@ -20,19 +20,13 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path={navigationPath.home} element={<HomeView />} />
-            <Route
-              path={navigationPath.lessonTree}
-              element={<LessonTreeView />}
-            />
-            <Route
-              path={navigationPath.segmentTree}
-              element={<TreeSegView />}
-            />
+            <Route path={navigationPath.lessonTree} element={<LessonTreeView />}/>
+            <Route path={navigationPath.segmentTree} element={<TreeSegView />}/>
             <Route path={navigationPath.exercise} element={<ExcerciseView />} />
             <Route path={navigationPath.account} element={<AccountView />} />
             <Route path={navigationPath.segment} element={<PlaygroundView />} />
             <Route path={navigationPath.account} element={<AccountView />} />
-            <Route path="/playground" element={<CoursesView />} />
+            <Route path={navigationPath.courses} element={<CoursesView />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
