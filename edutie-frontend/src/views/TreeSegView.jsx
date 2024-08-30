@@ -96,7 +96,7 @@ export default function TreeSegView({ }) {
                 </RoundedButton>
               </Grid>
               <Grid item>
-                <CircleButton size={theme.spacing(3)}>
+                <CircleButton size={theme.spacing(3)} onClick={() => console.log("1!")}>
                   <Typography fontFamily={"Baloo"} fontSize={36} color={theme.palette.common.white}>{">"}</Typography>
                 </CircleButton>
               </Grid>

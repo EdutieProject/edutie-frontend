@@ -108,26 +108,6 @@ function TheoryBlock() {
   )
 }
 
-
-// function ActivityLayout({ children }) {
-//   const theme = useTheme();
-//   return (
-//     <Box sx={{
-//       flexGrow: 1,
-//       marginY: theme.spacing(4),
-//       display: "grid",
-//       gap: theme.spacing(4),
-//       gridTemplateColumns: 'repeat(6, 1fr)',
-//       gridTemplateRows: 'repeat(4, 1fr)',
-//       gridTemplateAreas: `
-//       "left left right right right right"
-//       "left left right right right right"
-//       "left left right right right right"
-//       "bottom bottom bottom bottom bottom button"
-//       `,
-//     }}> {children} </Box>
-//   )
-// }
 function ActivityLayout({ children }) {
   const theme = useTheme();
   return (
@@ -165,13 +145,14 @@ function ActivityBlock() {
       </Surface>
       <Surface sx={{ gridArea: "bottom", display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
         <Typography fontFamily={"Baloo"} variant='h4' marginY={theme.spacing(2)}>Użyj podpowiedzi</Typography>
-
-        <HintTileList />
-
+        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: theme.spacing(2) }}>
+            <HintTile hintText={"World"}/>
+            <HintTile hintText={"Hello"}/>
+            <HintTile hintText={"Universe"}/>
+          </Box>
       </Surface>
       <Box sx={{ gridArea: "button", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <CircleButton size={theme.spacing(7)} onClick={() => console.log("Button click!")}>
-          {/* <ChevronRight sx={{color: theme.palette.common.white, fontSize: 64}}/> */}
           <Typography fontFamily={"Baloo"} fontSize={64} color={theme.palette.common.white}>{">"}</Typography>
         </CircleButton>
       </Box>
@@ -179,11 +160,28 @@ function ActivityBlock() {
   )
 }
 
+
 function HintTile({ hintText }) {
   const theme = useTheme();
+  const [revealed, setRevealed] = useState(false);
+
+  if (revealed === false)
+    return (
+      <Surface sx={{
+        backgroundColor: theme.palette.secondary.main, 
+        flex: "0 0 auto", 
+        aspectRatio: "5/3",
+        display: "grid",
+        placeItems: "center"
+        }}
+        onClick={()=>setRevealed(true)}
+        >
+        <TurnAroundIcon/>
+      </Surface>
+    );
 
   return (
-    <Surface sx={{ backgroundColor: theme.palette.common.white, flex: "1 1", aspectRatio: "5/3" }}>
+    <Surface sx={{backgroundColor: theme.palette.common.white, flex: "0 0 auto", aspectRatio: "5/3"}}>
       <Typography variant='body1'>{hintText}</Typography>
     </Surface>
   );
