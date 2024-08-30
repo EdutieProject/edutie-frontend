@@ -2,18 +2,47 @@ import { Typography, Box, Grid, useTheme } from "@mui/material";
 import NavLayout from "./layout/NavLayout";
 import Tree from "../components/Tree.jsx";
 import Surface from "../components/global/Surface";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CircleButton from "../components/global/CircleButton.jsx";
 import RoundedButton from "../components/global/RoundedButton.jsx";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { navigationPath } from "../config/navigation.jsx";
+import LoadingView from "./common/LoadingView.jsx";
+import { generateLearningResource } from "../services/LearningService.js";
+import ErrorView from "./common/ErrorView.jsx";
 
 export default function TreeSegView({ }) {
   const theme = useTheme();
+  const navigate = useNavigate();
   const { lessonId } = useParams();
   const [childData, setChildData] = useState({ data: null });
+  const [exerciseLoading, setExerciseLoading] = useState(false);
+  const [exerciseGenerationError, setExerciseGenerationError] = useState(null);
   const childToParent = (data) => {
     setChildData(data);
   };
+
+  useEffect(() => {
+    if (exerciseLoading === false)
+      return;
+    generateLearningResource(childData.segment.learningResourceDefinitionId)
+      .then((learningResourceResponse => {
+        if (learningResourceResponse.success === false) {
+          setExerciseGenerationError(learningResourceResponse.error);
+          setExerciseLoading(false);
+        }
+        console.log(learningResourceResponse.data);
+        navigate(navigationPath.fillPath(navigationPath.exercise, learningResourceResponse.data.id), { state: learningResourceResponse.data });
+      }));
+  }, [exerciseLoading])
+
+  if (exerciseGenerationError !== null) {
+    return <ErrorView error={exerciseGenerationError}/>
+  }
+
+  if (exerciseLoading) {
+    return <LoadingView />
+  }
 
   if (childData.data === null) {
     return (
@@ -96,7 +125,10 @@ export default function TreeSegView({ }) {
                 </RoundedButton>
               </Grid>
               <Grid item>
-                <CircleButton size={theme.spacing(3)} onClick={() => console.log("1!")}>
+                <CircleButton
+                  size={theme.spacing(3)}
+                  onClick={() => setExerciseLoading(true)}
+                >
                   <Typography fontFamily={"Baloo"} fontSize={36} color={theme.palette.common.white}>{">"}</Typography>
                 </CircleButton>
               </Grid>

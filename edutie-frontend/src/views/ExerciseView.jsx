@@ -1,25 +1,23 @@
-import React, { useState } from 'react';
-import { Box, Grid, TextField, Typography, useTheme, Backdrop, Link, Button, IconButton, SvgIcon } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Grid, TextField, Typography, useTheme } from '@mui/material';
 import NavLayout from './layout/NavLayout';
 import RoundedButton from '../components/global/RoundedButton';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import Surface from '../components/global/Surface';
 import useEnumValue from '../hooks/alternative/useEnumValue';
 import CircleButton from '../components/global/CircleButton';
 import TurnAroundIcon from '../components/customIcons/TurnAroundIcon';
 
-import CloseIcon from '@mui/icons-material/Close';
-
-import HintTileList from '../features/Flashcards/HintTileList';
-
-
 
 export default function ExcerciseView() {
   const theme = useTheme();
-  const { segmentId, resourceId } = useParams();
+  const { resourceId } = useParams();
+  const { state } = useLocation();
+  const { learningResource } = state;
+
+
   const Views = Object.freeze({ THEORY: useEnumValue("THEORY"), ACTIVITY: useEnumValue("ACTIVITY") })
   const [currentView, setCurrentView] = useState(Views.THEORY);
-
 
   return (
     <NavLayout mode={"flex"}>
@@ -28,7 +26,7 @@ export default function ExcerciseView() {
           <Typography fontFamily={"Baloo"} variant='h3'>Elektrowstrząsy</Typography>
 
           <Typography variant="body1">Elektrostatyka - Różnica potencjałów</Typography>
-          
+
         </Box>
         <Box sx={{ display: "flex", gap: theme.spacing(4), alignItems: "center" }}>
           <RoundedButton label={"Teoria"} active={currentView == Views.THEORY} onClick={() => setCurrentView(Views.THEORY)} />
@@ -146,10 +144,10 @@ function ActivityBlock() {
       <Surface sx={{ gridArea: "bottom", display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
         <Typography fontFamily={"Baloo"} variant='h4' marginY={theme.spacing(2)}>Użyj podpowiedzi</Typography>
         <Box sx={{ display: "flex", justifyContent: "flex-end", gap: theme.spacing(2) }}>
-            <HintTile hintText={"World"}/>
-            <HintTile hintText={"Hello"}/>
-            <HintTile hintText={"Universe"}/>
-          </Box>
+          <HintTile hintText={"World"} />
+          <HintTile hintText={"Hello"} />
+          <HintTile hintText={"Universe"} />
+        </Box>
       </Surface>
       <Box sx={{ gridArea: "button", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <CircleButton size={theme.spacing(7)} onClick={() => console.log("Button click!")}>
@@ -168,20 +166,20 @@ function HintTile({ hintText }) {
   if (revealed === false)
     return (
       <Surface sx={{
-        backgroundColor: theme.palette.secondary.main, 
-        flex: "0 0 auto", 
+        backgroundColor: theme.palette.secondary.main,
+        flex: "0 0 auto",
         aspectRatio: "5/3",
         display: "grid",
         placeItems: "center"
-        }}
-        onClick={()=>setRevealed(true)}
-        >
-        <TurnAroundIcon/>
+      }}
+        onClick={() => setRevealed(true)}
+      >
+        <TurnAroundIcon />
       </Surface>
     );
 
   return (
-    <Surface sx={{backgroundColor: theme.palette.common.white, flex: "0 0 auto", aspectRatio: "5/3"}}>
+    <Surface sx={{ backgroundColor: theme.palette.common.white, flex: "0 0 auto", aspectRatio: "5/3" }}>
       <Typography variant='body1'>{hintText}</Typography>
     </Surface>
   );

@@ -11,7 +11,7 @@ export const navigationPath = {
     lessonTree: "/courses/:courseId",
     segmentTree: "/lessons/:lessonId",
     segment: "/segments/:segmentId",
-    exercise: "/segments/:segmentId/exercises/:resourceId",
+    exercise: "/learning-resource/:resourceId",
     account: "/profiles/:id",
     fillPath: (p, ...args) => {
         let counter = 0;
