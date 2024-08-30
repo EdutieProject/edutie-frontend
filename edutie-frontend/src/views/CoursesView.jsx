@@ -22,6 +22,8 @@ import LoadingView from "./common/LoadingView";
 import Heading from "../components/global/Heading";
 import CircleButton from "../components/global/CircleButton";
 import UserIcon from "../components/customIcons/UserIcon";
+import { useNavigate } from "react-router-dom";
+import { navigationPath } from "../config/navigation";
 
 export default function CoursesView() {
   const theme = useTheme();
@@ -153,6 +155,7 @@ function CourseList({ scienceId }) {
 
 const CourseTile = ({ course }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
   return (
     <Surface sx={{ my: theme.spacing(4), display: "flex", gap: theme.spacing(4) }}>
       <Box width={"15%"}>
@@ -182,7 +185,7 @@ const CourseTile = ({ course }) => {
               <UserIcon color={theme.palette.common.black} /> Author goes here
             </Box>
           </Box>
-          <CircleButton size={theme.spacing(3)}>
+          <CircleButton size={theme.spacing(3)} onClick={() => navigate(navigationPath.fillPath(navigationPath.lessonTree, course.id))}>
             <Typography fontFamily={"Baloo"} fontSize={24} color={theme.palette.common.white}>{">"}</Typography>
           </CircleButton>
         </Box>
