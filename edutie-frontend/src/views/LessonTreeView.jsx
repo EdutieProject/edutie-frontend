@@ -1,10 +1,10 @@
 import { Box, ButtonBase, Grid, Typography, useTheme } from "@mui/material";
 import NavLayout from "./layout/NavLayout";
 import { useEffect, useState } from "react";
-import { getCourses, getLessons, getSciences } from "../services/studyProgramLearningService";
+import { getLessons } from "../services/studyProgramLearningService";
 import Xarrow from "react-xarrows";
 import LoadingView from "./common/LoadingView";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { navigationPath } from "../config/navigation";
 
 class TreeGridInitializer {
@@ -30,14 +30,15 @@ class TreeGridInitializer {
 
 export default function LessonTreeView() {
     const theme = useTheme();
-    const [lessonsResponse, setLessonsResponse] = useState({ data: null });
+    const { courseId } = useParams();
+    const [lessonsResponse, setLessonsResponse] = useState({ data: null, error: null });
 
     useEffect(() => {
-        getSciences()
-            .then(sciences => getCourses(sciences.data[0].id)
-                .then(courses => getLessons(courses.data[0].id)
-                    .then(lessons => setLessonsResponse(lessons))));
+        getLessons(courseId).then(lessons => setLessonsResponse(lessons));
     }, []);
+
+    if (lessonsResponse.error !== null)
+        return <NavLayout>{lessonsResponse.error.code}</NavLayout>
 
     if (lessonsResponse.data === null)
         return (<LoadingView />);
@@ -76,7 +77,7 @@ function LessonViewTile({ lessonView }) {
                 padding: theme.spacing(4),
                 position: "relative"
             }}
-            onClick={() => navigate(navigationPath.fillPath(navigationPath.segmentTree, lessonView.lesson.id))}
+                onClick={() => navigate(navigationPath.fillPath(navigationPath.segmentTree, lessonView.lesson.id))}
             >
                 <Box id={lessonView.lesson.id} sx={{ position: "absolute", top: 0, left: 0, height: "100%", width: "100%", display: "grid", placeItems: "center", zIndex: 1 }}>
                     {lessonView.done ?
