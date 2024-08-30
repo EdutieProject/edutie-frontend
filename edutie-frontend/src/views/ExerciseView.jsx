@@ -28,7 +28,7 @@ export default function ExcerciseView() {
           <Typography fontFamily={"Baloo"} variant='h3'>Elektrowstrząsy</Typography>
 
           <Typography variant="body1">Elektrostatyka - Różnica potencjałów</Typography>
-          <SimpleBackdrop></SimpleBackdrop>
+          
         </Box>
         <Box sx={{ display: "flex", gap: theme.spacing(4), alignItems: "center" }}>
           <RoundedButton label={"Teoria"} active={currentView == Views.THEORY} onClick={() => setCurrentView(Views.THEORY)} />
@@ -186,77 +186,3 @@ function HintTile({ hintText }) {
     </Surface>
   );
 }
-
-function SimpleBackdrop() {
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  return (
-    <>
-      <Button onClick={handleOpen}>Pokaż błąd</Button>
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={open}
-
-      >
-        <Surface sx={{
-          display: "grid",
-          height: "60vh",
-          width: "75vh",
-          gridTemplateColumns: '1.3fr 1fr 1fr 0.8fr',
-          gridTemplateRows: '1fr 1fr 1fr',
-          gap: "0.5em",
-
-        }}>
-          <Box sx={{
-            gridColumn: "4", gridRow: "1",
-            display: "grid",
-            gridTemplateColumns: '1fr 1fr ',
-            gridTemplateRows: '1fr 0.4fr',
-
-          }}>
-            <IconButton color='error' sx={{fontSize:"6em", gridColumn: "2", gridRow: "1" }} onClick={handleClose}>
-              <CloseIcon  fontSize={"4em"} />
-            </IconButton>
-          </Box>
-
-          <Box sx={{ gridColumn: "1/2", gridRow: "2", justifySelf: "center", alignSelf:"center" }}>
-            <SvgIcon sx={{fontSize:"9em"}}>
-              <svg width="109" height="109" viewBox="0 0 109 109" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M37.868 104C10.8012 104 5 98.1986 5 71.132" stroke="#323232" stroke-width="10" stroke-linecap="round" />
-                <path d="M104 71.132C104 98.1986 98.1986 104 71.132 104" stroke="#323232" stroke-width="10" stroke-linecap="round" />
-                <path d="M71.132 5C98.1986 5 104 10.8012 104 37.868" stroke="#323232" stroke-width="10" stroke-linecap="round" />
-                <path d="M32.5001 76.5C37.5172 69.8208 45.5048 65.5 54.5023 65.5C63.4992 65.5 71.4868 69.8208 76.5039 76.5" stroke="#323232" stroke-width="10" stroke-linecap="round" />
-                <path d="M37.9999 43.561V43.5" stroke="#323232" stroke-width="10" stroke-linecap="round" />
-                <path d="M71.0001 43.561V43.5" stroke="#323232" stroke-width="10" stroke-linecap="round" />
-                <path d="M5 37.868C5 10.8012 10.8012 5 37.868 5" stroke="#323232" stroke-width="10" stroke-linecap="round" />
-              </svg>
-
-            </SvgIcon>
-          </Box>
-          <Box sx={{  gridColumn: "2/4", gridRow: "2/3" }}>
-            <Typography variant="h3" color="grey">Coś poszło nie tak...</Typography>
-
-            <Typography padding={"1em 0"} variant="body1" color="initial">Spróbuj ponownie później lub skontaktuj się ze specjalistą</Typography>
-
-            <Link href="#" sx={{ color: "#83AFEF", padding: "1em 0" }} underline="hover">
-              {'Zobacz szczegóły'}
-            </Link>
-          </Box>
-
-        </Surface>
-      </Backdrop>
-    </>
-  );
-}
-
-
-//border: "1px solid black",

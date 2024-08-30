@@ -6,6 +6,7 @@ import Xarrow from "react-xarrows";
 import LoadingView from "./common/LoadingView";
 import { useNavigate, useParams } from "react-router-dom";
 import { navigationPath } from "../config/navigation";
+import ErrorView from "./common/ErrorView";
 
 class TreeGridInitializer {
     static getFirstLevel(data) {
@@ -38,7 +39,7 @@ export default function LessonTreeView() {
     }, []);
 
     if (lessonsResponse.error !== null)
-        return <NavLayout>{lessonsResponse.error.code}</NavLayout>
+        return <ErrorView error={lessonsResponse.error}/>
 
     if (lessonsResponse.data === null)
         return (<LoadingView />);
