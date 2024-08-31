@@ -9,3 +9,13 @@ export async function generateLearningResource(learningResourceDefinitionId) {
         }
     );
 }
+
+export async function assessSolution(learningResourceId, solutionText, hintsRevealed) {
+    return await catchClientErrors(
+        async () => {
+            const body = JSON.stringify({ learningResourceId: learningResourceId, solutionSubmissionText: solutionText, hintsRevealedCount: hintsRevealed })
+            const response = await fetch(`${LEARNING_API}/learning-resource/assess-solution`, { method: "POST", headers: await getDefaultHeadersAuthenticated(), body: body })
+            return await response.json();
+        }
+    );
+}

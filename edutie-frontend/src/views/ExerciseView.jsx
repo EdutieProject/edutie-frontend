@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Box, Grid, TextField, Typography, useTheme } from '@mui/material';
 import NavLayout from './layout/NavLayout';
 import RoundedButton from '../components/global/RoundedButton';
@@ -7,6 +7,7 @@ import Surface from '../components/global/Surface';
 import useEnumValue from '../hooks/alternative/useEnumValue';
 import CircleButton from '../components/global/CircleButton';
 import TurnAroundIcon from '../components/customIcons/TurnAroundIcon';
+import { assessSolution } from '../services/LearningService';
 
 
 export default function ExcerciseView() {
@@ -38,7 +39,7 @@ export default function ExcerciseView() {
         currentView == Views.THEORY ?
           <TheoryBlock theory={learningResource.theory} /> :
           currentView == Views.ACTIVITY ?
-            <ActivityBlock activity={learningResource.activity} /> :
+            <ActivityBlock activity={learningResource.activity} learningResourceId={learningResource.id}/> :
             <>Critical Error! {/** TODO: Error messages */} </>
       }
     </NavLayout>
@@ -118,8 +119,19 @@ function ActivityLayout({ children }) {
   )
 }
 
-function ActivityBlock({ activity }) {
+function ActivityBlock({ learningResourceId, activity }) {
   const theme = useTheme();
+  const [hintsRevealed, setHintsRevealed] = useState(0);
+  const solutionText = useRef();
+
+  const bumpHintsRevealed = () => setHintsRevealed(hintsRevealed + 1);
+
+  const submitSolution = (lrId,  solutionText, hintsRevealed) => {
+    assessSolution(lrId, solutionText, hintsRevealed).then(
+      learningResultResponse => console.log(learningResultResponse)
+    );
+  };
+
   return (
     <ActivityLayout>
       <Surface sx={{ gridArea: "left" }}>
@@ -131,20 +143,26 @@ function ActivityBlock({ activity }) {
       <Surface sx={{ gridArea: "right" }}>
         <Typography fontFamily={"Baloo"} variant='h5' marginY={theme.spacing(2)}>Twoje rozwiązanie</Typography>
         <Typography variant='body1'>Opisz swoje rozwiązanie. Posłuż się przygotowanym do tego szablonem</Typography>
-        <TextField multiline fullWidth sx={{ backgroundColor: theme.palette.common.white, outline: "none", border: "none", borderRadius: 10, marginY: theme.spacing(4), paddingY: theme.spacing(2), "& fieldset": { border: 'none' }, }} minRows={8} maxRows={16} />
+        <TextField
+          multiline
+          fullWidth
+          sx={{ backgroundColor: theme.palette.common.white, outline: "none", border: "none", borderRadius: 10, marginY: theme.spacing(4), paddingY: theme.spacing(2), "& fieldset": { border: 'none' }, }}
+          minRows={8} maxRows={16}
+          onChange={(e) => { solutionText.current = e.target.value; }}
+        />
       </Surface>
       <Surface sx={{ gridArea: "bottom", display: "flex", justifyContent: "space-between", flexWrap: "nowrap" }}>
         <Typography fontFamily={"Baloo"} variant='h4' marginY={theme.spacing(2)}>Użyj podpowiedzi</Typography>
         <Grid container gap={theme.spacing(2)} justifyContent={"flex-end"}>
           {
             activity.hints.map(
-              (hint, i) => <HintTile hintText={hint.text} key={i} />
+              (hint, i) => <HintTile hintText={hint.text} key={i} bumpRevealedHints={bumpHintsRevealed} />
             )
           }
         </Grid>
       </Surface>
       <Box sx={{ gridArea: "button", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <CircleButton size={theme.spacing(7)} onClick={() => console.log("Button click!")}>
+        <CircleButton size={theme.spacing(7)} onClick={() => submitSolution(learningResourceId, solutionText.current, hintsRevealed)}>
           <Typography fontFamily={"Baloo"} fontSize={64} color={theme.palette.common.white}>{">"}</Typography>
         </CircleButton>
       </Box>
@@ -153,7 +171,7 @@ function ActivityBlock({ activity }) {
 }
 
 
-function HintTile({ hintText }) {
+function HintTile({ hintText, bumpRevealedHints }) {
   const theme = useTheme();
   const [revealed, setRevealed] = useState(false);
 
@@ -167,7 +185,7 @@ function HintTile({ hintText }) {
           display: "grid",
           placeItems: "center"
         }}
-          onClick={() => setRevealed(true)}
+          onClick={() => { setRevealed(true); bumpRevealedHints(); }}
         >
           <TurnAroundIcon />
         </Surface>
