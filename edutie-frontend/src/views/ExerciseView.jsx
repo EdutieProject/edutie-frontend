@@ -7,19 +7,39 @@ import Surface from '../components/global/Surface';
 import useEnumValue from '../hooks/alternative/useEnumValue';
 import CircleButton from '../components/global/CircleButton';
 import TurnAroundIcon from '../components/customIcons/TurnAroundIcon';
-import { assessSolution } from '../services/LearningService';
+import { assessSolution, getLearningResourceById } from '../services/LearningService';
+import LoadingView from './common/LoadingView';
+import ErrorView from './common/ErrorView';
 
 
 export default function ExcerciseView() {
   const theme = useTheme();
+  /* Learning resource parameters */
   const { resourceId } = useParams();
   const { state } = useLocation();
-  const learningResource = state;
-
-  console.log(state);
-
+  const [learningResource, setLearningResource] = useState(state);
+  /* Views display parameters */
+  const [error, setError] = useState(null);
   const Views = Object.freeze({ THEORY: useEnumValue("THEORY"), ACTIVITY: useEnumValue("ACTIVITY") })
   const [currentView, setCurrentView] = useState(Views.THEORY);
+
+  useEffect(() => {
+    if (learningResource !== null) 
+      return;
+    getLearningResourceById(resourceId)
+    .then(learningResourceResponse => {
+      setLearningResource(learningResourceResponse.data);
+      setError(learningResourceResponse.error);
+    })
+
+
+  }, [])
+
+  if (error)
+    return <ErrorView error={error}/>
+
+  if (learningResource === null)
+    return <LoadingView/>
 
   return (
     <NavLayout mode={"flex"}>
@@ -36,11 +56,9 @@ export default function ExcerciseView() {
         </Box>
       </Box>
       {
-        currentView == Views.THEORY ?
-          <TheoryBlock theory={learningResource.theory} /> :
           currentView == Views.ACTIVITY ?
-            <ActivityBlock activity={learningResource.activity} learningResourceId={learningResource.id}/> :
-            <>Critical Error! {/** TODO: Error messages */} </>
+            <ActivityBlock activity={learningResource.activity} learningResourceId={learningResource.id}/> 
+            : <TheoryBlock theory={learningResource.theory} />
       }
     </NavLayout>
   );

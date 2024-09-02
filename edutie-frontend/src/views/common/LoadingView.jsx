@@ -1,8 +1,6 @@
 import { Box, CircularProgress } from "@mui/material";
 import NavLayout from "../layout/NavLayout";
 
-
-
 export default function LoadingView() {
 
     return (
