@@ -140,7 +140,7 @@ function ActivityLayout({ children }) {
 function ActivityBlock({ learningResourceId, activity }) {
   const theme = useTheme();
   const [hintsRevealed, setHintsRevealed] = useState(0);
-  const solutionText = useRef();
+  const solutionText = useRef("");
 
   const bumpHintsRevealed = () => setHintsRevealed(hintsRevealed + 1);
 
