@@ -1,12 +1,9 @@
 import { Box, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Circle from "./global/Circle";
+import Circle from "../global/Circle";
 import {
   getSegments,
-  getCourses,
-  getLessons,
-  getSciences,
-} from "../services/studyProgramLearningService";
+} from "../../services/studyProgramLearningService";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { useTheme } from "@mui/material";
 

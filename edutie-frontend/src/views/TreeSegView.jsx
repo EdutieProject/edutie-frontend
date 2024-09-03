@@ -1,6 +1,6 @@
 import { Typography, Box, Grid, useTheme } from "@mui/material";
 import NavLayout from "./layout/NavLayout";
-import Tree from "../components/Tree.jsx";
+import Tree from "../components/tree/Tree.jsx";
 import Surface from "../components/global/Surface";
 import { useEffect, useState } from "react";
 import CircleButton from "../components/global/CircleButton.jsx";

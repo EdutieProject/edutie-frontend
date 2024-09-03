@@ -46,7 +46,7 @@ export default function LessonTreeView() {
 
     let treeLevelsArray = TreeGridInitializer.getTreeAsArray(lessonsResponse.data);
     return (
-        <NavLayout mode={"flex"}>
+        <NavLayout mode={"flex"} disablePadding>
             <Grid container sx={{ overflowY: "scroll" }}>
                 {
                     treeLevelsArray.map((treeLevel) =>

@@ -1,9 +1,9 @@
 import { Typography } from "@mui/material";
 
 /**
- * 
- * @param {params} param
- * @param {params.variant: string} heading variant
+ * Wrapper for ehnanced font usage
+ * @param {Object} params
+ * @param {string} params.variant variant
  * @returns 
  */
 export default function Heading({ variant, children }) {

@@ -20,9 +20,7 @@ export default function ScienceCarousel({ sciences, setActiveScience }) {
   };
 
   return (
-    
-     <Box sx={{position: "relative", paddingY: theme.spacing(16), borderRadius: 4, overflow: "hidden"}}>
-      {/* TODO: move styling to style class */}
+    <Box sx={{ position: "relative", paddingY: theme.spacing(16), borderRadius: 4, overflow: "hidden" }}>
       {sciences.map((science, index) => (
         <img
           key={index}
@@ -33,25 +31,26 @@ export default function ScienceCarousel({ sciences, setActiveScience }) {
 
       ))}
       <Typography variant="h2" fontFamily="Baloo" sx={{
-        textAlign: 'center', 
-        position: "absolute", 
-        left:"50%", 
-        top:"10%", 
-        color: theme.palette.common.white, 
-        zIndex: 1, 
-        transform: "translateX(-50%)", 
-        textShadow: "black 2px 2px 2px"}}
+        textAlign: 'center',
+        position: "absolute",
+        left: "50%",
+        top: "10%",
+        color: theme.palette.common.white,
+        zIndex: 1,
+        transform: "translateX(-50%)",
+        textShadow: "black 2px 2px 2px"
+      }}
       >
-          {sciences[currentScienceIndex].name}
+        {sciences[currentScienceIndex].name}
       </Typography>
 
       {/** Repair buttons and their colors */}
 
-      <IconButton size='large' onClick={prevImage} sx={{position: "absolute", top: "50%", transform: "translateY(-50%)", left: "1rem"}}>
-        <ChevronLeft color='white'/>
+      <IconButton size='large' onClick={prevImage} sx={{ position: "absolute", top: "50%", transform: "translateY(-50%)", left: "1rem" }}>
+        <ChevronLeft color='white' />
       </IconButton>
-      <IconButton size='large' onClick={nextImage} sx={{position: "absolute", top: "50%", transform: "translateY(-50%)", right: "1rem"}}>
-        <ChevronRight color='white'/>
+      <IconButton size='large' onClick={nextImage} sx={{ position: "absolute", top: "50%", transform: "translateY(-50%)", right: "1rem" }}>
+        <ChevronRight color='white' />
       </IconButton>
     </Box>
   );
