@@ -8,7 +8,7 @@ import HomeView from "./views/HomeView";
 import PlaygroundView from "./views/PlaygroundView";
 import AccountView from "./views/AccountView";
 import { navigationPath } from "./config/navigation";
-import TreeSegView from "./views/TreeSegView";
+import SegmentTreeView from "./views/SegmentTreeView";
 import LessonTreeView from "./views/LessonTreeView";
 import CoursesView from "./views/CoursesView";
 import LearningResourceView from "./views/LearningResourceView";
@@ -21,7 +21,7 @@ export default function App() {
           <Routes>
             <Route path={navigationPath.home} element={<HomeView />} />
             <Route path={navigationPath.lessonTree} element={<LessonTreeView />} />
-            <Route path={navigationPath.segmentTree} element={<TreeSegView />} />
+            <Route path={navigationPath.segmentTree} element={<SegmentTreeView />} />
             <Route path={navigationPath.exercise} element={<LearningResourceView />} />
             <Route path={navigationPath.account} element={<AccountView />} />
             <Route path={navigationPath.segment} element={<PlaygroundView />} />
