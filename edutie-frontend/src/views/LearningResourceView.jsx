@@ -12,7 +12,7 @@ import LoadingView from './common/LoadingView';
 import ErrorView from './common/ErrorView';
 
 
-export default function ExcerciseView() {
+export default function LearningResourceView() {
   const theme = useTheme();
   /* Learning resource parameters */
   const { resourceId } = useParams();
