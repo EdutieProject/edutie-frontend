@@ -12,6 +12,7 @@ import TreeSegView from "./views/TreeSegView";
 import ExcerciseView from "./views/ExerciseView";
 import LessonTreeView from "./views/LessonTreeView";
 import CoursesView from "./views/CoursesView";
+import LRDCreationView from "./views/LRDCreationView";
 
 export default function App() {
   return (
@@ -20,13 +21,23 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path={navigationPath.home} element={<HomeView />} />
-            <Route path={navigationPath.lessonTree} element={<LessonTreeView />}/>
-            <Route path={navigationPath.segmentTree} element={<TreeSegView />}/>
+            <Route
+              path={navigationPath.lessonTree}
+              element={<LessonTreeView />}
+            />
+            <Route
+              path={navigationPath.segmentTree}
+              element={<TreeSegView />}
+            />
             <Route path={navigationPath.exercise} element={<ExcerciseView />} />
             <Route path={navigationPath.account} element={<AccountView />} />
             <Route path={navigationPath.segment} element={<PlaygroundView />} />
             <Route path={navigationPath.account} element={<AccountView />} />
             <Route path={navigationPath.courses} element={<CoursesView />} />
+            <Route
+              path={navigationPath.creation}
+              element={<LRDCreationView />}
+            />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
