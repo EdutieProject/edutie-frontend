@@ -12,20 +12,20 @@ export default function ErrorView({ error }) {
 
     return (
         <NavLayout mode="flex">
-            <Box sx={{ flexGrow: 1, display: "grid", placeItems: "center", transform: "translateY(-30%)" }}>
+            <Box sx={{ flexGrow: 1, display: "grid", placeItems: "center", transform: "translateY(-25%)" }}>
                 <Box sx={{ display: "flex", flexDirection: "row", gap: theme.spacing(12)}}>
                     <SadRoundSquareIcon height={"9rem"} width={"9rem"} />
-                    <Box>
+                    <Box maxWidth={"36rem"}>
                         <Typography variant="h3" color="grey">Coś poszło nie tak...</Typography>
 
                         <Typography padding={"1em 0"} variant="body1" color="initial">Spróbuj ponownie później lub skontaktuj się ze specjalistą</Typography>
 
-                        <Link href="#" sx={{ color: "#83AFEF", padding: "1em 0" }} underline="hover" onClick={() => setShowDetails(true)}>
+                        <Link sx={{ color: "#83AFEF", padding: "1em 0" }} underline="hover" onClick={() => setShowDetails(true)}>
                             {'Zobacz szczegóły'}
                         </Link>
                         {
                             showDetails ? (
-                            <Box>
+                            <Box sx={{width: "100%"}}>
                                 <Typography>Kod błędu: {error.code}</Typography>
                                 <Typography>Komunikat: {error.message}</Typography>
                             </Box>
