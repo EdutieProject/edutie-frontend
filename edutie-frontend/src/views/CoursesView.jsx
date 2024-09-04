@@ -24,7 +24,7 @@ import Heading from "../components/global/Heading";
 import CircleButton from "../components/global/CircleButton";
 import UserIcon from "../components/customIcons/UserIcon";
 import { useNavigate } from "react-router-dom";
-import { navigationPath } from "../config/navigation";
+import { navigationPath } from "../features/navigation";
 import ErrorView from "./common/ErrorView";
 
 export default function CoursesView() {

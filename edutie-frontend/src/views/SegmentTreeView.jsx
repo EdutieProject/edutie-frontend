@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import CircleButton from "../components/global/CircleButton.jsx";
 import RoundedButton from "../components/global/RoundedButton.jsx";
 import { useNavigate, useParams } from "react-router-dom";
-import { navigationPath } from "../config/navigation.jsx";
+import { navigationPath } from "../features/navigation.jsx";
 import LoadingView from "./common/LoadingView.jsx";
 import { generateLearningResource } from "../services/LearningService.js";
 import ErrorView from "./common/ErrorView.jsx";

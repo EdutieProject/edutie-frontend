@@ -5,7 +5,7 @@ import { getLessons } from "../services/studyProgramLearningService";
 import Xarrow from "react-xarrows";
 import LoadingView from "./common/LoadingView";
 import { useNavigate, useParams } from "react-router-dom";
-import { navigationPath } from "../config/navigation";
+import { navigationPath } from "../features/navigation";
 import ErrorView from "./common/ErrorView";
 
 class TreeGridInitializer {

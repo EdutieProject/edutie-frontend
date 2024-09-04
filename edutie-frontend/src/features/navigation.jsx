@@ -27,7 +27,6 @@ export const navElements = [
       id: 1,
       icon: (color) => <EdutieHomeIcon color={color} height={iconSize} width={iconSize}/>,
       href: navigationPath.home,
-  
     },
     {
       id: 2,

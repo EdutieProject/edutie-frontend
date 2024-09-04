@@ -3,7 +3,7 @@ import { Box, IconButton, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setNavElement } from "../../features/redux/navigation/navigationSlice";
 import { useNavigate } from "react-router-dom";
-import { navElements } from "../../config/navigation";
+import { navElements } from "../../features/navigation";
 
 //TODO: refactor & improve redux
 function NavElement({ item }) {
