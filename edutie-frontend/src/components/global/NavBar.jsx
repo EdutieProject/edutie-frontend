@@ -1,25 +1,12 @@
 import * as React from "react";
 import { Box, IconButton, useTheme } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { setNavElement } from "../../features/redux/navigation/navigationSlice";
 import { useNavigate } from "react-router-dom";
-import { navElements } from "../../features/navigation";
+import { navElements, SelectedNavigationSectionContext } from "../../features/navigation";
 
-//TODO: refactor & improve redux
-function NavElement({ item }) {
-  const dispatch = useDispatch();
+
+function NavElement({ item, isActive, setActiveNavbarElem }) {
   const navigate = useNavigate();
   const theme = useTheme();
-
-  const activeNavElement = useSelector((state) => state.navigation.activeID);
-
-  const press = (selectedItem) => {
-    console.log("Navigation button pressed", selectedItem.id);
-    dispatch(setNavElement(selectedItem.id));
-    navigate(selectedItem.href);
-  };
-
-  let isActive = activeNavElement === item.id;
 
   return (
     <Box sx={{
@@ -37,7 +24,11 @@ function NavElement({ item }) {
       }}
       />
       <IconButton
-        onClick={() => press(item)}
+        onClick={() => {
+          console.log("setting active navbar elem: " + item.id); 
+          setActiveNavbarElem(item.id); 
+          item.navigate(navigate);
+        }}
         disableRipple
         disableFocusRipple
       >
@@ -47,28 +38,35 @@ function NavElement({ item }) {
   );
 }
 
-export default function NavBar() {
+export default function NavBar({ activeSectionIdOverride }) {
   const theme = useTheme();
+  
+  const { selectedSectionId, setSelectedSectionId } = React.useContext(SelectedNavigationSectionContext);
 
-  const styles = {
-    navBox: {
+  console.log("selectedSectionId: " + selectedSectionId);
+
+  React.useEffect(() => {
+    if (activeSectionIdOverride == null)
+      return;
+    setSelectedSectionId(activeSectionIdOverride);
+  }, [activeSectionIdOverride])
+
+  return (
+    <Box sx={{
       display: "flex",
       flexDirection: "column",
       backgroundColor: theme.palette.primary.main,
       gap: theme.spacing(2),
       boxShadow: theme.shadows[4],
       paddingY: theme.spacing(4)
-    },
-    wrapperBox: {
-      display: "flex",
-      padding: theme.spacing(4),
-    },
-  };
-
-  return (
-    <Box sx={styles.navBox}>
-      {navElements.map((item) => (
-        <NavElement key={item.id} item={item} />
+    }}>
+      {navElements.map((item, idx) => (
+        <NavElement
+          key={idx}
+          item={item}
+          isActive={item.id === selectedSectionId}
+          setActiveNavbarElem={setSelectedSectionId}
+        />
       ))}
     </Box>
   );

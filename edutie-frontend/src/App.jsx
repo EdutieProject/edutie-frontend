@@ -1,12 +1,10 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Provider as ReduxProvider } from "react-redux";
-import { store } from "./features/redux/store";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme/Theme";
 
 import HomeView from "./views/HomeView";
 import AccountView from "./views/AccountView";
-import { navigationPath } from "./features/navigation";
+import { navigationPath, SelectedNavigationSectionProvider } from "./features/navigation";
 import SegmentTreeView from "./views/SegmentTreeView";
 import LessonTreeView from "./views/LessonTreeView";
 import CoursesView from "./views/CoursesView";
@@ -14,8 +12,8 @@ import LearningResourceView from "./views/LearningResourceView";
 
 export default function App() {
   return (
-    <ReduxProvider store={store}>
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <SelectedNavigationSectionProvider>
         <BrowserRouter>
           <Routes>
             <Route path={navigationPath.home} element={<HomeView />} />
@@ -26,7 +24,7 @@ export default function App() {
             <Route path={navigationPath.courses} element={<CoursesView />} />
           </Routes>
         </BrowserRouter>
-      </ThemeProvider>
-    </ReduxProvider>
+      </SelectedNavigationSectionProvider>
+    </ThemeProvider>
   );
 }

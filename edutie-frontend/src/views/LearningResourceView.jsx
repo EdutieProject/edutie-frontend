@@ -10,6 +10,7 @@ import TurnAroundIcon from '../components/customIcons/TurnAroundIcon';
 import { assessSolution, getLearningResourceById } from '../services/LearningService';
 import LoadingView from './common/LoadingView';
 import ErrorView from './common/ErrorView';
+import { navSections } from '../features/navigation';
 
 
 export default function LearningResourceView() {
@@ -30,9 +31,7 @@ export default function LearningResourceView() {
     .then(learningResourceResponse => {
       setLearningResource(learningResourceResponse.data);
       setError(learningResourceResponse.error);
-    })
-
-
+    });
   }, [])
 
   if (error)
