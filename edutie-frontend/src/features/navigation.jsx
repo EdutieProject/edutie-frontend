@@ -4,6 +4,7 @@ import ExcerciseNotebookIcon from '../components/customIcons/ExcerciseNotebookIc
 import UserIcon from '../components/customIcons/UserIcon';
 import CoursesCapIcon from '../components/customIcons/CoursesCapIcon';
 import { createContext, useState } from 'react';
+import { getSavedCourseId } from './storage/courseStorage';
 
 
 // ===== NAVIGATION PATHS ======
@@ -54,9 +55,6 @@ export const SelectedNavigationSectionProvider = ({ children }) => {
     </SelectedNavigationSectionContext.Provider>
   );
 }
-
-export const noSavedLessonIdPlaceholder = "no-lesson-id-saved";
-const getSavedCourseId = () => localStorage.getItem("currentLessonId") ?? noSavedLessonIdPlaceholder;
 
 
 // ===== NAVBAR ELEMENTS ========

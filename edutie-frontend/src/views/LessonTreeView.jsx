@@ -5,9 +5,10 @@ import { getLessons } from "../services/studyProgramLearningService";
 import Xarrow from "react-xarrows";
 import LoadingView from "./common/LoadingView";
 import { useNavigate, useParams } from "react-router-dom";
-import { navigationPath, navSections, noSavedLessonIdPlaceholder } from "../features/navigation";
+import { navigationPath, navSections } from "../features/navigation";
 import ErrorView from "./common/ErrorView";
 import NoContextView from "./common/NoContextView";
+import { noSavedCourseIdPlaceholder, saveCourseId } from "../features/storage/courseStorage";
 
 class TreeGridInitializer {
     static getFirstLevel(data) {
@@ -32,16 +33,18 @@ class TreeGridInitializer {
 
 export default function LessonTreeView() {
     const theme = useTheme();
+    /** Course Id may be injected from storage in the navigation */
     const { courseId } = useParams();
     const [lessonsResponse, setLessonsResponse] = useState({ data: null, error: null });
 
-    if (courseId === noSavedLessonIdPlaceholder)
+    if (courseId === noSavedCourseIdPlaceholder)
         return (<NoContextView>
             Aby tu wejść musisz najpierw wybrać kurs. Zrób to wchodząc w zakładkę kursów i wybierając jeden z nich!
         </NoContextView>);
 
     useEffect(() => {
         getLessons(courseId).then(lessons => setLessonsResponse(lessons));
+        saveCourseId(courseId);
     }, []);
 
     if (lessonsResponse.error !== null)
