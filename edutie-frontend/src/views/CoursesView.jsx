@@ -9,6 +9,7 @@ import {
   IconButton,
   Pagination,
   Box,
+  Skeleton,
 } from "@mui/material";
 
 //CODE IMPORTS
@@ -22,6 +23,9 @@ import LoadingView from "./common/LoadingView";
 import Heading from "../components/global/Heading";
 import CircleButton from "../components/global/CircleButton";
 import UserIcon from "../components/customIcons/UserIcon";
+import { useNavigate } from "react-router-dom";
+import { navigationPath } from "../features/navigation";
+import ErrorView from "./common/ErrorView";
 
 export default function CoursesView() {
   const theme = useTheme();
@@ -46,7 +50,7 @@ export default function CoursesView() {
   }, []);
 
   if (error) {
-    return <NavLayout>{error.code}</NavLayout>
+    return <ErrorView error={error}/>
   }
 
   if (isLoading) {
@@ -59,7 +63,7 @@ export default function CoursesView() {
   return (
     <NavLayout mode="flex">
       <Grid container direction="row" justifyContent="space-between" gap={theme.spacing(14)}>
-        <CourseList scienceId={selectedScience.id} />
+        <CourseList scienceId={selectedScience.id} setErrorInView={setError}/>
         <Grid sx={{flexGrow: 1}}>
           <Grid
             container
@@ -105,20 +109,53 @@ export default function CoursesView() {
   );
 }
 
-function CourseList({ scienceId }) {
+function CourseList({ scienceId, setErrorInView }) {
   const theme = useTheme();
   const [allCourses, setAllCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getCourses(scienceId).then(coursesResponse => {
+      if (coursesResponse.error !== null) {
+        setErrorInView(coursesResponse.error);
+        return;
+      }
       setAllCourses(coursesResponse.data);
       setFilteredCourses(coursesResponse.data);
+      setLoading(false);
     });
   }, [scienceId]);
 
   console.log(filteredCourses); // Note that the list is rendered twice with already proper data
+
+  if (loading) {
+    return (
+    <Grid xs={8}>
+      <TextField
+        sx={{ marginBottom: theme.spacing(2) }}
+        id="outlined-search"
+        label="Wyszukaj kurs"
+        type="search"
+        onChange={(event) => {
+          console.log(event.target.value.toLowerCase());
+          setFilteredCourses(
+            allCourses.filter((course) =>
+              course.name
+                .toLocaleLowerCase()
+                .includes(event.target.value.toLowerCase())
+            )
+          );
+        }}
+        disabled
+      />
+      <Skeleton height={"9rem"}/>
+      <Skeleton height={"9rem"}/>
+      <Skeleton height={"9rem"}/>
+    </Grid>
+    );
+  }
 
   return (
     <Grid xs={8}>
@@ -153,6 +190,7 @@ function CourseList({ scienceId }) {
 
 const CourseTile = ({ course }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
   return (
     <Surface sx={{ my: theme.spacing(4), display: "flex", gap: theme.spacing(4) }}>
       <Box width={"15%"}>
@@ -182,7 +220,7 @@ const CourseTile = ({ course }) => {
               <UserIcon color={theme.palette.common.black} /> Author goes here
             </Box>
           </Box>
-          <CircleButton size={theme.spacing(3)}>
+          <CircleButton size={theme.spacing(3)} onClick={() => navigate(navigationPath.fillPath(navigationPath.lessonTree, course.id))}>
             <Typography fontFamily={"Baloo"} fontSize={24} color={theme.palette.common.white}>{">"}</Typography>
           </CircleButton>
         </Box>

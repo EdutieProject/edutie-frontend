@@ -7,15 +7,15 @@ export default function CircleButton({ size, bgColor, onClick, children }) {
     bgColor = bgColor ? bgColor : theme.palette.primary;
     return (
         <ButtonBase sx={{
-            padding: size, 
-            borderRadius: "50%", 
+            padding: size,
+            borderRadius: "50%",
             backgroundColor: bgColor.main,
             position: "relative",
             boxShadow: theme.shadows[4],
             ":hover": { backgroundColor: bgColor.dark },
             transition: "ease 200ms"
-            }}
-        onClick={onClick}>
+        }}
+            onClick={onClick}>
             <Box sx={{
                 position: "absolute",
                 width: "100%",
@@ -26,7 +26,7 @@ export default function CircleButton({ size, bgColor, onClick, children }) {
                 alignItems: "center",
                 justifyContent: "center"
             }}>
-                { children }
+                {children}
             </Box>
         </ButtonBase>
     );

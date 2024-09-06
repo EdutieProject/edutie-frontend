@@ -1,35 +1,30 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Provider as ReduxProvider } from "react-redux";
-import { store } from "./features/redux/store";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme/Theme";
 
 import HomeView from "./views/HomeView";
-import PlaygroundView from "./views/PlaygroundView";
 import AccountView from "./views/AccountView";
-import { navigationPath } from "./config/navigation";
-import TreeSegView from "./views/TreeSegView";
-import ExcerciseView from "./views/ExerciseView";
+import { navigationPath, SelectedNavigationSectionProvider } from "./features/navigation";
+import SegmentTreeView from "./views/SegmentTreeView";
 import LessonTreeView from "./views/LessonTreeView";
 import CoursesView from "./views/CoursesView";
+import LearningResourceView from "./views/LearningResourceView";
 
 export default function App() {
   return (
-    <ReduxProvider store={store}>
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <SelectedNavigationSectionProvider>
         <BrowserRouter>
           <Routes>
             <Route path={navigationPath.home} element={<HomeView />} />
-            <Route path={navigationPath.lessonTree} element={<LessonTreeView />}/>
-            <Route path={navigationPath.segmentTree} element={<TreeSegView />}/>
-            <Route path={navigationPath.exercise} element={<ExcerciseView />} />
-            <Route path={navigationPath.account} element={<AccountView />} />
-            <Route path={navigationPath.segment} element={<PlaygroundView />} />
+            <Route path={navigationPath.lessonTree} element={<LessonTreeView />} />
+            <Route path={navigationPath.segmentTree} element={<SegmentTreeView />} />
+            <Route path={navigationPath.exercise} element={<LearningResourceView />} />
             <Route path={navigationPath.account} element={<AccountView />} />
             <Route path={navigationPath.courses} element={<CoursesView />} />
           </Routes>
         </BrowserRouter>
-      </ThemeProvider>
-    </ReduxProvider>
+      </SelectedNavigationSectionProvider>
+    </ThemeProvider>
   );
 }
