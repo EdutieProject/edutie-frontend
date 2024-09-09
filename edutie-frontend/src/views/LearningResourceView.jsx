@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Box, Grid, TextField, Typography, useTheme } from '@mui/material';
 import NavLayout from './layout/NavLayout';
 import RoundedButton from '../components/global/RoundedButton';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Surface from '../components/global/Surface';
 import useEnumValue from '../hooks/alternative/useEnumValue';
 import CircleButton from '../components/global/CircleButton';
@@ -10,7 +10,7 @@ import TurnAroundIcon from '../components/customIcons/TurnAroundIcon';
 import { assessSolution, getLearningResourceById } from '../services/LearningService';
 import LoadingView from './common/LoadingView';
 import ErrorView from './common/ErrorView';
-import { navSections } from '../features/navigation';
+import { navigationPath } from '../features/navigation';
 
 
 export default function LearningResourceView() {
@@ -23,22 +23,23 @@ export default function LearningResourceView() {
   const [error, setError] = useState(null);
   const Views = Object.freeze({ THEORY: useEnumValue("THEORY"), ACTIVITY: useEnumValue("ACTIVITY") })
   const [currentView, setCurrentView] = useState(Views.THEORY);
+  const [assessmentLoading, setAssessmentLoading] = useState(false);
 
   useEffect(() => {
-    if (learningResource !== null) 
+    if (learningResource !== null)
       return;
     getLearningResourceById(resourceId)
-    .then(learningResourceResponse => {
-      setLearningResource(learningResourceResponse.data);
-      setError(learningResourceResponse.error);
-    });
-  }, [])
+      .then(learningResourceResponse => {
+        setLearningResource(learningResourceResponse.data);
+        setError(learningResourceResponse.error);
+      });
+  }, []);
 
   if (error)
-    return <ErrorView error={error}/>
+    return <ErrorView error={error} />
 
   if (learningResource === null)
-    return <LoadingView/>
+    return <LoadingView />
 
   return (
     <NavLayout mode={"flex"}>
@@ -55,9 +56,14 @@ export default function LearningResourceView() {
         </Box>
       </Box>
       {
-          currentView == Views.ACTIVITY ?
-            <ActivityBlock activity={learningResource.activity} learningResourceId={learningResource.id}/> 
-            : <TheoryBlock theory={learningResource.theory} />
+        currentView == Views.ACTIVITY ?
+          <ActivityBlock
+            activity={learningResource.activity}
+            learningResourceId={learningResource.id}
+            setAssessmentLoading={setAssessmentLoading}
+            assessmentLoading={assessmentLoading}
+            setError={setError} />
+          : <TheoryBlock theory={learningResource.theory} />
       }
     </NavLayout>
   );
@@ -136,18 +142,27 @@ function ActivityLayout({ children }) {
   )
 }
 
-function ActivityBlock({ learningResourceId, activity }) {
+function ActivityBlock({ learningResourceId, activity, setAssessmentLoading, assessmentLoading, setError }) {
   const theme = useTheme();
+  const navigate = useNavigate();
   const [hintsRevealed, setHintsRevealed] = useState(0);
   const solutionText = useRef("");
 
   const bumpHintsRevealed = () => setHintsRevealed(hintsRevealed + 1);
 
-  const submitSolution = (lrId,  solutionText, hintsRevealed) => {
-    assessSolution(lrId, solutionText, hintsRevealed).then(
-      learningResultResponse => console.log(learningResultResponse)
-    );
-  };
+  useEffect(() => {
+    if (assessmentLoading)
+      assessSolution(learningResourceId, solutionText.current, hintsRevealed)
+        .then(learningResultResponse => {
+          console.log(learningResultResponse);
+          if (learningResultResponse.success === false) {
+            setError(learningResultResponse.error);
+            setAssessmentLoading(false);
+            return;
+          }
+          navigate(navigationPath.fillPath(navigationPath.learningResult, learningResultResponse.data.id), { state: learningResultResponse.data });
+        });
+  }, [assessmentLoading]);
 
   return (
     <ActivityLayout>
@@ -179,7 +194,7 @@ function ActivityBlock({ learningResourceId, activity }) {
         </Grid>
       </Surface>
       <Box sx={{ gridArea: "button", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <CircleButton size={theme.spacing(7)} onClick={() => submitSolution(learningResourceId, solutionText.current, hintsRevealed)}>
+        <CircleButton size={theme.spacing(7)} onClick={() => setAssessmentLoading(true)}>
           <Typography fontFamily={"Baloo"} fontSize={64} color={theme.palette.common.white}>{">"}</Typography>
         </CircleButton>
       </Box>
