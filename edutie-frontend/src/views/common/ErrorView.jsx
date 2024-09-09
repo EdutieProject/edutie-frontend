@@ -26,7 +26,7 @@ export default function ErrorView({ error }) {
                         {
                             showDetails ? (
                             <Box sx={{width: "100%"}}>
-                                <Typography>Kod błędu: {error.code}</Typography>
+                                <Typography>Kod błędu: {error.code ?? error}</Typography>
                                 <Typography>Komunikat: {error.message}</Typography>
                             </Box>
                             ) : (<></>)

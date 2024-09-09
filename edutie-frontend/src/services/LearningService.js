@@ -29,3 +29,13 @@ export async function getLearningResourceById(learningResourceId) {
         }
     );
 }
+
+export async function getLearningResultById(learningResultId) {
+    return await catchClientErrors(
+        async () => {
+            const response = await fetch(`${LEARNING_API}/learning-result?learningResultId=${learningResultId}`, 
+                { method: "GET", headers: await getDefaultHeadersAuthenticated()});
+            return await response.json();
+        }
+    );
+}

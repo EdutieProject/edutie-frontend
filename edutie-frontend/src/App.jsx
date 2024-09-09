@@ -2,13 +2,15 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme/Theme";
 
+import { navigationPath, SelectedNavigationSectionProvider } from "./features/navigation";
+
 import HomeView from "./views/HomeView";
 import AccountView from "./views/AccountView";
-import { navigationPath, SelectedNavigationSectionProvider } from "./features/navigation";
 import SegmentTreeView from "./views/SegmentTreeView";
 import LessonTreeView from "./views/LessonTreeView";
 import CoursesView from "./views/CoursesView";
 import LearningResourceView from "./views/LearningResourceView";
+import LearningResultView from "./views/LearningResultView";
 
 export default function App() {
   return (
@@ -22,6 +24,7 @@ export default function App() {
             <Route path={navigationPath.exercise} element={<LearningResourceView />} />
             <Route path={navigationPath.account} element={<AccountView />} />
             <Route path={navigationPath.courses} element={<CoursesView />} />
+            <Route path={navigationPath.learningResult} element={<LearningResultView />} />
           </Routes>
         </BrowserRouter>
       </SelectedNavigationSectionProvider>
