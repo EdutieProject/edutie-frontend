@@ -7,6 +7,7 @@ import ErrorView from "./common/ErrorView";
 import JoyColorfulFaceIcon from "../components/customIcons/JoyColorfulFaceIcon";
 import SadColorfulFaceIcon from "../components/customIcons/SadColorfulFaceIcon";
 import NormalColorfulFaceIcon from "../components/customIcons/NormalColorfulFaceIcon";
+import LoadingView from "./common/LoadingView";
 
 
 export default function LearningResultView() {
@@ -17,11 +18,13 @@ export default function LearningResultView() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (learningResult !== null)
+        if (learningResult != null) {
+            console.log("Learning result supplied. No fetching invoked");
             return;
+        }
         getLearningResultById(resultId)
             .then(learningResultResponse => {
-                console.log(learningResultResponse)
+                console.log(learningResultResponse);
                 setLearningResult(learningResultResponse.data);
                 setError(learningResultResponse.error);
             });
@@ -37,11 +40,14 @@ export default function LearningResultView() {
     if (error)
         return <ErrorView error={error} />
 
+    // if (learningResult == null)
+    //     return <LoadingView />
+
     return (
         <NavLayout mode="flex">
             <Box sx={{ flexGrow: 1, display: "grid", placeItems: "center", transform: "translateY(-25%)" }}>
                 <Box sx={{ display: "flex", flexDirection: "row", gap: theme.spacing(12) }}>
-                    { getIcon(learningResult.feedback.type) }
+                    {getIcon(learningResult.feedback.type)}
                     <Box maxWidth={"36rem"}>
                         <Typography variant="h3" color="grey">
                             {getHeading(learningResult.feedback.type)}

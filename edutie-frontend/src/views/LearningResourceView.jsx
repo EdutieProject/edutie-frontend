@@ -26,10 +26,13 @@ export default function LearningResourceView() {
   const [assessmentLoading, setAssessmentLoading] = useState(false);
 
   useEffect(() => {
-    if (learningResource !== null)
+    if (learningResource != null) {
+      console.log("Learning resource supplied. No fetching invoked");
       return;
+    }
     getLearningResourceById(resourceId)
       .then(learningResourceResponse => {
+        console.log(learningResourceResponse);
         setLearningResource(learningResourceResponse.data);
         setError(learningResourceResponse.error);
       });
@@ -38,8 +41,13 @@ export default function LearningResourceView() {
   if (error)
     return <ErrorView error={error} />
 
-  if (learningResource === null)
-    return <LoadingView />
+  if (learningResource === null || assessmentLoading)
+    return (<LoadingView><ActivityBlock
+      activity={learningResource.activity}
+      learningResourceId={learningResource.id}
+      setAssessmentLoading={setAssessmentLoading}
+      assessmentLoading={assessmentLoading}
+      setError={setError} /></LoadingView>);
 
   return (
     <NavLayout mode={"flex"}>
