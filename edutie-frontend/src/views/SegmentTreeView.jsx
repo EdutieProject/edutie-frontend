@@ -61,8 +61,9 @@ export default function SegmentTreeView() {
         if (learningResourceResponse.success === false) {
           setError(learningResourceResponse.error);
           setExerciseLoading(false);
+          return;
         }
-        console.log(learningResourceResponse.data);
+        console.log(learningResourceResponse);
         navigate(navigationPath.fillPath(navigationPath.exercise, learningResourceResponse.data.id), { state: learningResourceResponse.data });
       }));
   }, [exerciseLoading])
@@ -79,7 +80,7 @@ export default function SegmentTreeView() {
   }, [])
 
   if (error !== null) {
-    return <ErrorView error={exerciseGenerationError} />
+    return <ErrorView error={error} />
   }
 
   if (exerciseLoading || segmentsLoading || selectedSegment == null) {
