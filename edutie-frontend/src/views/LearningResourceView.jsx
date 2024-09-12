@@ -11,24 +11,8 @@ import { assessSolution, getLearningResourceById } from '../services/LearningSer
 import LoadingView from './common/LoadingView';
 import ErrorView from './common/ErrorView';
 import { navigationPath } from '../features/navigation';
-import Markdown from "react-markdown";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex"
 import MarkdownLaTeXRenderer from '../components/markdown/MarkdownLaTexRenderer';
 
-
-const preprocessMarkdown = (markdownText) => {
-  // Replace \[ with $$ and \] with $$ to ensure compatibility
-  const processedText = markdownText
-    .replace(/\\\[/g, '$$$')  // Replace all occurrences of \[ with $$
-    .replace(/\\\]/g, '$$$'); // Replace all occurrences of \] with $$
-
-  return processedText;
-};
-
-const remarkMathOptions = {
-  singleDollarTextMath: false,
-}
 
 
 export default function LearningResourceView() {
