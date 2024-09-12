@@ -172,7 +172,7 @@ function ActivityBlock({ learningResourceId, activity, setAssessmentLoading, ass
       "left right right"
       "left right right"
       `}}>
-        <Surface sx={{ gridArea: "left", overflowY: "scroll" }}>
+        <Surface sx={{ gridArea: "left" }}>
           <Typography fontFamily={"Baloo"} variant='h5' marginY={theme.spacing(2)}>Zadanie dla Ciebie</Typography>
           <Typography variant='body1'>
             <MarkdownLaTeXRenderer content={activity.activityText} />
