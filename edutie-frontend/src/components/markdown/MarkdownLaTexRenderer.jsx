@@ -9,9 +9,6 @@ import rehypeKatex from 'rehype-katex';
 
 const MarkdownLaTeXRenderer = ({ content }) => {
     // Replace \[ with $$ and \] with $$ to ensure compatibility
-
-    console.log(content);
-
     const processedText = content 
       .replace(/\\\[/g, '$$$')  // Replace all occurrences of \[ with $$
       .replace(/\\\]/g, '$$$') // Replace all occurrences of \] with $$

@@ -73,9 +73,9 @@ export default function LearningResourceView() {
     <NavLayout mode={"flex"} scroll>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box>
-          <Typography fontFamily={"Baloo"} variant='h3'>Elektrowstrząsy</Typography>
+          <Typography fontFamily={"Baloo"} variant='h3'>Naucz się</Typography>
 
-          <Typography variant="body1">Elektrostatyka - Różnica potencjałów</Typography>
+          <Typography variant="body1">{learningResource.definition.learningRequirements.map(o => o.name)}</Typography>
 
         </Box>
         <Box sx={{ display: "flex", gap: theme.spacing(4), alignItems: "center" }}>
@@ -122,13 +122,13 @@ function TheoryBlock({ theory }) {
   return (
     <TheoryLayout>
       <Surface sx={{ gridArea: "left" }}>
-        <Typography fontFamily={"Baloo"} variant='h5' marginY={theme.spacing(2)}>Czym są elektrowstrząsy?</Typography>
+        <Typography fontFamily={"Baloo"} variant='h5' marginY={theme.spacing(2)}>Materiały do nauki</Typography>
         <Typography variant='body1'>
           <MarkdownLaTeXRenderer content={theory.overview} />
         </Typography>
       </Surface>
       <Surface sx={{ gridArea: "right" }}>
-        <Typography fontFamily={"Baloo"} variant='h5' marginY={theme.spacing(2)}>Summary</Typography>
+        <Typography fontFamily={"Baloo"} variant='h5' marginY={theme.spacing(2)}>Podsumowanie</Typography>
         <MarkdownLaTeXRenderer content={theory.summary} />
       </Surface>
     </TheoryLayout>
