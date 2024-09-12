@@ -8,6 +8,7 @@ import JoyColorfulFaceIcon from "../components/customIcons/JoyColorfulFaceIcon";
 import SadColorfulFaceIcon from "../components/customIcons/SadColorfulFaceIcon";
 import NormalColorfulFaceIcon from "../components/customIcons/NormalColorfulFaceIcon";
 import LoadingView from "./common/LoadingView";
+import Markdown from "react-markdown";
 
 
 export default function LearningResultView() {
@@ -45,14 +46,14 @@ export default function LearningResultView() {
 
     return (
         <NavLayout mode="flex">
-            <Box sx={{ flexGrow: 1, display: "grid", placeItems: "center", transform: "translateY(-25%)" }}>
+            <Box sx={{ flexGrow: 1, display: "grid", placeItems: "center" }}>
                 <Box sx={{ display: "flex", flexDirection: "row", gap: theme.spacing(12) }}>
                     {getIcon(learningResult.feedback.type)}
                     <Box maxWidth={"36rem"}>
                         <Typography variant="h3" color="grey">
                             {getHeading(learningResult.feedback.type)}
                         </Typography>
-                        <Typography padding={"1em 0"} variant="body1" color="initial">{learningResult.feedback.text}</Typography>
+                        <Markdown children={learningResult.feedback.text}/>
                     </Box>
                 </Box>
             </Box>
