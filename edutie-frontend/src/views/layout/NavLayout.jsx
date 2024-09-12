@@ -9,9 +9,10 @@ import { useState } from "react";
  * @param {string} params.mode "flex" if you want the inside box to be flex container
  * @param {boolean} params.disablePadding whether to disable padding for the inside box
  * @param {string} params.activeSectionIdOverride active section Id - overriding the active elem in the navbar
+ * @param {boolean} params.scroll whether internal container should be scrollable
  * @returns 
  */
-export default function NavLayout({ children, mode, disablePadding, activeSectionIdOverride }) {
+export default function NavLayout({ children, mode, disablePadding, activeSectionIdOverride, scroll }) {
     const theme = useTheme();
 
     return (
@@ -32,6 +33,8 @@ export default function NavLayout({ children, mode, disablePadding, activeSectio
                     paddingX: disablePadding ? 0 : theme.spacing(16),
                     display: mode == "flex" ? "flex" : "block",
                     flexDirection: "column",
+                    overflowY: scroll ? "scroll" : "hidden",
+                    position: "relative"
                 }}>
                     {children}
                 </Box>
