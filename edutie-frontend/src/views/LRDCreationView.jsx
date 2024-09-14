@@ -7,19 +7,36 @@ import { useState } from "react";
 
 export default function LRDCreationView() {
   const theme = useTheme();
-  const [buttonClicked, setButtonClicked] = useState("firstButton");
-  const [firstButtonColor, setFirstButtonColor] = useState(
-    theme.palette.surface
-  );
-  const [secondButtonColor, setSecondButtonColor] = useState(
-    theme.palette.surface
-  );
-  const [thirdButtonColor, setThirdButtonColor] = useState(
-    theme.palette.surface
-  );
-  const [fourthButtonColor, setFourthButtonColor] = useState(
-    theme.palette.surface
-  );
+  const [buttonClicked, setButtonClicked] = useState(0);
+
+  const questions = [
+    {
+      id: 0,
+      question:
+        "Opisz, czego nauczy się uczeń podczas rozwiązywania tego zadania oraz jaki zakres teorii ono obejmuje:",
+    },
+    {
+      id: 1,
+      question:
+        "W kilku słowach wyszczególnij najważniejsze punkty zadania, czyli co uczeń osiągnie poprzez jego wykonanie:",
+    },
+    {
+      id: 2,
+      question: "Opisz szczegółowo, na czym będzie polegało dane zadanie:",
+    },
+    {
+      id: 3,
+      question:
+        "Wypisz kilka możliwych trudności, z którymi spotka się uczeń podczas tego zadania (na ich podstawie generowane będą podpowiedzi):",
+    },
+  ];
+  const [question, setQuestion] = useState(questions[0].question);
+  const answers = [
+    { id: 0, answer: "" },
+    { id: 1, answer: "" },
+    { id: 2, answer: "" },
+    { id: 3, answer: "" },
+  ];
 
   return (
     <NavLayout mode="flex">
@@ -77,20 +94,23 @@ export default function LRDCreationView() {
 
         <Grid sx={{ marginBottom: theme.spacing(2) }}>
           <Typography fontFamily={"Baloo"} variant="h6">
-            Opisz szczegółowo, na czym będzie polegało dane zadanie i czego
-            dotyczy:
+            {questions[buttonClicked].question}
           </Typography>
         </Grid>
         <Grid container>
-          <InputSurface buttonClicked={buttonClicked}></InputSurface>
-          {/* <Grid xs item>
+          <Grid xs item>
             <Surface>
               <Grid item sx={{ height: "30vh" }}>
                 <TextField
+                  defaultValue={answers[buttonClicked].answer}
                   label="Wprowadź odpowiedź"
                   multiline
                   fullWidth
                   maxRows={6}
+                  onChange={(event) => {
+                    answers[buttonClicked].answer = event.target.value;
+                    console.log(answers[buttonClicked].answer);
+                  }}
                 />
               </Grid>
               <Grid
@@ -100,13 +120,26 @@ export default function LRDCreationView() {
                   alignItems: "center",
                 }}
               >
-                <RoundedButton
-                  label={"Zapisz i przejdź dalej"}
-                  active={true}
-                ></RoundedButton>
+                {buttonClicked === 3 ? (
+                  <RoundedButton
+                    label={"Zapisz i zakończ"}
+                    active={true}
+                    onClick={() => {
+                      console.log("zapisać do bazy danych");
+                    }}
+                  ></RoundedButton>
+                ) : (
+                  <RoundedButton
+                    label={"Zapisz i przejdź dalej"}
+                    active={true}
+                    onClick={() => {
+                      setButtonClicked(buttonClicked + 1);
+                    }}
+                  ></RoundedButton>
+                )}
               </Grid>
             </Surface>
-          </Grid> */}
+          </Grid>
           <Grid
             container
             direction="column"
@@ -119,13 +152,11 @@ export default function LRDCreationView() {
             <Grid item sx={{ marginBottom: theme.spacing(1) }}>
               <CircleButton
                 onClick={() => {
-                  setButtonClicked("firstButton");
-                  setSecondButtonColor(theme.palette.surface);
-                  setFirstButtonColor("");
-                  setFourthButtonColor(theme.palette.surface);
-                  setThirdButtonColor(theme.palette.surface);
+                  setButtonClicked(0);
+
+                  setQuestion(questions[0].question);
                 }}
-                bgColor={firstButtonColor}
+                bgColor={buttonClicked === 0 ? "" : theme.palette.surface}
                 id="firstButton"
                 size={1}
               ></CircleButton>
@@ -133,13 +164,11 @@ export default function LRDCreationView() {
             <Grid item sx={{ marginBottom: theme.spacing(1) }}>
               <CircleButton
                 onClick={() => {
-                  setButtonClicked("secondButton");
-                  setSecondButtonColor("");
-                  setFirstButtonColor(theme.palette.surface);
-                  setFourthButtonColor(theme.palette.surface);
-                  setThirdButtonColor(theme.palette.surface);
+                  setButtonClicked(1);
+
+                  setQuestion(questions[1].question);
                 }}
-                bgColor={secondButtonColor}
+                bgColor={buttonClicked === 1 ? "" : theme.palette.surface}
                 id="secondButton"
                 size={1}
               ></CircleButton>
@@ -147,13 +176,11 @@ export default function LRDCreationView() {
             <Grid item sx={{ marginBottom: theme.spacing(1) }}>
               <CircleButton
                 onClick={() => {
-                  setButtonClicked("thirdButton");
-                  setSecondButtonColor(theme.palette.surface);
-                  setFirstButtonColor(theme.palette.surface);
-                  setFourthButtonColor(theme.palette.surface);
-                  setThirdButtonColor("");
+                  setButtonClicked(2);
+
+                  setQuestion(questions[2].question);
                 }}
-                bgColor={thirdButtonColor}
+                bgColor={buttonClicked === 2 ? "" : theme.palette.surface}
                 id="thirdButton"
                 size={1}
               ></CircleButton>
@@ -161,13 +188,11 @@ export default function LRDCreationView() {
             <Grid item sx={{ marginBottom: theme.spacing(1) }}>
               <CircleButton
                 onClick={() => {
-                  setButtonClicked("fourthButton");
-                  setSecondButtonColor(theme.palette.surface);
-                  setFirstButtonColor(theme.palette.surface);
-                  setFourthButtonColor("");
-                  setThirdButtonColor(theme.palette.surface);
+                  setButtonClicked(3);
+
+                  setQuestion(questions[3].question);
                 }}
-                bgColor={fourthButtonColor}
+                bgColor={buttonClicked === 3 ? "" : theme.palette.surface}
                 id="fourthButton"
                 size={1}
               ></CircleButton>
@@ -179,33 +204,41 @@ export default function LRDCreationView() {
   );
 }
 
-const InputSurface = ({ buttonClicked }) => {
-  const theme = useTheme();
-  console.log(buttonClicked);
-  return (
-    <Grid xs item>
-      <Surface>
-        <Grid item sx={{ height: "30vh" }}>
-          <TextField
-            label="Wprowadź odpowiedź"
-            multiline
-            fullWidth
-            maxRows={6}
-          />
-        </Grid>
-        <Grid
-          container
-          sx={{
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
-          <RoundedButton
-            label={"Zapisz i przejdź dalej"}
-            active={true}
-          ></RoundedButton>
-        </Grid>
-      </Surface>
-    </Grid>
-  );
-};
+// const InputSurface = ({ buttonClicked, answers }) => {
+//   const theme = useTheme();
+//   console.log(buttonClicked);
+//   return (
+//     <Grid xs item>
+//       <Surface>
+//         <Grid item sx={{ height: "30vh" }}>
+//           <TextField
+//             defaultValue={answers[buttonClicked].answer}
+//             label="Wprowadź odpowiedź"
+//             multiline
+//             fullWidth
+//             maxRows={6}
+//             onChange={(event) => {
+//               answers[buttonClicked].answer = event.target.value;
+//               console.log(answers[buttonClicked].answer);
+//             }}
+//           />
+//         </Grid>
+//         <Grid
+//           container
+//           sx={{
+//             justifyContent: "flex-end",
+//             alignItems: "center",
+//           }}
+//         >
+//           <RoundedButton
+//             label={"Zapisz i przejdź dalej"}
+//             active={true}
+//             onClick={() => {
+//               setButtonClicked(buttonClicked + 1);
+//             }}
+//           ></RoundedButton>
+//         </Grid>
+//       </Surface>
+//     </Grid>
+//   );
+// };
