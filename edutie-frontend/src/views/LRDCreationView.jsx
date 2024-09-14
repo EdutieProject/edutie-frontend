@@ -3,7 +3,7 @@ import NavLayout from "./layout/NavLayout";
 import Surface from "../components/global/Surface";
 import RoundedButton from "../components/global/RoundedButton.jsx";
 import CircleButton from "../components/global/CircleButton.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function LRDCreationView() {
   const theme = useTheme();
@@ -30,13 +30,28 @@ export default function LRDCreationView() {
         "Wypisz kilka możliwych trudności, z którymi spotka się uczeń podczas tego zadania (na ich podstawie generowane będą podpowiedzi):",
     },
   ];
-  const [question, setQuestion] = useState(questions[0].question);
-  const answers = [
-    { id: 0, answer: "" },
-    { id: 1, answer: "" },
-    { id: 2, answer: "" },
-    { id: 3, answer: "" },
-  ];
+
+  const [answers, setAnswers] = useState([
+    {
+      id: 0,
+      answer:
+        "Opisz, czego nauczy się uczeń podczas rozwiązywania tego zadania oraz jaki zakres teorii ono obejmuje:",
+    },
+    {
+      id: 1,
+      answer:
+        "W kilku słowach wyszczególnij najważniejsze punkty zadania, czyli co uczeń osiągnie poprzez jego wykonanie:",
+    },
+    {
+      id: 2,
+      answer: "Opisz szczegółowo, na czym będzie polegało dane zadanie:",
+    },
+    {
+      id: 3,
+      answer:
+        "Wypisz kilka możliwych trudności, z którymi spotka się uczeń podczas tego zadania (na ich podstawie generowane będą podpowiedzi):",
+    },
+  ]);
 
   return (
     <NavLayout mode="flex">
@@ -102,14 +117,20 @@ export default function LRDCreationView() {
             <Surface>
               <Grid item sx={{ height: "30vh" }}>
                 <TextField
-                  defaultValue={answers[buttonClicked].answer}
+                  value={answers[buttonClicked].answer}
                   label="Wprowadź odpowiedź"
                   multiline
                   fullWidth
                   maxRows={6}
                   onChange={(event) => {
-                    answers[buttonClicked].answer = event.target.value;
-                    console.log(answers[buttonClicked].answer);
+                    setAnswers(
+                      answers.map((answer, index) => {
+                        if (index === buttonClicked) {
+                          return { ...answers, answer: event.target.value };
+                        }
+                        return answer;
+                      })
+                    );
                   }}
                 />
               </Grid>
@@ -153,8 +174,6 @@ export default function LRDCreationView() {
               <CircleButton
                 onClick={() => {
                   setButtonClicked(0);
-
-                  setQuestion(questions[0].question);
                 }}
                 bgColor={buttonClicked === 0 ? "" : theme.palette.surface}
                 id="firstButton"
@@ -165,8 +184,6 @@ export default function LRDCreationView() {
               <CircleButton
                 onClick={() => {
                   setButtonClicked(1);
-
-                  setQuestion(questions[1].question);
                 }}
                 bgColor={buttonClicked === 1 ? "" : theme.palette.surface}
                 id="secondButton"
@@ -177,8 +194,6 @@ export default function LRDCreationView() {
               <CircleButton
                 onClick={() => {
                   setButtonClicked(2);
-
-                  setQuestion(questions[2].question);
                 }}
                 bgColor={buttonClicked === 2 ? "" : theme.palette.surface}
                 id="thirdButton"
@@ -189,8 +204,6 @@ export default function LRDCreationView() {
               <CircleButton
                 onClick={() => {
                   setButtonClicked(3);
-
-                  setQuestion(questions[3].question);
                 }}
                 bgColor={buttonClicked === 3 ? "" : theme.palette.surface}
                 id="fourthButton"
@@ -203,42 +216,3 @@ export default function LRDCreationView() {
     </NavLayout>
   );
 }
-
-// const InputSurface = ({ buttonClicked, answers }) => {
-//   const theme = useTheme();
-//   console.log(buttonClicked);
-//   return (
-//     <Grid xs item>
-//       <Surface>
-//         <Grid item sx={{ height: "30vh" }}>
-//           <TextField
-//             defaultValue={answers[buttonClicked].answer}
-//             label="Wprowadź odpowiedź"
-//             multiline
-//             fullWidth
-//             maxRows={6}
-//             onChange={(event) => {
-//               answers[buttonClicked].answer = event.target.value;
-//               console.log(answers[buttonClicked].answer);
-//             }}
-//           />
-//         </Grid>
-//         <Grid
-//           container
-//           sx={{
-//             justifyContent: "flex-end",
-//             alignItems: "center",
-//           }}
-//         >
-//           <RoundedButton
-//             label={"Zapisz i przejdź dalej"}
-//             active={true}
-//             onClick={() => {
-//               setButtonClicked(buttonClicked + 1);
-//             }}
-//           ></RoundedButton>
-//         </Grid>
-//       </Surface>
-//     </Grid>
-//   );
-// };
