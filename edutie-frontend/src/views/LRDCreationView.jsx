@@ -3,7 +3,7 @@ import NavLayout from "./layout/NavLayout";
 import Surface from "../components/global/Surface";
 import RoundedButton from "../components/global/RoundedButton.jsx";
 import CircleButton from "../components/global/CircleButton.jsx";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function LRDCreationView() {
   const theme = useTheme();
@@ -34,24 +34,30 @@ export default function LRDCreationView() {
   const [answers, setAnswers] = useState([
     {
       id: 0,
-      answer:
-        "Opisz, czego nauczy się uczeń podczas rozwiązywania tego zadania oraz jaki zakres teorii ono obejmuje:",
+      answer: "",
     },
     {
       id: 1,
-      answer:
-        "W kilku słowach wyszczególnij najważniejsze punkty zadania, czyli co uczeń osiągnie poprzez jego wykonanie:",
+      answer: "",
     },
     {
       id: 2,
-      answer: "Opisz szczegółowo, na czym będzie polegało dane zadanie:",
+      answer: "",
     },
     {
       id: 3,
-      answer:
-        "Wypisz kilka możliwych trudności, z którymi spotka się uczeń podczas tego zadania (na ich podstawie generowane będą podpowiedzi):",
+      answer: "",
     },
   ]);
+  let localAnswers = [];
+  function handleSubmission() {
+    console.log(localAnswers);
+    localStorage.clear();
+    localStorage.setItem("ans", JSON.stringify(answers));
+    localAnswers = JSON.parse(localStorage.getItem("ans"));
+    setAnswers(localAnswers);
+    console.log(localAnswers);
+  }
 
   return (
     <NavLayout mode="flex">
@@ -76,9 +82,9 @@ export default function LRDCreationView() {
             type="search"
             onChange={(event) => {
               console.log(event.target.value.toLowerCase());
-              //   setFilteredCourses(
-              //     allCourses.filter((course) =>
-              //       course.name
+              //   setFilteredReq(
+              //     allReq.filter((req) =>
+              //       req.name
               //         .toLocaleLowerCase()
               //         .includes(event.target.value.toLowerCase())
               //     )
@@ -117,7 +123,7 @@ export default function LRDCreationView() {
             <Surface>
               <Grid item sx={{ height: "30vh" }}>
                 <TextField
-                  value={answers[buttonClicked].answer}
+                  value={answers[buttonClicked].answer} // JSON.parse(localStorage.getItem("ans"))[buttonClicked].answer
                   label="Wprowadź odpowiedź"
                   multiline
                   fullWidth
@@ -143,15 +149,13 @@ export default function LRDCreationView() {
               >
                 {buttonClicked === 3 ? (
                   <RoundedButton
-                    label={"Zapisz i zakończ"}
+                    label={"Zapisz"}
                     active={true}
-                    onClick={() => {
-                      console.log("zapisać do bazy danych");
-                    }}
+                    onClick={handleSubmission}
                   ></RoundedButton>
                 ) : (
                   <RoundedButton
-                    label={"Zapisz i przejdź dalej"}
+                    label={"Przejdź dalej"}
                     active={true}
                     onClick={() => {
                       setButtonClicked(buttonClicked + 1);
