@@ -231,7 +231,7 @@ function HintTile({ hintText, bumpRevealedHints }) {
   return (
     <Grid item xs={3}>
       <Surface sx={{ backgroundColor: theme.palette.common.white, flex: "0 0 auto", aspectRatio: "5/3", textWrap: "wrap" }}>
-        <Typography variant='body1'>{hintText}</Typography>
+        <MarkdownLaTeXRenderer content={hintText}/>
       </Surface>
     </Grid>
   );
