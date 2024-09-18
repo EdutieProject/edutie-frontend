@@ -4,6 +4,7 @@ import Surface from "../components/global/Surface";
 import RoundedButton from "../components/global/RoundedButton.jsx";
 import CircleButton from "../components/global/CircleButton.jsx";
 import { useState } from "react";
+import TextArea from "../components/global/TextArea.tsx";
 
 export default function LRDCreationView() {
   const theme = useTheme();
@@ -122,12 +123,37 @@ export default function LRDCreationView() {
           <Grid xs item>
             <Surface>
               <Grid item sx={{ height: "30vh" }}>
-                <TextField
-                  value={answers[buttonClicked].answer} // JSON.parse(localStorage.getItem("ans"))[buttonClicked].answer
+                <TextArea
+                  value={answers[buttonClicked].answer}
+                  label="Wprowadź odpowiedź"
+                  maxRows={6}
+                  minRows={6}
+                  onChange={(e) => {
+                    setAnswers(
+                      answers.map((answer, index) => {
+                        if (index === buttonClicked) {
+                          return { ...answers, answer: e.target.value };
+                        }
+                        return answer;
+                      })
+                    );
+                  }}
+                ></TextArea>
+                {/* <TextField
+                  value={answers[buttonClicked].answer}
                   label="Wprowadź odpowiedź"
                   multiline
                   fullWidth
                   maxRows={6}
+                  minRows={6}
+                  sx={{
+                    backgroundColor: theme.palette.common.white,
+                    borderRadius: 3,
+                    "& fieldset:enabled": {
+                      border: 0,
+                      borderRadius: 3,
+                    },
+                  }}
                   onChange={(event) => {
                     setAnswers(
                       answers.map((answer, index) => {
@@ -138,7 +164,7 @@ export default function LRDCreationView() {
                       })
                     );
                   }}
-                />
+                /> */}
               </Grid>
               <Grid
                 container
