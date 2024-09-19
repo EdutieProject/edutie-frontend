@@ -101,16 +101,16 @@ export default function LRDCreationView() {
           }}
         >
           <Grid item xs>
-            <Surface sx={{ height: "10vh" }}></Surface>
+            <Surface sx={{ width: "8vw", height: "10vh" }}></Surface>
           </Grid>
           <Grid item xs>
-            <Surface sx={{ height: "10vh" }}></Surface>
+            <Surface sx={{ width: "8vw", height: "10vh" }}></Surface>
           </Grid>
           <Grid item xs>
-            <Surface sx={{ height: "10vh" }}></Surface>
+            <Surface sx={{ width: "8vw", height: "10vh" }}></Surface>
           </Grid>
           <Grid item xs>
-            <Surface sx={{ height: "10vh" }}></Surface>
+            <Surface sx={{ width: "8vw", height: "10vh" }}></Surface>
           </Grid>
         </Grid>
 
@@ -120,9 +120,9 @@ export default function LRDCreationView() {
           </Typography>
         </Grid>
         <Grid container>
-          <Grid xs item>
+          <Grid xs={11} item>
             <Surface>
-              <Grid item sx={{ height: "30vh" }}>
+              <Grid sx={{ height: "30vh" }}>
                 <TextArea
                   value={answers[buttonClicked].answer}
                   label="Wprowadź odpowiedź"
@@ -139,32 +139,6 @@ export default function LRDCreationView() {
                     );
                   }}
                 ></TextArea>
-                {/* <TextField
-                  value={answers[buttonClicked].answer}
-                  label="Wprowadź odpowiedź"
-                  multiline
-                  fullWidth
-                  maxRows={6}
-                  minRows={6}
-                  sx={{
-                    backgroundColor: theme.palette.common.white,
-                    borderRadius: 3,
-                    "& fieldset:enabled": {
-                      border: 0,
-                      borderRadius: 3,
-                    },
-                  }}
-                  onChange={(event) => {
-                    setAnswers(
-                      answers.map((answer, index) => {
-                        if (index === buttonClicked) {
-                          return { ...answers, answer: event.target.value };
-                        }
-                        return answer;
-                      })
-                    );
-                  }}
-                /> */}
               </Grid>
               <Grid
                 container
@@ -193,12 +167,13 @@ export default function LRDCreationView() {
           </Grid>
           <Grid
             container
+            item
             direction="column"
+            xs
             sx={{
               justifyContent: "center",
               alignItems: "center",
             }}
-            xs={1}
           >
             <Grid item sx={{ marginBottom: theme.spacing(1) }}>
               <CircleButton
