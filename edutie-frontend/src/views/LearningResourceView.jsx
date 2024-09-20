@@ -16,6 +16,7 @@ import MarkdownLaTeXRenderer from '../components/markdown/MarkdownLaTexRenderer'
 
 
 export default function LearningResourceView() {
+  const navigate = useNavigate();
   const theme = useTheme();
   /* Learning resource parameters */
   const { resourceId } = useParams();
@@ -25,6 +26,10 @@ export default function LearningResourceView() {
   const [error, setError] = useState(null);
   const Views = Object.freeze({ THEORY: useEnumValue("THEORY"), ACTIVITY: useEnumValue("ACTIVITY") })
   const [currentView, setCurrentView] = useState(Views.THEORY);
+
+  /* solution states workaround */
+  const [hintsRevealed, setHintsRevealed] = useState(0);
+  const [solutionText, setSolutionText] = useState("");
   const [assessmentLoading, setAssessmentLoading] = useState(false);
 
   useEffect(() => {
@@ -40,18 +45,33 @@ export default function LearningResourceView() {
       });
   }, []);
 
+  useEffect(() => {
+    if (assessmentLoading) {
+      assessSolution(learningResource.id, solutionText, hintsRevealed)
+        .then(learningResultResponse => {
+          console.log(learningResultResponse);
+          if (learningResultResponse.success === false) {
+            setError(learningResultResponse.error);
+            setAssessmentLoading(false);
+            return;
+          }
+          console.log("navigating");
+          navigate(navigationPath.fillPath(navigationPath.learningResult, learningResultResponse.data.id), { state: learningResultResponse.data });
+        });
+    }
+  }, [assessmentLoading]);
+
   console.log(learningResource);
+
+  if (learningResource == null) {
+    return <LoadingView />
+  }
 
   if (error)
     return <ErrorView error={error} />
 
   if (learningResource === null || assessmentLoading)
-    return (<LoadingView><ActivityBlock
-      activity={learningResource.activity}
-      learningResourceId={learningResource.id}
-      setAssessmentLoading={setAssessmentLoading}
-      assessmentLoading={assessmentLoading}
-      setError={setError} /></LoadingView>);
+    return <LoadingView/>;
 
   return (
     <NavLayout mode={"flex"} scroll>
@@ -71,10 +91,9 @@ export default function LearningResourceView() {
         currentView == Views.ACTIVITY ?
           <ActivityBlock
             activity={learningResource.activity}
-            learningResourceId={learningResource.id}
             setAssessmentLoading={setAssessmentLoading}
-            assessmentLoading={assessmentLoading}
-            setError={setError} />
+            setHintsRevealed={setHintsRevealed}
+            setSolutionText={setSolutionText} />
           : <TheoryBlock theory={learningResource.theory} />
       }
     </NavLayout>
@@ -120,27 +139,11 @@ function TheoryBlock({ theory }) {
 }
 
 
-function ActivityBlock({ learningResourceId, activity, setAssessmentLoading, assessmentLoading, setError }) {
+function ActivityBlock({ activity, setAssessmentLoading, setSolutionText, setHintsRevealed }) {
   const theme = useTheme();
-  const navigate = useNavigate();
-  const [hintsRevealed, setHintsRevealed] = useState(0);
-  const solutionText = useRef("");
 
-  const bumpHintsRevealed = () => setHintsRevealed(hintsRevealed + 1);
+  const bumpHintsRevealed = () => setHintsRevealed((x) => x + 1);
 
-  useEffect(() => {
-    if (assessmentLoading)
-      assessSolution(learningResourceId, solutionText.current, hintsRevealed)
-        .then(learningResultResponse => {
-          console.log(learningResultResponse);
-          if (learningResultResponse.success === false) {
-            setError(learningResultResponse.error);
-            setAssessmentLoading(false);
-            return;
-          }
-          navigate(navigationPath.fillPath(navigationPath.learningResult, learningResultResponse.data.id), { state: learningResultResponse.data });
-        });
-  }, [assessmentLoading]);
 
   return (
     <Box sx={{
@@ -170,7 +173,7 @@ function ActivityBlock({ learningResourceId, activity, setAssessmentLoading, ass
             fullWidth
             sx={{ backgroundColor: theme.palette.common.white, outline: "none", border: "none", borderRadius: 10, marginY: theme.spacing(4), paddingY: theme.spacing(2), "& fieldset": { border: 'none' }, }}
             minRows={8} maxRows={16}
-            onChange={(e) => { solutionText.current = e.target.value; }}
+            onChange={(e) => { setSolutionText(e.target.value); }}
           />
         </Surface>
       </Box>
@@ -228,7 +231,7 @@ function HintTile({ hintText, bumpRevealedHints }) {
   return (
     <Grid item xs={3}>
       <Surface sx={{ backgroundColor: theme.palette.common.white, flex: "0 0 auto", aspectRatio: "5/3", textWrap: "wrap" }}>
-        <Typography variant='body1'>{hintText}</Typography>
+        <MarkdownLaTeXRenderer content={hintText}/>
       </Surface>
     </Grid>
   );
