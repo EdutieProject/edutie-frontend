@@ -8,6 +8,7 @@ import { navSections } from "../features/navigation";
 import { getStudentLatestLearningResults } from "../services/studentProfileService";
 import LoadingView from "./common/LoadingView";
 import ErrorView from "./common/ErrorView";
+import SweatOutlinceFaceIcon from "../components/customIcons/SweatOutlineFaceIcon";
 
 export default function ProfileView() {
   const theme = useTheme();
@@ -49,8 +50,6 @@ function StudentProfileView({ setError }) {
   const [loading, setLoading] = useState(true);
   const [learningResults, setLearningResults] = useState(null);
 
-  console.log(loading);
-
   useEffect(() => {
     getStudentLatestLearningResults().then(learningResultsResponse => {
       console.log(learningResultsResponse);
@@ -60,14 +59,17 @@ function StudentProfileView({ setError }) {
     });
   }, [])
 
+  const noLearningResultsIconSize = "12rem";
+
   if (loading)
     return (<LoadingView embedded />);
 
   return (
-    <Grid container flexGrow={1} gap={theme.spacing(4)} marginTop={theme.spacing(6)}>
+    <Grid container flexGrow={1} spacing={theme.spacing(4)} marginTop={theme.spacing(6)}>
       <Grid item xs={6} sx={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: theme.spacing(2) }}>
         <Heading variant="h4">Twoja ostatnia aktywność:</Heading>
         {
+          learningResults.length > 0 ?
           learningResults.map(learningResult => (
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: theme.spacing(2) }}>
               <Divider flexItem orientation="horizontal" sx={{ marginBottom: theme.spacing(2) }} />
@@ -101,11 +103,17 @@ function StudentProfileView({ setError }) {
                 );
               })}
             </Box>
-          ))
+          )) : (
+            <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column", gap: theme.spacing(2), justifyContent: "center", alignItems: "center"}}>
+              <SweatOutlinceFaceIcon width={noLearningResultsIconSize} height={noLearningResultsIconSize}/>
+              <Heading variant="h6">Niczego nie znaleźliśmy</Heading>
+              <Typography>Może to znak że pora na naukę?</Typography>
+            </Box>
+          )
         }
       </Grid>
       <Grid item xs={6}>
-
+        dupa
       </Grid>
     </Grid>
   );
