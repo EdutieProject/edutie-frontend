@@ -139,5 +139,14 @@ function EducatorProfileView() {
 
 
 function ProfileSettingsView() {
-  return <></>
+  const theme = useTheme();
+
+  const placeholderIconSize = "24rem";
+
+  return (
+  <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column", gap: theme.spacing(4), justifyContent: "center", alignItems: "center"}}>
+    <SweatOutlinceFaceIcon width={placeholderIconSize} height={placeholderIconSize}/>
+    <Heading variant="h3">Narazie nic tu nie ma</Heading>
+  </Box>
+  )
 }
