@@ -68,7 +68,7 @@ function StudentProfileView({ setError }) {
   };
 
   const prepareLatestMeanDifficultyData = (learningResults) => {
-    
+
   };
 
   if (loading)
@@ -80,53 +80,57 @@ function StudentProfileView({ setError }) {
         <Heading variant="h4">Twoja ostatnia aktywność:</Heading>
         {
           learningResults.length > 0 ?
-          learningResults.map(learningResult => (
-            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: theme.spacing(2) }}>
-              <Divider flexItem orientation="horizontal" sx={{ marginBottom: theme.spacing(2) }} />
-              <Box sx={{ display: "flex", alignItems: "center", gap: theme.spacing(2) }}>
-                <Heading variant="h5">Rezultat nauczania</Heading>
-                <Typography color="grey" variant="caption">
-                  {new Date(learningResult.createdOn).toLocaleDateString()}
-                  {" "}
-                  {new Date(learningResult.createdOn).toLocaleTimeString()}
-                </Typography>
-              </Box>
+            learningResults.map(learningResult => (
+              <Box sx={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: theme.spacing(2) }}>
+                <Divider flexItem orientation="horizontal" sx={{ marginBottom: theme.spacing(2) }} />
+                <Box sx={{ display: "flex", alignItems: "center", gap: theme.spacing(2) }}>
+                  <Heading variant="h5">Rezultat nauczania</Heading>
+                  <Typography color="grey" variant="caption">
+                    {new Date(learningResult.createdOn).toLocaleDateString()}
+                    {" "}
+                    {new Date(learningResult.createdOn).toLocaleTimeString()}
+                  </Typography>
+                </Box>
 
-              {learningResult.assessments.map(assessment => {
-                let learningReq = learningResult.learningResourceDefinition.learningRequirements.filter(o => o.id === assessment.learningRequirementId)[0];
-                let qualifiedSubReqs = assessment.qualifiedSubRequirements.length;
-                let allSubReqs = learningReq.subRequirements.length;
-                return (
-                  <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <Typography>{learningReq.name}</Typography>
-                    <Box sx={{ display: "flex", gap: theme.spacing(4) }}>
-                      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(2) }}>
-                        <CircularProgress variant="determinate" value={assessment.grade / 6 * 100} thickness={6} />
-                        <Typography>Ocena: {assessment.grade}</Typography>
-                      </Box>
-                      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(2) }}>
-                        <CircularProgress variant="determinate" value={qualifiedSubReqs / allSubReqs * 100} thickness={6} color="secondary" />
-                        <Typography>Trudność</Typography>
+                {learningResult.assessments.map(assessment => {
+                  let learningReq = learningResult.learningResourceDefinition.learningRequirements.filter(o => o.id === assessment.learningRequirementId)[0];
+                  let qualifiedSubReqs = assessment.qualifiedSubRequirements.length;
+                  let allSubReqs = learningReq.subRequirements.length;
+                  return (
+                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <Typography>{learningReq.name}</Typography>
+                      <Box sx={{ display: "flex", gap: theme.spacing(4) }}>
+                        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(2) }}>
+                          <CircularProgress variant="determinate" value={assessment.grade / 6 * 100} thickness={6} />
+                          <Typography>Ocena: {assessment.grade}</Typography>
+                        </Box>
+                        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(2) }}>
+                          <CircularProgress variant="determinate" value={qualifiedSubReqs / allSubReqs * 100} thickness={6} color="secondary" />
+                          <Typography>Trudność</Typography>
+                        </Box>
                       </Box>
                     </Box>
-                  </Box>
-                );
-              })}
-            </Box>
-          )) : (
-            <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column", gap: theme.spacing(2), justifyContent: "center", alignItems: "center"}}>
-              <SweatOutlinceFaceIcon width={noLearningResultsIconSize} height={noLearningResultsIconSize}/>
-              <Heading variant="h6">Niczego nie znaleźliśmy</Heading>
-              <Typography>Może to znak że pora na naukę?</Typography>
-            </Box>
-          )
+                  );
+                })}
+              </Box>
+            )) : (
+              <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: theme.spacing(2), justifyContent: "center", alignItems: "center" }}>
+                <SweatOutlinceFaceIcon width={noLearningResultsIconSize} height={noLearningResultsIconSize} />
+                <Heading variant="h6">Niczego nie znaleźliśmy</Heading>
+                <Typography>Może to znak że pora na naukę?</Typography>
+              </Box>
+            )
         }
       </Grid>
-      <Grid item xs={6} sx={{display: "flex", flexDirection: "column", gap: theme.spacing(2)}}>
-          <Heading variant="h4">Ostatnio wykonywane zadania...</Heading>
-          <LatestStudentActivityChart/>
-          <Heading variant="h4">Jak trudne były?</Heading>
-          <LatestMeanDifficultyChart/>
+      <Grid item xs={6} sx={{ display: "grid", gridTemplateRows: `0.8fr 1fr`, gap: theme.spacing(2) }}>
+        <Box sx={{ flexGrow: 1}}>
+          <Heading variant="h2">5 🔥 dni nauki</Heading>
+          <Typography>Tyle dni z rzędu wykonujesz już zadania. Pamiętaj że liczy się systematyczność!</Typography>
+        </Box>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: theme.spacing(2) }}>
+          <Heading variant="h4">Twoja aktywność na wykresie</Heading>
+          <LatestStudentActivityChart />
+        </Box>
       </Grid>
     </Grid>
   );
@@ -144,9 +148,9 @@ function ProfileSettingsView() {
   const placeholderIconSize = "24rem";
 
   return (
-  <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column", gap: theme.spacing(4), justifyContent: "center", alignItems: "center"}}>
-    <SweatOutlinceFaceIcon width={placeholderIconSize} height={placeholderIconSize}/>
-    <Heading variant="h3">Narazie nic tu nie ma</Heading>
-  </Box>
+    <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: theme.spacing(4), justifyContent: "center", alignItems: "center" }}>
+      <SweatOutlinceFaceIcon width={placeholderIconSize} height={placeholderIconSize} />
+      <Heading variant="h3">Narazie nic tu nie ma</Heading>
+    </Box>
   )
 }
