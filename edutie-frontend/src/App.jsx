@@ -5,12 +5,12 @@ import theme from "./theme/Theme";
 import { navigationPath, SelectedNavigationSectionProvider } from "./features/navigation";
 
 import HomeView from "./views/HomeView";
-import AccountView from "./views/AccountView";
 import SegmentTreeView from "./views/SegmentTreeView";
 import LessonTreeView from "./views/LessonTreeView";
 import CoursesView from "./views/CoursesView";
 import LearningResourceView from "./views/LearningResourceView";
 import LearningResultView from "./views/LearningResultView";
+import ProfileView from "./views/ProfileView";
 
 export default function App() {
   return (
@@ -22,7 +22,7 @@ export default function App() {
             <Route path={navigationPath.lessonTree} element={<LessonTreeView />} />
             <Route path={navigationPath.segmentTree} element={<SegmentTreeView />} />
             <Route path={navigationPath.exercise} element={<LearningResourceView />} />
-            <Route path={navigationPath.account} element={<AccountView />} />
+            <Route path={navigationPath.account} element={<ProfileView />} />
             <Route path={navigationPath.courses} element={<CoursesView />} />
             <Route path={navigationPath.learningResult} element={<LearningResultView />} />
           </Routes>
