@@ -9,6 +9,8 @@ import { getStudentLatestLearningResults } from "../services/studentProfileServi
 import LoadingView from "./common/LoadingView";
 import ErrorView from "./common/ErrorView";
 import SweatOutlinceFaceIcon from "../components/customIcons/SweatOutlineFaceIcon";
+import LatestStudentActivityChart from "../components/charts/studentProfile/LatestStudentActivityChart";
+import LatestMeanDifficultyChart from "../components/charts/studentProfile/LatestMeanDifficultyChart";
 
 export default function ProfileView() {
   const theme = useTheme();
@@ -61,6 +63,14 @@ function StudentProfileView({ setError }) {
 
   const noLearningResultsIconSize = "12rem";
 
+  const prepareLatestStudentActivityData = (learningResults) => {
+
+  };
+
+  const prepareLatestMeanDifficultyData = (learningResults) => {
+    
+  };
+
   if (loading)
     return (<LoadingView embedded />);
 
@@ -112,8 +122,11 @@ function StudentProfileView({ setError }) {
           )
         }
       </Grid>
-      <Grid item xs={6}>
-        dupa
+      <Grid item xs={6} sx={{display: "flex", flexDirection: "column", gap: theme.spacing(2)}}>
+          <Heading variant="h4">Ostatnio wykonywane zadania...</Heading>
+          <LatestStudentActivityChart/>
+          <Heading variant="h4">Jak trudne były?</Heading>
+          <LatestMeanDifficultyChart/>
       </Grid>
     </Grid>
   );
