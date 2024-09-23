@@ -11,6 +11,7 @@ import ErrorView from "./common/ErrorView";
 import SweatOutlinceFaceIcon from "../components/customIcons/SweatOutlineFaceIcon";
 import LatestStudentActivityChart from "../components/charts/studentProfile/LatestStudentActivityChart";
 import DisappointedOutlineFaceIcon from "../components/customIcons/DisappointedOutlineFaceIcon";
+import { daysAgo, getDayName } from "../features/datetime/datetimeUtilities";
 
 export default function ProfileView() {
   const theme = useTheme();
@@ -63,8 +64,20 @@ function StudentProfileView({ setError }) {
 
   const noLearningResultsIconSize = "12rem";
 
-  const prepareLatestStudentActivityData = (learningResults) => {
-    //TODO!
+  const prepareLatestStudentActivityChartData = () => {
+    let chartData = [];
+    for(let i = 6; i >= 0; i--) {
+      let chosenDayDate = daysAgo(i);
+      chartData.push(
+        {
+          index: i,
+          dayName: getDayName(chosenDayDate),
+          // This is a workaround - label should be determined using the other way
+          zadania: learningResults.filter(o => new Date(o.createdOn).toLocaleDateString() === chosenDayDate.toLocaleDateString()).length
+        }
+      ); 
+    }
+    return chartData;
   };
 
 
@@ -76,8 +89,8 @@ function StudentProfileView({ setError }) {
       <Grid item xs={6} sx={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: theme.spacing(2) }}>
         <Heading variant="h4">Twoja ostatnia aktywność:</Heading>
         {
-          learningResults.length > 0 ?
-            learningResults.map(learningResult => (
+          learningResults.length > 0 ? 
+            learningResults.slice(0,5).map(learningResult => (
               <Box sx={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: theme.spacing(2) }}>
                 <Divider flexItem orientation="horizontal" sx={{ marginBottom: theme.spacing(2) }} />
                 <Box sx={{ display: "flex", alignItems: "center", gap: theme.spacing(2) }}>
@@ -121,12 +134,13 @@ function StudentProfileView({ setError }) {
       </Grid>
       <Grid item xs={6} sx={{ display: "grid", gridTemplateRows: `0.8fr 1fr`, gap: theme.spacing(2) }}>
         <Box sx={{ flexGrow: 1}}>
-          <Heading variant="h2">5 🔥 dni nauki</Heading>
+          <Heading variant="h2">0 🔥 dni nauki</Heading>
           <Typography>Tyle dni z rzędu wykonujesz już zadania. Pamiętaj że liczy się systematyczność!</Typography>
+          <Typography variant="overline" color={"grey"}>Uwaga! Funkcjonalność streaków nie jest jeszcze gotowa </Typography>
         </Box>
         <Box sx={{ display: "flex", flexDirection: "column", gap: theme.spacing(2) }}>
           <Heading variant="h4">Twoja aktywność na wykresie</Heading>
-          <LatestStudentActivityChart />
+          <LatestStudentActivityChart data={prepareLatestStudentActivityChartData()}/>
         </Box>
       </Grid>
     </Grid>
