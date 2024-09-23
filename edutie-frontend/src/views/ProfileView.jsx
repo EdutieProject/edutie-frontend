@@ -10,7 +10,7 @@ import LoadingView from "./common/LoadingView";
 import ErrorView from "./common/ErrorView";
 import SweatOutlinceFaceIcon from "../components/customIcons/SweatOutlineFaceIcon";
 import LatestStudentActivityChart from "../components/charts/studentProfile/LatestStudentActivityChart";
-import LatestMeanDifficultyChart from "../components/charts/studentProfile/LatestMeanDifficultyChart";
+import DisappointedOutlineFaceIcon from "../components/customIcons/DisappointedOutlineFaceIcon";
 
 export default function ProfileView() {
   const theme = useTheme();
@@ -64,18 +64,15 @@ function StudentProfileView({ setError }) {
   const noLearningResultsIconSize = "12rem";
 
   const prepareLatestStudentActivityData = (learningResults) => {
-
+    //TODO!
   };
 
-  const prepareLatestMeanDifficultyData = (learningResults) => {
-
-  };
 
   if (loading)
     return (<LoadingView embedded />);
 
   return (
-    <Grid container flexGrow={1} spacing={theme.spacing(4)} marginTop={theme.spacing(6)}>
+    <Grid container flexGrow={1} spacing={theme.spacing(8)} marginTop={theme.spacing(6)}>
       <Grid item xs={6} sx={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: theme.spacing(2) }}>
         <Heading variant="h4">Twoja ostatnia aktywność:</Heading>
         {
@@ -149,7 +146,7 @@ function ProfileSettingsView() {
 
   return (
     <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: theme.spacing(4), justifyContent: "center", alignItems: "center" }}>
-      <SweatOutlinceFaceIcon width={placeholderIconSize} height={placeholderIconSize} />
+      <DisappointedOutlineFaceIcon width={placeholderIconSize} height={placeholderIconSize} />
       <Heading variant="h3">Narazie nic tu nie ma</Heading>
     </Box>
   )
