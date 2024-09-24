@@ -18,13 +18,12 @@ import {
   getCourses,
   getSciences,
 } from "../services/studyProgramLearningService";
-import { ChevronLeft, ChevronRight, QuestionMark } from "@mui/icons-material";
+import { ChevronLeft, ChevronRight, QuestionMark, Search } from "@mui/icons-material";
 import LoadingView from "./common/LoadingView";
 import Heading from "../components/global/Heading";
 import CircleButton from "../components/global/CircleButton";
-import UserIcon from "../components/customIcons/UserIcon";
 import { useNavigate } from "react-router-dom";
-import { navigationPath } from "../features/navigation";
+import { navigationPath, navSections } from "../features/navigation";
 import ErrorView from "./common/ErrorView";
 
 export default function CoursesView() {
@@ -57,17 +56,16 @@ export default function CoursesView() {
     return <LoadingView />;
   }
 
-
   let sciences = sciencesData.current;
   let selectedScience = sciences[selectedScienceIndex];
   return (
-    <NavLayout mode="flex">
+    <NavLayout mode="flex" activeSectionIdOverride={navSections.courses}>
       <Grid container direction="row" justifyContent="space-between" gap={theme.spacing(14)}>
         <CourseList scienceId={selectedScience.id} setErrorInView={setError} />
         <Grid sx={{ flexGrow: 1 }}>
           <Grid
-            container
             item
+            container
             direction="row"
             justifyContent="space-around"
             alignItems="center"
@@ -95,13 +93,16 @@ export default function CoursesView() {
               <ChevronRight />
             </IconButton>
           </Grid>
-          <Box sx={{display: "grid", placeItems: "center"}}>
-          <img
-            src={selectedScience.imageSource === null ? "./src/assets/img/ExampleImage.webp" : selectedScience.imageSource}
-            alt="Science Picture"
-            width={250}
-            style={{aspectRatio: 1/1, objectFit: "cover", borderRadius: theme.shape.borderRadius}}
-          />
+          <Box sx={{ display: "grid", placeItems: "center" }}>
+            <img
+              src={selectedScience.imageSource === null ? "./src/assets/img/ExampleImage.webp" : selectedScience.imageSource}
+              alt="Science Picture"
+              width={250}
+              style={{ aspectRatio: 1 / 1, objectFit: "cover", borderRadius: theme.shape.roundedRadius }}
+            />
+          </Box>
+          <Box sx={{width: "100%", my: theme.spacing(4), textAlign: "center"}}>
+              <Typography color="grey" variant="overline">{selectedScience.description}</Typography>
           </Box>
         </Grid>
       </Grid>
@@ -130,6 +131,8 @@ function CourseList({ scienceId, setErrorInView }) {
 
   console.log(filteredCourses); // Note that the list is rendered twice with already proper data
 
+  const skeletonCourseTileSize = "14rem";
+
   if (loading) {
     return (
       <Grid xs={8}>
@@ -150,9 +153,9 @@ function CourseList({ scienceId, setErrorInView }) {
           }}
           disabled
         />
-        <Skeleton height={"9rem"} />
-        <Skeleton height={"9rem"} />
-        <Skeleton height={"9rem"} />
+        <Skeleton animation="wave" height={skeletonCourseTileSize} />
+        <Skeleton animation="wave" height={skeletonCourseTileSize} />
+        <Skeleton animation="wave" height={skeletonCourseTileSize} />
       </Grid>
     );
   }
@@ -198,7 +201,7 @@ const CourseTile = ({ course }) => {
           "https://thumbs.dreamstime.com/b/trigonometry-formula-line-icon-vector-illustration-sign-isolated-contour-symbol-black-331770196.jpg"
           : course.imageSource}
           width="100%"
-          style={{aspectRatio: 1/1, objectFit: "cover", borderRadius: theme.shape.borderRadius}}
+          style={{ aspectRatio: 1 / 1, objectFit: "cover", borderRadius: theme.shape.borderRadius }}
         />
       </Box>
       <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
@@ -206,7 +209,7 @@ const CourseTile = ({ course }) => {
           <Heading variant={"h4"}>{course.name}</Heading>
           <Box sx={{ display: "flex", flexDirection: "row", gap: theme.spacing(2) }}>
             {course.courseTags.map(tag =>
-              <Box sx={{ borderRadius: 25, backgroundColor: theme.palette.secondary.main, px: theme.spacing(2), py: theme.spacing(1), display: "grid", placeItems: "center" }}>
+              <Box sx={{ borderRadius: theme.shape.roundedRadius, backgroundColor: theme.palette.secondary.main, px: theme.spacing(2), py: theme.spacing(1), display: "grid", placeItems: "center" }}>
                 {tag.name}
               </Box>
             )}
@@ -218,7 +221,7 @@ const CourseTile = ({ course }) => {
         <Box sx={{ mt: theme.spacing(1), display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
           <Box sx={{ display: "grid", placeItems: "center" }}>
             <Box sx={{ display: "flex", flexDirection: "row", gap: theme.spacing(2) }}>
-              <QuestionMark color={theme.palette.common.black}/> Autor nieznany
+              <QuestionMark color={theme.palette.common.black} /> Autor nieznany
             </Box>
           </Box>
           <CircleButton size={theme.spacing(3)} onClick={() => navigate(navigationPath.fillPath(navigationPath.lessonTree, course.id))}>

@@ -18,7 +18,9 @@ const theme = createTheme({
     }
   },
   shape: {
-    borderRadius: 20
+    roundedRadius: "990px",
+    borderRadius: 20,
+    minimalRadius: "10px"
   }
 });
 

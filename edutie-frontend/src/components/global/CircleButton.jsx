@@ -8,7 +8,7 @@ export default function CircleButton({ size, bgColor, onClick, children, shadow 
     return (
         <ButtonBase sx={{
             padding: size,
-            borderRadius: "50%",
+            borderRadius: theme.shape.roundedRadius,
             backgroundColor: bgColor.main,
             position: "relative",
             boxShadow: shadow ? theme.shadows[2] : "none",
