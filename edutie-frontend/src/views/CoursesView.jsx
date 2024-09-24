@@ -18,7 +18,7 @@ import {
   getCourses,
   getSciences,
 } from "../services/studyProgramLearningService";
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import { ChevronLeft, ChevronRight, QuestionMark } from "@mui/icons-material";
 import LoadingView from "./common/LoadingView";
 import Heading from "../components/global/Heading";
 import CircleButton from "../components/global/CircleButton";
@@ -50,7 +50,7 @@ export default function CoursesView() {
   }, []);
 
   if (error) {
-    return <ErrorView error={error}/>
+    return <ErrorView error={error} />
   }
 
   if (isLoading) {
@@ -63,8 +63,8 @@ export default function CoursesView() {
   return (
     <NavLayout mode="flex">
       <Grid container direction="row" justifyContent="space-between" gap={theme.spacing(14)}>
-        <CourseList scienceId={selectedScience.id} setErrorInView={setError}/>
-        <Grid sx={{flexGrow: 1}}>
+        <CourseList scienceId={selectedScience.id} setErrorInView={setError} />
+        <Grid sx={{ flexGrow: 1 }}>
           <Grid
             container
             item
@@ -100,7 +100,7 @@ export default function CoursesView() {
             src={selectedScience.imageSource === null ? "./src/assets/img/ExampleImage.webp" : selectedScience.imageSource}
             alt="Science Picture"
             width={250}
-            style={{aspectRatio: 1/1, objectFit: "cover", borderRadius: 20}}
+            style={{aspectRatio: 1/1, objectFit: "cover", borderRadius: theme.shape.borderRadius}}
           />
           </Box>
         </Grid>
@@ -132,28 +132,28 @@ function CourseList({ scienceId, setErrorInView }) {
 
   if (loading) {
     return (
-    <Grid xs={8}>
-      <TextField
-        sx={{ marginBottom: theme.spacing(2) }}
-        id="outlined-search"
-        label="Wyszukaj kurs"
-        type="search"
-        onChange={(event) => {
-          console.log(event.target.value.toLowerCase());
-          setFilteredCourses(
-            allCourses.filter((course) =>
-              course.name
-                .toLocaleLowerCase()
-                .includes(event.target.value.toLowerCase())
-            )
-          );
-        }}
-        disabled
-      />
-      <Skeleton height={"9rem"}/>
-      <Skeleton height={"9rem"}/>
-      <Skeleton height={"9rem"}/>
-    </Grid>
+      <Grid xs={8}>
+        <TextField
+          sx={{ marginBottom: theme.spacing(2) }}
+          id="outlined-search"
+          label="Wyszukaj kurs"
+          type="search"
+          onChange={(event) => {
+            console.log(event.target.value.toLowerCase());
+            setFilteredCourses(
+              allCourses.filter((course) =>
+                course.name
+                  .toLocaleLowerCase()
+                  .includes(event.target.value.toLowerCase())
+              )
+            );
+          }}
+          disabled
+        />
+        <Skeleton height={"9rem"} />
+        <Skeleton height={"9rem"} />
+        <Skeleton height={"9rem"} />
+      </Grid>
     );
   }
 
@@ -180,10 +180,10 @@ function CourseList({ scienceId, setErrorInView }) {
           .slice((page - 1) * 3, page * 3)
           .map((course, index) => <CourseTile course={course} key={index} />)
       }
-        <Pagination
-          count={Math.ceil(filteredCourses.length / 3)}
-          onChange={(e, value) => setPage(value)}
-        />
+      <Pagination
+        count={Math.ceil(filteredCourses.length / 3)}
+        onChange={(e, value) => setPage(value)}
+      />
     </Grid>
   );
 }
@@ -198,6 +198,7 @@ const CourseTile = ({ course }) => {
           "https://thumbs.dreamstime.com/b/trigonometry-formula-line-icon-vector-illustration-sign-isolated-contour-symbol-black-331770196.jpg"
           : course.imageSource}
           width="100%"
+          style={{aspectRatio: 1/1, objectFit: "cover", borderRadius: theme.shape.borderRadius}}
         />
       </Box>
       <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
@@ -217,7 +218,7 @@ const CourseTile = ({ course }) => {
         <Box sx={{ mt: theme.spacing(1), display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
           <Box sx={{ display: "grid", placeItems: "center" }}>
             <Box sx={{ display: "flex", flexDirection: "row", gap: theme.spacing(2) }}>
-              <UserIcon color={theme.palette.common.black} /> Author goes here
+              <QuestionMark color={theme.palette.common.black}/> Autor nieznany
             </Box>
           </Box>
           <CircleButton size={theme.spacing(3)} onClick={() => navigate(navigationPath.fillPath(navigationPath.lessonTree, course.id))}>

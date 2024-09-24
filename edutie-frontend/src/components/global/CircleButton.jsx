@@ -1,7 +1,7 @@
 import { Box, ButtonBase, useTheme } from "@mui/material";
 
 
-export default function CircleButton({ size, bgColor, onClick, children }) {
+export default function CircleButton({ size, bgColor, onClick, children, shadow }) {
     const theme = useTheme();
     size = size ? size : theme.spacing(2);
     bgColor = bgColor ? bgColor : theme.palette.primary;
@@ -11,7 +11,7 @@ export default function CircleButton({ size, bgColor, onClick, children }) {
             borderRadius: "50%",
             backgroundColor: bgColor.main,
             position: "relative",
-            boxShadow: theme.shadows[4],
+            boxShadow: shadow ? theme.shadows[2] : "none",
             ":hover": { backgroundColor: bgColor.dark },
             transition: "ease 200ms"
         }}
