@@ -18,7 +18,7 @@ export const navigationPath = {
   exercise: "/learning-resource/:resourceId",
   learningResult: "/learning-result/:resultId",
   account: "/profiles/:id",
-  
+  creation: "/create/lrd",
   /**
    * Fills a navigation path with provided arguments.
    * @param {string} p path to fill

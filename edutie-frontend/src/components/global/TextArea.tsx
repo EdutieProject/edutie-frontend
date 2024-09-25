@@ -20,10 +20,9 @@ export default function TextArea(props: Props) {
       minRows={props.minRows}
       sx={{
         backgroundColor: theme.palette.common.white,
-        borderRadius: 3,
+        borderRadius: 1,
         "& fieldset:enabled": {
           border: 0,
-          borderRadius: 3,
         },
       }}
       onChange={props.onChange}
