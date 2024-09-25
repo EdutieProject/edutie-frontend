@@ -6,7 +6,6 @@ import { SvgIcon } from "@mui/material";
  * @returns JSX element for distributed learning icon
  */
 export default function EdutieHomeIcon(params) {
-    console.log("WIDTH:" + params.width);
     return (
         <SvgIcon sx={{color: params.color, height: params.height, width: params.width}} htmlColor={params.color}>
             <svg width="35" height="30" viewBox="0 0 35 30" fill={params.color} xmlns="http://www.w3.org/2000/svg">

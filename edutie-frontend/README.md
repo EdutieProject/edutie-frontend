@@ -30,7 +30,7 @@ Currently, two official plugins are available:
    - features/ `folder containing features, specific for react and application-specific functionalities`
      - redux/ 
    - views/ `folder containing views a.k.a. pages a.k.a. screens.`
-     - layout/ `subfolder **only** for layout-related files.`
+     - common/ `subfolder for common code used accross views`
      - FirstView
      - SecondView etc.
    - services/ `folder containing functions for backend interactions`

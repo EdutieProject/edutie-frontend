@@ -17,6 +17,11 @@ const theme = createTheme({
       main: grey[200]
     }
   },
+  shape: {
+    roundedRadius: "990px",
+    borderRadius: 20,
+    minimalRadius: "10px"
+  }
 });
 
 export default theme;

@@ -1,21 +1,21 @@
 import { Box, ButtonBase, useTheme } from "@mui/material";
 
 
-export default function CircleButton({ size, bgColor, onClick, children }) {
+export default function CircleButton({ size, bgColor, onClick, children, shadow }) {
     const theme = useTheme();
     size = size ? size : theme.spacing(2);
     bgColor = bgColor ? bgColor : theme.palette.primary;
     return (
         <ButtonBase sx={{
-            padding: size, 
-            borderRadius: "50%", 
+            padding: size,
+            borderRadius: theme.shape.roundedRadius,
             backgroundColor: bgColor.main,
             position: "relative",
-            boxShadow: theme.shadows[4],
+            boxShadow: shadow ? theme.shadows[2] : "none",
             ":hover": { backgroundColor: bgColor.dark },
             transition: "ease 200ms"
-            }}
-        onClick={onClick}>
+        }}
+            onClick={onClick}>
             <Box sx={{
                 position: "absolute",
                 width: "100%",
@@ -26,7 +26,7 @@ export default function CircleButton({ size, bgColor, onClick, children }) {
                 alignItems: "center",
                 justifyContent: "center"
             }}>
-                { children }
+                {children}
             </Box>
         </ButtonBase>
     );

@@ -9,6 +9,7 @@ import {
   IconButton,
   Pagination,
   Box,
+  Skeleton,
 } from "@mui/material";
 
 //CODE IMPORTS
@@ -17,11 +18,13 @@ import {
   getCourses,
   getSciences,
 } from "../services/studyProgramLearningService";
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import { ChevronLeft, ChevronRight, QuestionMark, Search } from "@mui/icons-material";
 import LoadingView from "./common/LoadingView";
 import Heading from "../components/global/Heading";
 import CircleButton from "../components/global/CircleButton";
-import UserIcon from "../components/customIcons/UserIcon";
+import { useNavigate } from "react-router-dom";
+import { navigationPath, navSections } from "../features/navigation";
+import ErrorView from "./common/ErrorView";
 
 export default function CoursesView() {
   const theme = useTheme();
@@ -46,24 +49,23 @@ export default function CoursesView() {
   }, []);
 
   if (error) {
-    return <NavLayout>{error.code}</NavLayout>
+    return <ErrorView error={error} />
   }
 
   if (isLoading) {
     return <LoadingView />;
   }
 
-
   let sciences = sciencesData.current;
   let selectedScience = sciences[selectedScienceIndex];
   return (
-    <NavLayout mode="flex">
+    <NavLayout mode="flex" activeSectionIdOverride={navSections.courses}>
       <Grid container direction="row" justifyContent="space-between" gap={theme.spacing(14)}>
-        <CourseList scienceId={selectedScience.id} />
-        <Grid sx={{flexGrow: 1}}>
+        <CourseList scienceId={selectedScience.id} setErrorInView={setError} />
+        <Grid sx={{ flexGrow: 1 }}>
           <Grid
-            container
             item
+            container
             direction="row"
             justifyContent="space-around"
             alignItems="center"
@@ -91,13 +93,16 @@ export default function CoursesView() {
               <ChevronRight />
             </IconButton>
           </Grid>
-          <Box sx={{display: "grid", placeItems: "center"}}>
-          <img
-            src={selectedScience.imageSource === null ? "./src/assets/img/ExampleImage.webp" : selectedScience.imageSource}
-            alt="Science Picture"
-            width={250}
-            style={{aspectRatio: 1/1, objectFit: "cover", borderRadius: 20}}
-          />
+          <Box sx={{ display: "grid", placeItems: "center" }}>
+            <img
+              src={selectedScience.imageSource === null ? "./src/assets/img/ExampleImage.webp" : selectedScience.imageSource}
+              alt="Science Picture"
+              width={250}
+              style={{ aspectRatio: 1 / 1, objectFit: "cover", borderRadius: theme.shape.roundedRadius }}
+            />
+          </Box>
+          <Box sx={{width: "100%", my: theme.spacing(4), textAlign: "center"}}>
+              <Typography color="grey" variant="overline">{selectedScience.description}</Typography>
           </Box>
         </Grid>
       </Grid>
@@ -105,20 +110,55 @@ export default function CoursesView() {
   );
 }
 
-function CourseList({ scienceId }) {
+function CourseList({ scienceId, setErrorInView }) {
   const theme = useTheme();
   const [allCourses, setAllCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getCourses(scienceId).then(coursesResponse => {
+      if (coursesResponse.error !== null) {
+        setErrorInView(coursesResponse.error);
+        return;
+      }
       setAllCourses(coursesResponse.data);
       setFilteredCourses(coursesResponse.data);
+      setLoading(false);
     });
   }, [scienceId]);
 
   console.log(filteredCourses); // Note that the list is rendered twice with already proper data
+
+  const skeletonCourseTileSize = "14rem";
+
+  if (loading) {
+    return (
+      <Grid xs={8}>
+        <TextField
+          sx={{ marginBottom: theme.spacing(2) }}
+          id="outlined-search"
+          label="Wyszukaj kurs"
+          type="search"
+          onChange={(event) => {
+            console.log(event.target.value.toLowerCase());
+            setFilteredCourses(
+              allCourses.filter((course) =>
+                course.name
+                  .toLocaleLowerCase()
+                  .includes(event.target.value.toLowerCase())
+              )
+            );
+          }}
+          disabled
+        />
+        <Skeleton animation="wave" height={skeletonCourseTileSize} />
+        <Skeleton animation="wave" height={skeletonCourseTileSize} />
+        <Skeleton animation="wave" height={skeletonCourseTileSize} />
+      </Grid>
+    );
+  }
 
   return (
     <Grid xs={8}>
@@ -143,16 +183,17 @@ function CourseList({ scienceId }) {
           .slice((page - 1) * 3, page * 3)
           .map((course, index) => <CourseTile course={course} key={index} />)
       }
-        <Pagination
-          count={Math.ceil(filteredCourses.length / 3)}
-          onChange={(e, value) => setPage(value)}
-        />
+      <Pagination
+        count={Math.ceil(filteredCourses.length / 3)}
+        onChange={(e, value) => setPage(value)}
+      />
     </Grid>
   );
 }
 
 const CourseTile = ({ course }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
   return (
     <Surface sx={{ my: theme.spacing(4), display: "flex", gap: theme.spacing(4) }}>
       <Box width={"15%"}>
@@ -160,6 +201,7 @@ const CourseTile = ({ course }) => {
           "https://thumbs.dreamstime.com/b/trigonometry-formula-line-icon-vector-illustration-sign-isolated-contour-symbol-black-331770196.jpg"
           : course.imageSource}
           width="100%"
+          style={{ aspectRatio: 1 / 1, objectFit: "cover", borderRadius: theme.shape.borderRadius }}
         />
       </Box>
       <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
@@ -167,7 +209,7 @@ const CourseTile = ({ course }) => {
           <Heading variant={"h4"}>{course.name}</Heading>
           <Box sx={{ display: "flex", flexDirection: "row", gap: theme.spacing(2) }}>
             {course.courseTags.map(tag =>
-              <Box sx={{ borderRadius: 25, backgroundColor: theme.palette.secondary.main, px: theme.spacing(2), py: theme.spacing(1), display: "grid", placeItems: "center" }}>
+              <Box sx={{ borderRadius: theme.shape.roundedRadius, backgroundColor: theme.palette.secondary.main, px: theme.spacing(2), py: theme.spacing(1), display: "grid", placeItems: "center" }}>
                 {tag.name}
               </Box>
             )}
@@ -179,10 +221,10 @@ const CourseTile = ({ course }) => {
         <Box sx={{ mt: theme.spacing(1), display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
           <Box sx={{ display: "grid", placeItems: "center" }}>
             <Box sx={{ display: "flex", flexDirection: "row", gap: theme.spacing(2) }}>
-              <UserIcon color={theme.palette.common.black} /> Author goes here
+              <QuestionMark color={theme.palette.common.black} /> Autor nieznany
             </Box>
           </Box>
-          <CircleButton size={theme.spacing(3)}>
+          <CircleButton size={theme.spacing(3)} onClick={() => navigate(navigationPath.fillPath(navigationPath.lessonTree, course.id))}>
             <Typography fontFamily={"Baloo"} fontSize={24} color={theme.palette.common.white}>{">"}</Typography>
           </CircleButton>
         </Box>
