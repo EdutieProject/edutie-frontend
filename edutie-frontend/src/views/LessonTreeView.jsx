@@ -9,6 +9,7 @@ import { navigationPath, navSections } from "../features/navigation";
 import ErrorView from "./common/ErrorView";
 import NoContextView from "./common/NoContextView";
 import { noSavedCourseIdPlaceholder, saveCourseId } from "../features/storage/courseStorage";
+import Heading from "../components/global/Heading";
 
 class TreeGridInitializer {
     static getFirstLevel(data) {
@@ -48,7 +49,7 @@ export default function LessonTreeView() {
     }, []);
 
     if (lessonsResponse.error !== null)
-        return <ErrorView error={lessonsResponse.error}/>
+        return <ErrorView error={lessonsResponse.error} />
 
     if (lessonsResponse.data === null)
         return (<LoadingView />);
@@ -56,6 +57,10 @@ export default function LessonTreeView() {
     let treeLevelsArray = TreeGridInitializer.getTreeAsArray(lessonsResponse.data);
     return (
         <NavLayout mode={"flex"} disablePadding activeSectionIdOverride={navSections.learningInTree}>
+            <Box sx={{ width: "100%", textAlign: "center", py: theme.spacing(2) }}>
+                <Heading variant="h4">Course</Heading>
+                <Typography variant="caption">Course description</Typography>
+            </Box>
             <Grid container sx={{ overflowY: "scroll" }}>
                 {
                     treeLevelsArray.map((treeLevel) =>
@@ -80,16 +85,32 @@ function LessonViewTile({ lessonView }) {
     return (
         <Box sx={{ display: "flex", flexDirection: "column", gap: theme.spacing(2), alignItems: "center" }}>
             <ButtonBase sx={{
-                borderRadius: 5,
+                borderRadius: theme.shape.minimalRadius,
                 border: "3px solid",
                 borderColor: theme.palette.primary.main,
                 backgroundColor: lessonView.done ? theme.palette.primary.light : theme.palette.surface.main,
                 padding: theme.spacing(4),
-                position: "relative"
+                position: "relative",
+                transition: "200ms ease",
+                "&:hover": {
+                    borderColor: theme.palette.primary.light,
+                    boxShadow: theme.shadows[2]
+                },
             }}
                 onClick={() => navigate(navigationPath.fillPath(navigationPath.segmentTree, lessonView.lesson.id))}
             >
-                <Box id={lessonView.lesson.id} sx={{ position: "absolute", top: 0, left: 0, height: "100%", width: "100%", display: "grid", placeItems: "center", zIndex: 1 }}>
+                <Box id={lessonView.lesson.id} sx={{
+                    position: "absolute",
+                    top: 0, left: 0,
+                    height: "100%", width: "100%",
+                    display: "grid",
+                    placeItems: "center",
+                    zIndex: 1,
+                    transition: "200ms ease",
+                    "&:hover": {
+                        transform: "scale(1.08)"
+                    }
+                }}>
                     {lessonView.done ?
                         <Typography variant="h3" color={theme.palette.common.white} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>x</Typography>
                         : <Typography variant="h3" color={theme.palette.primary.main} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>?</Typography>}
