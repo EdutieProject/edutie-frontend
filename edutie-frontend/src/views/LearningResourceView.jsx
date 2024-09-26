@@ -48,7 +48,7 @@ export default function LearningResourceView() {
 
   useEffect(() => {
     if (assessmentLoading) {
-      assessSolution(learningResource.id, solutionText, hintsRevealed)
+      assessSolution(learningResource.id, solutionText, hintsRevealed.length)
         .then(learningResultResponse => {
           console.log(learningResultResponse);
           if (learningResultResponse.success === false) {
@@ -147,9 +147,6 @@ function TheoryBlock({ theory }) {
 function ActivityBlock({ activity, setAssessmentLoading, solutionText, setSolutionText, hintsRevealed, setHintsRevealed }) {
   const theme = useTheme();
 
-  const bumpHintsRevealed = () => setHintsRevealed((x) => x + 1);
-
-
   return (
     <Box sx={{
       flexGrow: 1,
@@ -172,7 +169,9 @@ function ActivityBlock({ activity, setAssessmentLoading, solutionText, setSoluti
         </Surface>
         <Surface sx={{ gridArea: "right" }}>
           <Typography fontFamily={"Baloo"} variant='h5' marginY={theme.spacing(2)}>Twoje rozwiązanie</Typography>
-          <Typography variant='body1'>Opisz swoje rozwiązanie. Posłuż się przygotowanym do tego szablonem</Typography>
+          <Typography variant='body1'>
+            Opisz swoje rozwiązanie. Zawrzyj w nim swój tok myślenia, pokaż szczegółowo krok po kroku w jaki sposób zadanie było rozwiązywane. Twoje rozwiązanie będzie oceniane na podstawie twojego zrozumienia tematu!
+          </Typography>
           <TextArea
             multiline
             fullWidth
@@ -222,7 +221,7 @@ function HintTile({ hint, isRevealed, setHintsRevealed }) {
     return (
       <Grid item xs={3}>
         <Surface sx={{
-          backgroundColor: theme.palette.secondary.main,
+          backgroundColor: theme.palette.secondary.light,
           flex: "0 0 auto",
           aspectRatio: "5/3",
           display: "grid",
@@ -230,7 +229,7 @@ function HintTile({ hint, isRevealed, setHintsRevealed }) {
         }}
           onClick={() => { setRevealed(true); setHintsRevealed((x) => {x.push(hint.id); return x;})}}
         >
-          <TurnAroundIcon />
+          <TurnAroundIcon/>
         </Surface>
       </Grid>
     );

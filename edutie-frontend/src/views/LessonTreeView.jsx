@@ -87,13 +87,13 @@ function LessonViewTile({ lessonView }) {
             <ButtonBase sx={{
                 borderRadius: theme.shape.minimalRadius,
                 border: "3px solid",
-                borderColor: theme.palette.primary.main,
-                backgroundColor: lessonView.done ? theme.palette.primary.light : theme.palette.surface.main,
+                borderColor: lessonView.progressState === "IN_PROGRESS" ? theme.palette.secondary.main : theme.palette.primary.main,
+                backgroundColor: lessonView.progressState === "DONE" ? theme.palette.primary.main : theme.palette.surface.main,
                 padding: theme.spacing(4),
                 position: "relative",
                 transition: "200ms ease",
                 "&:hover": {
-                    borderColor: theme.palette.primary.light,
+                    borderColor: lessonView.progressState === "IN_PROGRESS" ? theme.palette.secondary.light : theme.palette.primary.light,
                     boxShadow: theme.shadows[2]
                 },
             }}
@@ -111,9 +111,14 @@ function LessonViewTile({ lessonView }) {
                         transform: "scale(1.08)"
                     }
                 }}>
-                    {lessonView.done ?
+                    {lessonView.progressState === "NONE" ?
+                        <Typography variant="h3" color={theme.palette.primary.main} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>?</Typography>
+                        : lessonView.progressState === "IN_PROGRESS" ?
+                        <Typography variant="h3" color={theme.palette.secondary.main} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>!</Typography>
+                        :
                         <Typography variant="h3" color={theme.palette.common.white} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>x</Typography>
-                        : <Typography variant="h3" color={theme.palette.primary.main} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>?</Typography>}
+                    
+                    }
 
                 </Box>
                 {
