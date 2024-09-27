@@ -8,9 +8,9 @@ import { navigationPath, navSections } from "../features/navigation";
 import { getStudentLatestLearningResults } from "../services/studentProfileService";
 import LoadingView from "./common/LoadingView";
 import ErrorView from "./common/ErrorView";
-import SweatOutlinceFaceIcon from "../components/customIcons/SweatOutlineFaceIcon";
+import SweatFaceIcon from "../components/customIcons/SweatFaceIcon";
 import LatestStudentActivityChart from "../components/charts/studentProfile/LatestStudentActivityChart";
-import DisappointedOutlineFaceIcon from "../components/customIcons/DisappointedOutlineFaceIcon";
+import DisappointedFaceIcon from "../components/customIcons/DisappointedFaceIcon";
 import { daysAgo, getDayName } from "../features/datetime/datetimeUtilities";
 import { Link, useNavigate } from "react-router-dom";
 import CircleButton from "../components/global/CircleButton";
@@ -129,7 +129,7 @@ function StudentProfileView({ setError }) {
               </Box>
             )) : (
               <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: theme.spacing(2), justifyContent: "center", alignItems: "center" }}>
-                <SweatOutlinceFaceIcon width={noLearningResultsIconSize} height={noLearningResultsIconSize} />
+                <SweatFaceIcon width={noLearningResultsIconSize} height={noLearningResultsIconSize} />
                 <Heading variant="h6">Niczego nie znaleźliśmy</Heading>
                 <Typography>Może to znak że pora na naukę?</Typography>
               </Box>
@@ -164,7 +164,7 @@ function ProfileSettingsView() {
 
   return (
     <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: theme.spacing(4), justifyContent: "center", alignItems: "center" }}>
-      <DisappointedOutlineFaceIcon width={placeholderIconSize} height={placeholderIconSize} />
+      <DisappointedFaceIcon width={placeholderIconSize} height={placeholderIconSize} />
       <Heading variant="h3">Narazie nic tu nie ma</Heading>
     </Box>
   )
