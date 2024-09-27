@@ -4,7 +4,7 @@ import useEnumValue from "../hooks/alternative/useEnumValue";
 import { useEffect, useState } from "react";
 import RoundedButton from "../components/global/RoundedButton";
 import Heading from "../components/global/Heading"
-import { navSections } from "../features/navigation";
+import { navigationPath, navSections } from "../features/navigation";
 import { getStudentLatestLearningResults } from "../services/studentProfileService";
 import LoadingView from "./common/LoadingView";
 import ErrorView from "./common/ErrorView";
@@ -12,6 +12,8 @@ import SweatOutlinceFaceIcon from "../components/customIcons/SweatOutlineFaceIco
 import LatestStudentActivityChart from "../components/charts/studentProfile/LatestStudentActivityChart";
 import DisappointedOutlineFaceIcon from "../components/customIcons/DisappointedOutlineFaceIcon";
 import { daysAgo, getDayName } from "../features/datetime/datetimeUtilities";
+import { Link, useNavigate } from "react-router-dom";
+import CircleButton from "../components/global/CircleButton";
 
 export default function ProfileView() {
   const theme = useTheme();
@@ -49,6 +51,7 @@ export default function ProfileView() {
 
 
 function StudentProfileView({ setError }) {
+  const navigate = useNavigate();
   const theme = useTheme();
   const [loading, setLoading] = useState(true);
   const [learningResults, setLearningResults] = useState(null);
@@ -66,7 +69,7 @@ function StudentProfileView({ setError }) {
 
   const prepareLatestStudentActivityChartData = () => {
     let chartData = [];
-    for(let i = 6; i >= 0; i--) {
+    for (let i = 6; i >= 0; i--) {
       let chosenDayDate = daysAgo(i);
       chartData.push(
         {
@@ -75,7 +78,7 @@ function StudentProfileView({ setError }) {
           // This is a workaround - label should be determined using the other way
           zadania: learningResults.filter(o => new Date(o.createdOn).toLocaleDateString() === chosenDayDate.toLocaleDateString()).length
         }
-      ); 
+      );
     }
     return chartData;
   };
@@ -89,12 +92,13 @@ function StudentProfileView({ setError }) {
       <Grid item xs={6} sx={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: theme.spacing(2) }}>
         <Heading variant="h4">Twoja ostatnia aktywność:</Heading>
         {
-          learningResults.length > 0 ? 
-            learningResults.slice(0,5).map(learningResult => (
+          learningResults.length > 0 ?
+            learningResults.slice(0, 5).map(learningResult => (
               <Box sx={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: theme.spacing(2) }}>
                 <Divider flexItem orientation="horizontal" sx={{ marginBottom: theme.spacing(2) }} />
                 <Box sx={{ display: "flex", alignItems: "center", gap: theme.spacing(2) }}>
                   <Heading variant="h5">Rezultat nauczania</Heading>
+                  <CircleButton size={"1rem"} children={<Heading sx={{ color: theme.palette.common.white }}>{">"}</Heading>} onClick={() => navigate(navigationPath.fillPath(navigationPath.learningResult, learningResult.id))} />
                   <Typography color="grey" variant="caption">
                     {new Date(learningResult.createdOn).toLocaleDateString()}
                     {" "}
@@ -111,11 +115,11 @@ function StudentProfileView({ setError }) {
                       <Typography>{learningReq.name}</Typography>
                       <Box sx={{ display: "flex", gap: theme.spacing(4) }}>
                         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(2) }}>
-                          <CircularProgress variant="determinate" value={assessment.grade / 6 * 100} thickness={6} />
+                          <CircularProgress variant="determinate" value={assessment.grade / 6 * 100} thickness={8} size={"2rem"} />
                           <Typography>Ocena: {assessment.grade}</Typography>
                         </Box>
                         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(2) }}>
-                          <CircularProgress variant="determinate" value={qualifiedSubReqs / allSubReqs * 100} thickness={6} color="secondary" />
+                          <CircularProgress variant="determinate" value={qualifiedSubReqs / allSubReqs * 100} thickness={8} color="secondary" size={"2rem"} />
                           <Typography>Trudność</Typography>
                         </Box>
                       </Box>
@@ -133,14 +137,14 @@ function StudentProfileView({ setError }) {
         }
       </Grid>
       <Grid item xs={6} sx={{ display: "grid", gridTemplateRows: `0.8fr 1fr`, gap: theme.spacing(2) }}>
-        <Box sx={{ flexGrow: 1}}>
+        <Box sx={{ flexGrow: 1 }}>
           <Heading variant="h2">0 🔥 dni nauki</Heading>
           <Typography>Tyle dni z rzędu wykonujesz już zadania. Pamiętaj że liczy się systematyczność!</Typography>
           <Typography variant="overline" color={"grey"}>Uwaga! Funkcjonalność streaków nie jest jeszcze gotowa </Typography>
         </Box>
         <Box sx={{ display: "flex", flexDirection: "column", gap: theme.spacing(2) }}>
           <Heading variant="h4">Twoja aktywność na wykresie</Heading>
-          <LatestStudentActivityChart data={prepareLatestStudentActivityChartData()}/>
+          <LatestStudentActivityChart data={prepareLatestStudentActivityChartData()} />
         </Box>
       </Grid>
     </Grid>
