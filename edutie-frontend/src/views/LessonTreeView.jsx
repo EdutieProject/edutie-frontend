@@ -1,7 +1,7 @@
 import { Box, ButtonBase, Grid, Typography, useTheme } from "@mui/material";
 import NavLayout from "./layout/NavLayout";
 import { useEffect, useState } from "react";
-import { getLessons } from "../services/studyProgramLearningService";
+import { getCourseDetailsById, getLessons } from "../services/studyProgramLearningService";
 import Xarrow from "react-xarrows";
 import LoadingView from "./common/LoadingView";
 import { useNavigate, useParams } from "react-router-dom";
@@ -9,6 +9,7 @@ import { navigationPath, navSections } from "../features/navigation";
 import ErrorView from "./common/ErrorView";
 import NoContextView from "./common/NoContextView";
 import { noSavedCourseIdPlaceholder, saveCourseId } from "../features/storage/courseStorage";
+import Heading from "../components/global/Heading";
 
 class TreeGridInitializer {
     static getFirstLevel(data) {
@@ -35,7 +36,8 @@ export default function LessonTreeView() {
     const theme = useTheme();
     /** Course Id may be injected from storage in the navigation */
     const { courseId } = useParams();
-    const [lessonsResponse, setLessonsResponse] = useState({ data: null, error: null });
+    const [lessonsResponse, setLessonsResponse] = useState({ data: null, error: null, success: false });
+    const [courseDetailsResponse, setCourseDetailsResponse] = useState({ data: null, error: null, success: false });
 
     if (courseId === noSavedCourseIdPlaceholder)
         return (<NoContextView>
@@ -45,10 +47,11 @@ export default function LessonTreeView() {
     useEffect(() => {
         getLessons(courseId).then(lessons => setLessonsResponse(lessons));
         saveCourseId(courseId);
+        getCourseDetailsById(courseId).then(courseDetails => setCourseDetailsResponse(courseDetails));
     }, []);
 
-    if (lessonsResponse.error !== null)
-        return <ErrorView error={lessonsResponse.error}/>
+    if (lessonsResponse.error !== null || courseDetailsResponse.error !== null)
+        return <ErrorView error={lessonsResponse.error ?? courseDetailsResponse.error} />
 
     if (lessonsResponse.data === null)
         return (<LoadingView />);
@@ -56,6 +59,10 @@ export default function LessonTreeView() {
     let treeLevelsArray = TreeGridInitializer.getTreeAsArray(lessonsResponse.data);
     return (
         <NavLayout mode={"flex"} disablePadding activeSectionIdOverride={navSections.learningInTree}>
+            <Box sx={{ width: "100%", textAlign: "center", py: theme.spacing(2) }}>
+                <Heading variant="h4">{courseDetailsResponse.data.name}</Heading>
+                <Typography variant="caption">{courseDetailsResponse.data.description}</Typography>
+            </Box>
             <Grid container sx={{ overflowY: "scroll" }}>
                 {
                     treeLevelsArray.map((treeLevel) =>
@@ -80,19 +87,40 @@ function LessonViewTile({ lessonView }) {
     return (
         <Box sx={{ display: "flex", flexDirection: "column", gap: theme.spacing(2), alignItems: "center" }}>
             <ButtonBase sx={{
-                borderRadius: 5,
+                borderRadius: theme.shape.minimalRadius,
                 border: "3px solid",
-                borderColor: theme.palette.primary.main,
-                backgroundColor: lessonView.done ? theme.palette.primary.light : theme.palette.surface.main,
+                borderColor: lessonView.progressState === "IN_PROGRESS" ? theme.palette.secondary.dark : theme.palette.primary.main,
+                backgroundColor: lessonView.progressState === "DONE" ? theme.palette.primary.main : theme.palette.surface.main,
                 padding: theme.spacing(4),
-                position: "relative"
+                position: "relative",
+                transition: "200ms ease",
+                "&:hover": {
+                    borderColor: lessonView.progressState === "IN_PROGRESS" ? theme.palette.secondary.dark : theme.palette.primary.light,
+                    boxShadow: theme.shadows[2]
+                },
             }}
                 onClick={() => navigate(navigationPath.fillPath(navigationPath.segmentTree, lessonView.lesson.id))}
             >
-                <Box id={lessonView.lesson.id} sx={{ position: "absolute", top: 0, left: 0, height: "100%", width: "100%", display: "grid", placeItems: "center", zIndex: 1 }}>
-                    {lessonView.done ?
+                <Box id={lessonView.lesson.id} sx={{
+                    position: "absolute",
+                    top: 0, left: 0,
+                    height: "100%", width: "100%",
+                    display: "grid",
+                    placeItems: "center",
+                    zIndex: 1,
+                    transition: "200ms ease",
+                    "&:hover": {
+                        transform: "scale(1.08)"
+                    }
+                }}>
+                    {lessonView.progressState === "NONE" ?
+                        <Typography variant="h3" color={theme.palette.primary.main} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>?</Typography>
+                        : lessonView.progressState === "IN_PROGRESS" ?
+                        <Typography variant="h3" color={theme.palette.secondary.dark} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>!</Typography>
+                        :
                         <Typography variant="h3" color={theme.palette.common.white} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>x</Typography>
-                        : <Typography variant="h3" color={theme.palette.primary.main} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>?</Typography>}
+                    
+                    }
 
                 </Box>
                 {

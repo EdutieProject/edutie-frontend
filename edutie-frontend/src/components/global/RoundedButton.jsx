@@ -1,7 +1,17 @@
 import { ButtonBase, Typography, useTheme } from "@mui/material";
 
-
-export default function RoundedButton({label, active = false, onClick, shadow, disabled}) {
+/**
+ * Rounded button component
+ * @param {Object} params
+ * @param {string} params.label
+ * @param {boolean} params.active
+ * @param {() => void} params.onClick
+ * @param {import("@mui/material").Shadows} params.shadow
+ * @param {boolean} params.disabled
+ * @param {import("@mui/material").SxProps} params.sx
+ * @returns JSX element
+ */
+export default function RoundedButton({label, active = false, onClick, shadow, disabled, sx}) {
     const theme = useTheme();
     return (
         <ButtonBase
@@ -18,7 +28,8 @@ export default function RoundedButton({label, active = false, onClick, shadow, d
                 backgroundColor: active ? theme.palette.primary.dark : theme.palette.grey[200]
             },
             transition: "ease 200ms",
-            cursor: disabled ? "not-allowed !important" : "pointer"
+            cursor: disabled ? "not-allowed !important" : "pointer",
+            ...sx
         }} 
         disabled={disabled}
         onClick={onClick}>
