@@ -122,7 +122,7 @@ function SelectedElementDescriptionTab({ selectedElement, setExerciseLoading }) 
     <Surface sx={{ flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
       <Box>
         <Typography fontFamily="Baloo" variant="h4">
-          Zadania - {selectedElement.segment.name}
+          {selectedElement.segment.name}
         </Typography>
         <Typography>{selectedElement.segment.snippetDescription}</Typography>
       </Box>
