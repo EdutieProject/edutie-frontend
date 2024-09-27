@@ -3,7 +3,7 @@ import { Box, styled, useTheme } from "@mui/material";
 const StyledBox = styled(Box)(({ theme }) => ({
   background: theme.palette.surface.main,
   padding: theme.spacing(2),
-  borderRadius: 20,
+  borderRadius: theme.shape.borderRadius,
 }));
 
 /**
@@ -16,7 +16,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 export default function Surface({ children, sx, onClick }) {
   const theme = useTheme();
   return (
-    <StyledBox sx={{ boxShadow: theme.shadows[4], ...sx }} onClick={onClick}>
+    <StyledBox sx={{ boxShadow: theme.shadows[2], ...sx }} onClick={onClick}>
       {children}
     </StyledBox>
   );

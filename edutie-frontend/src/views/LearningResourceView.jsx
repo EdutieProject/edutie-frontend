@@ -12,10 +12,12 @@ import LoadingView from './common/LoadingView';
 import ErrorView from './common/ErrorView';
 import { navigationPath } from '../features/navigation';
 import MarkdownLaTeXRenderer from '../components/markdown/MarkdownLaTexRenderer';
+import TextArea from '../components/global/TextArea';
 
 
 
 export default function LearningResourceView() {
+  const navigate = useNavigate();
   const theme = useTheme();
   /* Learning resource parameters */
   const { resourceId } = useParams();
@@ -25,6 +27,10 @@ export default function LearningResourceView() {
   const [error, setError] = useState(null);
   const Views = Object.freeze({ THEORY: useEnumValue("THEORY"), ACTIVITY: useEnumValue("ACTIVITY") })
   const [currentView, setCurrentView] = useState(Views.THEORY);
+
+  /* solution states workaround */
+  const [hintsRevealed, setHintsRevealed] = useState([]);
+  const [solutionText, setSolutionText] = useState("");
   const [assessmentLoading, setAssessmentLoading] = useState(false);
 
   useEffect(() => {
@@ -40,18 +46,33 @@ export default function LearningResourceView() {
       });
   }, []);
 
+  useEffect(() => {
+    if (assessmentLoading) {
+      assessSolution(learningResource.id, solutionText, hintsRevealed.length)
+        .then(learningResultResponse => {
+          console.log(learningResultResponse);
+          if (learningResultResponse.success === false) {
+            setError(learningResultResponse.error);
+            setAssessmentLoading(false);
+            return;
+          }
+          console.log("navigating");
+          navigate(navigationPath.fillPath(navigationPath.learningResult, learningResultResponse.data.id), { state: learningResultResponse.data });
+        });
+    }
+  }, [assessmentLoading]);
+
   console.log(learningResource);
+
+  if (learningResource == null) {
+    return <LoadingView />
+  }
 
   if (error)
     return <ErrorView error={error} />
 
   if (learningResource === null || assessmentLoading)
-    return (<LoadingView><ActivityBlock
-      activity={learningResource.activity}
-      learningResourceId={learningResource.id}
-      setAssessmentLoading={setAssessmentLoading}
-      assessmentLoading={assessmentLoading}
-      setError={setError} /></LoadingView>);
+    return <LoadingView />;
 
   return (
     <NavLayout mode={"flex"} scroll>
@@ -71,11 +92,14 @@ export default function LearningResourceView() {
         currentView == Views.ACTIVITY ?
           <ActivityBlock
             activity={learningResource.activity}
-            learningResourceId={learningResource.id}
             setAssessmentLoading={setAssessmentLoading}
-            assessmentLoading={assessmentLoading}
-            setError={setError} />
-          : <TheoryBlock theory={learningResource.theory} />
+            hintsRevealed={hintsRevealed}
+            setHintsRevealed={setHintsRevealed}
+            solutionText={solutionText}
+            setSolutionText={setSolutionText}
+          />
+          :
+          <TheoryBlock theory={learningResource.theory} />
       }
     </NavLayout>
   );
@@ -120,27 +144,8 @@ function TheoryBlock({ theory }) {
 }
 
 
-function ActivityBlock({ learningResourceId, activity, setAssessmentLoading, assessmentLoading, setError }) {
+function ActivityBlock({ activity, setAssessmentLoading, solutionText, setSolutionText, hintsRevealed, setHintsRevealed }) {
   const theme = useTheme();
-  const navigate = useNavigate();
-  const [hintsRevealed, setHintsRevealed] = useState(0);
-  const solutionText = useRef("");
-
-  const bumpHintsRevealed = () => setHintsRevealed(hintsRevealed + 1);
-
-  useEffect(() => {
-    if (assessmentLoading)
-      assessSolution(learningResourceId, solutionText.current, hintsRevealed)
-        .then(learningResultResponse => {
-          console.log(learningResultResponse);
-          if (learningResultResponse.success === false) {
-            setError(learningResultResponse.error);
-            setAssessmentLoading(false);
-            return;
-          }
-          navigate(navigationPath.fillPath(navigationPath.learningResult, learningResultResponse.data.id), { state: learningResultResponse.data });
-        });
-  }, [assessmentLoading]);
 
   return (
     <Box sx={{
@@ -164,13 +169,17 @@ function ActivityBlock({ learningResourceId, activity, setAssessmentLoading, ass
         </Surface>
         <Surface sx={{ gridArea: "right" }}>
           <Typography fontFamily={"Baloo"} variant='h5' marginY={theme.spacing(2)}>Twoje rozwiązanie</Typography>
-          <Typography variant='body1'>Opisz swoje rozwiązanie. Posłuż się przygotowanym do tego szablonem</Typography>
-          <TextField
+          <Typography variant='body1'>
+            Opisz swoje rozwiązanie. Zawrzyj w nim swój tok myślenia, pokaż szczegółowo krok po kroku w jaki sposób zadanie było rozwiązywane. Twoje rozwiązanie będzie oceniane na podstawie twojego zrozumienia tematu!
+          </Typography>
+          <TextArea
             multiline
             fullWidth
-            sx={{ backgroundColor: theme.palette.common.white, outline: "none", border: "none", borderRadius: 10, marginY: theme.spacing(4), paddingY: theme.spacing(2), "& fieldset": { border: 'none' }, }}
             minRows={8} maxRows={16}
-            onChange={(e) => { solutionText.current = e.target.value; }}
+            sx={{ marginY: theme.spacing(4) }}
+            label='Twoje rozwiązanie'
+            value={solutionText}
+            onChange={(e) => { setSolutionText(e.target.value); }}
           />
         </Surface>
       </Box>
@@ -187,7 +196,7 @@ function ActivityBlock({ learningResourceId, activity, setAssessmentLoading, ass
           <Grid container gap={theme.spacing(2)} justifyContent={"flex-end"}>
             {
               activity.hints.map(
-                (hint, i) => <HintTile hintText={hint.text} key={i} bumpRevealedHints={bumpHintsRevealed} />
+                (hint, i) => <HintTile hint={hint} key={i} isRevealed={hintsRevealed.includes(hint.id)} setHintsRevealed={setHintsRevealed}  />
               )
             }
           </Grid>
@@ -204,23 +213,23 @@ function ActivityBlock({ learningResourceId, activity, setAssessmentLoading, ass
 }
 
 
-function HintTile({ hintText, bumpRevealedHints }) {
+function HintTile({ hint, isRevealed, setHintsRevealed }) {
   const theme = useTheme();
-  const [revealed, setRevealed] = useState(false);
+  const [revealed, setRevealed] = useState(isRevealed);
 
   if (revealed === false)
     return (
       <Grid item xs={3}>
         <Surface sx={{
-          backgroundColor: theme.palette.secondary.main,
+          backgroundColor: theme.palette.secondary.light,
           flex: "0 0 auto",
           aspectRatio: "5/3",
           display: "grid",
           placeItems: "center"
         }}
-          onClick={() => { setRevealed(true); bumpRevealedHints(); }}
+          onClick={() => { setRevealed(true); setHintsRevealed((x) => {x.push(hint.id); return x;})}}
         >
-          <TurnAroundIcon />
+          <TurnAroundIcon/>
         </Surface>
       </Grid>
     );
@@ -228,7 +237,7 @@ function HintTile({ hintText, bumpRevealedHints }) {
   return (
     <Grid item xs={3}>
       <Surface sx={{ backgroundColor: theme.palette.common.white, flex: "0 0 auto", aspectRatio: "5/3", textWrap: "wrap" }}>
-        <Typography variant='body1'>{hintText}</Typography>
+        <MarkdownLaTeXRenderer content={hint.text} />
       </Surface>
     </Grid>
   );

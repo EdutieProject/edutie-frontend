@@ -11,6 +11,8 @@ import { generateLearningResource } from "../services/LearningService.js";
 import ErrorView from "./common/ErrorView.jsx";
 import { getSegments } from "../services/studyProgramLearningService.js";
 import SegmentTree from "../components/tree/SegmentTree.jsx";
+import { saveActiveLessonId } from "../features/storage/activeLessonCache.js";
+import { saveActiveSegmentId } from "../features/storage/activeSegmentCache.js";
 
 class SegmentSearch {
   /**
@@ -66,18 +68,27 @@ export default function SegmentTreeView() {
         console.log(learningResourceResponse);
         navigate(navigationPath.fillPath(navigationPath.exercise, learningResourceResponse.data.id), { state: learningResourceResponse.data });
       }));
-  }, [exerciseLoading])
+  }, [exerciseLoading]);
 
   // Load initial data
   useEffect(() => {
+    saveActiveLessonId(lessonId);
     getSegments(lessonId)
       .then(segmentsResponse => {
+        console.log(segmentsResponse);
         allSegments.current = segmentsResponse.data;
-        setSelectedSegment(SegmentSearch.findFirstSegment(segmentsResponse.data));
+        let firstSegment = SegmentSearch.findFirstSegment(segmentsResponse.data);
+        setSelectedSegment(firstSegment);
+        saveActiveSegmentId(firstSegment.segment.id);
         setError(segmentsResponse.error);
       });
     setSegmentsLoading(false);
   }, [])
+
+  const setSelectedSegmentWithCache = (selectedSegment) => {
+    saveActiveSegmentId(selectedSegment.segment.id);
+    setSelectedSegment(selectedSegment);
+  }
 
   if (error !== null) {
     return <ErrorView error={error} />
@@ -101,7 +112,7 @@ export default function SegmentTreeView() {
           <SegmentTree previousElement={previousSegment} mainElement={selectedSegment} nextElements={nextSegments} setMainElement={setSelectedSegment} />
         </Box>
         <Box sx={{ gridArea: "footer", display: "flex", px: theme.spacing(2), py: theme.spacing(4) }}>
-          <SelectedElementDescriptionTab selectedElement={selectedSegment} setExerciseLoading={setExerciseLoading}/>
+          <SelectedElementDescriptionTab selectedElement={selectedSegment} setExerciseLoading={setExerciseLoading} />
         </Box>
       </Box>
     </NavLayout>
@@ -115,48 +126,48 @@ export default function SegmentTreeView() {
  * @param {Object} params.setExerciseLoading function to set exercise loading, invoking LR creation and causing the loading screen to appear. 
  * @returns JSX component
  */
-function SelectedElementDescriptionTab({selectedElement, setExerciseLoading}) {
+function SelectedElementDescriptionTab({ selectedElement, setExerciseLoading }) {
   const theme = useTheme();
   return (
-      <Surface sx={{flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
-        <Box>
-          <Typography fontFamily="Baloo" variant="h4">
-            Zadania - {selectedElement.segment.name}
+    <Surface sx={{ flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+      <Box>
+        <Typography fontFamily="Baloo" variant="h4">
+          {selectedElement.segment.name}
+        </Typography>
+        <Typography>{selectedElement.segment.snippetDescription}</Typography>
+      </Box>
+      <Grid
+        container
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Grid item xs={2}>
+          <Typography
+            fontFamily="Baloo"
+            sx={{ textAlign: "center" }}
+            variant="h4"
+          >
+            {selectedElement.approachesTaken >= 0 ? selectedElement.approachesTaken : "?"}
           </Typography>
-          <Typography>{selectedElement.segment.snippetDescription}</Typography>
-        </Box>
-        <Grid
-          container
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Grid item xs={2}>
-            <Typography
-              fontFamily="Baloo"
-              sx={{ textAlign: "center" }}
-              variant="h4"
-            >
-              {selectedElement.approachesTaken}
-            </Typography>
-            <Typography sx={{ textAlign: "center" }}>
-              LICZBA PODEJŚĆ
-            </Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <Typography
-              fontFamily="Baloo"
-              sx={{ textAlign: "center" }}
-              variant="h4"
-            >
-              {selectedElement.approachesSucceeded}
-            </Typography>
-            <Typography sx={{ textAlign: "center" }}>
-              LICZBA ZALICZEŃ
-            </Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <Typography
+          <Typography sx={{ textAlign: "center" }}>
+            LICZBA PODEJŚĆ
+          </Typography>
+        </Grid>
+        <Grid item xs={2}>
+          <Typography
+            fontFamily="Baloo"
+            sx={{ textAlign: "center" }}
+            variant="h4"
+          >
+            {selectedElement.approachesSucceeded >= 0 ? selectedElement.approachesSucceeded : "?"}
+          </Typography>
+          <Typography sx={{ textAlign: "center" }}>
+            ZALICZONE WZOROWO
+          </Typography>
+        </Grid>
+        <Grid item xs={2} />
+        {/* <Typography
               fontFamily="Baloo"
               sx={{ textAlign: "center" }}
               variant="h4"
@@ -166,23 +177,24 @@ function SelectedElementDescriptionTab({selectedElement, setExerciseLoading}) {
             <Typography sx={{ textAlign: "center" }}>
               ŚREDNI WYNIK
             </Typography>
-          </Grid>
-          <Grid item>
-            <RoundedButton
-              label={"Zobacz poprzednie wyniki"}
-              active={true}>
-            </RoundedButton>
-          </Grid>
-          <Grid item>
-            <CircleButton
-              size={theme.spacing(3)}
-              onClick={() => setExerciseLoading(true)}
-            >
-              <Typography fontFamily={"Baloo"} fontSize={36} color={theme.palette.common.white}>{">"}</Typography>
-            </CircleButton>
-          </Grid>
+          </Grid> */}
+        <Grid item>
+          <RoundedButton
+            label={"Zobacz poprzednie wyniki"}
+            active={true}
+            disabled
+          />
         </Grid>
-      </Surface>
+        <Grid item>
+          <CircleButton
+            size={theme.spacing(3)}
+            onClick={() => setExerciseLoading(true)}
+          >
+            <Typography fontFamily={"Baloo"} fontSize={36} color={theme.palette.common.white}>{">"}</Typography>
+          </CircleButton>
+        </Grid>
+      </Grid>
+    </Surface>
   );
 
 }
