@@ -11,6 +11,8 @@ import { generateLearningResource } from "../services/LearningService.js";
 import ErrorView from "./common/ErrorView.jsx";
 import { getSegments } from "../services/studyProgramLearningService.js";
 import SegmentTree from "../components/tree/SegmentTree.jsx";
+import { saveActiveLessonId } from "../features/storage/activeLessonCache.js";
+import { saveActiveSegmentId } from "../features/storage/activeSegmentCache.js";
 
 class SegmentSearch {
   /**
@@ -66,19 +68,27 @@ export default function SegmentTreeView() {
         console.log(learningResourceResponse);
         navigate(navigationPath.fillPath(navigationPath.exercise, learningResourceResponse.data.id), { state: learningResourceResponse.data });
       }));
-  }, [exerciseLoading])
+  }, [exerciseLoading]);
 
   // Load initial data
   useEffect(() => {
+    saveActiveLessonId(lessonId);
     getSegments(lessonId)
       .then(segmentsResponse => {
         console.log(segmentsResponse);
         allSegments.current = segmentsResponse.data;
-        setSelectedSegment(SegmentSearch.findFirstSegment(segmentsResponse.data));
+        let firstSegment = SegmentSearch.findFirstSegment(segmentsResponse.data);
+        setSelectedSegment(firstSegment);
+        saveActiveSegmentId(firstSegment.segment.id);
         setError(segmentsResponse.error);
       });
     setSegmentsLoading(false);
   }, [])
+
+  const setSelectedSegmentWithCache = (selectedSegment) => {
+    saveActiveSegmentId(selectedSegment.segment.id);
+    setSelectedSegment(selectedSegment);
+  }
 
   if (error !== null) {
     return <ErrorView error={error} />

@@ -1,22 +1,30 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import NavLayout from "./layout/NavLayout";
 import { Box, Grid, LinearProgress, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getLearningResultById } from "../services/LearningService";
+import { generateLearningResource, getLearningResultById } from "../services/LearningService";
 import ErrorView from "./common/ErrorView";
 import JoyColorfulFaceIcon from "../components/customIcons/JoyColorfulFaceIcon";
 import SadColorfulFaceIcon from "../components/customIcons/SadColorfulFaceIcon";
 import NormalColorfulFaceIcon from "../components/customIcons/NormalColorfulFaceIcon";
 import LoadingView from "./common/LoadingView";
 import MarkdownLaTeXRenderer from "../components/markdown/MarkdownLaTexRenderer";
+import RoundedButton from "../components/global/RoundedButton";
+import { navigationPath } from "../features/navigation";
+import { getActiveLessonId } from "../features/storage/activeLessonCache";
 
 
 export default function LearningResultView() {
     const theme = useTheme();
+    const navigate = useNavigate();
     const { resultId } = useParams();
     const { state } = useLocation();
     const [learningResult, setLearningResult] = useState(state);
     const [error, setError] = useState(null);
+
+    const [exerciseLoading, setExerciseLoading] = useState(false);
+
+    console.log(learningResult);
 
     useEffect(() => {
         if (learningResult != null) {
@@ -31,6 +39,22 @@ export default function LearningResultView() {
             });
     }, []);
 
+      // exercise creation effect
+  useEffect(() => {
+    if (exerciseLoading === false)
+      return;
+    generateLearningResource(learningResult.learningResourceDefinition.id)
+      .then((learningResourceResponse => {
+        if (learningResourceResponse.success === false) {
+          setError(learningResourceResponse.error);
+          setExerciseLoading(false);
+          return;
+        }
+        console.log(learningResourceResponse);
+        navigate(navigationPath.fillPath(navigationPath.exercise, learningResourceResponse.data.id), { state: learningResourceResponse.data });
+      }));
+  }, [exerciseLoading]);
+
     const getHeading = (feedbackType) => feedbackType === "POSITIVE" ? "Świetnie!" : feedbackType === "NEGATIVE" ? "Słabo..." : "W porządku.";
 
     const iconSize = "24rem";
@@ -41,7 +65,7 @@ export default function LearningResultView() {
     if (error)
         return <ErrorView error={error} />
 
-    if (learningResult == null)
+    if (learningResult == null || exerciseLoading)
         return <LoadingView />
 
     return (
@@ -93,6 +117,10 @@ export default function LearningResultView() {
                             )
                         })
                     }
+                    <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", gap: theme.spacing(4), marginY: theme.spacing(6)}}>
+                        <RoundedButton label="Wróć do drzewka" onClick={() => navigate(navigationPath.fillPath(navigationPath.segmentTree, getActiveLessonId()))}/>
+                        <RoundedButton label="Spróbuj jeszcze raz" active onClick={() => setExerciseLoading(true)}/>
+                    </Box>
                 </Grid>
             </Grid>
         </NavLayout>
