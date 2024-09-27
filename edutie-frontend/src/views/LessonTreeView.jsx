@@ -1,7 +1,7 @@
 import { Box, ButtonBase, Grid, Typography, useTheme } from "@mui/material";
 import NavLayout from "./layout/NavLayout";
 import { useEffect, useState } from "react";
-import { getLessons } from "../services/studyProgramLearningService";
+import { getCourseDetailsById, getLessons } from "../services/studyProgramLearningService";
 import Xarrow from "react-xarrows";
 import LoadingView from "./common/LoadingView";
 import { useNavigate, useParams } from "react-router-dom";
@@ -36,7 +36,8 @@ export default function LessonTreeView() {
     const theme = useTheme();
     /** Course Id may be injected from storage in the navigation */
     const { courseId } = useParams();
-    const [lessonsResponse, setLessonsResponse] = useState({ data: null, error: null });
+    const [lessonsResponse, setLessonsResponse] = useState({ data: null, error: null, success: false });
+    const [courseDetailsResponse, setCourseDetailsResponse] = useState({ data: null, error: null, success: false });
 
     if (courseId === noSavedCourseIdPlaceholder)
         return (<NoContextView>
@@ -46,10 +47,11 @@ export default function LessonTreeView() {
     useEffect(() => {
         getLessons(courseId).then(lessons => setLessonsResponse(lessons));
         saveCourseId(courseId);
+        getCourseDetailsById(courseId).then(courseDetails => setCourseDetailsResponse(courseDetails));
     }, []);
 
-    if (lessonsResponse.error !== null)
-        return <ErrorView error={lessonsResponse.error} />
+    if (lessonsResponse.error !== null || courseDetailsResponse.error !== null)
+        return <ErrorView error={lessonsResponse.error ?? courseDetailsResponse.error} />
 
     if (lessonsResponse.data === null)
         return (<LoadingView />);
@@ -58,8 +60,8 @@ export default function LessonTreeView() {
     return (
         <NavLayout mode={"flex"} disablePadding activeSectionIdOverride={navSections.learningInTree}>
             <Box sx={{ width: "100%", textAlign: "center", py: theme.spacing(2) }}>
-                <Heading variant="h4">Course</Heading>
-                <Typography variant="caption">Course description</Typography>
+                <Heading variant="h4">{courseDetailsResponse.data.name}</Heading>
+                <Typography variant="caption">{courseDetailsResponse.data.description}</Typography>
             </Box>
             <Grid container sx={{ overflowY: "scroll" }}>
                 {

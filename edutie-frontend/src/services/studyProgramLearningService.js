@@ -20,6 +20,15 @@ export async function getCourses(scienceId) {
     );
 }
 
+export async function getCourseDetailsById(courseId) {
+    return await catchClientErrors(
+        async () => {
+            const response = await fetch(`${STUDY_PROGRAM_API}/courses/by-id?courseId=${courseId}`, { method: "GET", headers: await getDefaultHeadersAuthenticated() })
+            return await response.json();
+        }
+    );
+}
+
 export async function getProgressedCourses() {
     return await catchClientErrors(
         async () => {
