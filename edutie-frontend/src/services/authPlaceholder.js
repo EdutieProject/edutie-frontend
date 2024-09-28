@@ -1,5 +1,5 @@
 
-const TOKEN_URL = "http://localhost:8080/auth/realms/baeldung/protocol/openid-connect/token";
+const TOKEN_URL = "http://keycloak:8080/auth/realms/baeldung/protocol/openid-connect/token";
 
 export async function getAuthorizationToken() {
     const response = await fetch(TOKEN_URL, { 

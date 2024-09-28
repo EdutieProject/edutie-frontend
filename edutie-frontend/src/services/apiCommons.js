@@ -1,6 +1,6 @@
 import { getAuthorizationToken } from "./authPlaceholder";
 
-const BACKEND_HOST = "localhost:8081";
+const BACKEND_HOST = "backendapp:8081";
 const API_VERSION = "v1";
 
 export const API_PATH = `http://${BACKEND_HOST}/api/${API_VERSION}`;
