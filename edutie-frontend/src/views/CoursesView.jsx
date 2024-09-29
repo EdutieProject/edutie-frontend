@@ -95,7 +95,9 @@ export default function CoursesView() {
           </Grid>
           <Box sx={{ display: "grid", placeItems: "center" }}>
             <img
-              src={selectedScience.imageSource === null ? "./src/assets/img/ExampleImage.webp" : selectedScience.imageSource}
+              src={selectedScience.imageSource === null ? 
+                "https://as2.ftcdn.net/v2/jpg/05/79/64/29/1000_F_579642932_z3CUhYjjYWcGIWJtO30pMyYVFpDyoa1W.jpg" 
+                : selectedScience.imageSource}
               alt="Science Picture"
               width={250}
               style={{ aspectRatio: 1 / 1, objectFit: "cover", borderRadius: theme.shape.roundedRadius }}
