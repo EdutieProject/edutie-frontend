@@ -175,7 +175,7 @@ function ActivityBlock({ activity, setAssessmentLoading, solutionText, setSoluti
           <TextArea
             multiline
             fullWidth
-            minRows={8} maxRows={16}
+            minRows={10} maxRows={20}
             sx={{ marginY: theme.spacing(4) }}
             label='Twoje rozwiązanie'
             value={solutionText}
