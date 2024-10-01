@@ -1,7 +1,7 @@
 import { SvgIcon } from "@mui/material";
 
 /**
- * Element for icon of svg present in assets/svg/student-graduation-cap.svg
+ * Element for icon of svg present in assets/svg/books-literature-svgrepo-com.svg
  * @param {import("@mui/material").SvgIconProps} params 
  * @returns JSX element for distributed learning icon
  */

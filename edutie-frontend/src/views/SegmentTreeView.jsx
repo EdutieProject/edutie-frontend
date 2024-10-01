@@ -1,18 +1,19 @@
-import { Typography, Box, Grid, useTheme } from "@mui/material";
-import NavLayout from "./layout/NavLayout.jsx";
-import Surface from "../components/global/Surface.jsx";
+import { Typography, Box, Grid, useTheme, Tooltip, IconButton } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import CircleButton from "../components/global/CircleButton.jsx";
-import RoundedButton from "../components/global/RoundedButton.jsx";
 import { useNavigate, useParams } from "react-router-dom";
-import { navigationPath } from "../features/navigation.jsx";
-import LoadingView from "./common/LoadingView.jsx";
 import { generateLearningResource } from "../services/LearningService.js";
-import ErrorView from "./common/ErrorView.jsx";
 import { getSegments } from "../services/studyProgramLearningService.js";
-import SegmentTree from "../components/tree/SegmentTree.jsx";
 import { saveActiveLessonId } from "../features/storage/activeLessonCache.js";
 import { saveActiveSegmentId } from "../features/storage/activeSegmentCache.js";
+import { navigationPath } from "../features/navigation.jsx";
+import NavLayout from "./layout/NavLayout.jsx";
+import Surface from "../components/global/Surface.jsx";
+import CircleButton from "../components/global/CircleButton.jsx";
+import RoundedButton from "../components/global/RoundedButton.jsx";
+import LoadingView from "./common/LoadingView.jsx";
+import ErrorView from "./common/ErrorView.jsx";
+import SegmentTree from "../components/tree/SegmentTree.jsx";
+import InfoCircleIcon from "../components/customIcons/InfoCircleIcon.jsx";
 
 class SegmentSearch {
   /**
@@ -136,7 +137,8 @@ function SelectedElementDescriptionTab({ selectedElement, setExerciseLoading }) 
       </Box>
       <Box sx={{
         display: "flex",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        marginTop: theme.spacing(2)
       }}>
         <Box sx={{ display: "flex", gap: theme.spacing(4) }}>
           <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -151,13 +153,21 @@ function SelectedElementDescriptionTab({ selectedElement, setExerciseLoading }) 
               LICZBA PODEJŚĆ
             </Typography>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative" }}>
             <Typography
               fontFamily="Baloo"
               sx={{ textAlign: "center" }}
               variant="h4"
             >
               {selectedElement.approachesSucceeded >= 0 ? selectedElement.approachesSucceeded : "?"}
+              <Tooltip
+                title="Zadania zaliczone wzorowo to takie dla których każda z osiągniętych ocen jest równa lub wyższa od 5"
+              // sx={{position: "absolute", margin: "auto", transform: "translateY(30%) translateX(30%)"}} 
+              >
+                <IconButton>
+                  <InfoCircleIcon color={theme.palette.secondary.main} height="1.5rem" width="1.5rem" />
+                </IconButton>
+              </Tooltip>
             </Typography>
             <Typography sx={{ textAlign: "center" }}>
               ZALICZONE WZOROWO
