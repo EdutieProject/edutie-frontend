@@ -115,11 +115,11 @@ function StudentProfileView({ setError }) {
                       <Typography>{learningReq.name}</Typography>
                       <Box sx={{ display: "flex", gap: theme.spacing(4) }}>
                         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(2) }}>
-                          <CircularProgress variant="determinate" value={assessment.grade / 6 * 100} thickness={8} size={"2rem"} />
+                          <CircularProgress variant="determinate" value={assessment.grade / 6 * 100} thickness={8} size={"1.75rem"} />
                           <Typography>Ocena: {assessment.grade}</Typography>
                         </Box>
                         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(2) }}>
-                          <CircularProgress variant="determinate" value={qualifiedSubReqs / allSubReqs * 100} thickness={8} color="secondary" size={"2rem"} />
+                          <CircularProgress variant="determinate" value={qualifiedSubReqs / allSubReqs * 100} thickness={8} color="secondary" size={"1.75rem"} />
                           <Typography>Trudność</Typography>
                         </Box>
                       </Box>

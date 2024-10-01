@@ -60,7 +60,7 @@ export default function CoursesView() {
   let selectedScience = sciences[selectedScienceIndex];
   return (
     <NavLayout mode="flex" activeSectionIdOverride={navSections.courses} scroll>
-      <Grid container direction="row" justifyContent="space-between" gap={theme.spacing(14)}>
+      <Grid container direction="row" justifyContent="space-between" gap={theme.spacing(14)} flexWrap="wrap-reverse">
         <CourseList scienceId={selectedScience.id} setErrorInView={setError} />
         <Grid sx={{ flexGrow: 1 }}>
           <Grid
@@ -95,16 +95,16 @@ export default function CoursesView() {
           </Grid>
           <Box sx={{ display: "grid", placeItems: "center" }}>
             <img
-              src={selectedScience.imageSource === null ? 
-                "https://as2.ftcdn.net/v2/jpg/05/79/64/29/1000_F_579642932_z3CUhYjjYWcGIWJtO30pMyYVFpDyoa1W.jpg" 
+              src={selectedScience.imageSource === null ?
+                "https://as2.ftcdn.net/v2/jpg/05/79/64/29/1000_F_579642932_z3CUhYjjYWcGIWJtO30pMyYVFpDyoa1W.jpg"
                 : selectedScience.imageSource}
               alt="Science Picture"
               width={250}
               style={{ aspectRatio: 1 / 1, objectFit: "cover", borderRadius: theme.shape.roundedRadius }}
             />
           </Box>
-          <Box sx={{width: "100%", my: theme.spacing(4), textAlign: "center"}}>
-              <Typography color="grey" variant="overline">{selectedScience.description}</Typography>
+          <Box sx={{ width: "100%", my: theme.spacing(4), textAlign: "center" }}>
+            <Typography color="grey" variant="overline">{selectedScience.description}</Typography>
           </Box>
         </Grid>
       </Grid>
@@ -197,40 +197,45 @@ const CourseTile = ({ course }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   return (
-    <Surface sx={{ my: theme.spacing(4), display: "flex", gap: theme.spacing(4) }}>
-      <Box width={"15%"} sx={{ display: "grid", placeItems: "center"}}>
-        <img src={course.imageSource === null ?
-          "https://thumbs.dreamstime.com/b/trigonometry-formula-line-icon-vector-illustration-sign-isolated-contour-symbol-black-331770196.jpg"
-          : course.imageSource}
-          width="100%"
-          style={{ aspectRatio: 1 / 1, objectFit: "cover", borderRadius: theme.shape.borderRadius }}
-        />
-      </Box>
-      <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-        <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-          <Heading variant={"h4"}>{course.name}</Heading>
-          <Box sx={{ display: "flex", flexDirection: "row", gap: theme.spacing(2) }}>
-            {course.courseTags.map(tag =>
-              <Box sx={{ color: theme.palette.getContrastText(theme.palette.secondary.light), borderRadius: theme.shape.roundedRadius, backgroundColor: theme.palette.secondary.light, px: theme.spacing(2), py: theme.spacing(1), display: "grid", placeItems: "center" }}>
-                {tag.name}
+    <Surface sx={{ my: theme.spacing(3), display: "flex"}}>
+      <Grid container>
+        <Grid item xs={12} md={2} sx={{ display: "grid", placeItems: "center", paddingX: theme.spacing(1) }}>
+          <img src={course.imageSource === null ?
+            "https://thumbs.dreamstime.com/b/trigonometry-formula-line-icon-vector-illustration-sign-isolated-contour-symbol-black-331770196.jpg"
+            : course.imageSource}
+            width="100%"
+            style={{ aspectRatio: 1 / 1, objectFit: "cover", borderRadius: theme.shape.borderRadius }}
+          />
+        </Grid>
+        <Grid item xs={12} md={10} sx={{paddingX: theme.spacing(1)}}>
+          <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+            <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", flexWrap: "wrap-reverse" }}>
+              <Heading variant={"h4"}>{course.name}</Heading>
+              <Box sx={{ display: "flex", flexDirection: "row", gap: theme.spacing(2) }}>
+                {course.courseTags.map(tag =>
+                  <Box sx={{ color: theme.palette.getContrastText(theme.palette.secondary.light), borderRadius: theme.shape.roundedRadius, backgroundColor: theme.palette.secondary.light, px: theme.spacing(2), py: theme.spacing(1), display: "grid", placeItems: "center" }}>
+                    {tag.name}
+                  </Box>
+                )}
               </Box>
-            )}
-          </Box>
-        </Box>
-        <Typography variant="body1">
-          {course.description}
-        </Typography>
-        <Box sx={{ mt: theme.spacing(1), display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-          <Box sx={{ display: "grid", placeItems: "center" }}>
-            <Box sx={{ display: "flex", flexDirection: "row", gap: theme.spacing(2) }}>
-              <QuestionMark color={theme.palette.common.black} /> Autor nieznany
+            </Box>
+            <Typography variant="body1">
+              {course.description}
+            </Typography>
+            <Box sx={{ mt: theme.spacing(1), display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+              <Box sx={{ display: "grid", placeItems: "center" }}>
+                <Box sx={{ display: "flex", flexDirection: "row", gap: theme.spacing(2) }}>
+                  <QuestionMark color={theme.palette.common.black} /> Autor nieznany
+                </Box>
+              </Box>
+              <CircleButton size={theme.spacing(3)} onClick={() => navigate(navigationPath.fillPath(navigationPath.lessonTree, course.id))}>
+                <Typography fontFamily={"Baloo"} fontSize={24} color={theme.palette.common.white}>{">"}</Typography>
+              </CircleButton>
             </Box>
           </Box>
-          <CircleButton size={theme.spacing(3)} onClick={() => navigate(navigationPath.fillPath(navigationPath.lessonTree, course.id))}>
-            <Typography fontFamily={"Baloo"} fontSize={24} color={theme.palette.common.white}>{">"}</Typography>
-          </CircleButton>
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
+
     </Surface>
   );
 }

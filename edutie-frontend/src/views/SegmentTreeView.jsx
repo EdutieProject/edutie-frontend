@@ -107,12 +107,12 @@ export default function SegmentTreeView() {
 
   return (
     <NavLayout mode="flex" scroll>
-        <Box sx={{ flexGrow: 1, display: "flex", felxDirection: "column", justifyContent: "center"}}>
-          <SegmentTree previousElement={previousSegment} mainElement={selectedSegment} nextElements={nextSegments} setMainElement={setSelectedSegment} />
-        </Box>
-        <Box sx={{ display: "flex", px: theme.spacing(2), py: theme.spacing(4) }}>
-          <SelectedElementDescriptionTab selectedElement={selectedSegment} setExerciseLoading={setExerciseLoading} />
-        </Box>
+      <Box sx={{ flexGrow: 1, display: "flex", felxDirection: "column", justifyContent: "center" }}>
+        <SegmentTree previousElement={previousSegment} mainElement={selectedSegment} nextElements={nextSegments} setMainElement={setSelectedSegment} />
+      </Box>
+      <Box sx={{ display: "flex", px: theme.spacing(2), py: theme.spacing(4) }}>
+        <SelectedElementDescriptionTab selectedElement={selectedSegment} setExerciseLoading={setExerciseLoading} />
+      </Box>
     </NavLayout>
   );
 }
@@ -134,65 +134,51 @@ function SelectedElementDescriptionTab({ selectedElement, setExerciseLoading }) 
         </Typography>
         <Typography>{selectedElement.segment.snippetDescription}</Typography>
       </Box>
-      <Grid
-        container
-        direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <Grid item xs={2}>
-          <Typography
-            fontFamily="Baloo"
-            sx={{ textAlign: "center" }}
-            variant="h4"
-          >
-            {selectedElement.approachesTaken >= 0 ? selectedElement.approachesTaken : "?"}
-          </Typography>
-          <Typography sx={{ textAlign: "center" }}>
-            LICZBA PODEJŚĆ
-          </Typography>
-        </Grid>
-        <Grid item xs={2}>
-          <Typography
-            fontFamily="Baloo"
-            sx={{ textAlign: "center" }}
-            variant="h4"
-          >
-            {selectedElement.approachesSucceeded >= 0 ? selectedElement.approachesSucceeded : "?"}
-          </Typography>
-          <Typography sx={{ textAlign: "center" }}>
-            ZALICZONE WZOROWO
-          </Typography>
-        </Grid>
-        <Grid item xs={2} />
-        {/* <Typography
+      <Box sx={{
+        display: "flex",
+        justifyContent: "space-between"
+      }}>
+        <Box sx={{ display: "flex", gap: theme.spacing(4) }}>
+          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <Typography
               fontFamily="Baloo"
               sx={{ textAlign: "center" }}
               variant="h4"
             >
-              74%
+              {selectedElement.approachesTaken >= 0 ? selectedElement.approachesTaken : "?"}
             </Typography>
             <Typography sx={{ textAlign: "center" }}>
-              ŚREDNI WYNIK
+              LICZBA PODEJŚĆ
             </Typography>
-          </Grid> */}
-        <Grid item>
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <Typography
+              fontFamily="Baloo"
+              sx={{ textAlign: "center" }}
+              variant="h4"
+            >
+              {selectedElement.approachesSucceeded >= 0 ? selectedElement.approachesSucceeded : "?"}
+            </Typography>
+            <Typography sx={{ textAlign: "center" }}>
+              ZALICZONE WZOROWO
+            </Typography>
+          </Box>
+        </Box>
+        <Box sx={{ marginTop: theme.spacing(2), display: "flex", gap: theme.spacing(4), alignItems: "center" }}>
           <RoundedButton
             label={"Zobacz poprzednie wyniki"}
             active={true}
             disabled
           />
-        </Grid>
-        <Grid item>
           <CircleButton
             size={theme.spacing(3)}
             onClick={() => setExerciseLoading(true)}
           >
             <Typography fontFamily={"Baloo"} fontSize={36} color={theme.palette.common.white}>{">"}</Typography>
           </CircleButton>
-        </Grid>
-      </Grid>
-    </Surface>
+        </Box>
+      </Box>
+    </Surface >
   );
 
 }
