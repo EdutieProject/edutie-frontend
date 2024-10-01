@@ -13,6 +13,7 @@ import { getSegments } from "../services/studyProgramLearningService.js";
 import SegmentTree from "../components/tree/SegmentTree.jsx";
 import { saveActiveLessonId } from "../features/storage/activeLessonCache.js";
 import { saveActiveSegmentId } from "../features/storage/activeSegmentCache.js";
+import InfoCircleIcon from "../components/customIcons/InfoCircleIcon.jsx";
 
 class SegmentSearch {
   /**
@@ -136,7 +137,8 @@ function SelectedElementDescriptionTab({ selectedElement, setExerciseLoading }) 
       </Box>
       <Box sx={{
         display: "flex",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        marginTop: theme.spacing(2)
       }}>
         <Box sx={{ display: "flex", gap: theme.spacing(4) }}>
           <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -151,13 +153,14 @@ function SelectedElementDescriptionTab({ selectedElement, setExerciseLoading }) 
               LICZBA PODEJŚĆ
             </Typography>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative" }}>
             <Typography
               fontFamily="Baloo"
               sx={{ textAlign: "center" }}
               variant="h4"
             >
               {selectedElement.approachesSucceeded >= 0 ? selectedElement.approachesSucceeded : "?"}
+              <InfoCircleIcon color={theme.palette.secondary.main} height="1.5rem" width="1.5rem" sx={{position: "absolute", margin: "auto", transform: "translateY(30%) translateX(30%)"}}/>
             </Typography>
             <Typography sx={{ textAlign: "center" }}>
               ZALICZONE WZOROWO
