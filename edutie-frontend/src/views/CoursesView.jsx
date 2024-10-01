@@ -133,13 +133,13 @@ function CourseList({ scienceId, setErrorInView }) {
 
   console.log(filteredCourses); // Note that the list is rendered twice with already proper data
 
-  const skeletonCourseTileSize = "14rem";
+  const skeletonCourseTileSize = "16rem";
 
   if (loading) {
     return (
       <Grid xs={8}>
         <TextField
-          sx={{ marginBottom: theme.spacing(2) }}
+          sx={{ marginBottom: theme.spacing(1) }}
           id="outlined-search"
           label="Wyszukaj kurs"
           type="search"
@@ -211,7 +211,7 @@ const CourseTile = ({ course }) => {
           <Heading variant={"h4"}>{course.name}</Heading>
           <Box sx={{ display: "flex", flexDirection: "row", gap: theme.spacing(2) }}>
             {course.courseTags.map(tag =>
-              <Box sx={{ borderRadius: theme.shape.roundedRadius, backgroundColor: theme.palette.secondary.main, px: theme.spacing(2), py: theme.spacing(1), display: "grid", placeItems: "center" }}>
+              <Box sx={{ color: theme.palette.getContrastText(theme.palette.secondary.light), borderRadius: theme.shape.roundedRadius, backgroundColor: theme.palette.secondary.light, px: theme.spacing(2), py: theme.spacing(1), display: "grid", placeItems: "center" }}>
                 {tag.name}
               </Box>
             )}

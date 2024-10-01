@@ -106,15 +106,13 @@ export default function SegmentTreeView() {
   // console.log(nextSegments);
 
   return (
-    <NavLayout mode="flex">
-      <Box sx={{ flexGrow: 1, display: "grid", gridTemplateRows: "repeat(3, 1fr)", gridTemplateAreas: `"tree" "tree" "footer"` }}>
-        <Box sx={{ gridArea: "tree", display: "flex" }}>
+    <NavLayout mode="flex" scroll>
+        <Box sx={{ flexGrow: 1, display: "flex", felxDirection: "column", justifyContent: "center"}}>
           <SegmentTree previousElement={previousSegment} mainElement={selectedSegment} nextElements={nextSegments} setMainElement={setSelectedSegment} />
         </Box>
-        <Box sx={{ gridArea: "footer", display: "flex", px: theme.spacing(2), py: theme.spacing(4) }}>
+        <Box sx={{ display: "flex", px: theme.spacing(2), py: theme.spacing(4) }}>
           <SelectedElementDescriptionTab selectedElement={selectedSegment} setExerciseLoading={setExerciseLoading} />
         </Box>
-      </Box>
     </NavLayout>
   );
 }

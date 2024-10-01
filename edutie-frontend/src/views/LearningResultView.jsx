@@ -102,7 +102,7 @@ export default function LearningResultView() {
                                         </Box>
                                     </Box>
                                     <Box sx={{ display: "flex", gap: theme.spacing(2) }}>
-                                        <Typography variant="h4" sx={{ display: "grid", placeItems: "center" }}>Trudność: {qualifiedSubReqs / allSubReqs * 100}%</Typography>
+                                        <Typography variant="h4" sx={{ display: "grid", placeItems: "center" }}>Trudność: {(qualifiedSubReqs / allSubReqs * 100).toFixed(2)}%</Typography>
                                         <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
                                             <LinearProgress
                                                 color="secondary"

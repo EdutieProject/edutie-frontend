@@ -1,5 +1,5 @@
 import { createTheme } from '@mui/material/styles';
-import { grey, green, yellow } from '@mui/material/colors'
+import { grey, green, amber } from '@mui/material/colors'
 
 
 const theme = createTheme({
@@ -8,10 +8,10 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      main: green[600]
+      main: "#00c821"
     },
     secondary: {
-      main: yellow[200]
+      main: "#c800a7"
     },
     surface: {
       main: grey[200]
