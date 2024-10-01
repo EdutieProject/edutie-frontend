@@ -59,7 +59,7 @@ export default function CoursesView() {
   let sciences = sciencesData.current;
   let selectedScience = sciences[selectedScienceIndex];
   return (
-    <NavLayout mode="flex" activeSectionIdOverride={navSections.courses}>
+    <NavLayout mode="flex" activeSectionIdOverride={navSections.courses} scroll>
       <Grid container direction="row" justifyContent="space-between" gap={theme.spacing(14)}>
         <CourseList scienceId={selectedScience.id} setErrorInView={setError} />
         <Grid sx={{ flexGrow: 1 }}>
@@ -198,7 +198,7 @@ const CourseTile = ({ course }) => {
   const navigate = useNavigate();
   return (
     <Surface sx={{ my: theme.spacing(4), display: "flex", gap: theme.spacing(4) }}>
-      <Box width={"15%"}>
+      <Box width={"15%"} sx={{ display: "grid", placeItems: "center"}}>
         <img src={course.imageSource === null ?
           "https://thumbs.dreamstime.com/b/trigonometry-formula-line-icon-vector-illustration-sign-isolated-contour-symbol-black-331770196.jpg"
           : course.imageSource}

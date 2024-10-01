@@ -58,12 +58,12 @@ export default function LessonTreeView() {
 
     let treeLevelsArray = TreeGridInitializer.getTreeAsArray(lessonsResponse.data);
     return (
-        <NavLayout mode={"flex"} disablePadding activeSectionIdOverride={navSections.learningInTree}>
-            <Box sx={{ width: "100%", textAlign: "center", py: theme.spacing(2) }}>
+        <NavLayout mode={"flex"} disablePadding activeSectionIdOverride={navSections.learningInTree} scroll relative>
+            <Box sx={{ width: "100%", textAlign: "center", py: theme.spacing(2)}}>
                 <Heading variant="h4">{courseDetailsResponse.data.name}</Heading>
                 <Typography variant="caption">{courseDetailsResponse.data.description}</Typography>
             </Box>
-            <Grid container sx={{ overflowY: "scroll" }}>
+            <Grid container>
                 {
                     treeLevelsArray.map((treeLevel) =>
                         treeLevel.map(lessonView =>
