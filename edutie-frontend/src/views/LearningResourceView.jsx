@@ -13,6 +13,7 @@ import ErrorView from './common/ErrorView';
 import { navigationPath } from '../features/navigation';
 import MarkdownLaTeXRenderer from '../components/markdown/MarkdownLaTexRenderer';
 import TextArea from '../components/global/TextArea';
+import Mermaid from '../components/mermaid/Mermaid';
 
 
 
@@ -137,7 +138,9 @@ function TheoryBlock({ theory }) {
       </Surface>
       <Surface sx={{ gridArea: "right" }}>
         <Typography fontFamily={"Baloo"} variant='h5' marginY={theme.spacing(2)}>Podsumowanie</Typography>
-        <MarkdownLaTeXRenderer content={theory.summary} />
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Mermaid chart={theory.summary} />
+        </Box>
       </Surface>
     </TheoryLayout>
   )
@@ -196,7 +199,7 @@ function ActivityBlock({ activity, setAssessmentLoading, solutionText, setSoluti
           <Grid container gap={theme.spacing(2)} justifyContent={"flex-end"}>
             {
               activity.hints.map(
-                (hint, i) => <HintTile hint={hint} key={i} isRevealed={hintsRevealed.includes(hint.id)} setHintsRevealed={setHintsRevealed}  />
+                (hint, i) => <HintTile hint={hint} key={i} isRevealed={hintsRevealed.includes(hint.id)} setHintsRevealed={setHintsRevealed} />
               )
             }
           </Grid>
@@ -227,9 +230,9 @@ function HintTile({ hint, isRevealed, setHintsRevealed }) {
           display: "grid",
           placeItems: "center"
         }}
-          onClick={() => { setRevealed(true); setHintsRevealed((x) => {x.push(hint.id); return x;})}}
+          onClick={() => { setRevealed(true); setHintsRevealed((x) => { x.push(hint.id); return x; }) }}
         >
-          <TurnAroundIcon/>
+          <TurnAroundIcon />
         </Surface>
       </Grid>
     );
