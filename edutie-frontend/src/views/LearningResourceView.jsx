@@ -13,6 +13,7 @@ import ErrorView from './common/ErrorView';
 import { navigationPath } from '../features/navigation';
 import MarkdownLaTeXRenderer from '../components/markdown/MarkdownLaTexRenderer';
 import TextArea from '../components/global/TextArea';
+import Mermaid from '../components/mermaid/Mermaid';
 
 
 
@@ -114,12 +115,12 @@ function TheoryLayout({ children }) {
       marginY: theme.spacing(4),
       display: "grid",
       gap: theme.spacing(4),
-      gridTemplateColumns: 'repeat(3, 1fr)',
+      gridTemplateColumns: 'repeat(8, 1fr)',
       gridTemplateRows: 'repeat(3, 1fr)',
       gridTemplateAreas: `
-      "left left right"
-      "left left right"
-      "left left right"
+      "left left left left left right right right"
+      "left left left left left right right right"
+      "left left left left left right right right"
       `
     }}> {children} </Box>
   )
@@ -136,8 +137,10 @@ function TheoryBlock({ theory }) {
         </Typography>
       </Surface>
       <Surface sx={{ gridArea: "right" }}>
-        <Typography fontFamily={"Baloo"} variant='h5' marginY={theme.spacing(2)}>Podsumowanie</Typography>
-        <MarkdownLaTeXRenderer content={theory.summary} />
+        <Typography fontFamily={"Baloo"} variant='h5' marginY={theme.spacing(2)}>Naucz się na przykładzie</Typography>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "stretch" }}>
+          <Mermaid chart={theory.mermaidGraph} />
+        </Box>
       </Surface>
     </TheoryLayout>
   )
@@ -196,7 +199,7 @@ function ActivityBlock({ activity, setAssessmentLoading, solutionText, setSoluti
           <Grid container gap={theme.spacing(2)} justifyContent={"flex-end"}>
             {
               activity.hints.map(
-                (hint, i) => <HintTile hint={hint} key={i} isRevealed={hintsRevealed.includes(hint.id)} setHintsRevealed={setHintsRevealed}  />
+                (hint, i) => <HintTile hint={hint} key={i} isRevealed={hintsRevealed.includes(hint.id)} setHintsRevealed={setHintsRevealed} />
               )
             }
           </Grid>
@@ -227,9 +230,9 @@ function HintTile({ hint, isRevealed, setHintsRevealed }) {
           display: "grid",
           placeItems: "center"
         }}
-          onClick={() => { setRevealed(true); setHintsRevealed((x) => {x.push(hint.id); return x;})}}
+          onClick={() => { setRevealed(true); setHintsRevealed((x) => { x.push(hint.id); return x; }) }}
         >
-          <TurnAroundIcon/>
+          <TurnAroundIcon />
         </Surface>
       </Grid>
     );
