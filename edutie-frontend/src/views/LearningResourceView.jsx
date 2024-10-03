@@ -115,12 +115,12 @@ function TheoryLayout({ children }) {
       marginY: theme.spacing(4),
       display: "grid",
       gap: theme.spacing(4),
-      gridTemplateColumns: 'repeat(3, 1fr)',
+      gridTemplateColumns: 'repeat(8, 1fr)',
       gridTemplateRows: 'repeat(3, 1fr)',
       gridTemplateAreas: `
-      "left left right"
-      "left left right"
-      "left left right"
+      "left left left left left right right right"
+      "left left left left left right right right"
+      "left left left left left right right right"
       `
     }}> {children} </Box>
   )
@@ -137,9 +137,9 @@ function TheoryBlock({ theory }) {
         </Typography>
       </Surface>
       <Surface sx={{ gridArea: "right" }}>
-        <Typography fontFamily={"Baloo"} variant='h5' marginY={theme.spacing(2)}>Podsumowanie</Typography>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Mermaid chart={theory.summary} />
+        <Typography fontFamily={"Baloo"} variant='h5' marginY={theme.spacing(2)}>Naucz się na przykładzie</Typography>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "stretch" }}>
+          <Mermaid chart={theory.mermaidGraph} />
         </Box>
       </Surface>
     </TheoryLayout>
