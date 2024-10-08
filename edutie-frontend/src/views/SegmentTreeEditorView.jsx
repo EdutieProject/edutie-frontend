@@ -1,11 +1,16 @@
 import NavLayout from "./layout/NavLayout";
 import Circle from "../components/global/Circle";
 import RoundedButton from "../components/global/RoundedButton.jsx";
-import { Grid, IconButton, Typography, useTheme, Button } from "@mui/material";
+import { TextField, Grid, IconButton, Typography, useTheme, Button } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import EditIcon from "@mui/icons-material/Edit";
+import { useState } from "react";
 export default function SegmentTreeEditorView() {
   const theme = useTheme();
+  //STAŁA OPISUJĄCA CAŁĄ STRUKTURĘ SEGMENTTREE = {seg1: [name:, description:, parent:, children: []], seg2: [name:, description:, parent:, children: []]...}
+  const [focusedSegmentName, setFocusedSegmentName] = useState("Nazwa wybranego segmentu");
+  const [focusedSegmentDescription, setFocusedSegmentDescription] = useState("Opis wybranego segmentu"); //REFACTOR NA JEDNA STAŁĄ FOCUSEDSEGMENT = {ID: NAME:, DESCRIPTION: , PARENTID: , CHILDRENIDS: []}
+  const cos = { name: "cos", kos: "cos" };
   return (
     <NavLayout>
       <Grid container columns={{ xs: 13 }}>
@@ -16,6 +21,7 @@ export default function SegmentTreeEditorView() {
             borderColor: "black",
             border: 1,
           }}>
+          {/* TUTAJ KOMPONENT DO EDYCJI WIZUALNEJ DRZEWA */}
           <Circle backgroundColor={theme.palette.secondary.main} size="7vw">
             <Typography fontFamily="Baloo" fontSize="4vw" color={"black"}>
               x
@@ -37,12 +43,15 @@ export default function SegmentTreeEditorView() {
             }}>
             <Grid xs={10}>
               <Typography
+                onBlur={(e) => setFocusedSegmentName(e.currentTarget.innerText)}
+                contentEditable={"true"}
+                suppressContentEditableWarning={true}
                 variant="h4"
                 fontFamily={"Baloo"}
                 sx={{
                   marginBottom: theme.spacing(2),
                 }}>
-                Nazwa wybranego seg
+                {focusedSegmentName}
               </Typography>
             </Grid>
             <IconButton size="large">
@@ -57,12 +66,13 @@ export default function SegmentTreeEditorView() {
             }}>
             <Grid xs={10}>
               <Typography
+                onBlur={(e) => setFocusedSegmentDescription(e.currentTarget.innerText)}
+                contentEditable={"true"}
+                suppressContentEditableWarning={true}
                 sx={{
                   marginBottom: theme.spacing(6),
                 }}>
-                Opis wybranego segmentu normalne slowa jakies tam bla bla dluzsze wlazl kotek na plotek Opis wybranego
-                segmentu normalne slowa jakies tam bla bla dluzsze wlazl kotek na plotek Opis wybranego segmentu
-                normalne slowa jakies tam bla bla dluzsze
+                {focusedSegmentDescription}
               </Typography>
             </Grid>
             <IconButton size="large">
