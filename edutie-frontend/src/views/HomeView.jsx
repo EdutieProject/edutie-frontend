@@ -1,22 +1,19 @@
 import { Typography, Grid, Box, useTheme } from "@mui/material"
 import NavLayout from "./layout/NavLayout"
 import Surface from "../components/global/Surface"
-import Example from "../components/charts/LineChart"
 import CircleButton from "../components/global/CircleButton"
 import studentGraduationCap from "../assets/svg/student-graduation-cap.svg"
 import learningBook from "../assets/img/learning-book.png"
-import trygonometriaImg from "../assets/img/trygonometria.png"
 import funkcjeImg from "../assets/img/funkcje.png"
 import { useEffect, useState } from "react"
-import { getRandomFact } from "../services/LearningService"
+import { generateRandomFactLearningResource, getRandomFact } from "../services/LearningService"
 import ErrorView from "./common/ErrorView"
 import LoadingView from "./common/LoadingView"
 import RoundedButton from "../components/global/RoundedButton"
 import Heading from "../components/global/Heading"
-
-const user = {
-    name: { first: "Szymon" },
-}
+import { useNavigate } from "react-router-dom"
+import { navigationPath } from "../features/navigation"
+import { getUserDetails } from "../services/userService"
 
 const funkcje = { img: funkcjeImg, title: "Funkcje" }
 const tags = { new: "Coś nowego", repeat: "Idealna powtórka" }
@@ -28,21 +25,45 @@ const ls = [
 
 export default function HomeView() {
     const theme = useTheme();
+    const navigate = useNavigate();
     const [error, setError] = useState(null);
     const [initialLoading, setInitialLoading] = useState(true);
     const [randomFact, setRandomFact] = useState(null);
+    const [userFirstName, setUserFirstName] = useState(null);
     const [dynamicLearningResourceLoading, setDynamicLearningResourceLoading] = useState(false);
 
-    useEffect(() => {
-        getRandomFact().then(randomFactResponse => {
-            if (randomFactResponse.success === false) {
-                setError(randomFactResponse.error);
-                return;
-            }
-            setRandomFact(randomFactResponse.data.fact);
-            setInitialLoading(false);
-        });
-    }, []);
+    async function initialLoad() {
+        const randomFactResponse = await getRandomFact();
+        if (randomFactResponse.success === false) {
+            setError(randomFactResponse.error);
+            return;
+        }
+        setRandomFact(randomFactResponse.data.fact);
+
+        const userDetailsResponse = await getUserDetails()
+        if (userDetailsResponse.success === false) {
+            setError(userDetailsResponse.error);
+            return;
+        }
+        setUserFirstName(userDetailsResponse.data.firstName);
+
+        setInitialLoading(false);
+    }
+
+    useEffect(() => initialLoad(), []);
+
+    async function dynamicLearningResourceLoad() {
+        if (dynamicLearningResourceLoading === false)
+            return;
+        const learningResourceResponse = await generateRandomFactLearningResource(randomFact);
+        if (learningResourceResponse.success === false) {
+            setError(learningResourceResponse.error);
+            return;
+        }
+        navigate(navigationPath.fillPath(navigationPath.exercise, learningResourceResponse.data.id), { state: learningResourceResponse.data });
+    }
+
+    useEffect(() => dynamicLearningResourceLoad(), [dynamicLearningResourceLoading]);
 
     if (error)
         return <ErrorView error={error} />
@@ -54,14 +75,14 @@ export default function HomeView() {
         <NavLayout>
             <Grid container rowGap={theme.spacing(4)}>
                 <Grid item xs={12}>
-                    <Heading variant="h2">Hej {user.name.first}!</Heading>
+                    <Heading variant="h2">Hej {userFirstName}!</Heading>
                     <Typography variant="subtitle1">Dobrze cię znowu widzieć 😁</Typography>
                 </Grid>
                 <Grid item xs={12}>
                     <Heading variant="h8">Czy wiesz że...</Heading>
                     <Box sx={{ display: "flex", justifyContent: "space-between", gap: theme.spacing(8), alignItems: "center" }}>
                         <Typography variant="body1">{randomFact}</Typography>
-                        <RoundedButton active label="Naucz się więcej" />
+                        <RoundedButton active label="Naucz się więcej" onClick={() => setDynamicLearningResourceLoading(true)} />
                     </Box>
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -69,7 +90,7 @@ export default function HomeView() {
                     <Box sx={{
                         display: "flex",
                         flexDirection: "column",
-                        marginTop: theme.spacing(4),
+                        marginTop: theme.spacing(5),
                         gap: theme.spacing(6)
                     }}>
                         {
@@ -119,7 +140,7 @@ function HomeTile({ course = { img, title }, lesson = { img, title, tag } }) {
     }
     const Tag = () => (<div style={styles.tag}>{lesson.tag}</div>)
     return (
-        <Surface style={{ padding: "1rem", paddingRight: "2rem" }} sx={{position: "relative"}}>
+        <Surface style={{ padding: "1rem", paddingRight: "2rem" }} sx={{ position: "relative" }}>
             <Grid>
                 <Tag />
                 <Grid container justifyContent="space-between" alignItems="center">
