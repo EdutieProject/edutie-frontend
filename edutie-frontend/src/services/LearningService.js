@@ -39,3 +39,13 @@ export async function getLearningResultById(learningResultId) {
         }
     );
 }
+
+export async function getRandomFact() {
+    return await catchClientErrors(
+        async () => {
+            const response = await fetch(`${LEARNING_API}/ancillaries/random-fact`, 
+                { method: "GET", headers: await getDefaultHeadersAuthenticated()});
+            return await response.json();
+        }
+    );
+}
