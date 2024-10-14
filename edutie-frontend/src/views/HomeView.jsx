@@ -1,4 +1,4 @@
-import { Typography, Grid, Box, useTheme } from "@mui/material"
+import { Typography, Grid, Box, useTheme, Skeleton } from "@mui/material"
 import NavLayout from "./layout/NavLayout"
 import Surface from "../components/global/Surface"
 import CircleButton from "../components/global/CircleButton"
@@ -50,7 +50,7 @@ export default function HomeView() {
         setInitialLoading(false);
     }
 
-    useEffect(() => initialLoad(), []);
+    useEffect(() => { initialLoad(); }, []);
 
     async function dynamicLearningResourceLoad() {
         if (dynamicLearningResourceLoading === false)
@@ -63,7 +63,7 @@ export default function HomeView() {
         navigate(navigationPath.fillPath(navigationPath.exercise, learningResourceResponse.data.id), { state: learningResourceResponse.data });
     }
 
-    useEffect(() => dynamicLearningResourceLoad(), [dynamicLearningResourceLoading]);
+    useEffect(() => { dynamicLearningResourceLoad(); }, [dynamicLearningResourceLoading]);
 
     if (error)
         return <ErrorView error={error} />
@@ -85,7 +85,7 @@ export default function HomeView() {
                         <RoundedButton active label="Naucz się więcej" onClick={() => setDynamicLearningResourceLoading(true)} />
                     </Box>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={6} paddingRight={theme.spacing(2)}>
                     <Typography variant="h8" fontFamily="Baloo">Zobacz co więcej przygotowaliśmy dla Ciebie:</Typography>
                     <Box sx={{
                         display: "flex",
@@ -100,8 +100,8 @@ export default function HomeView() {
                         }
                     </Box>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                    {/** TODO! */}
+                <Grid item xs={12} sm={6} paddingLeft={theme.spacing(2)}>
+                    {/**TODO! */}
                 </Grid>
             </Grid>
         </NavLayout>
