@@ -106,26 +106,21 @@ function StudentProfileView({ setError }) {
                   </Typography>
                 </Box>
 
-                {learningResult.assessments.map(assessment => {
-                  let learningReq = learningResult.learningResourceDefinition.learningRequirements.filter(o => o.id === assessment.learningRequirementId)[0];
-                  let qualifiedSubReqs = assessment.qualifiedSubRequirements.length;
-                  let allSubReqs = learningReq.subRequirements.length;
-                  return (
+                {learningResult.assessments.map(assessment => 
                     <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <Typography>{learningReq.name}</Typography>
+                      <Typography>{assessment.learningRequirementName}</Typography>
                       <Box sx={{ display: "flex", gap: theme.spacing(4) }}>
                         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(2) }}>
                           <CircularProgress variant="determinate" value={assessment.grade / 6 * 100} thickness={8} size={"1.75rem"} />
                           <Typography>Ocena: {assessment.grade}</Typography>
                         </Box>
                         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(2) }}>
-                          <CircularProgress variant="determinate" value={qualifiedSubReqs / allSubReqs * 100} thickness={8} color="secondary" size={"1.75rem"} />
+                          <CircularProgress variant="determinate" value={assessment.difficultyFactor * 100} thickness={8} color="secondary" size={"1.75rem"} />
                           <Typography>Trudność</Typography>
                         </Box>
                       </Box>
                     </Box>
-                  );
-                })}
+                )}
               </Box>
             )) : (
               <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: theme.spacing(2), justifyContent: "center", alignItems: "center" }}>

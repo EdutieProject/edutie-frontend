@@ -39,21 +39,21 @@ export default function LearningResultView() {
             });
     }, []);
 
-      // exercise creation effect
-  useEffect(() => {
-    if (exerciseLoading === false)
-      return;
-    generateLearningResource(learningResult.learningResourceDefinition.id)
-      .then((learningResourceResponse => {
-        if (learningResourceResponse.success === false) {
-          setError(learningResourceResponse.error);
-          setExerciseLoading(false);
-          return;
-        }
-        console.log(learningResourceResponse);
-        navigate(navigationPath.fillPath(navigationPath.exercise, learningResourceResponse.data.id), { state: learningResourceResponse.data });
-      }));
-  }, [exerciseLoading]);
+    // exercise creation effect
+    useEffect(() => {
+        if (exerciseLoading === false)
+            return;
+        generateLearningResource(learningResult.learningResourceDefinitionId)
+            .then((learningResourceResponse => {
+                if (learningResourceResponse.success === false) {
+                    setError(learningResourceResponse.error);
+                    setExerciseLoading(false);
+                    return;
+                }
+                console.log(learningResourceResponse);
+                navigate(navigationPath.fillPath(navigationPath.exercise, learningResourceResponse.data.id), { state: learningResourceResponse.data });
+            }));
+    }, [exerciseLoading]);
 
     const getHeading = (feedbackType) => feedbackType === "POSITIVE" ? "Świetnie!" : feedbackType === "NEGATIVE" ? "Słabo..." : "W porządku.";
 
@@ -72,7 +72,7 @@ export default function LearningResultView() {
         <NavLayout mode="flex" scroll>
             <Grid container flexGrow={1}>
                 <Grid item xs={6} >
-                    <Box sx={{position: "fixed", display: "grid", placeItems: "center", height: "100vh", width: "40%"}}>
+                    <Box sx={{ position: "fixed", display: "grid", placeItems: "center", height: "100vh", width: "40%" }}>
                         <Box sx={{ transform: "translateY(-20%)" }}>{getIcon(learningResult.feedback.type)}</Box>
                     </Box>
                 </Grid>
@@ -82,44 +82,38 @@ export default function LearningResultView() {
                     </Typography>
                     <MarkdownLaTeXRenderer content={learningResult.feedback.text} />
                     {
-                        learningResult.assessments.map(assessment => {
-                            let learningReq = learningResult.learningResourceDefinition.learningRequirements.filter(o => o.id === assessment.learningRequirementId)[0];
-
-                            let qualifiedSubReqs = assessment.qualifiedSubRequirements.length;
-                            let allSubReqs = learningReq.subRequirements.length;
-                            return (
-                                <Box sx={{ marginTop: theme.spacing(4) }}>
-                                    <Typography variant="h5">{learningReq.name}</Typography>
-                                    <Box sx={{ display: "flex", gap: theme.spacing(2) }}>
-                                        <Typography variant="h4" sx={{ display: "grid", placeItems: "center" }}>Ocena: {assessment.grade}</Typography>
-                                        <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
-                                            <LinearProgress
-                                                color="primary"
-                                                variant="determinate"
-                                                value={assessment.grade / 6 * 100}
-                                                sx={{ width: "100%", height: 10, borderRadius: theme.shape.borderRadius }}
-                                            />
-                                        </Box>
+                        learningResult.assessments.map(assessment =>
+                            <Box sx={{ marginTop: theme.spacing(4) }}>
+                                <Typography variant="h5">{assessment.learningRequirementName}</Typography>
+                                <Box sx={{ display: "flex", gap: theme.spacing(2) }}>
+                                    <Typography variant="h4" sx={{ display: "grid", placeItems: "center" }}>Ocena: {assessment.grade}</Typography>
+                                    <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
+                                        <LinearProgress
+                                            color="primary"
+                                            variant="determinate"
+                                            value={assessment.grade / 6 * 100}
+                                            sx={{ width: "100%", height: 10, borderRadius: theme.shape.borderRadius }}
+                                        />
                                     </Box>
-                                    <Box sx={{ display: "flex", gap: theme.spacing(2) }}>
-                                        <Typography variant="h4" sx={{ display: "grid", placeItems: "center" }}>Trudność: {(qualifiedSubReqs / allSubReqs * 100).toFixed(2)}%</Typography>
-                                        <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
-                                            <LinearProgress
-                                                color="secondary"
-                                                variant="determinate"
-                                                value={qualifiedSubReqs / allSubReqs * 100}
-                                                sx={{ width: "100%", height: 10, borderRadius: theme.shape.borderRadius }}
-                                            />
-                                        </Box>
-                                    </Box>
-                                    <MarkdownLaTeXRenderer content={assessment.feedbackText} />
                                 </Box>
-                            )
-                        })
+                                <Box sx={{ display: "flex", gap: theme.spacing(2) }}>
+                                    <Typography variant="h4" sx={{ display: "grid", placeItems: "center" }}>Trudność: {(assessment.difficultyFactor * 100)}%</Typography>
+                                    <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
+                                        <LinearProgress
+                                            color="secondary"
+                                            variant="determinate"
+                                            value={assessment.difficultyFactor * 100}
+                                            sx={{ width: "100%", height: 10, borderRadius: theme.shape.borderRadius }}
+                                        />
+                                    </Box>
+                                </Box>
+                                <MarkdownLaTeXRenderer content={assessment.feedbackText} />
+                            </Box>
+                        )
                     }
-                    <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", gap: theme.spacing(4), marginY: theme.spacing(6)}}>
-                        <RoundedButton label="Wróć do drzewka" onClick={() => navigate(navigationPath.fillPath(navigationPath.segmentTree, getActiveLessonId()))}/>
-                        <RoundedButton label="Spróbuj jeszcze raz" active onClick={() => setExerciseLoading(true)}/>
+                    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: theme.spacing(4), marginY: theme.spacing(6) }}>
+                        <RoundedButton label="Wróć do drzewka" onClick={() => navigate(navigationPath.fillPath(navigationPath.segmentTree, getActiveLessonId()))} />
+                        <RoundedButton label="Spróbuj jeszcze raz" active onClick={() => setExerciseLoading(true)} />
                     </Box>
                 </Grid>
             </Grid>
