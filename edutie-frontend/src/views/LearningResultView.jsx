@@ -77,7 +77,7 @@ export default function LearningResultView() {
                     </Box>
                 </Grid>
                 <Grid item xs={6} sx={{ padding: theme.spacing(4) }}>
-                    <Typography variant="h3" color="grey">
+                    <Typography variant="h3" color="grey" fontFamily={"Baloo"}>
                         {getHeading(learningResult.feedback.type)}
                     </Typography>
                     <MarkdownLaTeXRenderer content={learningResult.feedback.text} />
