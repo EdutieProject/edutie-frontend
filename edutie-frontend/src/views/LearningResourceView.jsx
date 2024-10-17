@@ -80,9 +80,7 @@ export default function LearningResourceView() {
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box>
           <Typography fontFamily={"Baloo"} variant='h3'>Naucz się</Typography>
-
-          <Typography variant="body1">{learningResource.definition.learningRequirements.map(o => o.name).join(" • ")}</Typography>
-
+          <Typography variant="body1">{learningResource.learningRequirementNames.join(" • ")}</Typography>
         </Box>
         <Box sx={{ display: "flex", gap: theme.spacing(4), alignItems: "center" }}>
           <RoundedButton label={"Teoria"} active={currentView == Views.THEORY} onClick={() => setCurrentView(Views.THEORY)} />
