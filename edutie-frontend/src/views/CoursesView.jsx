@@ -15,8 +15,8 @@ import {
 //CODE IMPORTS
 import { useState, useEffect, useRef } from "react";
 import {
-  getCourses,
-  getSciences,
+  getCoursesByScience,
+  getAccessibleSciences,
 } from "../services/studyProgramLearningService";
 import { ChevronLeft, ChevronRight, QuestionMark, Search } from "@mui/icons-material";
 import LoadingView from "./common/LoadingView";
@@ -38,7 +38,7 @@ export default function CoursesView() {
 
   useEffect(() => {
     setIsLoading(true);
-    getSciences()
+    getAccessibleSciences()
       .then(
         sciencesResponse => {
           sciencesData.current = sciencesResponse.data;
@@ -120,7 +120,7 @@ function CourseList({ scienceId, setErrorInView }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getCourses(scienceId).then(coursesResponse => {
+    getCoursesByScience(scienceId).then(coursesResponse => {
       if (coursesResponse.error !== null) {
         setErrorInView(coursesResponse.error);
         return;

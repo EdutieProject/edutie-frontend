@@ -2,19 +2,19 @@ import { LEARNING_API, catchClientErrors, getDefaultHeadersAuthenticated } from 
 
 const STUDY_PROGRAM_API = LEARNING_API + "/study-program";
 
-export async function getSciences() {
+export async function getAccessibleSciences() {
     return await catchClientErrors(
         async () => {
-            const response = await fetch(`${STUDY_PROGRAM_API}/sciences`, { method: "GET", headers: await getDefaultHeadersAuthenticated() });
+            const response = await fetch(`${STUDY_PROGRAM_API}/sciences/retrieve-accessible`, { method: "GET", headers: await getDefaultHeadersAuthenticated() });
             return await response.json();
         }
     );
 }
 
-export async function getCourses(scienceId) {
+export async function getCoursesByScience(scienceId) {
     return await catchClientErrors(
         async () => {
-            const response = await fetch(`${STUDY_PROGRAM_API}/courses?scienceId=${scienceId}`, { method: "GET", headers: await getDefaultHeadersAuthenticated() })
+            const response = await fetch(`${STUDY_PROGRAM_API}/courses/retrieve-by-science?scienceId=${scienceId}`, { method: "GET", headers: await getDefaultHeadersAuthenticated() })
             return await response.json();
         }
     );
@@ -23,34 +23,25 @@ export async function getCourses(scienceId) {
 export async function getCourseDetailsById(courseId) {
     return await catchClientErrors(
         async () => {
-            const response = await fetch(`${STUDY_PROGRAM_API}/courses/by-id?courseId=${courseId}`, { method: "GET", headers: await getDefaultHeadersAuthenticated() })
+            const response = await fetch(`${STUDY_PROGRAM_API}/courses/${courseId}`, { method: "GET", headers: await getDefaultHeadersAuthenticated() })
             return await response.json();
         }
     );
 }
 
-export async function getProgressedCourses() {
+export async function getLessonsByCourse(courseId) {
     return await catchClientErrors(
         async () => {
-            const response = await fetch(`${STUDY_PROGRAM_API}/courses/progressed`, { method: "GET", headers: await getDefaultHeadersAuthenticated() })
+            const response = await fetch(`${STUDY_PROGRAM_API}/lessons/retrieve-by-course?courseId=${courseId}`, { method: "GET", headers: await getDefaultHeadersAuthenticated() });
             return await response.json();
         }
     );
 }
 
-export async function getLessons(courseId) {
+export async function getSegmentsByLesson(lessonId) {
     return await catchClientErrors(
         async () => {
-            const response = await fetch(`${STUDY_PROGRAM_API}/lessons?courseId=${courseId}`, { method: "GET", headers: await getDefaultHeadersAuthenticated() });
-            return await response.json();
-        }
-    );
-}
-
-export async function getSegments(lessonId) {
-    return await catchClientErrors(
-        async () => {
-            const response = await fetch(`${STUDY_PROGRAM_API}/segments?lessonId=${lessonId}`, { method: "GET", headers: await getDefaultHeadersAuthenticated() });
+            const response = await fetch(`${STUDY_PROGRAM_API}/segments/retrieve-by-lesson?lessonId=${lessonId}`, { method: "GET", headers: await getDefaultHeadersAuthenticated() });
             return await response.json();
         }
     );

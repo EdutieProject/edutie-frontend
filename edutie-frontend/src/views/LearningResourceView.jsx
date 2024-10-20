@@ -7,7 +7,7 @@ import Surface from '../components/global/Surface';
 import useEnumValue from '../hooks/alternative/useEnumValue';
 import CircleButton from '../components/global/CircleButton';
 import TurnAroundIcon from '../components/customIcons/TurnAroundIcon';
-import { assessSolution, getLearningResourceById } from '../services/LearningService';
+import { generateLearningResultFromSolution, getLearningResourceById } from '../services/learningService.js';
 import LoadingView from './common/LoadingView';
 import ErrorView from './common/ErrorView';
 import { navigationPath } from '../features/navigation';
@@ -49,7 +49,7 @@ export default function LearningResourceView() {
 
   useEffect(() => {
     if (assessmentLoading) {
-      assessSolution(learningResource.id, solutionText, hintsRevealed.length)
+      generateLearningResultFromSolution(learningResource.id, solutionText, hintsRevealed.length)
         .then(learningResultResponse => {
           console.log(learningResultResponse);
           if (learningResultResponse.success === false) {

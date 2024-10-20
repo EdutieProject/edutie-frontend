@@ -1,4 +1,4 @@
-import { Typography, Grid, Box, useTheme, Skeleton } from "@mui/material"
+import {Typography, Grid, Box, useTheme, Skeleton} from "@mui/material"
 import NavLayout from "./layout/NavLayout"
 import Surface from "../components/global/Surface"
 import CircleButton from "../components/global/CircleButton"
@@ -6,14 +6,15 @@ import studentGraduationCap from "../assets/svg/student-graduation-cap.svg"
 import learningBook from "../assets/img/learning-book.png"
 import funkcjeImg from "../assets/img/funkcje.png"
 import { useEffect, useState } from "react"
-import { generateRandomFactLearningResource, getRandomFact } from "../services/LearningService"
+import { generateRandomFactLearningResource, getRandomFact } from "../services/learningService.js"
 import ErrorView from "./common/ErrorView"
 import LoadingView from "./common/LoadingView"
 import RoundedButton from "../components/global/RoundedButton"
 import Heading from "../components/global/Heading"
 import { useNavigate } from "react-router-dom"
 import { navigationPath } from "../features/navigation"
-import { getUserDetails } from "../services/userService"
+
+import {getUserDetails} from "../services/userProfileService.js";
 
 const funkcje = { img: funkcjeImg, title: "Funkcje" }
 const tags = { new: "Coś nowego", repeat: "Idealna powtórka" }
@@ -94,8 +95,9 @@ export default function HomeView() {
                         gap: theme.spacing(6)
                     }}>
                         {
-                            ls.map((l) => (
-                                <HomeTile lesson={l} course={funkcje} />
+                            ls.map((l, i) => (
+                                // <HomeTile lesson={l} course={funkcje} />
+                                <Skeleton key={i} height={"3rem"} animation={"wave"}/>
                             ))
                         }
                     </Box>
