@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import RoundedButton from "../components/global/RoundedButton";
 import Heading from "../components/global/Heading"
 import { navigationPath, navSections } from "../features/navigation";
-import { getStudentLatestLearningResults } from "../services/studentProfileService";
+import { getStudentLatestLearningResults } from "../services/userProfileService.js";
 import LoadingView from "./common/LoadingView";
 import ErrorView from "./common/ErrorView";
 import SweatFaceIcon from "../components/customIcons/SweatFaceIcon";

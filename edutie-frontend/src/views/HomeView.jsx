@@ -13,7 +13,8 @@ import RoundedButton from "../components/global/RoundedButton"
 import Heading from "../components/global/Heading"
 import { useNavigate } from "react-router-dom"
 import { navigationPath } from "../features/navigation"
-import { getUserDetails } from "../services/userService"
+
+import {getUserDetails} from "../services/userProfileService.js";
 
 const funkcje = { img: funkcjeImg, title: "Funkcje" }
 const tags = { new: "Coś nowego", repeat: "Idealna powtórka" }
