@@ -1,4 +1,4 @@
-import { Typography, Grid, Box, useTheme, Skeleton } from "@mui/material"
+import {Typography, Grid, Box, useTheme, Skeleton} from "@mui/material"
 import NavLayout from "./layout/NavLayout"
 import Surface from "../components/global/Surface"
 import CircleButton from "../components/global/CircleButton"
@@ -95,8 +95,9 @@ export default function HomeView() {
                         gap: theme.spacing(6)
                     }}>
                         {
-                            ls.map((l) => (
-                                <HomeTile lesson={l} course={funkcje} />
+                            ls.map((l, i) => (
+                                // <HomeTile lesson={l} course={funkcje} />
+                                <Skeleton key={i} height={"3rem"} animation={"wave"}/>
                             ))
                         }
                     </Box>
