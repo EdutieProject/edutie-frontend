@@ -1,7 +1,7 @@
 import { Typography, Box, Grid, useTheme, Tooltip, IconButton } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { generateLearningResource } from "../services/LearningService.js";
+import { generateLearningResource } from "../services/learningServices.js";
 import { getSegmentsByLesson } from "../services/studyProgramLearningService.js";
 import { saveActiveLessonId } from "../features/storage/activeLessonCache.js";
 import { saveActiveSegmentId } from "../features/storage/activeSegmentCache.js";
