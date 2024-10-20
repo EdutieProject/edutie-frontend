@@ -1,7 +1,7 @@
 import { Box, ButtonBase, Grid, Typography, useTheme } from "@mui/material";
 import NavLayout from "./layout/NavLayout";
 import { useEffect, useState } from "react";
-import { getCourseDetailsById, getLessons } from "../services/studyProgramLearningService";
+import { getCourseDetailsById, getLessonsByCourse } from "../services/studyProgramLearningService";
 import Xarrow from "react-xarrows";
 import LoadingView from "./common/LoadingView";
 import { useNavigate, useParams } from "react-router-dom";
@@ -45,7 +45,7 @@ export default function LessonTreeView() {
         </NoContextView>);
 
     useEffect(() => {
-        getLessons(courseId).then(lessons => setLessonsResponse(lessons));
+        getLessonsByCourse(courseId).then(lessons => setLessonsResponse(lessons));
         saveCourseId(courseId);
         getCourseDetailsById(courseId).then(courseDetails => setCourseDetailsResponse(courseDetails));
     }, []);
@@ -58,12 +58,12 @@ export default function LessonTreeView() {
 
     let treeLevelsArray = TreeGridInitializer.getTreeAsArray(lessonsResponse.data);
     return (
-        <NavLayout mode={"flex"} disablePadding activeSectionIdOverride={navSections.learningInTree}>
-            <Box sx={{ width: "100%", textAlign: "center", py: theme.spacing(2) }}>
+        <NavLayout mode={"flex"} disablePadding activeSectionIdOverride={navSections.learningInTree} scroll relative>
+            <Box sx={{ width: "100%", textAlign: "center", py: theme.spacing(2)}}>
                 <Heading variant="h4">{courseDetailsResponse.data.name}</Heading>
                 <Typography variant="caption">{courseDetailsResponse.data.description}</Typography>
             </Box>
-            <Grid container sx={{ overflowY: "scroll" }}>
+            <Grid container>
                 {
                     treeLevelsArray.map((treeLevel) =>
                         treeLevel.map(lessonView =>
@@ -89,13 +89,13 @@ function LessonViewTile({ lessonView }) {
             <ButtonBase sx={{
                 borderRadius: theme.shape.minimalRadius,
                 border: "3px solid",
-                borderColor: lessonView.progressState === "IN_PROGRESS" ? theme.palette.secondary.dark : theme.palette.primary.main,
+                borderColor: lessonView.progressState === "IN_PROGRESS" ? theme.palette.secondary.main : theme.palette.primary.main,
                 backgroundColor: lessonView.progressState === "DONE" ? theme.palette.primary.main : theme.palette.surface.main,
                 padding: theme.spacing(4),
                 position: "relative",
                 transition: "200ms ease",
                 "&:hover": {
-                    borderColor: lessonView.progressState === "IN_PROGRESS" ? theme.palette.secondary.dark : theme.palette.primary.light,
+                    borderColor: lessonView.progressState === "IN_PROGRESS" ? theme.palette.secondary.main : theme.palette.primary.light,
                     boxShadow: theme.shadows[2]
                 },
             }}
@@ -116,7 +116,7 @@ function LessonViewTile({ lessonView }) {
                     {lessonView.progressState === "NONE" ?
                         <Typography variant="h3" color={theme.palette.primary.main} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>?</Typography>
                         : lessonView.progressState === "IN_PROGRESS" ?
-                        <Typography variant="h3" color={theme.palette.secondary.dark} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>!</Typography>
+                        <Typography variant="h3" color={theme.palette.secondary.main} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>!</Typography>
                         :
                         <Typography variant="h3" color={theme.palette.common.white} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>x</Typography>
                     

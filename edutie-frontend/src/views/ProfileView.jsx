@@ -5,22 +5,42 @@ import { useEffect, useState } from "react";
 import RoundedButton from "../components/global/RoundedButton";
 import Heading from "../components/global/Heading"
 import { navigationPath, navSections } from "../features/navigation";
-import { getStudentLatestLearningResults } from "../services/studentProfileService";
+import {getStudentLatestLearningResults, getUserDetails} from "../services/userProfileService.js";
 import LoadingView from "./common/LoadingView";
 import ErrorView from "./common/ErrorView";
 import SweatFaceIcon from "../components/customIcons/SweatFaceIcon";
 import LatestStudentActivityChart from "../components/charts/studentProfile/LatestStudentActivityChart";
 import DisappointedFaceIcon from "../components/customIcons/DisappointedFaceIcon";
 import { daysAgo, getDayName } from "../features/datetime/datetimeUtilities";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CircleButton from "../components/global/CircleButton";
 
 export default function ProfileView() {
   const theme = useTheme();
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
+  const [userFirstName, setUserFirstName] = useState(null);
+  const [initialLoading, setInitialLoading] = useState(true);
   const Views = Object.freeze({ STUDENT: useEnumValue("STUDENT"), SETTINGS: useEnumValue("SETTINGS"), EDUCATOR: useEnumValue("EDUCATOR") });
   const [currentView, setCurrentView] = useState(Views.STUDENT);
-  const viewDetails = currentView == Views.STUDENT ? "Profil ucznia" : currentView == Views.EDUCATOR ? "Profil edukatora" : "Ustawienia"
+  const viewDetails = currentView === Views.STUDENT ? "Profil ucznia" : currentView === Views.EDUCATOR ? "Profil edukatora" : "Ustawienia"
+
+  async function initialLoad() {
+    const response = await getUserDetails();
+    if (response.success === false) {
+      setError(response.error);
+      return;
+    }
+    const firstName = response.data.firstName;
+    setUserFirstName(firstName);
+    setInitialLoading(false);
+  }
+
+  useEffect(() => {
+    initialLoad();
+  }, []);
+
+  if (initialLoading)
+    return <LoadingView/>
 
   if (error)
     return <ErrorView error={error} />
@@ -29,15 +49,15 @@ export default function ProfileView() {
     <NavLayout activeSectionIdOverride={navSections.profile} mode="flex" scroll>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box>
-          <Heading variant='h3'>Szymon - twój profil</Heading>
+          <Heading variant='h3'>{userFirstName} - twój profil</Heading>
 
           <Typography variant="body1">{viewDetails}</Typography>
 
         </Box>
         <Box sx={{ display: "flex", gap: theme.spacing(4), alignItems: "center" }}>
-          <RoundedButton label={"Uczeń"} active={currentView == Views.STUDENT} onClick={() => setCurrentView(Views.STUDENT)} />
+          <RoundedButton label={"Uczeń"} active={currentView === Views.STUDENT} onClick={() => setCurrentView(Views.STUDENT)} />
           {/* <RoundedButton label={"Edukator"} active={currentView == Views.EDUCATOR} onClick={() => setCurrentView(Views.EDUCATOR)} /> */}
-          <RoundedButton label={"Ustawienia"} active={currentView == Views.SETTINGS} onClick={() => setCurrentView(Views.SETTINGS)} />
+          <RoundedButton label={"Ustawienia"} active={currentView === Views.SETTINGS} onClick={() => setCurrentView(Views.SETTINGS)} />
         </Box>
       </Box>
       {
@@ -93,12 +113,14 @@ function StudentProfileView({ setError }) {
         <Heading variant="h4">Twoja ostatnia aktywność:</Heading>
         {
           learningResults.length > 0 ?
-            learningResults.slice(0, 5).map(learningResult => (
-              <Box sx={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: theme.spacing(2) }}>
+            learningResults.slice(0, 5).map((learningResult, i) => (
+              <Box sx={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: theme.spacing(2) }} key={i}>
                 <Divider flexItem orientation="horizontal" sx={{ marginBottom: theme.spacing(2) }} />
                 <Box sx={{ display: "flex", alignItems: "center", gap: theme.spacing(2) }}>
                   <Heading variant="h5">Rezultat nauczania</Heading>
-                  <CircleButton size={"1rem"} children={<Heading sx={{ color: theme.palette.common.white }}>{">"}</Heading>} onClick={() => navigate(navigationPath.fillPath(navigationPath.learningResult, learningResult.id))} />
+                  <CircleButton size={"1rem"} onClick={() => navigate(navigationPath.fillPath(navigationPath.learningResult, learningResult.id))}>
+                    <Heading sx={{ color: theme.palette.common.white }}>{">"}</Heading>
+                  </CircleButton>
                   <Typography color="grey" variant="caption">
                     {new Date(learningResult.createdOn).toLocaleDateString()}
                     {" "}
@@ -106,26 +128,21 @@ function StudentProfileView({ setError }) {
                   </Typography>
                 </Box>
 
-                {learningResult.assessments.map(assessment => {
-                  let learningReq = learningResult.learningResourceDefinition.learningRequirements.filter(o => o.id === assessment.learningRequirementId)[0];
-                  let qualifiedSubReqs = assessment.qualifiedSubRequirements.length;
-                  let allSubReqs = learningReq.subRequirements.length;
-                  return (
-                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <Typography>{learningReq.name}</Typography>
+                {learningResult.assessments.map((assessment, i) =>
+                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} key={i}>
+                      <Typography>{assessment.learningRequirementName}</Typography>
                       <Box sx={{ display: "flex", gap: theme.spacing(4) }}>
                         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(2) }}>
-                          <CircularProgress variant="determinate" value={assessment.grade / 6 * 100} thickness={8} size={"2rem"} />
+                          <CircularProgress variant="determinate" value={assessment.grade / 6 * 100} thickness={8} size={"1.75rem"} />
                           <Typography>Ocena: {assessment.grade}</Typography>
                         </Box>
                         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(2) }}>
-                          <CircularProgress variant="determinate" value={qualifiedSubReqs / allSubReqs * 100} thickness={8} color="secondary" size={"2rem"} />
+                          <CircularProgress variant="determinate" value={assessment.difficultyFactor * 100} thickness={8} color="secondary" size={"1.75rem"} />
                           <Typography>Trudność</Typography>
                         </Box>
                       </Box>
                     </Box>
-                  );
-                })}
+                )}
               </Box>
             )) : (
               <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: theme.spacing(2), justifyContent: "center", alignItems: "center" }}>

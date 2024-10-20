@@ -1,10 +1,10 @@
 import DistributedLearningIcon from '../components/customIcons/DistributedLearningIcon';
 import EdutieHomeIcon from "../components/customIcons/EdutieHomeIcon";
 import ExcerciseNotebookIcon from '../components/customIcons/ExcerciseNotebookIcon';
-import UserIcon from '../components/customIcons/UserIcon';
-import CoursesCapIcon from '../components/customIcons/CoursesCapIcon';
+import UserIcon from '../components/customIcons/StudentUserIcon';
 import { createContext, useState } from 'react';
 import { getSavedCourseId } from './storage/courseStorage';
+import CoursesIcon from '../components/customIcons/CoursesIcon';
 
 
 // ===== NAVIGATION PATHS ======
@@ -82,7 +82,7 @@ export const navElements = [
   },
   {
     id: navSections.courses,
-    icon: (color) => <CoursesCapIcon color={color} height={iconSize} width={iconSize} />,
+    icon: (color) => <CoursesIcon color={color} height={iconSize} width={iconSize} />,
     navigate: (navigate) => navigate(navigationPath.courses)
   },
   {

@@ -29,6 +29,7 @@ export default function RoundedButton({label, active = false, onClick, shadow, d
             },
             transition: "ease 200ms",
             cursor: disabled ? "not-allowed !important" : "pointer",
+            flexShrink: 0,
             ...sx
         }} 
         disabled={disabled}

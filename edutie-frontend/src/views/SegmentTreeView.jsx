@@ -1,18 +1,19 @@
-import { Typography, Box, Grid, useTheme } from "@mui/material";
-import NavLayout from "./layout/NavLayout.jsx";
-import Surface from "../components/global/Surface.jsx";
+import { Typography, Box, Grid, useTheme, Tooltip, IconButton } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import CircleButton from "../components/global/CircleButton.jsx";
-import RoundedButton from "../components/global/RoundedButton.jsx";
 import { useNavigate, useParams } from "react-router-dom";
-import { navigationPath } from "../features/navigation.jsx";
-import LoadingView from "./common/LoadingView.jsx";
-import { generateLearningResource } from "../services/LearningService.js";
-import ErrorView from "./common/ErrorView.jsx";
-import { getSegments } from "../services/studyProgramLearningService.js";
-import SegmentTree from "../components/tree/SegmentTree.jsx";
+import { generateLearningResource } from "../services/learningService.js";
+import { getSegmentsByLesson } from "../services/studyProgramLearningService.js";
 import { saveActiveLessonId } from "../features/storage/activeLessonCache.js";
 import { saveActiveSegmentId } from "../features/storage/activeSegmentCache.js";
+import { navigationPath } from "../features/navigation.jsx";
+import NavLayout from "./layout/NavLayout.jsx";
+import Surface from "../components/global/Surface.jsx";
+import CircleButton from "../components/global/CircleButton.jsx";
+import RoundedButton from "../components/global/RoundedButton.jsx";
+import LoadingView from "./common/LoadingView.jsx";
+import ErrorView from "./common/ErrorView.jsx";
+import SegmentTree from "../components/tree/SegmentTree.jsx";
+import InfoCircleIcon from "../components/customIcons/InfoCircleIcon.jsx";
 
 class SegmentSearch {
   /**
@@ -73,7 +74,7 @@ export default function SegmentTreeView() {
   // Load initial data
   useEffect(() => {
     saveActiveLessonId(lessonId);
-    getSegments(lessonId)
+    getSegmentsByLesson(lessonId)
       .then(segmentsResponse => {
         console.log(segmentsResponse);
         allSegments.current = segmentsResponse.data;
@@ -106,14 +107,12 @@ export default function SegmentTreeView() {
   // console.log(nextSegments);
 
   return (
-    <NavLayout mode="flex">
-      <Box sx={{ flexGrow: 1, display: "grid", gridTemplateRows: "repeat(3, 1fr)", gridTemplateAreas: `"tree" "tree" "footer"` }}>
-        <Box sx={{ gridArea: "tree", display: "flex" }}>
-          <SegmentTree previousElement={previousSegment} mainElement={selectedSegment} nextElements={nextSegments} setMainElement={setSelectedSegment} />
-        </Box>
-        <Box sx={{ gridArea: "footer", display: "flex", px: theme.spacing(2), py: theme.spacing(4) }}>
-          <SelectedElementDescriptionTab selectedElement={selectedSegment} setExerciseLoading={setExerciseLoading} />
-        </Box>
+    <NavLayout mode="flex" scroll>
+      <Box sx={{ flexGrow: 1, display: "flex", felxDirection: "column", justifyContent: "center" }}>
+        <SegmentTree previousElement={previousSegment} mainElement={selectedSegment} nextElements={nextSegments} setMainElement={setSelectedSegment} />
+      </Box>
+      <Box sx={{ display: "flex", px: theme.spacing(2), py: theme.spacing(4) }}>
+        <SelectedElementDescriptionTab selectedElement={selectedSegment} setExerciseLoading={setExerciseLoading} />
       </Box>
     </NavLayout>
   );
@@ -136,65 +135,60 @@ function SelectedElementDescriptionTab({ selectedElement, setExerciseLoading }) 
         </Typography>
         <Typography>{selectedElement.segment.snippetDescription}</Typography>
       </Box>
-      <Grid
-        container
-        direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <Grid item xs={2}>
-          <Typography
-            fontFamily="Baloo"
-            sx={{ textAlign: "center" }}
-            variant="h4"
-          >
-            {selectedElement.approachesTaken >= 0 ? selectedElement.approachesTaken : "?"}
-          </Typography>
-          <Typography sx={{ textAlign: "center" }}>
-            LICZBA PODEJŚĆ
-          </Typography>
-        </Grid>
-        <Grid item xs={2}>
-          <Typography
-            fontFamily="Baloo"
-            sx={{ textAlign: "center" }}
-            variant="h4"
-          >
-            {selectedElement.approachesSucceeded >= 0 ? selectedElement.approachesSucceeded : "?"}
-          </Typography>
-          <Typography sx={{ textAlign: "center" }}>
-            ZALICZONE WZOROWO
-          </Typography>
-        </Grid>
-        <Grid item xs={2} />
-        {/* <Typography
+      <Box sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        marginTop: theme.spacing(2)
+      }}>
+        <Box sx={{ display: "flex", gap: theme.spacing(4) }}>
+          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <Typography
               fontFamily="Baloo"
               sx={{ textAlign: "center" }}
               variant="h4"
             >
-              74%
+              {selectedElement.approachesTaken >= 0 ? selectedElement.approachesTaken : "?"}
             </Typography>
             <Typography sx={{ textAlign: "center" }}>
-              ŚREDNI WYNIK
+              LICZBA PODEJŚĆ
             </Typography>
-          </Grid> */}
-        <Grid item>
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative" }}>
+            <Typography
+              fontFamily="Baloo"
+              sx={{ textAlign: "center" }}
+              variant="h4"
+            >
+              {selectedElement.approachesSucceeded >= 0 ? selectedElement.approachesSucceeded : "?"}
+              <Tooltip
+                title="Zadania zaliczone wzorowo to takie dla których każda z osiągniętych ocen jest równa lub wyższa od 5"
+              // sx={{position: "absolute", margin: "auto", transform: "translateY(30%) translateX(30%)"}} 
+              >
+                <IconButton>
+                  <InfoCircleIcon color={theme.palette.secondary.main} height="1.5rem" width="1.5rem" />
+                </IconButton>
+              </Tooltip>
+            </Typography>
+            <Typography sx={{ textAlign: "center" }}>
+              ZALICZONE WZOROWO
+            </Typography>
+          </Box>
+        </Box>
+        <Box sx={{ marginTop: theme.spacing(2), display: "flex", gap: theme.spacing(4), alignItems: "center" }}>
           <RoundedButton
             label={"Zobacz poprzednie wyniki"}
             active={true}
             disabled
           />
-        </Grid>
-        <Grid item>
           <CircleButton
             size={theme.spacing(3)}
             onClick={() => setExerciseLoading(true)}
           >
             <Typography fontFamily={"Baloo"} fontSize={36} color={theme.palette.common.white}>{">"}</Typography>
           </CircleButton>
-        </Grid>
-      </Grid>
-    </Surface>
+        </Box>
+      </Box>
+    </Surface >
   );
 
 }

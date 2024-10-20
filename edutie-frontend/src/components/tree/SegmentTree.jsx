@@ -56,7 +56,7 @@ export default function SegmentTree({ previousElement, mainElement, nextElements
         <Typography
           fontSize="1vw"
           fontFamily="Baloo"
-          sx={{ position: "absolute", marginTop: "10vw" }}
+          sx={{ marginY: 1 }}
         >
           {previousElement === null ? "Początek" : previousElement.segment.name}
         </Typography>
@@ -100,7 +100,7 @@ export default function SegmentTree({ previousElement, mainElement, nextElements
         <Typography
           fontSize="2vw"
           fontFamily="Baloo"
-          sx={{ position: "absolute", marginTop: "15vw" }}
+          sx={{ marginY: 1, textAlign: "center" }}
         >
           {mainElement.segment.name}
         </Typography>
@@ -133,7 +133,7 @@ export default function SegmentTree({ previousElement, mainElement, nextElements
         alignItems="center"
       >
         {nextElements.map((elem, index) =>
-          <Box key={index} sx={{transform: index === 1 && nextElements.length === 3 ? "translateX(30%)" : "none"}}>
+          <Box key={index} sx={{ transform: index === 1 && nextElements.length === 3 ? "translateX(30%)" : "none", display: "flex", flexDirection: "column", alignItems: "center" }}>
             <Circle
               backgroundColor={elem.done === true ? theme.palette.primary.main : theme.palette.surface.main}
               size="7vw"

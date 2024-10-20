@@ -1,5 +1,7 @@
 services:
   frontend:
+    container_name: edutie-frontend
+    image: edutie/frontend-app
     build: 
       context: ./edutie-frontend
       dockerfile: Dockerfile
@@ -8,3 +10,9 @@ services:
     volumes:
       - ./edutie-frontend/node_modules:/app/node_modules
       - ./edutie-frontend/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - frontendnetwork
+
+networks:
+  frontendnetwork:
+    name: frontendnetwork
