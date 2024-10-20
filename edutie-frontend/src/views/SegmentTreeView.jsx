@@ -2,7 +2,7 @@ import { Typography, Box, Grid, useTheme, Tooltip, IconButton } from "@mui/mater
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { generateLearningResource } from "../services/LearningService.js";
-import { getSegments } from "../services/studyProgramLearningService.js";
+import { getSegmentsByLesson } from "../services/studyProgramLearningService.js";
 import { saveActiveLessonId } from "../features/storage/activeLessonCache.js";
 import { saveActiveSegmentId } from "../features/storage/activeSegmentCache.js";
 import { navigationPath } from "../features/navigation.jsx";
@@ -74,7 +74,7 @@ export default function SegmentTreeView() {
   // Load initial data
   useEffect(() => {
     saveActiveLessonId(lessonId);
-    getSegments(lessonId)
+    getSegmentsByLesson(lessonId)
       .then(segmentsResponse => {
         console.log(segmentsResponse);
         allSegments.current = segmentsResponse.data;

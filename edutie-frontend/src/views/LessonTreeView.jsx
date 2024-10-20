@@ -1,7 +1,7 @@
 import { Box, ButtonBase, Grid, Typography, useTheme } from "@mui/material";
 import NavLayout from "./layout/NavLayout";
 import { useEffect, useState } from "react";
-import { getCourseDetailsById, getLessons } from "../services/studyProgramLearningService";
+import { getCourseDetailsById, getLessonsByCourse } from "../services/studyProgramLearningService";
 import Xarrow from "react-xarrows";
 import LoadingView from "./common/LoadingView";
 import { useNavigate, useParams } from "react-router-dom";
@@ -45,7 +45,7 @@ export default function LessonTreeView() {
         </NoContextView>);
 
     useEffect(() => {
-        getLessons(courseId).then(lessons => setLessonsResponse(lessons));
+        getLessonsByCourse(courseId).then(lessons => setLessonsResponse(lessons));
         saveCourseId(courseId);
         getCourseDetailsById(courseId).then(courseDetails => setCourseDetailsResponse(courseDetails));
     }, []);
