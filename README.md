@@ -3,7 +3,6 @@
 To start an app locally, you need to:
 
 ```shell
-cd ./edutie-frontend
 bun i
 bun run dev
 ```
