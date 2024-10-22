@@ -9,7 +9,7 @@ import {getStudentLatestLearningResults, getUserDetails} from "../services/userP
 import LoadingView from "./common/LoadingView";
 import ErrorView from "./common/ErrorView";
 import SweatFaceIcon from "../components/customIcons/SweatFaceIcon";
-import LatestStudentActivityChart from "../components/charts/studentProfile/LatestStudentActivityChart";
+import LatestStudentActivityChart from "../components/charts/studentProfile/LatestStudentActivityChart.js";
 import DisappointedFaceIcon from "../components/customIcons/DisappointedFaceIcon";
 import { daysAgo, getDayName } from "../features/datetime/datetimeUtilities";
 import { useNavigate } from "react-router-dom";
