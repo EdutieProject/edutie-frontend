@@ -9,7 +9,7 @@ import { navigationPath, navSections } from "../features/navigation";
 import ErrorView from "./common/ErrorView";
 import NoContextView from "./common/NoContextView";
 import { noSavedCourseIdPlaceholder, saveCourseId } from "../features/storage/courseStorage";
-import Heading from "../components/global/Heading";
+import Heading from "../components/global/Heading.js";
 
 class TreeGridInitializer {
     static getFirstLevel(data) {

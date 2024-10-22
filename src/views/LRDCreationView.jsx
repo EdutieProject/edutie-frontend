@@ -1,8 +1,8 @@
 import { Box, Grid, TextField, useTheme, Typography } from "@mui/material";
 import NavLayout from "./layout/NavLayout";
-import Surface from "../components/global/Surface";
-import RoundedButton from "../components/global/RoundedButton.jsx";
-import CircleButton from "../components/global/CircleButton.jsx";
+import Surface from "../components/global/Surface.js";
+import RoundedButton from "../components/global/RoundedButton.tsx";
+import CircleButton from "../components/global/CircleButton.tsx";
 import { useState } from "react";
 import TextArea from "../components/global/TextArea.tsx";
 

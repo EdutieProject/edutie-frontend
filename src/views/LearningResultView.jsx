@@ -9,7 +9,7 @@ import SadColorfulFaceIcon from "../components/customIcons/SadColorfulFaceIcon.j
 import NormalColorfulFaceIcon from "../components/customIcons/NormalColorfulFaceIcon.js";
 import LoadingView from "./common/LoadingView";
 import MarkdownLaTeXRenderer from "../components/markdown/MarkdownLaTexRenderer";
-import RoundedButton from "../components/global/RoundedButton";
+import RoundedButton from "../components/global/RoundedButton.js";
 import { navigationPath } from "../features/navigation";
 import { getActiveLessonId } from "../features/storage/activeLessonCache";
 

@@ -1,5 +1,5 @@
 import { useTheme, Container, Box } from "@mui/material";
-import NavBar from "../../components/global/NavBar";
+import NavBar from "../../components/global/NavBar.js";
 import { navSections } from "../../features/navigation";
 import { useState } from "react";
 

@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, Grid, TextField, Typography, useTheme } from '@mui/material';
 import NavLayout from './layout/NavLayout';
-import RoundedButton from '../components/global/RoundedButton';
+import RoundedButton from '../components/global/RoundedButton.js';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import Surface from '../components/global/Surface';
+import Surface from '../components/global/Surface.js';
 import useEnumValue from '../hooks/alternative/useEnumValue';
-import CircleButton from '../components/global/CircleButton';
+import CircleButton from '../components/global/CircleButton.js';
 import TurnAroundIcon from '../components/customIcons/TurnAroundIcon.js';
 import { generateLearningResultFromSolution, getLearningResourceById } from '../services/learningService.js';
 import LoadingView from './common/LoadingView';

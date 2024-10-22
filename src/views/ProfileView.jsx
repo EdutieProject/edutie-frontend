@@ -2,8 +2,8 @@ import { Box, CircularProgress, Divider, Grid, Typography, useTheme } from "@mui
 import NavLayout from "./layout/NavLayout";
 import useEnumValue from "../hooks/alternative/useEnumValue";
 import { useEffect, useState } from "react";
-import RoundedButton from "../components/global/RoundedButton";
-import Heading from "../components/global/Heading"
+import RoundedButton from "../components/global/RoundedButton.js";
+import Heading from "../components/global/Heading.js"
 import { navigationPath, navSections } from "../features/navigation";
 import {getStudentLatestLearningResults, getUserDetails} from "../services/userProfileService";
 import LoadingView from "./common/LoadingView";
@@ -13,7 +13,7 @@ import LatestStudentActivityChart from "../components/charts/studentProfile/Late
 import DisappointedFaceIcon from "../components/customIcons/DisappointedFaceIcon.js";
 import { daysAgo, getDayName } from "../features/datetime/datetimeUtilities";
 import { useNavigate } from "react-router-dom";
-import CircleButton from "../components/global/CircleButton";
+import CircleButton from "../components/global/CircleButton.js";
 
 export default function ProfileView() {
   const theme = useTheme();

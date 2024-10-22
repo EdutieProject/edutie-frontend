@@ -1,6 +1,6 @@
 //LAYOUT IMPORTS
 import NavLayout from "./layout/NavLayout";
-import Surface from "../components/global/Surface";
+import Surface from "../components/global/Surface.js";
 import {
   Typography,
   useTheme,
@@ -20,8 +20,8 @@ import {
 } from "../services/studyProgramLearningService";
 import { ChevronLeft, ChevronRight, QuestionMark, Search } from "@mui/icons-material";
 import LoadingView from "./common/LoadingView";
-import Heading from "../components/global/Heading";
-import CircleButton from "../components/global/CircleButton";
+import Heading from "../components/global/Heading.js";
+import CircleButton from "../components/global/CircleButton.js";
 import { useNavigate } from "react-router-dom";
 import { navigationPath, navSections } from "../features/navigation";
 import ErrorView from "./common/ErrorView";
