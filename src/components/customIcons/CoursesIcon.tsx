@@ -1,15 +1,15 @@
-import { SvgIcon } from "@mui/material";
+import React from "react";
+import {SvgIcon, SvgIconProps} from "@mui/material";
 
 /**
  * Element for icon of svg present in assets/svg/books-literature-svgrepo-com.svg
- * @param {import("@mui/material").SvgIconProps} params 
  * @returns JSX element for distributed learning icon
  */
-export default function CoursesIcon(params) {
+export default function CoursesIcon(params: SvgIconProps) {
     return (
-        <SvgIcon sx={{ color: params.color, height: params.height, width: params.width }} htmlColor={params.color}>
-            <svg fill={params.color} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                viewBox="0 0 511.999 511.999" xml:space="preserve">
+        <SvgIcon sx={{color: params.color, height: params.height, width: params.width}} htmlColor={params.color}>
+            <svg fill={params.color} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 511.999 511.999">
                 <g>
                     <g>
                         <path d="M486.989,450.483h-14.26v-47.706h14.259c4.924,0,8.913-3.991,8.913-8.913v-43.69c0-4.233-2.953-7.77-6.911-8.679

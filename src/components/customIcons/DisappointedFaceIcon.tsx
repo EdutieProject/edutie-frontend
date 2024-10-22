@@ -1,16 +1,16 @@
-import { SvgIcon } from "@mui/material"
+import {SvgIcon, SvgIconProps} from "@mui/material"
+import React from "react";
 
 /**
  * Custom icon of sweating face outline. (sad-svgrepo-com.svg)
- * @param {import("@mui/material").SvgIconProps} params 
  * @returns JSX element for distributed learning icon
  */
-export default function DisappointedFaceIcon(params) {
+export default function DisappointedFaceIcon(params: SvgIconProps) {
     return (
-        <SvgIcon sx={{ color: params.color, height: params.height, width: params.width }} htmlColor={params.color}>
-            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                viewBox="0 0 512 512" xml:space="preserve">
-                <circle fill="#FDDF6D" cx="256.002" cy="256.001" r="245.994" />
+        <SvgIcon sx={{color: params.color, height: params.height, width: params.width}} htmlColor={params.color}>
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 512 512">
+                <circle fill="#FDDF6D" cx="256.002" cy="256.001" r="245.994"/>
                 <path fill="#FCC56B" d="M308.715,465.677c-135.858,0-245.993-110.134-245.993-245.993
 	c0-72.584,31.443-137.816,81.444-182.842C64.528,77.562,10.008,160.412,10.008,256c0,135.858,110.134,245.993,245.993,245.993
 	c63.274,0,120.962-23.898,164.549-63.149C386.997,455.998,348.988,465.677,308.715,465.677z"/>
@@ -53,7 +53,7 @@ export default function DisappointedFaceIcon(params) {
 	c5.325-1.474,8.448-6.988,6.973-12.314c-1.474-5.325-6.98-8.45-12.314-6.973c-4.921,1.357-15.031,0.406-26.521-4.805
 	c-11.24-5.096-18.873-12.309-21.449-17.194c-2.578-4.889-8.63-6.765-13.519-4.184c-4.889,2.578-6.762,8.632-4.184,13.519
 	C383.984,239.76,395.531,249.511,409.63,255.904z"/>
-                <circle cx="319.102" cy="18.841" r="10.007" />
+                <circle cx="319.102" cy="18.841" r="10.007"/>
             </svg>
         </SvgIcon>
     );

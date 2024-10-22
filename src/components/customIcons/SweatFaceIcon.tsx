@@ -1,16 +1,16 @@
-import { SvgIcon } from "@mui/material"
+import React from 'react';
+import {SvgIcon, SvgIconProps} from "@mui/material";
 
 /**
  * Custom icon of sweating face outline. (sweat-svgrepo-com.svg)
- * @param {import("@mui/material").SvgIconProps} params 
  * @returns JSX element for distributed learning icon
  */
-export default function SweatFaceIcon(params) {
+export default function SweatFaceIcon(params: SvgIconProps) {
     return (
-        <SvgIcon sx={{ color: params.color, height: params.height, width: params.width }} htmlColor={params.color}>
-            <svg height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                viewBox="0 0 511.999 511.999" xml:space="preserve">
-                <circle fill="#FDDF6D" cx="257.753" cy="256.003" r="244.303" />
+        <SvgIcon sx={{color: params.color, height: params.height, width: params.width}} htmlColor={params.color}>
+            <svg height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 511.999 511.999">
+                <circle fill="#FDDF6D" cx="257.753" cy="256.003" r="244.303"/>
                 <path fill="#FCC56B" d="M310.113,464.236c-134.925,0-244.302-109.377-244.302-244.302
 	c0-72.085,31.227-136.869,80.884-181.585C67.603,78.788,13.459,161.07,13.459,255.999c0,134.924,109.377,244.302,244.302,244.302
 	c62.84,0,120.131-23.733,163.418-62.715C387.857,454.623,350.108,464.236,310.113,464.236z"/>
@@ -52,7 +52,7 @@ export default function SweatFaceIcon(params) {
 	c2.128,0,4.274-0.681,6.085-2.086c16.271-12.622,45.744-20.463,76.911-20.463c31.976,0,61.127,7.756,76.079,20.239
 	c4.211,3.518,10.479,2.954,13.997-1.259c3.518-4.213,2.954-10.481-1.259-13.997c-18.641-15.566-51.845-24.86-88.818-24.86
 	C268.573,346.761,234.433,356.2,214.845,371.397z"/>
-                <circle cx="14.395" cy="243.905" r="9.939" />
+                <circle cx="14.395" cy="243.905" r="9.939"/>
             </svg>
         </SvgIcon>
     );

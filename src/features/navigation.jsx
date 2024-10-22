@@ -1,10 +1,10 @@
-import DistributedLearningIcon from '../components/customIcons/DistributedLearningIcon';
-import EdutieHomeIcon from "../components/customIcons/EdutieHomeIcon";
-import ExcerciseNotebookIcon from '../components/customIcons/ExcerciseNotebookIcon';
-import UserIcon from '../components/customIcons/StudentUserIcon';
+import DistributedLearningIcon from '../components/customIcons/DistributedLearningIcon.js';
+import GlobeIcon from "../components/customIcons/GlobeIcon.tsx";
+import ExerciseNotebookIcon from '../components/customIcons/ExerciseNotebookIcon.tsx';
+import UserIcon from '../components/customIcons/StudentUserIcon.js';
 import { createContext, useState } from 'react';
 import { getSavedCourseId } from './storage/courseStorage';
-import CoursesIcon from '../components/customIcons/CoursesIcon';
+import CoursesIcon from '../components/customIcons/CoursesIcon.js';
 
 
 // ===== NAVIGATION PATHS ======
@@ -72,7 +72,7 @@ const iconSize = "2.25rem";
 export const navElements = [
   {
     id: navSections.home,
-    icon: (color) => <EdutieHomeIcon color={color} height={iconSize} width={iconSize} />,
+    icon: (color) => <GlobeIcon color={color} height={iconSize} width={iconSize} />,
     navigate: (navigate) => navigate(navigationPath.home),
   },
   {

@@ -6,7 +6,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Surface from '../components/global/Surface';
 import useEnumValue from '../hooks/alternative/useEnumValue';
 import CircleButton from '../components/global/CircleButton';
-import TurnAroundIcon from '../components/customIcons/TurnAroundIcon';
+import TurnAroundIcon from '../components/customIcons/TurnAroundIcon.js';
 import { generateLearningResultFromSolution, getLearningResourceById } from '../services/learningService.js';
 import LoadingView from './common/LoadingView';
 import ErrorView from './common/ErrorView';

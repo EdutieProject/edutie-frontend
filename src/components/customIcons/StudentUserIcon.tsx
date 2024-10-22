@@ -1,16 +1,17 @@
-import { SvgIcon } from "@mui/material";
+import React from 'react';
+import {SvgIcon, SvgIconProps} from "@mui/material";
 
 /**
  * Element for icon of svg present in assets/svg/user.svg
- * @param {import("@mui/material").SvgIconProps} params 
+ * @param {import("@mui/material").SvgIconProps} params
  * @returns JSX element for distributed learning icon
  */
-export default function UserIcon(params) {
+export default function UserIcon(params: SvgIconProps) {
     return (
         <SvgIcon sx={{color: params.color, height: params.height, width: params.width}} htmlColor={params.color}>
-            <svg fill={params.color} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-	 viewBox="0 0 302.6 302.6" xml:space="preserve">
-<path d="M228.098,302.6c-0.696,0-1.396-0.091-2.081-0.275c-0.001,0-0.001-0.001-0.001-0.001c-0.008-0.002-0.012-0.001-0.021-0.006
+            <svg fill={params.color} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 302.6 302.6">
+                <path d="M228.098,302.6c-0.696,0-1.396-0.091-2.081-0.275c-0.001,0-0.001-0.001-0.001-0.001c-0.008-0.002-0.012-0.001-0.021-0.006
 	c-0.007-0.002-0.014-0.003-0.021-0.005c-0.002-0.001-0.005-0.002-0.007-0.002c-0.005-0.002-0.01-0.003-0.015-0.004l-0.001-0.001
 	c-0.087-0.023-0.174-0.05-0.26-0.077l-48.694-15.213c-3.34-1.043-5.614-4.137-5.614-7.636v-71.089c0-2.545,1.211-4.938,3.261-6.445
 	s4.693-1.949,7.125-1.19l46.33,14.475l46.331-14.475c2.433-0.76,5.076-0.316,7.125,1.19c2.05,1.508,3.261,3.9,3.261,6.445v71.089
@@ -39,7 +40,7 @@ export default function UserIcon(params) {
 	c-0.007,0.001-0.024,0-0.033,0c-0.017,0.001-0.034,0-0.052-0.001c-0.019,0-0.037,0.001-0.053,0c-0.019,0-0.032-0.001-0.054,0
 	c-0.018,0-0.011-0.006-0.056,0c-0.017,0-0.03,0.001-0.047,0c-0.013,0-0.025,0-0.038,0c-0.019,0.001-0.039,0-0.059,0
 	c-0.001,0-0.001,0-0.002,0C144.537,16.004,143.605,16.043,142.681,16.117z"/>
-</svg>
+            </svg>
         </SvgIcon>
     );
 }

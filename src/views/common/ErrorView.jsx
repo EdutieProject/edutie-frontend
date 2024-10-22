@@ -1,10 +1,8 @@
 import { Box, Grid, IconButton, SvgIcon, Typography, useTheme } from "@mui/material";
 import NavLayout from "../layout/NavLayout";
 import { useState } from "react";
-import Surface from "../../components/global/Surface";
 import { Link } from "react-router-dom";
-import SadRoundSquareIcon from "../../components/customIcons/SadRoundSqaureIcon";
-import DeadZombieFaceIcon from "../../components/customIcons/DeadZombieFaceIcon";
+import DeadZombieFaceIcon from "../../components/customIcons/DeadZombieFaceIcon.js";
 
 
 export default function ErrorView({ error }) {

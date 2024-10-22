@@ -13,7 +13,7 @@ import RoundedButton from "../components/global/RoundedButton.jsx";
 import LoadingView from "./common/LoadingView.jsx";
 import ErrorView from "./common/ErrorView.jsx";
 import SegmentTree from "../components/tree/SegmentTree.jsx";
-import InfoCircleIcon from "../components/customIcons/InfoCircleIcon.jsx";
+import InfoCircleIcon from "../components/customIcons/InfoCircleIcon.tsx";
 
 class SegmentSearch {
   /**
