@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme/Theme";
 
-import { navigationPath, SelectedNavigationSectionProvider } from "./features/navigation";
+import { navigationPath, SelectedNavigationSectionProvider } from "./features/navigation.js";
 
 import HomeView from "./views/HomeView";
 import SegmentTreeView from "./views/SegmentTreeView";

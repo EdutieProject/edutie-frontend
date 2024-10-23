@@ -5,7 +5,7 @@ import { getCourseDetailsById, getLessonsByCourse } from "../services/studyProgr
 import Xarrow from "react-xarrows";
 import LoadingView from "./common/LoadingView";
 import { useNavigate, useParams } from "react-router-dom";
-import { navigationPath, navSections } from "../features/navigation";
+import { navigationPath, navSections } from "../features/navigation.js";
 import ErrorView from "./common/ErrorView";
 import NoContextView from "./common/NoContextView";
 import { noSavedCourseIdPlaceholder, saveCourseId } from "../features/storage/courseStorage";

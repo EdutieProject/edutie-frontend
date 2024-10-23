@@ -10,7 +10,7 @@ import NormalColorfulFaceIcon from "../components/customIcons/NormalColorfulFace
 import LoadingView from "./common/LoadingView";
 import MarkdownLaTeXRenderer from "../components/markdown/MarkdownLaTexRenderer.js";
 import RoundedButton from "../components/global/RoundedButton.js";
-import { navigationPath } from "../features/navigation";
+import { navigationPath } from "../features/navigation.js";
 import { getActiveLessonId } from "../features/storage/activeLessonCache";
 
 

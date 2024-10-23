@@ -10,7 +10,7 @@ import TurnAroundIcon from '../components/customIcons/TurnAroundIcon.js';
 import { generateLearningResultFromSolution, getLearningResourceById } from '../services/learningService.js';
 import LoadingView from './common/LoadingView';
 import ErrorView from './common/ErrorView';
-import { navigationPath } from '../features/navigation';
+import { navigationPath } from '../features/navigation.js';
 import MarkdownLaTeXRenderer from '../components/markdown/MarkdownLaTexRenderer.js';
 import TextArea from '../components/global/TextArea';
 import MermaidRenderer from '../components/mermaid/MermaidRenderer.tsx';

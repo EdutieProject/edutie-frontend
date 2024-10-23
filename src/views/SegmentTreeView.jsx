@@ -5,7 +5,7 @@ import { generateLearningResource } from "../services/learningService.js";
 import { getSegmentsByLesson } from "../services/studyProgramLearningService.js";
 import { saveActiveLessonId } from "../features/storage/activeLessonCache.js";
 import { saveActiveSegmentId } from "../features/storage/activeSegmentCache.js";
-import { navigationPath } from "../features/navigation.jsx";
+import { navigationPath } from "../features/navigation.tsx";
 import NavLayout from "./layout/NavLayout.jsx";
 import Surface from "../components/global/Surface.tsx";
 import CircleButton from "../components/global/CircleButton.tsx";

@@ -12,7 +12,7 @@ import LoadingView from "./common/LoadingView"
 import RoundedButton from "../components/global/RoundedButton.js"
 import Heading from "../components/global/Heading.js"
 import { useNavigate } from "react-router-dom"
-import { navigationPath } from "../features/navigation"
+import { navigationPath } from "../features/navigation.js"
 
 import {getUserDetails} from "../services/userProfileService.js";
 

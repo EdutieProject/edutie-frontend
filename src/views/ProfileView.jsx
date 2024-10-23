@@ -4,7 +4,7 @@ import useEnumValue from "../hooks/alternative/useEnumValue";
 import { useEffect, useState } from "react";
 import RoundedButton from "../components/global/RoundedButton.js";
 import Heading from "../components/global/Heading.js"
-import { navigationPath, navSections } from "../features/navigation";
+import { navigationPath, navSections } from "../features/navigation.js";
 import {getStudentLatestLearningResults, getUserDetails} from "../services/userProfileService";
 import LoadingView from "./common/LoadingView";
 import ErrorView from "./common/ErrorView";

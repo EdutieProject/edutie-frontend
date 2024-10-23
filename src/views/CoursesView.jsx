@@ -23,7 +23,7 @@ import LoadingView from "./common/LoadingView";
 import Heading from "../components/global/Heading.js";
 import CircleButton from "../components/global/CircleButton.js";
 import { useNavigate } from "react-router-dom";
-import { navigationPath, navSections } from "../features/navigation";
+import { navigationPath, navSections } from "../features/navigation.js";
 import ErrorView from "./common/ErrorView";
 
 export default function CoursesView() {
