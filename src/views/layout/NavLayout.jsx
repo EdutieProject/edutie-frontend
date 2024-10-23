@@ -1,7 +1,5 @@
 import { useTheme, Container, Box } from "@mui/material";
-import NavBar from "../../components/global/NavBar.js";
-import { navSections } from "../../features/navigation.js";
-import { useState } from "react";
+import NavBar from "../../components/global/NavBar.tsx";
 
 /**
  * Default application layout providing navigation bar
@@ -32,7 +30,7 @@ export default function NavLayout({ children, mode, disablePadding, activeSectio
                     flexGrow: 1,
                     padding: disablePadding ? 0 : theme.spacing(8),
                     paddingX: disablePadding ? 0 : theme.spacing(16),
-                    display: mode == "flex" ? "flex" : "block",
+                    display: mode === "flex" ? "flex" : "block",
                     flexDirection: "column",
                     overflowY: scroll ? "scroll" : "hidden",
                     position: relative ? "relative" : "static"

@@ -1,11 +1,11 @@
-import {SvgIcon, SvgIconProps} from "@mui/material"
+import {SvgIcon} from "@mui/material"
 import React from "react";
 
 /**
  * Custom icon of sweating face outline. (sad-svgrepo-com.svg)
  * @returns JSX element for distributed learning icon
  */
-export default function DisappointedFaceIcon(params: SvgIconProps) {
+export default function DisappointedFaceIcon(params: CustomIconProps) {
     return (
         <SvgIcon sx={{color: params.color, height: params.height, width: params.width}} htmlColor={params.color}>
             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"

@@ -3,4 +3,4 @@
 export const noSavedCourseIdPlaceholder = "no-course-id-saved";
 
 export const getSavedCourseId = () => localStorage.getItem("currentCourseId") ?? noSavedCourseIdPlaceholder;
-export const saveCourseId = (courseId) => localStorage.setItem("currentCourseId", courseId);
+export const saveCourseId = (courseId: string) => localStorage.setItem("currentCourseId", courseId);

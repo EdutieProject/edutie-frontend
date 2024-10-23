@@ -1,11 +1,11 @@
-import {SvgIcon, SvgIconProps} from "@mui/material";
+import {SvgIcon} from "@mui/material";
 import React from "react";
 
 /**
  * Element for icon of svg present in assets/svg/education-learning-23-svgrepo-com
  * @returns JSX element for distributed learning icon
  */
-export default function GlobeIcon(params: SvgIconProps) {
+export default function GlobeIcon(params: CustomIconProps) {
     return (
         <SvgIcon sx={{color: params.color, height: params.height, width: params.width, transform: "scale(1.4)"}}
                  htmlColor={params.color}>

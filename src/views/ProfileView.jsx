@@ -4,14 +4,14 @@ import useEnumValue from "../hooks/alternative/useEnumValue";
 import { useEffect, useState } from "react";
 import RoundedButton from "../components/global/RoundedButton.js";
 import Heading from "../components/global/Heading.js"
-import { navigationPath, navSections } from "../features/navigation.js";
+import { navigationPath, navSections } from "../features/navigation/navigationPath.tsx";
 import {getStudentLatestLearningResults, getUserDetails} from "../services/userProfileService";
 import LoadingView from "./common/LoadingView";
 import ErrorView from "./common/ErrorView";
 import SweatFaceIcon from "../components/customIcons/SweatFaceIcon.js";
 import LatestStudentActivityChart from "../components/charts/studentProfile/LatestStudentActivityChart";
 import DisappointedFaceIcon from "../components/customIcons/DisappointedFaceIcon.js";
-import { daysAgo, getDayName } from "../features/datetime/datetimeUtilities";
+import { daysAgo, getDayName } from "../features/datetime/datetimeUtilities.js";
 import { useNavigate } from "react-router-dom";
 import CircleButton from "../components/global/CircleButton.js";
 

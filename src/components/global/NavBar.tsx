@@ -1,14 +1,21 @@
 import * as React from "react";
+import {useContext} from "react";
 import {Box, IconButton, useTheme} from "@mui/material";
-import {useNavigate} from "react-router-dom";
-import {navElements, SelectedNavigationSectionContext} from "../../features/navigation";
+import {NavigateFunction, useNavigate} from "react-router-dom";
+import {navElements} from "../../features/navigation/navigationPath";
+import {
+    SelectedNavigationSectionContext,
+    SelectedNavigationSelectionContextType
+} from "../../features/navigation/navigationState";
+
+
 
 // Define the types for NavElement props
 interface NavElementProps {
     item: {
         id: string;
         icon: (color: string) => JSX.Element;
-        navigate: (navigate: ReturnType<typeof useNavigate>) => void;
+        navigate: (navigate: NavigateFunction) => void;
     };
     isActive: boolean;
     setActiveNavbarElem: (id: string) => void;
@@ -53,9 +60,13 @@ interface NavBarProps {
     activeSectionIdOverride?: string | null;
 }
 
+
 export default function NavBar({activeSectionIdOverride}: NavBarProps) {
     const theme = useTheme();
-    const {selectedSectionId, setSelectedSectionId} = React.useContext(SelectedNavigationSectionContext);
+    const {
+        selectedSectionId,
+        setSelectedSectionId
+    } = useContext<SelectedNavigationSelectionContextType>(SelectedNavigationSectionContext);
 
     React.useEffect(() => {
         if (activeSectionIdOverride != null) {

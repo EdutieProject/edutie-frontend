@@ -5,10 +5,10 @@ import { getCourseDetailsById, getLessonsByCourse } from "../services/studyProgr
 import Xarrow from "react-xarrows";
 import LoadingView from "./common/LoadingView";
 import { useNavigate, useParams } from "react-router-dom";
-import { navigationPath, navSections } from "../features/navigation.js";
+import { navigationPath, navSections } from "../features/navigation/navigationPath.tsx";
 import ErrorView from "./common/ErrorView";
 import NoContextView from "./common/NoContextView";
-import { noSavedCourseIdPlaceholder, saveCourseId } from "../features/storage/courseStorage";
+import { noSavedCourseIdPlaceholder, saveCourseId } from "../features/storage/courseStorage.js";
 import Heading from "../components/global/Heading.js";
 
 class TreeGridInitializer {

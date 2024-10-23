@@ -1,4 +1,4 @@
-import {daysAgo} from "../features/datetime/datetimeUtilities";
+import {daysAgo} from "../features/datetime/datetimeUtilities.js";
 import {API_PATH, catchClientErrors, getDefaultHeadersAuthenticated} from "./apiCommons";
 
 const PROFILE_API = `${API_PATH}/profiles`;

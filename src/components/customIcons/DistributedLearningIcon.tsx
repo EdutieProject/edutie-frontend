@@ -1,4 +1,4 @@
-import {SvgIcon, SvgIconProps} from "@mui/material";
+import {SvgIcon} from "@mui/material";
 import React from "react";
 
 //Custom icon representing assets/svg/distributed-learning.png
@@ -7,7 +7,7 @@ import React from "react";
  * Element for icon of svg present in assets/svg/distributed-learning.svg
  * @returns JSX element for distributed learning icon
  */
-export default function DistributedLearningIcon(params: SvgIconProps) {
+export default function DistributedLearningIcon(params: CustomIconProps) {
     return (
         <SvgIcon sx={{color: params.color, height: params.height, width: params.width}} htmlColor={params.color}>
             <svg xmlns="http://www.w3.org/2000/svg" fill={params.color} viewBox="0 0 64 64" id="distributed-learning">

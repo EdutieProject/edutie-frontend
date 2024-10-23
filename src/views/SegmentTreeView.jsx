@@ -1,11 +1,10 @@
-import { Typography, Box, Grid, useTheme, Tooltip, IconButton } from "@mui/material";
+import { Typography, Box, useTheme, Tooltip, IconButton } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { generateLearningResource } from "../services/learningService.js";
 import { getSegmentsByLesson } from "../services/studyProgramLearningService.js";
-import { saveActiveLessonId } from "../features/storage/activeLessonCache.js";
-import { saveActiveSegmentId } from "../features/storage/activeSegmentCache.js";
-import { navigationPath } from "../features/navigation.tsx";
+import { saveActiveLessonId } from "../features/storage/activeLessonCache.ts";
+import { navigationPath } from "../features/navigation/navigationPath.js";
 import NavLayout from "./layout/NavLayout.jsx";
 import Surface from "../components/global/Surface.tsx";
 import CircleButton from "../components/global/CircleButton.tsx";

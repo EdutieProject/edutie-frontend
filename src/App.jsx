@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme/Theme";
 
-import { navigationPath, SelectedNavigationSectionProvider } from "./features/navigation.js";
+import { SelectedNavigationSectionProvider } from "./features/navigation/navigationState.tsx";
 
 import HomeView from "./views/HomeView";
 import SegmentTreeView from "./views/SegmentTreeView";
@@ -12,6 +12,7 @@ import LRDCreationView from "./views/LRDCreationView";
 import LearningResourceView from "./views/LearningResourceView";
 import LearningResultView from "./views/LearningResultView";
 import ProfileView from "./views/ProfileView";
+import {navigationPath} from "./features/navigation/navigationPath.tsx";
 
 export default function App() {
   return (

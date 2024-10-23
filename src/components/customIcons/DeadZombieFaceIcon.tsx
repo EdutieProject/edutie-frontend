@@ -1,11 +1,11 @@
-import {SvgIcon, SvgIconProps} from "@mui/material";
+import {SvgIcon} from "@mui/material";
 import React from "react";
 
 /**
  * Icon element - zombie-svgrepo-com.svg
  * @returns JSX element for icon
  */
-export default function DeadZombieFaceIcon(params: SvgIconProps) {
+export default function DeadZombieFaceIcon(params: CustomIconProps) {
     return (
         <SvgIcon sx={{color: params.color, height: params.height, width: params.width}} htmlColor={params.color}>
             <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">

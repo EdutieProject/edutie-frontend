@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Box, Grid, TextField, Typography, useTheme } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Grid, Typography, useTheme } from '@mui/material';
 import NavLayout from './layout/NavLayout';
 import RoundedButton from '../components/global/RoundedButton.js';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -10,7 +10,7 @@ import TurnAroundIcon from '../components/customIcons/TurnAroundIcon.js';
 import { generateLearningResultFromSolution, getLearningResourceById } from '../services/learningService.js';
 import LoadingView from './common/LoadingView';
 import ErrorView from './common/ErrorView';
-import { navigationPath } from '../features/navigation.js';
+import { navigationPath } from '../features/navigation/navigationPath.tsx';
 import MarkdownLaTeXRenderer from '../components/markdown/MarkdownLaTexRenderer.js';
 import TextArea from '../components/global/TextArea';
 import MermaidRenderer from '../components/mermaid/MermaidRenderer.tsx';
@@ -83,12 +83,12 @@ export default function LearningResourceView() {
           <Typography variant="body1">{learningResource.learningRequirementNames.join(" • ")}</Typography>
         </Box>
         <Box sx={{ display: "flex", gap: theme.spacing(4), alignItems: "center" }}>
-          <RoundedButton label={"Teoria"} active={currentView == Views.THEORY} onClick={() => setCurrentView(Views.THEORY)} />
-          <RoundedButton label={"Praktyka"} active={currentView == Views.ACTIVITY} onClick={() => setCurrentView(Views.ACTIVITY)} />
+          <RoundedButton label={"Teoria"} active={currentView === Views.THEORY} onClick={() => setCurrentView(Views.THEORY)} />
+          <RoundedButton label={"Praktyka"} active={currentView === Views.ACTIVITY} onClick={() => setCurrentView(Views.ACTIVITY)} />
         </Box>
       </Box>
       {
-        currentView == Views.ACTIVITY ?
+        currentView === Views.ACTIVITY ?
           <ActivityBlock
             activity={learningResource.activity}
             setAssessmentLoading={setAssessmentLoading}

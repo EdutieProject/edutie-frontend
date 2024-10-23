@@ -1,11 +1,11 @@
 import React from "react";
-import {SvgIcon, SvgIconProps} from "@mui/material";
+import {SvgIcon} from "@mui/material";
 
 /**
  * Element for icon of svg present in assets/svg/books-literature-svgrepo-com.svg
  * @returns JSX element for distributed learning icon
  */
-export default function CoursesIcon(params: SvgIconProps) {
+export default function CoursesIcon(params: CustomIconProps) {
     return (
         <SvgIcon sx={{color: params.color, height: params.height, width: params.width}} htmlColor={params.color}>
             <svg fill={params.color} version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"

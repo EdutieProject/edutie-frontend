@@ -1,11 +1,11 @@
 import React from 'react';
-import {SvgIcon, SvgIconProps} from "@mui/material";
+import {SvgIcon} from "@mui/material";
 
 /**
  * Element for icon of svg present in assets/svg/sadface.svg
  * @returns JSX element for distributed learning icon
  */
-export default function SadColorfulFaceIcon(params: SvgIconProps) {
+export default function SadColorfulFaceIcon(params: CustomIconProps) {
     return (
         <SvgIcon sx={{color: params.color, height: params.height, width: params.width}} htmlColor={params.color}>
             <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">

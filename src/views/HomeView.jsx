@@ -1,27 +1,27 @@
-import {Typography, Grid, Box, useTheme, Skeleton} from "@mui/material"
+import {Box, Grid, Skeleton, Typography, useTheme} from "@mui/material"
 import NavLayout from "./layout/NavLayout"
 import Surface from "../components/global/Surface.js"
 import CircleButton from "../components/global/CircleButton.js"
 import studentGraduationCap from "../assets/svg/student-graduation-cap.svg"
 import learningBook from "../assets/img/learning-book.png"
 import funkcjeImg from "../assets/img/funkcje.png"
-import { useEffect, useState } from "react"
-import { generateRandomFactLearningResource, getRandomFact } from "../services/learningService.js"
+import {useEffect, useState} from "react"
+import {generateRandomFactLearningResource, getRandomFact} from "../services/learningService.js"
 import ErrorView from "./common/ErrorView"
 import LoadingView from "./common/LoadingView"
 import RoundedButton from "../components/global/RoundedButton.js"
 import Heading from "../components/global/Heading.js"
-import { useNavigate } from "react-router-dom"
-import { navigationPath } from "../features/navigation.js"
+import {useNavigate} from "react-router-dom"
+import {navigationPath} from "../features/navigation/navigationPath.js"
 
 import {getUserDetails} from "../services/userProfileService.js";
 
-const funkcje = { img: funkcjeImg, title: "Funkcje" }
-const tags = { new: "Coś nowego", repeat: "Idealna powtórka" }
+const funkcje = {img: funkcjeImg, title: "Funkcje"}
+const tags = {new: "Coś nowego", repeat: "Idealna powtórka"}
 const ls = [
-    { title: "Własności trogonometryczne w układzie współrzędnych", img: studentGraduationCap, tag: tags.new },
-    { title: "Własności trogonometryczne w układzie współrzędnych", img: learningBook, tag: tags.new },
-    { title: "Własności trogonometryczne w układzie współrzędnych", img: learningBook, tag: tags.repeat }
+    {title: "Własności trogonometryczne w układzie współrzędnych", img: studentGraduationCap, tag: tags.new},
+    {title: "Własności trogonometryczne w układzie współrzędnych", img: learningBook, tag: tags.new},
+    {title: "Własności trogonometryczne w układzie współrzędnych", img: learningBook, tag: tags.repeat}
 ]
 
 export default function HomeView() {
@@ -51,7 +51,9 @@ export default function HomeView() {
         setInitialLoading(false);
     }
 
-    useEffect(() => { initialLoad(); }, []);
+    useEffect(() => {
+        initialLoad();
+    }, []);
 
     async function dynamicLearningResourceLoad() {
         if (dynamicLearningResourceLoading === false)
@@ -61,16 +63,18 @@ export default function HomeView() {
             setError(learningResourceResponse.error);
             return;
         }
-        navigate(navigationPath.fillPath(navigationPath.exercise, learningResourceResponse.data.id), { state: learningResourceResponse.data });
+        navigate(navigationPath.fillPath(navigationPath.exercise, learningResourceResponse.data.id), {state: learningResourceResponse.data});
     }
 
-    useEffect(() => { dynamicLearningResourceLoad(); }, [dynamicLearningResourceLoading]);
+    useEffect(() => {
+        dynamicLearningResourceLoad();
+    }, [dynamicLearningResourceLoading]);
 
     if (error)
-        return <ErrorView error={error} />
+        return <ErrorView error={error}/>
 
     if (initialLoading || dynamicLearningResourceLoading)
-        return <LoadingView />
+        return <LoadingView/>
 
     return (
         <NavLayout>
@@ -81,13 +85,20 @@ export default function HomeView() {
                 </Grid>
                 <Grid item xs={12}>
                     <Heading variant="h8">Czy wiesz że...</Heading>
-                    <Box sx={{ display: "flex", justifyContent: "space-between", gap: theme.spacing(8), alignItems: "center" }}>
+                    <Box sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        gap: theme.spacing(8),
+                        alignItems: "center"
+                    }}>
                         <Typography variant="body1">{randomFact}</Typography>
-                        <RoundedButton active label="Naucz się więcej" onClick={() => setDynamicLearningResourceLoading(true)} />
+                        <RoundedButton active label="Naucz się więcej"
+                                       onClick={() => setDynamicLearningResourceLoading(true)}/>
                     </Box>
                 </Grid>
                 <Grid item xs={12} sm={6} paddingRight={theme.spacing(2)}>
-                    <Typography variant="h8" fontFamily="Baloo">Zobacz co więcej przygotowaliśmy dla Ciebie:</Typography>
+                    <Typography variant="h8" fontFamily="Baloo">Zobacz co więcej przygotowaliśmy dla
+                        Ciebie:</Typography>
                     <Box sx={{
                         display: "flex",
                         flexDirection: "column",
@@ -110,7 +121,7 @@ export default function HomeView() {
     );
 }
 
-function HomeTile({ course = { img, title }, lesson = { img, title, tag } }) {
+function HomeTile({course = {img, title}, lesson = {img, title, tag}}) {
     const theme = useTheme();
     const styles = {
         courseContainer: {
@@ -142,25 +153,30 @@ function HomeTile({ course = { img, title }, lesson = { img, title, tag } }) {
     }
     const Tag = () => (<div style={styles.tag}>{lesson.tag}</div>)
     return (
-        <Surface style={{ padding: "1rem", paddingRight: "2rem" }} sx={{ position: "relative" }}>
+        <Surface style={{padding: "1rem", paddingRight: "2rem"}} sx={{position: "relative"}}>
             <Grid>
-                <Tag />
+                <Tag/>
                 <Grid container justifyContent="space-between" alignItems="center">
-                    <Grid container flexWrap="nowrap" justifyContent="space-between" alignItems={"center"} style={{ width: "auto", minWidth: "75%", maxWidth: "calc(100% - 6rem)" }} >
+                    <Grid container flexWrap="nowrap" justifyContent="space-between" alignItems={"center"}
+                          style={{width: "auto", minWidth: "75%", maxWidth: "calc(100% - 6rem)"}}>
                         <Box sx={styles.courseContainer} maxWidth="50%">
-                            <img src={course.img} style={{ height: "3.5rem", width: "3.5rem", aspectRatio: 1, fill: "black" }} alt=" " />
+                            <img src={course.img}
+                                 style={{height: "3.5rem", width: "3.5rem", aspectRatio: 1, fill: "black"}} alt=" "/>
                             <Typography variant="h6" fontFamily="Baloo">{course.title}</Typography>
                         </Box>
                         <Box sx={styles.lessonContainer} minWidth="50%">
-                            <img src={lesson.img} style={{ height: "2rem", width: "2rem", aspectRatio: 1, fill: "black" }} alt=" " />
-                            <Typography variant="h9" fontSize="0.8rem" textAlign="center" lineHeight="0.9rem" style={{ wordWrap: "break-word", padding: 0 }}>{lesson.title}</Typography>
+                            <img src={lesson.img} style={{height: "2rem", width: "2rem", aspectRatio: 1, fill: "black"}}
+                                 alt=" "/>
+                            <Typography variant="h9" fontSize="0.8rem" textAlign="center" lineHeight="0.9rem"
+                                        style={{wordWrap: "break-word", padding: 0}}>{lesson.title}</Typography>
                         </Box>
                     </Grid>
-                    <LessonButton size="1.5rem" style={{ aspectRatio: 1 }} />
+                    <LessonButton size="1.5rem" style={{aspectRatio: 1}}/>
                 </Grid>
             </Grid>
         </Surface>
     )
 }
 
-const LessonButton = ({ size }) => (<CircleButton size={size}><Typography fontFamily="Baloo" color="white" fontSize={size}>{">"}</Typography></CircleButton>)
+const LessonButton = ({size}) => (<CircleButton size={size}><Typography fontFamily="Baloo" color="white"
+                                                                        fontSize={size}>{">"}</Typography></CircleButton>)

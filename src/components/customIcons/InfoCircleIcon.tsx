@@ -1,11 +1,11 @@
 import React from "react";
-import {SvgIcon, SvgIconProps} from "@mui/material";
+import {SvgIcon} from "@mui/material";
 
 /**
  * Element for icon of svg present in assets/svg/info-circle-svgrepo-com.svg
  * @returns JSX element for distributed learning icon
  */
-export default function InfoCircleIcon(params: SvgIconProps) {
+export default function InfoCircleIcon(params: CustomIconProps) {
     return (
         <SvgIcon sx={{color: params.color, height: params.height, width: params.width, ...params.sx}}
                  htmlColor={params.color}>
