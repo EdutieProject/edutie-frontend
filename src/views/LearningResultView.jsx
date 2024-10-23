@@ -8,7 +8,7 @@ import JoyColorfulFaceIcon from "../components/customIcons/JoyColorfulFaceIcon.j
 import SadColorfulFaceIcon from "../components/customIcons/SadColorfulFaceIcon.js";
 import NormalColorfulFaceIcon from "../components/customIcons/NormalColorfulFaceIcon.js";
 import LoadingView from "./common/LoadingView";
-import MarkdownLaTeXRenderer from "../components/markdown/MarkdownLaTexRenderer";
+import MarkdownLaTeXRenderer from "../components/markdown/MarkdownLaTexRenderer.js";
 import RoundedButton from "../components/global/RoundedButton.js";
 import { navigationPath } from "../features/navigation";
 import { getActiveLessonId } from "../features/storage/activeLessonCache";

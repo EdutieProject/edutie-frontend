@@ -4,17 +4,15 @@ import Circle from "../global/Circle.js";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { useTheme } from "@mui/material";
 
+interface SegmentTreeProps {
+    previousElement: any;
+    mainElement: any;
+    nextElements: Array<any>;
+    setMainElement: (newMainElement: any) => void;
+}
 
-/**
- * 
- * @param {Object} params params
- * @param {Object} params.previousElement The segment to be displayed as previous
- * @param {Object} params.mainElement The segment to be displayed as selected
- * @param {Array} params.nextElements The segments to be displayed as next
- * @param {Function} params.setMainElement function setting main element in the view
- * @returns 
- */
-export default function SegmentTree({ previousElement, mainElement, nextElements, setMainElement }) {
+
+export default function SegmentTree({ previousElement, mainElement, nextElements, setMainElement }: SegmentTreeProps) {
   const theme = useTheme();
 
   return (
@@ -39,7 +37,7 @@ export default function SegmentTree({ previousElement, mainElement, nextElements
         <Circle
           backgroundColor={
             previousElement === null || previousElement.done === true
-              ? theme.palette.primary.main : theme.palette.surface.main
+              ? theme.palette.primary.main : theme.palette.grey[200]
           }
           size="7vw"
           onClick={previousElement === null ? () => null : () => setMainElement(previousElement)}
@@ -86,7 +84,7 @@ export default function SegmentTree({ previousElement, mainElement, nextElements
         alignItems="center"
       >
         <Circle
-          backgroundColor={mainElement.done === true ? theme.palette.primary.main : theme.palette.surface.main}
+          backgroundColor={mainElement.done === true ? theme.palette.primary.main : theme.palette.grey[200]}
           size="12vw"
         >
           <Typography
@@ -135,7 +133,7 @@ export default function SegmentTree({ previousElement, mainElement, nextElements
         {nextElements.map((elem, index) =>
           <Box key={index} sx={{ transform: index === 1 && nextElements.length === 3 ? "translateX(30%)" : "none", display: "flex", flexDirection: "column", alignItems: "center" }}>
             <Circle
-              backgroundColor={elem.done === true ? theme.palette.primary.main : theme.palette.surface.main}
+              backgroundColor={elem.done === true ? theme.palette.primary.main : theme.palette.grey[200]}
               size="7vw"
               onClick={() => setMainElement(elem)}
             >

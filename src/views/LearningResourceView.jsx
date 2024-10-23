@@ -11,9 +11,9 @@ import { generateLearningResultFromSolution, getLearningResourceById } from '../
 import LoadingView from './common/LoadingView';
 import ErrorView from './common/ErrorView';
 import { navigationPath } from '../features/navigation';
-import MarkdownLaTeXRenderer from '../components/markdown/MarkdownLaTexRenderer';
+import MarkdownLaTeXRenderer from '../components/markdown/MarkdownLaTexRenderer.js';
 import TextArea from '../components/global/TextArea';
-import Mermaid from '../components/mermaid/Mermaid';
+import MermaidRenderer from '../components/mermaid/MermaidRenderer.tsx';
 
 
 
@@ -137,7 +137,7 @@ function TheoryBlock({ theory }) {
       <Surface sx={{ gridArea: "right" }}>
         <Typography fontFamily={"Baloo"} variant='h5' marginY={theme.spacing(2)}>Naucz się na przykładzie</Typography>
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "stretch" }}>
-          <Mermaid chart={theory.mermaidGraph} />
+          <MermaidRenderer chart={theory.mermaidGraph} />
         </Box>
       </Surface>
     </TheoryLayout>

@@ -6,14 +6,17 @@ import remarkMath from 'remark-math';
 // import rehypeRaw from 'rehype-raw';
 import rehypeKatex from 'rehype-katex';
 
+interface MarkdownLaTeXRendererProps {
+    content: string;
+}
 
-const MarkdownLaTeXRenderer = ({ content }) => {
+const MarkdownLaTeXRenderer = ({content}: MarkdownLaTeXRendererProps) => {
     // Replace \[ with $$ and \] with $$ to ensure compatibility
-    const processedText = content 
-      .replace(/\\\[/g, '$$$')  // Replace all occurrences of \[ with $$
-      .replace(/\\\]/g, '$$$') // Replace all occurrences of \] with $$
-      .replace(/\\\(/g, '$$$')  // Replace all occurrences of \( with $$
-      .replace(/\\\)/g, '$$$'); // Replace all occurrences of \) with $$
+    const processedText = content
+        .replace(/\\\[/g, '$$$')  // Replace all occurrences of \[ with $$
+        .replace(/\\\]/g, '$$$') // Replace all occurrences of \] with $$
+        .replace(/\\\(/g, '$$$')  // Replace all occurrences of \( with $$
+        .replace(/\\\)/g, '$$$'); // Replace all occurrences of \) with $$
 
     const remarkMathOptions = {
         singleDollarTextMath: false,

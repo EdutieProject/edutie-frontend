@@ -3,7 +3,7 @@ import React from "react";
 
 interface CircleProps {
     backgroundColor: string;
-    size: number;
+    size: number | string;
     onClick?: () => void;
     children: React.ReactNode;
 }
