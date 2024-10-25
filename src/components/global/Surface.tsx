@@ -11,7 +11,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 // Define the prop types for the Surface component
 interface SurfaceProps {
-  children: ReactNode;             // Accepts any valid React child
+  children?: ReactNode;             // Accepts any valid React child
   sx?: SxProps<Theme>;             // Optional custom styles using the sx prop
   onClick?: () => void;            // Optional onClick handler
 }

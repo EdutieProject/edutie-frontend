@@ -1,26 +1,26 @@
 import { Box, CircularProgress, Divider, Grid, Typography, useTheme } from "@mui/material";
-import NavLayout from "./layout/NavLayout";
-import useEnumValue from "../hooks/alternative/useEnumValue";
-import { useEffect, useState } from "react";
+import NavLayout from "./layout/NavLayout.js";
+import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import RoundedButton from "../components/global/RoundedButton.js";
 import Heading from "../components/global/Heading.js"
-import { navigationPath, navSections } from "../features/navigation/navigationPath.tsx";
+import { navigationPath, navSections } from "../features/navigation/navigationPath";
 import {getStudentLatestLearningResults, getUserDetails} from "../services/userProfileService.js";
-import LoadingView from "./common/LoadingView";
-import ErrorView from "./common/ErrorView";
+import LoadingView from "./common/LoadingView.js";
+import ErrorView from "./common/ErrorView.js";
 import SweatFaceIcon from "../components/customIcons/SweatFaceIcon.js";
 import LatestStudentActivityChart from "../components/charts/studentProfile/LatestStudentActivityChart";
 import DisappointedFaceIcon from "../components/customIcons/DisappointedFaceIcon.js";
 import { daysAgo, getDayName } from "../features/datetime/datetimeUtilities.js";
 import { useNavigate } from "react-router-dom";
 import CircleButton from "../components/global/CircleButton.js";
+import React from "react";
 
 export default function ProfileView() {
   const theme = useTheme();
   const [error, setError] = useState(null);
   const [userFirstName, setUserFirstName] = useState(null);
   const [initialLoading, setInitialLoading] = useState(true);
-  const Views = Object.freeze({ STUDENT: useEnumValue("STUDENT"), SETTINGS: useEnumValue("SETTINGS"), EDUCATOR: useEnumValue("EDUCATOR") });
+  const Views = Object.freeze({ STUDENT: "STUDENT", SETTINGS: "SETTINGS", EDUCATOR: "EDUCATOR" });
   const [currentView, setCurrentView] = useState(Views.STUDENT);
   const viewDetails = currentView === Views.STUDENT ? "Profil ucznia" : currentView === Views.EDUCATOR ? "Profil edukatora" : "Ustawienia"
 
@@ -70,11 +70,11 @@ export default function ProfileView() {
 }
 
 
-function StudentProfileView({ setError }) {
+function StudentProfileView({ setError }: {setError: Dispatch<SetStateAction<any>>}) {
   const navigate = useNavigate();
   const theme = useTheme();
   const [loading, setLoading] = useState(true);
-  const [learningResults, setLearningResults] = useState(null);
+  const [learningResults, setLearningResults] = useState<Array<any>>([]);
 
   useEffect(() => {
     getStudentLatestLearningResults().then(learningResultsResponse => {
@@ -96,7 +96,7 @@ function StudentProfileView({ setError }) {
           index: i,
           dayName: getDayName(chosenDayDate),
           // This is a workaround - label should be determined using the other way
-          zadania: learningResults.filter(o => new Date(o.createdOn).toLocaleDateString() === chosenDayDate.toLocaleDateString()).length
+          zadania: learningResults.filter((o: any) => new Date(o.createdOn).toLocaleDateString() === chosenDayDate.toLocaleDateString()).length
         }
       );
     }
@@ -128,7 +128,7 @@ function StudentProfileView({ setError }) {
                   </Typography>
                 </Box>
 
-                {learningResult.assessments.map((assessment, i) =>
+                {learningResult.assessments.map((assessment: any, i: number) =>
                     <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} key={i}>
                       <Typography>{assessment.learningRequirementName}</Typography>
                       <Box sx={{ display: "flex", gap: theme.spacing(4) }}>

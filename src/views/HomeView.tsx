@@ -1,37 +1,25 @@
-import {Box, Grid, Skeleton, Typography, useTheme} from "@mui/material"
-import NavLayout from "./layout/NavLayout"
+import {Box, Grid, Typography, useTheme} from "@mui/material"
+import NavLayout from "./layout/NavLayout.js"
 import Surface from "../components/global/Surface.js"
 import CircleButton from "../components/global/CircleButton.js"
-import studentGraduationCap from "../assets/svg/student-graduation-cap.svg"
-import learningBook from "../assets/img/learning-book.png"
-import funkcjeImg from "../assets/img/funkcje.png"
-import {useEffect, useState} from "react"
-import {generateRandomFactLearningResource, getRandomFact} from "../services/learningService.ts"
-import ErrorView from "./common/ErrorView"
-import LoadingView from "./common/LoadingView"
+import React, {CSSProperties, useEffect, useState} from "react"
+import {generateRandomFactLearningResource, getRandomFact} from "../services/learningService"
+import ErrorView from "./common/ErrorView.js"
+import LoadingView from "./common/LoadingView.js"
 import RoundedButton from "../components/global/RoundedButton.js"
 import Heading from "../components/global/Heading.js"
 import {useNavigate} from "react-router-dom"
 import {navigationPath} from "../features/navigation/navigationPath.js"
-
-import {getUserDetails} from "../services/userProfileService.ts";
-
-const funkcje = {img: funkcjeImg, title: "Funkcje"}
-const tags = {new: "Coś nowego", repeat: "Idealna powtórka"}
-const ls = [
-    {title: "Własności trogonometryczne w układzie współrzędnych", img: studentGraduationCap, tag: tags.new},
-    {title: "Własności trogonometryczne w układzie współrzędnych", img: learningBook, tag: tags.new},
-    {title: "Własności trogonometryczne w układzie współrzędnych", img: learningBook, tag: tags.repeat}
-]
+import {getUserDetails} from "../services/userProfileService";
 
 export default function HomeView() {
     const theme = useTheme();
     const navigate = useNavigate();
-    const [error, setError] = useState(null);
-    const [initialLoading, setInitialLoading] = useState(true);
-    const [randomFact, setRandomFact] = useState(null);
+    const [error, setError] = useState<any>(null);
+    const [initialLoading, setInitialLoading] = useState<boolean>(true);
+    const [randomFact, setRandomFact] = useState<string>("?");
     const [userFirstName, setUserFirstName] = useState(null);
-    const [dynamicLearningResourceLoading, setDynamicLearningResourceLoading] = useState(false);
+    const [dynamicLearningResourceLoading, setDynamicLearningResourceLoading] = useState<boolean>(false);
 
     async function initialLoad() {
         const randomFactResponse = await getRandomFact();
@@ -56,7 +44,7 @@ export default function HomeView() {
     }, []);
 
     async function dynamicLearningResourceLoad() {
-        if (dynamicLearningResourceLoading === false)
+        if (!dynamicLearningResourceLoading)
             return;
         const learningResourceResponse = await generateRandomFactLearningResource(randomFact);
         if (learningResourceResponse.success === false) {
@@ -84,7 +72,7 @@ export default function HomeView() {
                     <Typography variant="subtitle1">Dobrze cię znowu widzieć 😁</Typography>
                 </Grid>
                 <Grid item xs={12}>
-                    <Heading variant="h8">Czy wiesz że...</Heading>
+                    <Heading variant="h6">Czy wiesz że...</Heading>
                     <Box sx={{
                         display: "flex",
                         justifyContent: "space-between",
@@ -97,7 +85,7 @@ export default function HomeView() {
                     </Box>
                 </Grid>
                 <Grid item xs={12} sm={6} paddingRight={theme.spacing(2)}>
-                    <Typography variant="h8" fontFamily="Baloo">Zobacz co więcej przygotowaliśmy dla
+                    <Typography variant="h6" fontFamily="Baloo">Zobacz co więcej przygotowaliśmy dla
                         Ciebie:</Typography>
                     <Box sx={{
                         display: "flex",
@@ -105,12 +93,7 @@ export default function HomeView() {
                         marginTop: theme.spacing(5),
                         gap: theme.spacing(6)
                     }}>
-                        {
-                            ls.map((l, i) => (
-                                // <HomeTile lesson={l} course={funkcje} />
-                                <Skeleton key={i} height={"3rem"} animation={"wave"}/>
-                            ))
-                        }
+                        {/**TODO? */}
                     </Box>
                 </Grid>
                 <Grid item xs={12} sm={6} paddingLeft={theme.spacing(2)}>
@@ -121,7 +104,7 @@ export default function HomeView() {
     );
 }
 
-function HomeTile({course = {img, title}, lesson = {img, title, tag}}) {
+function HomeTile({course, lesson}: {course: any, lesson: any}) {
     const theme = useTheme();
     const styles = {
         courseContainer: {
@@ -149,11 +132,11 @@ function HomeTile({course = {img, title}, lesson = {img, title, tag}}) {
             right: "15%",
             top: "-20%",
             color: theme.palette.getContrastText(theme.palette.secondary.light)
-        }
+        } satisfies CSSProperties
     }
     const Tag = () => (<div style={styles.tag}>{lesson.tag}</div>)
     return (
-        <Surface style={{padding: "1rem", paddingRight: "2rem"}} sx={{position: "relative"}}>
+        <Surface sx={{position: "relative"}}>
             <Grid>
                 <Tag/>
                 <Grid container justifyContent="space-between" alignItems="center">
@@ -167,16 +150,16 @@ function HomeTile({course = {img, title}, lesson = {img, title, tag}}) {
                         <Box sx={styles.lessonContainer} minWidth="50%">
                             <img src={lesson.img} style={{height: "2rem", width: "2rem", aspectRatio: 1, fill: "black"}}
                                  alt=" "/>
-                            <Typography variant="h9" fontSize="0.8rem" textAlign="center" lineHeight="0.9rem"
+                            <Typography variant="h6" fontSize="0.8rem" textAlign="center" lineHeight="0.9rem"
                                         style={{wordWrap: "break-word", padding: 0}}>{lesson.title}</Typography>
                         </Box>
                     </Grid>
-                    <LessonButton size="1.5rem" style={{aspectRatio: 1}}/>
+                    <LessonButton size="1.5rem"/>
                 </Grid>
             </Grid>
         </Surface>
     )
 }
 
-const LessonButton = ({size}) => (<CircleButton size={size}><Typography fontFamily="Baloo" color="white"
+const LessonButton = ({size}: {size: string}) => (<CircleButton size={size}><Typography fontFamily="Baloo" color="white"
                                                                         fontSize={size}>{">"}</Typography></CircleButton>)

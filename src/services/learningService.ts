@@ -30,7 +30,7 @@ export async function getLearningResourceById(learningResourceId: string) {
     );
 }
 
-export async function generateLearningResultFromSolution(learningResourceId: string, solutionText: string, hintsRevealed: string) {
+export async function generateLearningResultFromSolution(learningResourceId: string, solutionText: string, hintsRevealed: number) {
     return await catchClientErrors(
         async () => {
             const body = JSON.stringify({ learningResourceId: learningResourceId, solutionSubmissionText: solutionText, hintsRevealedCount: hintsRevealed });

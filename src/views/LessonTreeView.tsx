@@ -1,26 +1,26 @@
 import { Box, ButtonBase, Grid, Typography, useTheme } from "@mui/material";
-import NavLayout from "./layout/NavLayout";
+import NavLayout from "./layout/NavLayout.js";
 import { useEffect, useState } from "react";
 import { getCourseDetailsById, getLessonsByCourse } from "../services/studyProgramLearningService.js";
 import Xarrow from "react-xarrows";
-import LoadingView from "./common/LoadingView";
+import LoadingView from "./common/LoadingView.js";
 import { useNavigate, useParams } from "react-router-dom";
-import { navigationPath, navSections } from "../features/navigation/navigationPath.tsx";
-import ErrorView from "./common/ErrorView";
-import NoContextView from "./common/NoContextView";
+import { navigationPath, navSections } from "../features/navigation/navigationPath";
+import ErrorView from "./common/ErrorView.js";
 import { noSavedCourseIdPlaceholder, saveCourseId } from "../features/storage/courseStorage.js";
 import Heading from "../components/global/Heading.js";
+import React from "react";
 
 class TreeGridInitializer {
-    static getFirstLevel(data) {
-        return [data.find(o => o.lesson.previousElement === null)];
+    static getFirstLevel(data: Array<any>): Array<any> {
+        return [data.find((o: any) => o.lesson.previousElement === null)];
     }
 
-    static getNextLevel(prevLevel, allNodes) {
-        return prevLevel.flatMap(o => o.lesson.nextElements).map(o => allNodes.find(x => x.lesson.id === o.id));
+    static getNextLevel(prevLevel: Array<any>, allNodes: Array<any>): Array<any> {
+        return prevLevel.flatMap(o => o.lesson.nextElements).map((o) => allNodes.find(x => x.lesson.id === o.id));
     }
 
-    static getTreeAsArray(data) {
+    static getTreeAsArray(data: Array<any>): Array<Array<any>> {
         let arr = [this.getFirstLevel(data)];
         let lastElemIdx = 0;
         while (arr[lastElemIdx].length !== 0) {
@@ -38,30 +38,42 @@ export default function LessonTreeView() {
     const { courseId } = useParams();
     const [lessonsResponse, setLessonsResponse] = useState({ data: null, error: null, success: false });
     const [courseDetailsResponse, setCourseDetailsResponse] = useState({ data: null, error: null, success: false });
+    const [error, setError] = useState<any>(null);
+    const [initialLoading, setInitialLoading] = useState(true);
 
-    if (courseId === noSavedCourseIdPlaceholder)
-        return (<NoContextView>
-            Aby tu wejść musisz najpierw wybrać kurs. Zrób to wchodząc w zakładkę kursów i wybierając jeden z nich!
-        </NoContextView>);
+    async function initialLoad() {
+        const lessonsResponse = await getLessonsByCourse(courseId as string);
+        if (!lessonsResponse.success) {
+            setError(lessonsResponse.error);
+            return;
+        }
+        setLessonsResponse(lessonsResponse);
+        saveCourseId(courseId as string);
+        const courseDetailsResponse = await getCourseDetailsById(courseId as string);
+        if (!courseDetailsResponse.success) {
+            setError(courseDetailsResponse.error);
+            return;
+        }
+        setCourseDetailsResponse(courseDetailsResponse);
+        setInitialLoading(false);
+    }
 
     useEffect(() => {
-        getLessonsByCourse(courseId).then(lessons => setLessonsResponse(lessons));
-        saveCourseId(courseId);
-        getCourseDetailsById(courseId).then(courseDetails => setCourseDetailsResponse(courseDetails));
+        initialLoad();
     }, []);
 
-    if (lessonsResponse.error !== null || courseDetailsResponse.error !== null)
+    if (error)
         return <ErrorView error={lessonsResponse.error ?? courseDetailsResponse.error} />
 
-    if (lessonsResponse.data === null)
+    if (initialLoading)
         return (<LoadingView />);
 
-    let treeLevelsArray = TreeGridInitializer.getTreeAsArray(lessonsResponse.data);
+    let treeLevelsArray = TreeGridInitializer.getTreeAsArray(lessonsResponse.data as unknown as Array<any>);
     return (
         <NavLayout mode={"flex"} disablePadding activeSectionIdOverride={navSections.learningInTree} scroll relative>
             <Box sx={{ width: "100%", textAlign: "center", py: theme.spacing(2)}}>
-                <Heading variant="h4">{courseDetailsResponse.data.name}</Heading>
-                <Typography variant="caption">{courseDetailsResponse.data.description}</Typography>
+                <Heading variant="h4">{(courseDetailsResponse.data as unknown as any).name}</Heading>
+                <Typography variant="caption">{(courseDetailsResponse.data as unknown as any).description}</Typography>
             </Box>
             <Grid container>
                 {
@@ -80,17 +92,17 @@ export default function LessonTreeView() {
     );
 }
 
-function LessonViewTile({ lessonView }) {
+function LessonViewTile({ lessonView }: {lessonView: any}) {
     const theme = useTheme();
     const navigate = useNavigate();
 
     return (
         <Box sx={{ display: "flex", flexDirection: "column", gap: theme.spacing(2), alignItems: "center" }}>
             <ButtonBase sx={{
-                borderRadius: theme.shape.minimalRadius,
+                borderRadius: theme.shape.borderRadius,
                 border: "3px solid",
                 borderColor: lessonView.progressState === "IN_PROGRESS" ? theme.palette.secondary.main : theme.palette.primary.main,
-                backgroundColor: lessonView.progressState === "DONE" ? theme.palette.primary.main : theme.palette.surface.main,
+                backgroundColor: lessonView.progressState === "DONE" ? theme.palette.primary.main : theme.palette.grey["200"],
                 padding: theme.spacing(4),
                 position: "relative",
                 transition: "200ms ease",

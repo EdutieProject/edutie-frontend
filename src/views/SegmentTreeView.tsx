@@ -1,46 +1,41 @@
 import { Typography, Box, useTheme, Tooltip, IconButton } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { generateLearningResource } from "../services/learningService.ts";
-import { getSegmentsByLesson } from "../services/studyProgramLearningService.ts";
-import { saveActiveLessonId } from "../features/storage/activeLessonCache.ts";
+import { generateLearningResource } from "../services/learningService";
+import { getSegmentsByLesson } from "../services/studyProgramLearningService";
+import { saveActiveLessonId } from "../features/storage/activeLessonCache";
 import { navigationPath } from "../features/navigation/navigationPath.js";
-import NavLayout from "./layout/NavLayout.jsx";
-import Surface from "../components/global/Surface.tsx";
-import CircleButton from "../components/global/CircleButton.tsx";
-import RoundedButton from "../components/global/RoundedButton.tsx";
-import LoadingView from "./common/LoadingView.jsx";
-import ErrorView from "./common/ErrorView.jsx";
-import SegmentTree from "../components/tree/SegmentTree.tsx";
-import InfoCircleIcon from "../components/customIcons/InfoCircleIcon.tsx";
+import NavLayout from "./layout/NavLayout";
+import Surface from "../components/global/Surface";
+import CircleButton from "../components/global/CircleButton";
+import RoundedButton from "../components/global/RoundedButton";
+import LoadingView from "./common/LoadingView";
+import ErrorView from "./common/ErrorView";
+import SegmentTree from "../components/tree/SegmentTree";
+import InfoCircleIcon from "../components/customIcons/InfoCircleIcon";
+import React from "react";
 
 class SegmentSearch {
   /**
    * @param {Array} segments segment array
    * @returns {Object} first segment
    */
-  static findFirstSegment(segments) {
-    return segments.find(o => o.segment.previousElement === null) ?? null;
+  static findFirstSegment(segments: Array<any>): any {
+    return segments.find((o: any) => o.segment.previousElement === null) ?? null;
   }
 
   /**
-   * @param {Array} allSegments all segments
-   * @param {Object} selectedSegment main segment (the selected one)
-   * @returns {Object | null} previous segment
    */
-  static findPreviousSegment(allSegments, selectedSegment) {
+  static findPreviousSegment(allSegments: any[], selectedSegment: any) {
     if (selectedSegment.segment.previousElement === null)
       return null;
     return allSegments.find(o => o.segment.id === selectedSegment.segment.previousElement.id);
   }
 
   /**
-   * @param {Array} allSegments all segments
-   * @param {Object} selectedSegment main segment (the selected one)
-   * @returns {Array} array of segments
    */
-  static findNextSegments(allSegments, selectedSegment) {
-    return selectedSegment.segment.nextElements.map(o => allSegments.find(x => x.segment.id === o.id));
+  static findNextSegments(allSegments: any[], selectedSegment: any) {
+    return selectedSegment.segment.nextElements.map((o: any) => allSegments.find(x => x.segment.id === o.id));
   }
 }
 
@@ -49,14 +44,14 @@ export default function SegmentTreeView() {
   const navigate = useNavigate();
   const { lessonId } = useParams();
   const [segmentsLoading, setSegmentsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const allSegments = useRef([]);
-  const [selectedSegment, setSelectedSegment] = useState(null);
-  const [exerciseLoading, setExerciseLoading] = useState(false);
+  const [error, setError] = useState<any>(null);
+  const allSegments = useRef<Array<any>>([]);
+  const [selectedSegment, setSelectedSegment] = useState<any>(null);
+  const [exerciseLoading, setExerciseLoading] = useState<boolean>(false);
 
   // exercise creation effect
   useEffect(() => {
-    if (exerciseLoading === false)
+    if (!exerciseLoading)
       return;
     generateLearningResource(selectedSegment.segment.learningResourceDefinitionId)
       .then((learningResourceResponse => {
@@ -70,25 +65,23 @@ export default function SegmentTreeView() {
       }));
   }, [exerciseLoading]);
 
+  async function initialLoad() {
+    saveActiveLessonId(lessonId as string);
+    const segmentsResponse = await getSegmentsByLesson(lessonId as string);
+    if (!segmentsResponse.success) {
+      setError(segmentsResponse.error);
+      return;
+    }
+    allSegments.current = segmentsResponse.data;
+    let firstSegment = SegmentSearch.findFirstSegment(segmentsResponse.data);
+    setSelectedSegment(firstSegment);
+    setSegmentsLoading(false);
+  }
+
   // Load initial data
   useEffect(() => {
-    saveActiveLessonId(lessonId);
-    getSegmentsByLesson(lessonId)
-      .then(segmentsResponse => {
-        console.log(segmentsResponse);
-        allSegments.current = segmentsResponse.data;
-        let firstSegment = SegmentSearch.findFirstSegment(segmentsResponse.data);
-        setSelectedSegment(firstSegment);
-        saveActiveSegmentId(firstSegment.segment.id);
-        setError(segmentsResponse.error);
-      });
-    setSegmentsLoading(false);
-  }, [])
-
-  const setSelectedSegmentWithCache = (selectedSegment) => {
-    saveActiveSegmentId(selectedSegment.segment.id);
-    setSelectedSegment(selectedSegment);
-  }
+    initialLoad();
+  }, []);
 
   if (error !== null) {
     return <ErrorView error={error} />
@@ -117,14 +110,8 @@ export default function SegmentTreeView() {
   );
 }
 
-/**
- * 
- * @param {Object} params 
- * @param {Object} params.selectedElement slected segment
- * @param {Object} params.setExerciseLoading function to set exercise loading, invoking LR creation and causing the loading screen to appear. 
- * @returns JSX component
- */
-function SelectedElementDescriptionTab({ selectedElement, setExerciseLoading }) {
+
+function SelectedElementDescriptionTab({ selectedElement, setExerciseLoading }: { selectedElement: any; setExerciseLoading: any; }) {
   const theme = useTheme();
   return (
     <Surface sx={{ flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>

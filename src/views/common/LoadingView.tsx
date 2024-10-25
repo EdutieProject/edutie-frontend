@@ -1,5 +1,6 @@
 import { Box, CircularProgress } from "@mui/material";
 import NavLayout from "../layout/NavLayout";
+import React from "react";
 
 /**
  * 
@@ -8,7 +9,7 @@ import NavLayout from "../layout/NavLayout";
  * @param {boolean} params.embedded embed loading view into a flex container
  * @returns 
  */
-export default function LoadingView({ children, embedded }) {
+export default function LoadingView({ children, embedded }: { children?: React.ReactNode; embedded?: boolean; }) {
 
     if (embedded)
         return (

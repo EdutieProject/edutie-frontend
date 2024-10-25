@@ -1,17 +1,18 @@
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import NavLayout from "./layout/NavLayout";
+import NavLayout from "./layout/NavLayout.js";
 import {Box, Grid, LinearProgress, Typography, useTheme} from "@mui/material";
 import {useEffect, useState} from "react";
-import {generateLearningResource, getLearningResultById} from "../services/learningService.ts";
-import ErrorView from "./common/ErrorView";
+import {generateLearningResource, getLearningResultById} from "../services/learningService";
+import ErrorView from "./common/ErrorView.js";
 import JoyColorfulFaceIcon from "../components/customIcons/JoyColorfulFaceIcon.js";
 import SadColorfulFaceIcon from "../components/customIcons/SadColorfulFaceIcon.js";
 import NormalColorfulFaceIcon from "../components/customIcons/NormalColorfulFaceIcon.js";
-import LoadingView from "./common/LoadingView";
+import LoadingView from "./common/LoadingView.js";
 import MarkdownLaTeXRenderer from "../components/markdown/MarkdownLaTexRenderer.js";
 import RoundedButton from "../components/global/RoundedButton.js";
-import {navigationPath} from "../features/navigation/navigationPath.tsx";
+import {navigationPath} from "../features/navigation/navigationPath";
 import {getActiveLessonId} from "../features/storage/activeLessonCache.js";
+import React from "react";
 
 
 export default function LearningResultView() {
@@ -31,7 +32,7 @@ export default function LearningResultView() {
             console.log("Learning result supplied. No fetching invoked");
             return;
         }
-        getLearningResultById(resultId)
+        getLearningResultById(resultId as string)
             .then(learningResultResponse => {
                 console.log(learningResultResponse);
                 setLearningResult(learningResultResponse.data);
@@ -41,7 +42,7 @@ export default function LearningResultView() {
 
     // exercise creation effect
     useEffect(() => {
-        if (exerciseLoading === false)
+        if (!exerciseLoading)
             return;
         generateLearningResource(learningResult.learningResourceDefinitionId)
             .then((learningResourceResponse => {
@@ -55,10 +56,10 @@ export default function LearningResultView() {
             }));
     }, [exerciseLoading]);
 
-    const getHeading = (feedbackType) => feedbackType === "POSITIVE" ? "Świetnie!" : feedbackType === "NEGATIVE" ? "Słabo..." : "W porządku.";
+    const getHeading = (feedbackType: string) => feedbackType === "POSITIVE" ? "Świetnie!" : feedbackType === "NEGATIVE" ? "Słabo..." : "W porządku.";
 
     const iconSize = "24rem";
-    const getIcon = (feedbackType) => feedbackType === "POSITIVE" ?
+    const getIcon = (feedbackType: string) => feedbackType === "POSITIVE" ?
         <JoyColorfulFaceIcon width={iconSize} height={iconSize}/>
         : feedbackType === "NEGATIVE" ? <SadColorfulFaceIcon width={iconSize} height={iconSize}/>
             : <NormalColorfulFaceIcon width={iconSize} height={iconSize}/>;
@@ -83,7 +84,7 @@ export default function LearningResultView() {
                     </Typography>
                     <MarkdownLaTeXRenderer content={learningResult.feedback.text}/>
                     {
-                        learningResult.assessments.map(assessment =>
+                        learningResult.assessments.map((assessment: any) =>
                             <Box sx={{marginTop: theme.spacing(4)}}>
                                 <Typography variant="h5">{assessment.learningRequirementName}</Typography>
                                 <Box sx={{display: "flex", gap: theme.spacing(2)}}>

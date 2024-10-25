@@ -1,24 +1,24 @@
 //LAYOUT IMPORTS
-import NavLayout from "./layout/NavLayout";
+import NavLayout from "./layout/NavLayout.js";
 import Surface from "../components/global/Surface.js";
 import {Box, Grid, IconButton, Pagination, Skeleton, TextField, Typography, useTheme,} from "@mui/material";
 
 //CODE IMPORTS
-import {useEffect, useRef, useState} from "react";
+import React, {Dispatch, MutableRefObject, SetStateAction, useEffect, useRef, useState} from "react";
 import {getAccessibleSciences, getCoursesByScience,} from "../services/studyProgramLearningService.js";
 import {ChevronLeft, ChevronRight, QuestionMark} from "@mui/icons-material";
-import LoadingView from "./common/LoadingView";
+import LoadingView from "./common/LoadingView.js";
 import Heading from "../components/global/Heading.js";
 import CircleButton from "../components/global/CircleButton.js";
 import {useNavigate} from "react-router-dom";
-import {navigationPath, navSections} from "../features/navigation/navigationPath.tsx";
-import ErrorView from "./common/ErrorView";
+import {navigationPath, navSections} from "../features/navigation/navigationPath";
+import ErrorView from "./common/ErrorView.js";
 
 export default function CoursesView() {
     const theme = useTheme();
     const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(true);
-    let sciencesData = useRef([]);
+    let sciencesData: MutableRefObject<Array<any>> = useRef([]);
     const [selectedScienceIndex, setSelectedScienceIndex] = useState(0);
 
     /** A state broker is here - transferring state between CourseList and higher-level view component  */
@@ -89,7 +89,7 @@ export default function CoursesView() {
                                 : selectedScience.imageSource}
                             alt="Science Picture"
                             width={250}
-                            style={{aspectRatio: 1 / 1, objectFit: "cover", borderRadius: theme.shape.roundedRadius}}
+                            style={{aspectRatio: 1, objectFit: "cover", borderRadius: theme.shape.borderRadius}}
                         />
                     </Box>
                     <Box sx={{width: "100%", my: theme.spacing(4), textAlign: "center"}}>
@@ -101,10 +101,13 @@ export default function CoursesView() {
     );
 }
 
-function CourseList({scienceId, setErrorInView}) {
+function CourseList({scienceId, setErrorInView}: {
+    scienceId: string,
+    setErrorInView: Dispatch<SetStateAction<any>>
+}) {
     const theme = useTheme();
-    const [allCourses, setAllCourses] = useState([]);
-    const [filteredCourses, setFilteredCourses] = useState([]);
+    const [allCourses, setAllCourses] = useState<Array<any>>([]);
+    const [filteredCourses, setFilteredCourses] = useState<Array<any>>([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(true);
 
@@ -182,7 +185,7 @@ function CourseList({scienceId, setErrorInView}) {
     );
 }
 
-const CourseTile = ({course}) => {
+const CourseTile = ({course}: { course: any }) => {
     const theme = useTheme();
     const navigate = useNavigate();
     return (
@@ -206,18 +209,18 @@ const CourseTile = ({course}) => {
                         }}>
                             <Heading variant={"h4"}>{course.name}</Heading>
                             <Box sx={{display: "flex", flexDirection: "row", gap: theme.spacing(2)}}>
-                                {course.courseTags.map(tag =>
-                                    <Box sx={{
-                                        color: theme.palette.getContrastText(theme.palette.secondary.light),
-                                        borderRadius: theme.shape.roundedRadius,
-                                        backgroundColor: theme.palette.secondary.light,
-                                        px: theme.spacing(2),
-                                        py: theme.spacing(1),
-                                        display: "grid",
-                                        placeItems: "center"
-                                    }}>
-                                        {tag.name}
-                                    </Box>
+                                {course.courseTags.map(((tag: any) =>
+                                        <Box sx={{
+                                            color: theme.palette.getContrastText(theme.palette.secondary.light),
+                                            borderRadius: theme.shape.borderRadius,
+                                            backgroundColor: theme.palette.secondary.light,
+                                            px: theme.spacing(2),
+                                            py: theme.spacing(1),
+                                            display: "grid",
+                                            placeItems: "center"
+                                        }}>
+                                            {tag.name}
+                                        </Box>
                                 )}
                             </Box>
                         </Box>
@@ -232,7 +235,7 @@ const CourseTile = ({course}) => {
                         }}>
                             <Box sx={{display: "grid", placeItems: "center"}}>
                                 <Box sx={{display: "flex", flexDirection: "row", gap: theme.spacing(2)}}>
-                                    <QuestionMark color={theme.palette.common.black}/> Autor nieznany
+                                    <QuestionMark htmlColor={theme.palette.common.black}/> Autor nieznany
                                 </Box>
                             </Box>
                             <CircleButton size={theme.spacing(3)}

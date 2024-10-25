@@ -1,9 +1,19 @@
 import { useTheme, Container, Box } from "@mui/material";
-import NavBar from "../../components/global/NavBar.tsx";
+import NavBar from "../../components/global/NavBar";
+import React from "react";
+
+interface NavLayoutProps {
+    children: React.ReactNode;
+    mode?: string;
+    disablePadding?: boolean;
+    activeSectionIdOverride?: string;
+    scroll?: boolean;
+    relative?: boolean;
+}
 
 /**
  * Default application layout providing navigation bar
- * @param {Object} params parameters
+ * @param params parameters
  * @param {string} params.mode "flex" if you want the inside box to be flex container
  * @param {boolean} params.disablePadding whether to disable padding for the inside box
  * @param {string} params.activeSectionIdOverride active section Id - overriding the active elem in the navbar
@@ -11,7 +21,7 @@ import NavBar from "../../components/global/NavBar.tsx";
  * @param {boolean} params.relative whether the internal box should have relative position
  * @returns 
  */
-export default function NavLayout({ children, mode, disablePadding, activeSectionIdOverride, scroll, relative}) {
+export default function NavLayout({ children, mode, disablePadding, activeSectionIdOverride, scroll, relative}: NavLayoutProps) {
     const theme = useTheme();
 
     return (

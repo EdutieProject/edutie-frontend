@@ -1,5 +1,5 @@
 public interface CustomIconProps {
-    color: string;
+    color?: string;
     width: string;
     height: string;
 }

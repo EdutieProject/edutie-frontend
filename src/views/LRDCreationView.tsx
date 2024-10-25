@@ -1,10 +1,11 @@
 import { Box, Grid, TextField, useTheme, Typography } from "@mui/material";
 import NavLayout from "./layout/NavLayout";
-import Surface from "../components/global/Surface.js";
-import RoundedButton from "../components/global/RoundedButton.tsx";
-import CircleButton from "../components/global/CircleButton.tsx";
+import Surface from "../components/global/Surface";
+import RoundedButton from "../components/global/RoundedButton";
+import CircleButton from "../components/global/CircleButton";
 import { useState } from "react";
-import TextArea from "../components/global/TextArea.tsx";
+import TextArea from "../components/global/TextArea";
+import React from "react";
 
 export default function LRDCreationView() {
   const theme = useTheme();
@@ -50,7 +51,7 @@ export default function LRDCreationView() {
       answer: "",
     },
   ]);
-  let localAnswers = [];
+  let localAnswers: Array<any> = [];
   function handleSubmission() {
     console.log(localAnswers);
     localStorage.clear();
