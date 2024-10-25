@@ -7,7 +7,7 @@ import Surface from '../components/global/Surface.js';
 import useEnumValue from '../hooks/alternative/useEnumValue';
 import CircleButton from '../components/global/CircleButton.js';
 import TurnAroundIcon from '../components/customIcons/TurnAroundIcon.js';
-import { generateLearningResultFromSolution, getLearningResourceById } from '../services/learningService.js';
+import { generateLearningResultFromSolution, getLearningResourceById } from '../services/learningService.ts';
 import LoadingView from './common/LoadingView';
 import ErrorView from './common/ErrorView';
 import { navigationPath } from '../features/navigation/navigationPath.tsx';

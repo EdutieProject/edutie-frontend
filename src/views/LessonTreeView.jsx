@@ -1,7 +1,7 @@
 import { Box, ButtonBase, Grid, Typography, useTheme } from "@mui/material";
 import NavLayout from "./layout/NavLayout";
 import { useEffect, useState } from "react";
-import { getCourseDetailsById, getLessonsByCourse } from "../services/studyProgramLearningService";
+import { getCourseDetailsById, getLessonsByCourse } from "../services/studyProgramLearningService.js";
 import Xarrow from "react-xarrows";
 import LoadingView from "./common/LoadingView";
 import { useNavigate, useParams } from "react-router-dom";

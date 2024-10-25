@@ -5,7 +5,7 @@ import {Box, Grid, IconButton, Pagination, Skeleton, TextField, Typography, useT
 
 //CODE IMPORTS
 import {useEffect, useRef, useState} from "react";
-import {getAccessibleSciences, getCoursesByScience,} from "../services/studyProgramLearningService";
+import {getAccessibleSciences, getCoursesByScience,} from "../services/studyProgramLearningService.js";
 import {ChevronLeft, ChevronRight, QuestionMark} from "@mui/icons-material";
 import LoadingView from "./common/LoadingView";
 import Heading from "../components/global/Heading.js";

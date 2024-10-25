@@ -1,6 +1,6 @@
-import { catchClientErrors, getDefaultHeadersAuthenticated, LEARNING_API } from "./apiCommons";
+import { catchClientErrors, getDefaultHeadersAuthenticated, LEARNING_API } from "./apiCommons.js";
 
-export async function generateLearningResource(learningResourceDefinitionId) {
+export async function generateLearningResource(learningResourceDefinitionId: string) {
     return await catchClientErrors(
         async () => {
             const body = JSON.stringify({ learningResourceDefinitionId: learningResourceDefinitionId });
@@ -10,7 +10,7 @@ export async function generateLearningResource(learningResourceDefinitionId) {
     );
 }
 
-export async function generateRandomFactLearningResource(randomFact) {
+export async function generateRandomFactLearningResource(randomFact: string) {
     return await catchClientErrors(
         async () => {
             const body = JSON.stringify({ randomFact: randomFact });
@@ -20,7 +20,7 @@ export async function generateRandomFactLearningResource(randomFact) {
     );
 }
 
-export async function getLearningResourceById(learningResourceId) {
+export async function getLearningResourceById(learningResourceId: string) {
     return await catchClientErrors(
         async () => {
             const response = await fetch(`${LEARNING_API}/resources/${learningResourceId}`,
@@ -30,7 +30,7 @@ export async function getLearningResourceById(learningResourceId) {
     );
 }
 
-export async function generateLearningResultFromSolution(learningResourceId, solutionText, hintsRevealed) {
+export async function generateLearningResultFromSolution(learningResourceId: string, solutionText: string, hintsRevealed: string) {
     return await catchClientErrors(
         async () => {
             const body = JSON.stringify({ learningResourceId: learningResourceId, solutionSubmissionText: solutionText, hintsRevealedCount: hintsRevealed });
@@ -40,7 +40,7 @@ export async function generateLearningResultFromSolution(learningResourceId, sol
     );
 }
 
-export async function getLearningResultById(learningResultId) {
+export async function getLearningResultById(learningResultId: string) {
     return await catchClientErrors(
         async () => {
             const response = await fetch(`${LEARNING_API}/results/${learningResultId}`,

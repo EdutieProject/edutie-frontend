@@ -1,8 +1,8 @@
 import { Typography, Box, useTheme, Tooltip, IconButton } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { generateLearningResource } from "../services/learningService.js";
-import { getSegmentsByLesson } from "../services/studyProgramLearningService.js";
+import { generateLearningResource } from "../services/learningService.ts";
+import { getSegmentsByLesson } from "../services/studyProgramLearningService.ts";
 import { saveActiveLessonId } from "../features/storage/activeLessonCache.ts";
 import { navigationPath } from "../features/navigation/navigationPath.js";
 import NavLayout from "./layout/NavLayout.jsx";

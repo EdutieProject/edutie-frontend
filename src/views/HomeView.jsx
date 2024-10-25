@@ -6,7 +6,7 @@ import studentGraduationCap from "../assets/svg/student-graduation-cap.svg"
 import learningBook from "../assets/img/learning-book.png"
 import funkcjeImg from "../assets/img/funkcje.png"
 import {useEffect, useState} from "react"
-import {generateRandomFactLearningResource, getRandomFact} from "../services/learningService.js"
+import {generateRandomFactLearningResource, getRandomFact} from "../services/learningService.ts"
 import ErrorView from "./common/ErrorView"
 import LoadingView from "./common/LoadingView"
 import RoundedButton from "../components/global/RoundedButton.js"
@@ -14,7 +14,7 @@ import Heading from "../components/global/Heading.js"
 import {useNavigate} from "react-router-dom"
 import {navigationPath} from "../features/navigation/navigationPath.js"
 
-import {getUserDetails} from "../services/userProfileService.js";
+import {getUserDetails} from "../services/userProfileService.ts";
 
 const funkcje = {img: funkcjeImg, title: "Funkcje"}
 const tags = {new: "Coś nowego", repeat: "Idealna powtórka"}

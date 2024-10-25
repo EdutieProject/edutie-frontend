@@ -23,21 +23,19 @@ export async function getDefaultHeadersAuthenticated() {
 
 /**
  * Util function for client error generation
- * @param {Exception} ex 
  */
-const clientError = (ex) => { 
+const clientError = (ex: Error) => {
     return { code: "CLIENT-API-ERROR", message: ex.message } 
 };
 
 /**
  * Utility function used to catch client errors in service functions
- * @param {*} fetchFunction 
  * @returns 
  */
-export const catchClientErrors = async (fetchFunction) => {
+export const catchClientErrors = async (fetchFunction: () => Promise<any>) => {
     try {
         return await fetchFunction();
-    } catch (e) {
-        return { data: null, error: clientError(e), success: false }
+    } catch (e: unknown) {
+        return { data: null, error: clientError(e as Error), success: false }
     }
 };

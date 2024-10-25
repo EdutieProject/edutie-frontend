@@ -2,7 +2,7 @@ import {useLocation, useNavigate, useParams} from "react-router-dom";
 import NavLayout from "./layout/NavLayout";
 import {Box, Grid, LinearProgress, Typography, useTheme} from "@mui/material";
 import {useEffect, useState} from "react";
-import {generateLearningResource, getLearningResultById} from "../services/learningService.js";
+import {generateLearningResource, getLearningResultById} from "../services/learningService.ts";
 import ErrorView from "./common/ErrorView";
 import JoyColorfulFaceIcon from "../components/customIcons/JoyColorfulFaceIcon.js";
 import SadColorfulFaceIcon from "../components/customIcons/SadColorfulFaceIcon.js";
