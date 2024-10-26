@@ -15,18 +15,26 @@ import { useNavigate } from "react-router-dom";
 import CircleButton from "../components/global/CircleButton.js";
 import React from "react";
 
+enum SubView {
+  STUDENT = "STUDENT",
+  SETTINGS = "SETTINGS",
+  EDUCATOR = "EDUCATOR"
+}
+
 export default function ProfileView() {
   const theme = useTheme();
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<any>(null);
   const [userFirstName, setUserFirstName] = useState(null);
   const [initialLoading, setInitialLoading] = useState(true);
-  const Views = Object.freeze({ STUDENT: "STUDENT", SETTINGS: "SETTINGS", EDUCATOR: "EDUCATOR" });
-  const [currentView, setCurrentView] = useState(Views.STUDENT);
-  const viewDetails = currentView === Views.STUDENT ? "Profil ucznia" : currentView === Views.EDUCATOR ? "Profil edukatora" : "Ustawienia"
+  const [currentView, setCurrentView] = useState<SubView>(SubView.STUDENT);
+  const viewDetails = currentView === SubView.STUDENT ? "Profil ucznia"
+      : currentView === SubView.EDUCATOR ? "Profil edukatora"
+          : "Ustawienia"
 
   async function initialLoad() {
     const response = await getUserDetails();
-    if (response.success === false) {
+    console.log(response);
+    if (!response.success) {
       setError(response.error);
       return;
     }
@@ -39,11 +47,11 @@ export default function ProfileView() {
     initialLoad();
   }, []);
 
-  if (initialLoading)
-    return <LoadingView/>
-
   if (error)
     return <ErrorView error={error} />
+
+  if (initialLoading)
+    return <LoadingView/>
 
   return (
     <NavLayout activeSectionIdOverride={navSections.profile} mode="flex" scroll>
@@ -55,14 +63,14 @@ export default function ProfileView() {
 
         </Box>
         <Box sx={{ display: "flex", gap: theme.spacing(4), alignItems: "center" }}>
-          <RoundedButton label={"Uczeń"} active={currentView === Views.STUDENT} onClick={() => setCurrentView(Views.STUDENT)} />
+          <RoundedButton label={"Uczeń"} active={currentView === SubView.STUDENT} onClick={() => setCurrentView(SubView.STUDENT)} />
           {/* <RoundedButton label={"Edukator"} active={currentView == Views.EDUCATOR} onClick={() => setCurrentView(Views.EDUCATOR)} /> */}
-          <RoundedButton label={"Ustawienia"} active={currentView === Views.SETTINGS} onClick={() => setCurrentView(Views.SETTINGS)} />
+          <RoundedButton label={"Ustawienia"} active={currentView === SubView.SETTINGS} onClick={() => setCurrentView(SubView.SETTINGS)} />
         </Box>
       </Box>
       {
-        currentView === Views.STUDENT ? <StudentProfileView setError={setError} />
-          : currentView === Views.EDUCATOR ? <EducatorProfileView />
+        currentView === SubView.STUDENT ? <StudentProfileView setError={setError} />
+          : currentView === SubView.EDUCATOR ? <EducatorProfileView />
             : <ProfileSettingsView />
       }
     </NavLayout>

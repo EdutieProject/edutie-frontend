@@ -44,6 +44,7 @@ export default function LessonTreeView() {
     async function initialLoad() {
         const lessonsResponse = await getLessonsByCourse(courseId as string);
         if (!lessonsResponse.success) {
+            console.log(lessonsResponse);
             setError(lessonsResponse.error);
             return;
         }
@@ -63,7 +64,7 @@ export default function LessonTreeView() {
     }, []);
 
     if (error)
-        return <ErrorView error={lessonsResponse.error ?? courseDetailsResponse.error} />
+        return <ErrorView error={error} />
 
     if (initialLoading)
         return (<LoadingView />);
