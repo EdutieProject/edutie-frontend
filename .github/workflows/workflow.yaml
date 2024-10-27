@@ -22,15 +22,15 @@ jobs:
           bun-version: 'latest' # You can specify a version here
 
       - name: Install dependencies with Bun
-        working-directory: ./edutie-frontend
+        working-directory: .
         run: bun install
 
       - name: Build with Vite
-        working-directory: ./edutie-frontend
+        working-directory: .
         run: bunx --bun vite build
 
       - name: Test with Bun
-        working-directory: ./edutie-frontend
+        working-directory: .
         run: bun test
 
   deploy:
@@ -47,7 +47,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: ./edutie-frontend
-          file: ./edutie-frontend/Dockerfile
+          context: .
+          file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/edutie-frontend:latest
