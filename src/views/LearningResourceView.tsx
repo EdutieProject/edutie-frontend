@@ -14,6 +14,10 @@ import MarkdownLaTeXRenderer from '../components/markdown/MarkdownLaTexRenderer.
 import TextArea from '../components/global/TextArea';
 import MermaidRenderer from '../components/mermaid/MermaidRenderer';
 
+enum SubView {
+    THEORY = "THEORY",
+    ACTIVITY = "ACTIVITY"
+}
 
 export default function LearningResourceView() {
     const navigate = useNavigate();
@@ -24,8 +28,7 @@ export default function LearningResourceView() {
     const [learningResource, setLearningResource] = useState(state);
     /* Views display parameters */
     const [error, setError] = useState(null);
-    const Views = Object.freeze({THEORY: "THEORY", ACTIVITY: "ACTIVITY"})
-    const [currentView, setCurrentView] = useState(Views.THEORY);
+    const [currentView, setCurrentView] = useState<SubView>(SubView.THEORY);
 
     /* solution states workaround */
     const [hintsRevealed, setHintsRevealed] = useState<Array<any>>([]);
@@ -81,14 +84,14 @@ export default function LearningResourceView() {
                     <Typography variant="body1">{learningResource.learningRequirementNames.join(" • ")}</Typography>
                 </Box>
                 <Box sx={{display: "flex", gap: theme.spacing(4), alignItems: "center"}}>
-                    <RoundedButton label={"Teoria"} active={currentView === Views.THEORY}
-                                   onClick={() => setCurrentView(Views.THEORY)}/>
-                    <RoundedButton label={"Praktyka"} active={currentView === Views.ACTIVITY}
-                                   onClick={() => setCurrentView(Views.ACTIVITY)}/>
+                    <RoundedButton label={"Teoria"} active={currentView === SubView.THEORY}
+                                   onClick={() => setCurrentView(SubView.THEORY)}/>
+                    <RoundedButton label={"Praktyka"} active={currentView === SubView.ACTIVITY}
+                                   onClick={() => setCurrentView(SubView.ACTIVITY)}/>
                 </Box>
             </Box>
             {
-                currentView === Views.ACTIVITY ?
+                currentView === SubView.ACTIVITY ?
                     <ActivityBlock
                         activity={learningResource.activity}
                         setAssessmentLoading={setAssessmentLoading}
@@ -245,7 +248,7 @@ function ActivityBlock({
 function HintTile({hint, isRevealed, setHintsRevealed}: {
     hint: any,
     isRevealed: boolean,
-    setHintsRevealed: Dispatch<SetStateAction<boolean>>
+    setHintsRevealed: Dispatch<SetStateAction<Array<any>>>
 }) {
     const theme = useTheme();
     const [revealed, setRevealed] = useState(isRevealed);
