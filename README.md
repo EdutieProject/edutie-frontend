@@ -10,10 +10,10 @@ bun run dev
 However, running in the docker container is advised.
 
 # Run inside docker
-
-`docker-compose build` to build image - it makes the image codebase up-to-date.
-`docker-compose up` starts the container
-
+```
+docker-compose build // to build image - it makes the image codebase up-to-date.
+docker-compose up // starts the container
+```
 Build is required to make after any changes.
 
 # React + Vite
