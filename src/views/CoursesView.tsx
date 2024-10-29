@@ -13,6 +13,7 @@ import {useNavigate} from "react-router-dom";
 import {navigationPath, navSections} from "../features/navigation/navigationPath";
 import ErrorView from "./common/ErrorView.js";
 import RoundedButton from "../components/global/RoundedButton";
+import SweatFaceIcon from "../components/customIcons/SweatFaceIcon";
 
 export default function CoursesView() {
     const theme = useTheme();
@@ -50,51 +51,49 @@ export default function CoursesView() {
     let selectedScience = sciences[selectedScienceIndex];
     return (
         <NavLayout mode="flex" activeSectionIdOverride={navSections.courses} scroll>
-            <Grid container direction="row" justifyContent="space-between" gap={theme.spacing(14)}
-                  flexWrap="wrap-reverse">
-                <CourseList scienceId={selectedScience.id} setErrorInView={setError}/>
-                <Grid sx={{flexGrow: 1}}>
-                    <Grid item container direction="row" justifyContent="space-around" alignItems="center"
-                          marginBottom="20px">
-                        <IconButton
-                            sx={{color: "black"}}
-                            onClick={() => {
-                                if (sciences[selectedScienceIndex - 1]) {
-                                    setSelectedScienceIndex(selectedScienceIndex - 1);
-                                }
-                            }}>
-                            <ChevronLeft/>
-                        </IconButton>
-                        <Heading variant="h5">{selectedScience.name}</Heading>
-                        <IconButton
-                            sx={{color: "black"}}
-                            onClick={() => {
-                                if (sciences[selectedScienceIndex + 1]) {
-                                    setSelectedScienceIndex(selectedScienceIndex + 1);
-                                }
-                            }}>
-                            <ChevronRight/>
-                        </IconButton>
-                    </Grid>
-                    <Box sx={{display: "grid", placeItems: "center"}}>
-                        <img
-                            src={
-                                selectedScience.imageSource === null
-                                    ? "https://as2.ftcdn.net/v2/jpg/05/79/64/29/1000_F_579642932_z3CUhYjjYWcGIWJtO30pMyYVFpDyoa1W.jpg"
-                                    : selectedScience.imageSource
-                            }
-                            alt="Science Picture"
-                            width={250}
-                            style={{aspectRatio: 1, objectFit: "cover", borderRadius: 1}}
-                        />
-                    </Box>
-                    <Box sx={{width: "100%", my: theme.spacing(4), textAlign: "center"}}>
-                        <Typography color="grey" variant="overline">
-                            {selectedScience.description}
-                        </Typography>
-                    </Box>
-                </Grid>
-            </Grid>
+            <Box sx={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", gap: theme.spacing(10)}}>
+                <IconButton
+                    sx={{color: "black"}}
+                    size={"large"}
+                    onClick={() => {
+                        if (sciences[selectedScienceIndex - 1]) {
+                            setSelectedScienceIndex(selectedScienceIndex - 1);
+                        }
+                    }}>
+                    <ChevronLeft fontSize={"large"}/>
+                </IconButton>
+                <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+                    <Heading variant="h3">{selectedScience.name}</Heading>
+                    <img
+                        src={
+                            selectedScience.imageSource === null
+                                ? "https://www.svgrepo.com/show/453302/mobius-strip.svg"
+                                : selectedScience.imageSource
+                        }
+                        alt="Science Picture"
+                        width={250}
+                        style={{
+                            aspectRatio: 1,
+                            objectFit: "cover",
+                            borderRadius: theme.shape.borderRadius /* Insert theme value bcs of no theme reference in img html tag*/
+                        }}
+                    />
+                    <Typography color="grey" variant="overline">
+                        {selectedScience.description}
+                    </Typography>
+                </Box>
+                <IconButton
+                    sx={{color: "black"}}
+                    size={"large"}
+                    onClick={() => {
+                        if (sciences[selectedScienceIndex + 1]) {
+                            setSelectedScienceIndex(selectedScienceIndex + 1);
+                        }
+                    }}>
+                    <ChevronRight fontSize={"large"}/>
+                </IconButton>
+            </Box>
+            <CourseList scienceId={selectedScience.id} setErrorInView={setError}/>
         </NavLayout>
     );
 }
@@ -126,13 +125,15 @@ function CourseList({
 
     console.log(filteredCourses); // Note that the list is rendered twice with already proper data
 
-    const skeletonCourseTileSize = "16rem";
-
     if (loading) {
-        return (
-            <Grid xs={8}>
+        return (<Skeleton height={"6rem"} animation={"wave"}/>);
+    }
+
+    return (
+        <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
+            <Box sx={{display: "grid", placeItems: "center"}}>
                 <TextField
-                    sx={{marginBottom: theme.spacing(1)}}
+                    sx={{marginY: theme.spacing(2)}}
                     id="outlined-search"
                     label="Wyszukaj kurs"
                     type="search"
@@ -142,34 +143,27 @@ function CourseList({
                             allCourses.filter((course) => course.name.toLocaleLowerCase().includes(event.target.value.toLowerCase()))
                         );
                     }}
-                    disabled
                 />
-                <Skeleton animation="wave" height={skeletonCourseTileSize}/>
-                <Skeleton animation="wave" height={skeletonCourseTileSize}/>
-                <Skeleton animation="wave" height={skeletonCourseTileSize}/>
-            </Grid>
-        );
-    }
-
-    return (
-        <Grid xs={8}>
-            <TextField
-                sx={{marginBottom: theme.spacing(2)}}
-                id="outlined-search"
-                label="Wyszukaj kurs"
-                type="search"
-                onChange={(event) => {
-                    console.log(event.target.value.toLowerCase());
-                    setFilteredCourses(
-                        allCourses.filter((course) => course.name.toLocaleLowerCase().includes(event.target.value.toLowerCase()))
-                    );
-                }}
-            />
-            {filteredCourses.slice((page - 1) * 3, page * 3).map((course, index) => (
-                <CourseTile course={course} key={index}/>
-            ))}
+            </Box>
+            {filteredCourses.length > 0 ? filteredCourses.slice((page - 1) * 3, page * 3).map((course, index) => (
+                    <CourseTile course={course} key={index}/>
+                )) :
+                <Box sx={{
+                    flexGrow: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: theme.spacing(2),
+                    justifyContent: "center",
+                    alignItems: "center",
+                    my: theme.spacing(4)
+                }}>
+                    <SweatFaceIcon width={"12rem"} height={"12rem"}/>
+                    <Heading variant="h6">Niczego nie znaleźliśmy</Heading>
+                    <Typography>Nie mamy takich zestawów...</Typography>
+                </Box>
+            }
             <Pagination count={Math.ceil(filteredCourses.length / 3)} onChange={(e, value) => setPage(value)}/>
-        </Grid>
+        </Box>
     );
 }
 
