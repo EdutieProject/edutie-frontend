@@ -77,7 +77,7 @@ export default function CoursesView() {
                                 : selectedScience.imageSource
                         }
                         alt="Science Picture"
-                        width={250}
+                        width={200}
                         style={{
                             aspectRatio: 1,
                             objectFit: "cover",
