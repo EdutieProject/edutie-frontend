@@ -1,8 +1,6 @@
-import {Box, Grid, Typography, useTheme} from "@mui/material"
+import {Box, Divider, Grid, Typography, useTheme} from "@mui/material"
 import NavLayout from "./layout/NavLayout.js"
-import Surface from "../components/global/Surface.js"
-import CircleButton from "../components/global/CircleButton.js"
-import React, {CSSProperties, useEffect, useState} from "react"
+import React, {useEffect, useState} from "react"
 import {generateRandomFactLearningResource, getRandomFact} from "../services/learningService"
 import ErrorView from "./common/ErrorView.js"
 import LoadingView from "./common/LoadingView.js"
@@ -11,6 +9,12 @@ import Heading from "../components/global/Heading.js"
 import {useNavigate} from "react-router-dom"
 import {navigationPath} from "../features/navigation/navigationPath.js"
 import {getUserDetails} from "../services/userProfileService";
+import {getRandomFactSaveDate, getSavedRandomFact, saveRandomFact} from "../features/storage/RandomFactStorage";
+import {isItSameDay} from "../features/datetime/datetimeUtilities";
+import DistributedLearningIcon from "../components/customIcons/DistributedLearningIcon";
+import Surface from "../components/global/Surface";
+import UserIcon from "../components/customIcons/StudentUserIcon";
+import CoursesIcon from "../components/customIcons/CoursesIcon";
 
 export default function HomeView() {
     const theme = useTheme();
@@ -22,19 +26,25 @@ export default function HomeView() {
     const [dynamicLearningResourceLoading, setDynamicLearningResourceLoading] = useState<boolean>(false);
 
     async function initialLoad() {
-        const randomFactResponse = await getRandomFact();
-        if (randomFactResponse.success === false) {
-            setError(randomFactResponse.error);
-            return;
-        }
-        setRandomFact(randomFactResponse.data.fact);
-
-        const userDetailsResponse = await getUserDetails()
+        const userDetailsResponse = await getUserDetails();
         if (userDetailsResponse.success === false) {
             setError(userDetailsResponse.error);
             return;
         }
         setUserFirstName(userDetailsResponse.data.firstName);
+
+        const savedRandomFact = getSavedRandomFact();
+        if (savedRandomFact !== null && isItSameDay(new Date(), getRandomFactSaveDate() as Date)) {
+            setRandomFact(savedRandomFact);
+        } else {
+            const randomFactResponse = await getRandomFact();
+            if (randomFactResponse.success === false) {
+                setError(randomFactResponse.error);
+                return;
+            }
+            saveRandomFact(randomFactResponse.data.fact)
+            setRandomFact(randomFactResponse.data.fact);
+        }
 
         setInitialLoading(false);
     }
@@ -65,101 +75,98 @@ export default function HomeView() {
         return <LoadingView/>
 
     return (
-        <NavLayout>
-            <Grid container rowGap={theme.spacing(4)}>
-                <Grid item xs={12}>
-                    <Heading variant="h2">Hej {userFirstName}!</Heading>
-                    <Typography variant="subtitle1">Dobrze cię znowu widzieć 😁</Typography>
-                </Grid>
-                <Grid item xs={12}>
-                    <Heading variant="h6">Czy wiesz że...</Heading>
-                    <Box sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        gap: theme.spacing(8),
-                        alignItems: "center"
-                    }}>
-                        <Typography variant="body1">{randomFact}</Typography>
-                        <RoundedButton active label="Naucz się więcej"
-                                       onClick={() => setDynamicLearningResourceLoading(true)}/>
-                    </Box>
-                </Grid>
-                <Grid item xs={12} sm={6} paddingRight={theme.spacing(2)}>
-                    <Typography variant="h6" fontFamily="Baloo">Zobacz co więcej przygotowaliśmy dla
-                        Ciebie:</Typography>
-                    <Box sx={{
+        <NavLayout mode={"flex"}>
+            <Box sx={{marginBottom: theme.spacing(4)}}>
+                <Heading variant="h2">Hej {userFirstName}!</Heading>
+                <Typography variant="subtitle1">Dobrze cię znowu widzieć 😁</Typography>
+            </Box>
+            <Divider flexItem/>
+            <Box sx={{marginY: theme.spacing(4)}}>
+                <Heading variant="h6">Czy wiesz że...</Heading>
+                <Box sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: theme.spacing(8),
+                    alignItems: "center"
+                }}>
+                    <Typography variant="body1">{randomFact}</Typography>
+                    <RoundedButton active label="Naucz się więcej"
+                                   onClick={() => setDynamicLearningResourceLoading(true)}/>
+                </Box>
+            </Box>
+            <Divider flexItem/>
+            <Grid container marginTop={theme.spacing(4)}>
+                <Grid item xs={4} paddingX={theme.spacing(8)} paddingY={theme.spacing(2)}>
+                    <Surface sx={{
                         display: "flex",
                         flexDirection: "column",
-                        marginTop: theme.spacing(5),
-                        gap: theme.spacing(6)
+                        alignItems: "center",
+                        justifyItems: "center",
+                        paddingY: theme.spacing(4),
+                        gap: theme.spacing(4),
+                        height: "100%"
                     }}>
-                        {/**TODO? */}
-                    </Box>
+                        <Box sx={{
+                            borderRadius: 99,
+                            padding: theme.spacing(3),
+                            backgroundColor: theme.palette.common.white
+                        }}>
+                            <CoursesIcon width={"4rem"} height={"4rem"}
+                                         color={theme.palette.secondary.main}/>
+                        </Box>
+                        <Typography textAlign={"center"}>
+                            Lorem ipsum dolor sit amet coś tam dalej było ale ni chuja nie pamietam dupa dupa dupa
+                            u9refnof efnwoeifijwe0f e4fhweoifwehnfw
+                        </Typography>
+                    </Surface>
                 </Grid>
-                <Grid item xs={12} sm={6} paddingLeft={theme.spacing(2)}>
-                    {/**TODO! */}
+                <Grid item xs={4} paddingX={theme.spacing(8)} paddingY={theme.spacing(2)}>
+                    <Surface sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyItems: "center",
+                        paddingY: theme.spacing(4),
+                        gap: theme.spacing(4),
+                        height: "100%"
+                    }}>
+                        <Box sx={{
+                            borderRadius: 99,
+                            padding: theme.spacing(3),
+                            backgroundColor: theme.palette.common.white
+                        }}>
+                            <UserIcon width={"4rem"} height={"4rem"}
+                                      color={theme.palette.secondary.main}/>
+                        </Box>
+                        <Typography textAlign={"center"}>
+                            Lorem ipsum dolor sit amet coś tam dalej było ale ni chuja nie pamietam
+                        </Typography>
+                    </Surface>
+                </Grid>
+                <Grid item xs={4} paddingX={theme.spacing(8)} paddingY={theme.spacing(2)}>
+                    <Surface sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyItems: "center",
+                        paddingY: theme.spacing(4),
+                        gap: theme.spacing(4),
+                        height: "100%"
+                    }}>
+                        <Box sx={{
+                            borderRadius: 99,
+                            padding: theme.spacing(3),
+                            backgroundColor: theme.palette.common.white
+                        }}>
+                            <DistributedLearningIcon width={"4rem"} height={"4rem"}
+                                                     color={theme.palette.secondary.main}/>
+                        </Box>
+                        <Typography textAlign={"center"}>
+                            Lorem ipsum dolor sit amet coś tam dalej było ale ni chuja nie pamietam
+                        </Typography>
+                    </Surface>
                 </Grid>
             </Grid>
         </NavLayout>
     );
 }
-
-function HomeTile({course, lesson}: {course: any, lesson: any}) {
-    const theme = useTheme();
-    const styles = {
-        courseContainer: {
-            display: "flex",
-            gap: 2,
-            alignItems: "center"
-        },
-        lessonContainer: {
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center"
-        },
-        tag: {
-            backgroundColor: theme.palette.secondary.light,
-            padding: "0.8rem",
-            paddingBottom: "0.5rem",
-            borderRadius: "2rem",
-            boxSizing: "border-box",
-            width: "12rem",
-            fontFamily: "Baloo",
-            textAlign: "center",
-            fontSize: "1rem",
-            lineHeight: "1rem",
-            position: "absolute",
-            right: "15%",
-            top: "-20%",
-            color: theme.palette.getContrastText(theme.palette.secondary.light)
-        } satisfies CSSProperties
-    }
-    const Tag = () => (<div style={styles.tag}>{lesson.tag}</div>)
-    return (
-        <Surface sx={{position: "relative"}}>
-            <Grid>
-                <Tag/>
-                <Grid container justifyContent="space-between" alignItems="center">
-                    <Grid container flexWrap="nowrap" justifyContent="space-between" alignItems={"center"}
-                          style={{width: "auto", minWidth: "75%", maxWidth: "calc(100% - 6rem)"}}>
-                        <Box sx={styles.courseContainer} maxWidth="50%">
-                            <img src={course.img}
-                                 style={{height: "3.5rem", width: "3.5rem", aspectRatio: 1, fill: "black"}} alt=" "/>
-                            <Typography variant="h6" fontFamily="Baloo">{course.title}</Typography>
-                        </Box>
-                        <Box sx={styles.lessonContainer} minWidth="50%">
-                            <img src={lesson.img} style={{height: "2rem", width: "2rem", aspectRatio: 1, fill: "black"}}
-                                 alt=" "/>
-                            <Typography variant="h6" fontSize="0.8rem" textAlign="center" lineHeight="0.9rem"
-                                        style={{wordWrap: "break-word", padding: 0}}>{lesson.title}</Typography>
-                        </Box>
-                    </Grid>
-                    <LessonButton size="1.5rem"/>
-                </Grid>
-            </Grid>
-        </Surface>
-    )
-}
-
-const LessonButton = ({size}: {size: string}) => (<CircleButton size={size}><Typography fontFamily="Baloo" color="white"
-                                                                        fontSize={size}>{">"}</Typography></CircleButton>)
