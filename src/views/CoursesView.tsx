@@ -1,7 +1,7 @@
 //LAYOUT IMPORTS
 import NavLayout from "./layout/NavLayout.js";
 import Surface from "../components/global/Surface.js";
-import {Box, Grid, IconButton, Pagination, Skeleton, TextField, Typography, useTheme} from "@mui/material";
+import {Box, Divider, Grid, IconButton, Pagination, Skeleton, TextField, Typography, useTheme} from "@mui/material";
 
 //CODE IMPORTS
 import React, {Dispatch, MutableRefObject, SetStateAction, useEffect, useRef, useState} from "react";
@@ -51,7 +51,13 @@ export default function CoursesView() {
     let selectedScience = sciences[selectedScienceIndex];
     return (
         <NavLayout mode="flex" activeSectionIdOverride={navSections.courses} scroll>
-            <Box sx={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", gap: theme.spacing(10)}}>
+            <Box sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: theme.spacing(10)
+            }}>
                 <IconButton
                     sx={{color: "black"}}
                     size={"large"}
@@ -62,7 +68,7 @@ export default function CoursesView() {
                     }}>
                     <ChevronLeft fontSize={"large"}/>
                 </IconButton>
-                <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+                <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginBottom: theme.spacing(2)}}>
                     <Heading variant="h3">{selectedScience.name}</Heading>
                     <img
                         src={
@@ -93,6 +99,7 @@ export default function CoursesView() {
                     <ChevronRight fontSize={"large"}/>
                 </IconButton>
             </Box>
+            <Divider flexItem/>
             <CourseList scienceId={selectedScience.id} setErrorInView={setError}/>
         </NavLayout>
     );
@@ -131,11 +138,11 @@ function CourseList({
 
     return (
         <Box sx={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
-            <Box sx={{display: "grid", placeItems: "center"}}>
+            <Box sx={{display: "grid", placeItems: "start"}}>
                 <TextField
-                    sx={{marginY: theme.spacing(2)}}
+                    sx={{marginY: theme.spacing(4)}}
                     id="outlined-search"
-                    label="Wyszukaj kurs"
+                    label="Wyszukaj zestaw"
                     type="search"
                     onChange={(event) => {
                         console.log(event.target.value.toLowerCase());
@@ -171,7 +178,7 @@ const CourseTile = ({course}: { course: any }) => {
     const theme = useTheme();
     const navigate = useNavigate();
     return (
-        <Surface sx={{my: theme.spacing(3), display: "flex"}}>
+        <Surface sx={{my: theme.spacing(2), display: "flex"}}>
             <Grid container>
                 <Grid item xs={12} md={2} sx={{display: "grid", placeItems: "center"}}>
                     <img
