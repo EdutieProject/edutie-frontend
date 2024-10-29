@@ -23,7 +23,7 @@ export default function RoundedButton({
     return (
         <ButtonBase
             sx={{
-                borderRadius: 20,
+                borderRadius: 1,
                 color: active ? theme.palette.common.white : theme.palette.common.black,
                 backgroundColor: disabled && active
                     ? theme.palette.primary.light

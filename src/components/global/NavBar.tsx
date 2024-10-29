@@ -36,8 +36,9 @@ function NavElement({item, isActive, setActiveNavbarElem}: NavElementProps) {
                 top: 0, left: 0, width: "100%", height: "100%",
                 backgroundColor: isActive ? theme.palette.common.white : "transparent",
                 boxShadow: isActive ? theme.shadows[3] : "none",
-                borderTopRightRadius: theme.shape.borderRadius,
-                borderBottomRightRadius: theme.shape.borderRadius,
+                borderRadius: 1,
+                borderTopLeftRadius: 0,
+                borderBottomLeftRadius: 0,
                 transform: "scaleX(1.08)"
             }}
             />

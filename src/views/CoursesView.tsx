@@ -85,7 +85,7 @@ export default function CoursesView() {
                             }
                             alt="Science Picture"
                             width={250}
-                            style={{aspectRatio: 1, objectFit: "cover", borderRadius: theme.shape.borderRadius}}
+                            style={{aspectRatio: 1, objectFit: "cover", borderRadius: 1}}
                         />
                     </Box>
                     <Box sx={{width: "100%", my: theme.spacing(4), textAlign: "center"}}>
@@ -179,18 +179,19 @@ const CourseTile = ({course}: { course: any }) => {
     return (
         <Surface sx={{my: theme.spacing(3), display: "flex"}}>
             <Grid container>
-                <Grid item xs={12} md={2} sx={{display: "grid", placeItems: "center", paddingX: theme.spacing(1)}}>
+                <Grid item xs={12} md={2} sx={{display: "grid", placeItems: "center"}}>
                     <img
                         src={
                             course.imageSource === null
-                                ? "https://thumbs.dreamstime.com/b/trigonometry-formula-line-icon-vector-illustration-sign-isolated-contour-symbol-black-331770196.jpg"
+                                ? "https://www.svgrepo.com/show/452651/globe.svg"
                                 : course.imageSource
                         }
                         width="100%"
                         style={{aspectRatio: 1, objectFit: "cover", borderRadius: theme.shape.borderRadius}}
+                        alt={"Course"}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={{paddingX: theme.spacing(1), display: "flex"}}>
+                <Grid item xs={12} md={10} sx={{paddingLeft: theme.spacing(2), display: "flex"}}>
                     <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
                         <Box
                             sx={{
@@ -205,7 +206,7 @@ const CourseTile = ({course}: { course: any }) => {
                                     <Box
                                         sx={{
                                             color: theme.palette.getContrastText(theme.palette.secondary.light),
-                                            borderRadius: theme.shape.borderRadius,
+                                            borderRadius: 1,
                                             backgroundColor: theme.palette.secondary.light,
                                             px: theme.spacing(2),
                                             py: theme.spacing(1),

@@ -28,7 +28,7 @@ export default function CircleButton({
         <ButtonBase
             sx={{
                 padding: size,
-                borderRadius: theme.shape.borderRadius,  // Adjusted from theme.shape.roundedRadius to theme.shape.borderRadius (as "roundedRadius" is not a default in MUI)
+                borderRadius: 1,  // Adjusted from theme.shape.roundedRadius to theme.shape.borderRadius (as "roundedRadius" is not a default in MUI)
                 backgroundColor: bgColor.main,
                 position: "relative",
                 boxShadow: shadow ? theme.shadows[2] : "none",
