@@ -9,10 +9,10 @@ import {getAccessibleSciences, getCoursesByScience} from "../services/studyProgr
 import {ChevronLeft, ChevronRight, QuestionMark} from "@mui/icons-material";
 import LoadingView from "./common/LoadingView.js";
 import Heading from "../components/global/Heading.js";
-import CircleButton from "../components/global/CircleButton.js";
 import {useNavigate} from "react-router-dom";
 import {navigationPath, navSections} from "../features/navigation/navigationPath";
 import ErrorView from "./common/ErrorView.js";
+import RoundedButton from "../components/global/RoundedButton";
 
 export default function CoursesView() {
     const theme = useTheme();
@@ -187,10 +187,10 @@ const CourseTile = ({course}: { course: any }) => {
                                 : course.imageSource
                         }
                         width="100%"
-                        style={{aspectRatio: 1 / 1, objectFit: "cover", borderRadius: theme.shape.borderRadius}}
+                        style={{aspectRatio: 1, objectFit: "cover", borderRadius: theme.shape.borderRadius}}
                     />
                 </Grid>
-                <Grid item xs={12} md={10} sx={{paddingX: theme.spacing(1)}}>
+                <Grid item xs={12} md={10} sx={{paddingX: theme.spacing(1), display: "flex"}}>
                     <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
                         <Box
                             sx={{
@@ -230,13 +230,9 @@ const CourseTile = ({course}: { course: any }) => {
                                     <QuestionMark htmlColor={theme.palette.common.black}/> Autor nieznany
                                 </Box>
                             </Box>
-                            <CircleButton
-                                size={theme.spacing(3)}
-                                onClick={() => navigate(navigationPath.fillPath(navigationPath.lessonTree, course.id))}>
-                                <Typography fontFamily={"Baloo"} fontSize={24} color={theme.palette.common.white}>
-                                    {">"}
-                                </Typography>
-                            </CircleButton>
+                            <RoundedButton
+                                label={"Wejdź"} active
+                                onClick={() => navigate(navigationPath.fillPath(navigationPath.lessonTree, course.id))}/>
                         </Box>
                     </Box>
                 </Grid>
