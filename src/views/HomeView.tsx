@@ -76,12 +76,11 @@ export default function HomeView() {
 
     return (
         <NavLayout mode={"flex"}>
-            <Box sx={{marginBottom: theme.spacing(4)}}>
+            <Box>
                 <Heading variant="h2">Hej {userFirstName}!</Heading>
                 <Typography variant="subtitle1">Dobrze cię znowu widzieć 😁</Typography>
             </Box>
-            <Divider flexItem/>
-            <Box sx={{marginY: theme.spacing(4)}}>
+            <Box sx={{marginY: theme.spacing(6)}}>
                 <Heading variant="h6">Czy wiesz że...</Heading>
                 <Box sx={{
                     display: "flex",
@@ -95,7 +94,7 @@ export default function HomeView() {
                 </Box>
             </Box>
             <Divider flexItem/>
-            <Grid container marginTop={theme.spacing(4)}>
+            <Grid container marginTop={theme.spacing(6)}>
                 <Grid item xs={4} paddingX={theme.spacing(8)} paddingY={theme.spacing(2)}>
                     <Surface sx={{
                         display: "flex",
@@ -114,9 +113,9 @@ export default function HomeView() {
                             <CoursesIcon width={"4rem"} height={"4rem"}
                                          color={theme.palette.secondary.main}/>
                         </Box>
+                        <Heading>Korzystaj z zestawów</Heading>
                         <Typography textAlign={"center"}>
-                            Lorem ipsum dolor sit amet coś tam dalej było ale ni chuja nie pamietam dupa dupa dupa
-                            u9refnof efnwoeifijwe0f e4fhweoifwehnfw
+                            Ucz się korzystając z zestawów do nauki przygotowanych przez edukatorów
                         </Typography>
                     </Surface>
                 </Grid>
@@ -138,8 +137,9 @@ export default function HomeView() {
                             <UserIcon width={"4rem"} height={"4rem"}
                                       color={theme.palette.secondary.main}/>
                         </Box>
+                        <Heading>Obserwuj swoją naukę</Heading>
                         <Typography textAlign={"center"}>
-                            Lorem ipsum dolor sit amet coś tam dalej było ale ni chuja nie pamietam
+                            Śledź swój proces nauki i bądź świadom tego, w jaki sposób budujesz swoją wiedzę.
                         </Typography>
                     </Surface>
                 </Grid>
@@ -161,8 +161,9 @@ export default function HomeView() {
                             <DistributedLearningIcon width={"4rem"} height={"4rem"}
                                                      color={theme.palette.secondary.main}/>
                         </Box>
+                        <Heading>Odkrywaj nowe zagadnienia</Heading>
                         <Typography textAlign={"center"}>
-                            Lorem ipsum dolor sit amet coś tam dalej było ale ni chuja nie pamietam
+                            Korzystaj z mapy wiedzy, która pokaże ci nowe tematy bazując na twoich poprzednich osiągnięciach.
                         </Typography>
                     </Surface>
                 </Grid>
