@@ -11,6 +11,8 @@ interface RoundedButtonProps {
     sx?: SxProps<Theme>;            // Optional custom styles
 }
 
+//TODO: Rounded button refactoring
+
 export default function RoundedButton({
                                           label,
                                           active = false,
@@ -37,6 +39,13 @@ export default function RoundedButton({
                 letterSpacing: 2,
                 "&:hover": {
                     backgroundColor: active ? theme.palette.primary.dark : theme.palette.grey[200],
+                },
+                "&:disabled": {
+                    "&:hover": {
+                        backgroundColor: theme.palette.common.white,
+                    },
+                    cursor: "not-allowed",
+                    pointerEvents: "all !important",
                 },
                 transition: "ease 200ms",
                 cursor: disabled ? "not-allowed !important" : "pointer",

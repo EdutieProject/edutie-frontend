@@ -13,7 +13,8 @@ const theme = createTheme({
         },
         secondary: {
             main: "#95008a"
-        }
+        },
+        tonalOffset: 0.2
     },
     shape: {
         borderRadius: 20

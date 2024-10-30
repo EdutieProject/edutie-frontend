@@ -1,9 +1,12 @@
 import React, {useEffect} from "react";
 import mermaid from "mermaid";
+import MarkdownLaTeXRenderer from "../markdown/MarkdownLaTexRenderer";
 
 mermaid.initialize({
     startOnLoad: true,
     theme: "forest",
+    look: "handDrawn",
+    layout: "elk",
     securityLevel: "loose"
 });
 
@@ -18,6 +21,6 @@ export default function MermaidRenderer(props: MermaidRendererProps) {
     }, []);
 
     return (
-        <div className="mermaid">{props.chart}</div>
+        <div className="mermaid" style={{width: "100%", display: "grid", placeItems: "center"}}>{props.chart}</div>
     )
 }

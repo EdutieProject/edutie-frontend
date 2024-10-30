@@ -6,7 +6,7 @@ import {Box, Divider, Grid, IconButton, Pagination, Skeleton, TextField, Typogra
 //CODE IMPORTS
 import React, {Dispatch, MutableRefObject, SetStateAction, useEffect, useRef, useState} from "react";
 import {getAccessibleSciences, getCoursesByScience} from "../services/studyProgramLearningService.js";
-import {ChevronLeft, ChevronRight, QuestionMark} from "@mui/icons-material";
+import {ChevronLeft, ChevronRight} from "@mui/icons-material";
 import LoadingView from "./common/LoadingView.js";
 import Heading from "../components/global/Heading.js";
 import {useNavigate} from "react-router-dom";
@@ -14,6 +14,7 @@ import {navigationPath, navSections} from "../features/navigation/navigationPath
 import ErrorView from "./common/ErrorView.js";
 import RoundedButton from "../components/global/RoundedButton";
 import SweatFaceIcon from "../components/customIcons/SweatFaceIcon";
+import QuestionMarkIcon from "../components/customIcons/QuestionMarkIcon";
 
 export default function CoursesView() {
     const theme = useTheme();
@@ -68,7 +69,13 @@ export default function CoursesView() {
                     }}>
                     <ChevronLeft fontSize={"large"}/>
                 </IconButton>
-                <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginBottom: theme.spacing(2)}}>
+                <Box sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: theme.spacing(2)
+                }}>
                     <Heading variant="h3">{selectedScience.name}</Heading>
                     <img
                         src={
@@ -227,10 +234,11 @@ const CourseTile = ({course}: { course: any }) => {
                                 display: "flex",
                                 flexDirection: "row",
                                 justifyContent: "space-between",
+                                alignItems: "flex-end"
                             }}>
                             <Box sx={{display: "grid", placeItems: "center"}}>
-                                <Box sx={{display: "flex", flexDirection: "row", gap: theme.spacing(2)}}>
-                                    <QuestionMark htmlColor={theme.palette.common.black}/> Autor nieznany
+                                <Box sx={{display: "flex", flexDirection: "row", gap: theme.spacing(2), alignItems: "center"}}>
+                                    <QuestionMarkIcon width={"4rem"} height={"4rem"}/> Autor nieznany
                                 </Box>
                             </Box>
                             <RoundedButton
