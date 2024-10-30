@@ -95,7 +95,7 @@ export default function HomeView() {
             </Box>
             <Divider flexItem/>
             <Grid container marginTop={theme.spacing(6)}>
-                <Grid item xs={4} paddingX={theme.spacing(8)} paddingY={theme.spacing(2)}>
+                <Grid item lg={4} xs={12} paddingX={theme.spacing(8)} paddingY={theme.spacing(2)}>
                     <Surface sx={{
                         display: "flex",
                         flexDirection: "column",
@@ -119,7 +119,7 @@ export default function HomeView() {
                         </Typography>
                     </Surface>
                 </Grid>
-                <Grid item xs={4} paddingX={theme.spacing(8)} paddingY={theme.spacing(2)}>
+                <Grid item lg={4} xs={12} paddingX={theme.spacing(8)} paddingY={theme.spacing(2)}>
                     <Surface sx={{
                         display: "flex",
                         flexDirection: "column",
@@ -143,7 +143,7 @@ export default function HomeView() {
                         </Typography>
                     </Surface>
                 </Grid>
-                <Grid item xs={4} paddingX={theme.spacing(8)} paddingY={theme.spacing(2)}>
+                <Grid item lg={4} xs={12} paddingX={theme.spacing(8)} paddingY={theme.spacing(2)}>
                     <Surface sx={{
                         display: "flex",
                         flexDirection: "column",
