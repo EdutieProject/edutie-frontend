@@ -103,7 +103,7 @@ export default function HomeView() {
                 <Typography>Twoja ostatnia aktywność:</Typography>
             </Box>
             <Grid container rowSpacing={theme.spacing(6)} marginTop={1}>
-                <Grid item lg={6} xs={12} sx={{padding: theme.spacing(4), display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: theme.spacing(4)}}>
+                <Grid item lg={6} xs={12} sx={{padding: theme.spacing(4), display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: theme.spacing(2)}}>
                     <img src={"https://www.svgrepo.com/show/452651/globe.svg"} alt={"Course image"}
                     style={{width: "8rem", height: "8rem"}}/>
                     <Heading variant={"h4"}>Przykładowy zestaw</Heading>
@@ -114,7 +114,7 @@ export default function HomeView() {
                     </Box>
                     <RoundedButton label={"Wróć do ostatniego zestawu"} active/>
                 </Grid>
-                <Grid item lg={6} xs={12} sx={{padding: theme.spacing(4), display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: theme.spacing(4)}}>
+                <Grid item lg={6} xs={12} sx={{padding: theme.spacing(4), display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: theme.spacing(2)}}>
                     <SadColorfulFaceIcon width={"8rem"} height={"8rem"}/>
                     <Heading variant={"h4"}>Ostatni rezultat</Heading>
                     <Typography>Średnia ocena: 5</Typography>
