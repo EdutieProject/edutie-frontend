@@ -1,4 +1,4 @@
-import {Box, Divider, Grid, Typography, useTheme} from "@mui/material"
+import {Box, CircularProgress, Divider, Grid, Typography, useTheme} from "@mui/material"
 import NavLayout from "./layout/NavLayout.js"
 import React, {useEffect, useState} from "react"
 import {generateRandomFactLearningResource, getRandomFact} from "../services/learningService"
@@ -15,6 +15,8 @@ import DistributedLearningIcon from "../components/customIcons/DistributedLearni
 import Surface from "../components/global/Surface";
 import UserIcon from "../components/customIcons/StudentUserIcon";
 import CoursesIcon from "../components/customIcons/CoursesIcon";
+import LightBulbDoodleIcon from "../components/customIcons/LightBulbIcon";
+import SadColorfulFaceIcon from "../components/customIcons/SadColorfulFaceIcon";
 
 export default function HomeView() {
     const theme = useTheme();
@@ -75,97 +77,52 @@ export default function HomeView() {
         return <LoadingView/>
 
     return (
-        <NavLayout mode={"flex"}>
+        <NavLayout mode={"flex"} scroll>
             <Box>
                 <Heading variant="h2">Hej {userFirstName}!</Heading>
                 <Typography variant="subtitle1">Dobrze cię znowu widzieć 😁</Typography>
             </Box>
-            <Box sx={{marginY: theme.spacing(6)}}>
-                <Heading variant="h6">Czy wiesz że...</Heading>
-                <Box sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: theme.spacing(8),
-                    alignItems: "center"
-                }}>
-                    <Typography variant="body1">{randomFact}</Typography>
-                    <RoundedButton active label="Naucz się więcej"
-                                   onClick={() => setDynamicLearningResourceLoading(true)}/>
+            <Box sx={{marginY: theme.spacing(6), display: 'flex', gap: theme.spacing(2), alignItems: "center"}}>
+                <LightBulbDoodleIcon width={"8rem"} height={"8rem"}/>
+                <Box>
+                    <Heading variant="h6">Czy wiesz że...</Heading>
+                    <Box sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        gap: theme.spacing(8),
+                        alignItems: "center"
+                    }}>
+                        <Typography variant="body1">{randomFact}</Typography>
+                        <RoundedButton active label="Naucz się więcej"
+                                       onClick={() => setDynamicLearningResourceLoading(true)}/>
+                    </Box>
                 </Box>
             </Box>
             <Divider flexItem/>
-            <Grid container marginTop={theme.spacing(6)}>
-                <Grid item lg={4} xs={12} paddingX={theme.spacing(8)} paddingY={theme.spacing(2)}>
-                    <Surface sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyItems: "center",
-                        paddingY: theme.spacing(4),
-                        gap: theme.spacing(4),
-                        height: "100%"
-                    }}>
-                        <Box sx={{
-                            borderRadius: 99,
-                            padding: theme.spacing(3),
-                            backgroundColor: theme.palette.common.white
-                        }}>
-                            <CoursesIcon width={"4rem"} height={"4rem"}
-                                         color={theme.palette.secondary.main}/>
-                        </Box>
-                        <Heading>Korzystaj z zestawów</Heading>
-                        <Typography textAlign={"center"}>
-                            Ucz się korzystając z zestawów do nauki przygotowanych przez edukatorów
-                        </Typography>
-                    </Surface>
+            <Box sx={{display: "grid", placeItems: "center", my: theme.spacing(2)}}>
+                <Typography>Twoja ostatnia aktywność:</Typography>
+            </Box>
+            <Grid container rowSpacing={theme.spacing(6)} marginTop={1}>
+                <Grid item lg={6} xs={12} sx={{padding: theme.spacing(4), display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: theme.spacing(4)}}>
+                    <img src={"https://www.svgrepo.com/show/452651/globe.svg"} alt={"Course image"}
+                    style={{width: "8rem", height: "8rem"}}/>
+                    <Heading variant={"h4"}>Przykładowy zestaw</Heading>
+                    <Typography>Ostatnia lekcja: Trygonometria</Typography>
+                    <Box sx={{display: "flex", gap: theme.spacing(2)}}>
+                        <Typography>Postęp: </Typography>
+                        <CircularProgress variant="determinate" value={67} thickness={8} color="secondary" size={"1.5rem"} />
+                    </Box>
+                    <RoundedButton label={"Wróć do ostatniego zestawu"} active/>
                 </Grid>
-                <Grid item lg={4} xs={12} paddingX={theme.spacing(8)} paddingY={theme.spacing(2)}>
-                    <Surface sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyItems: "center",
-                        paddingY: theme.spacing(4),
-                        gap: theme.spacing(4),
-                        height: "100%"
-                    }}>
-                        <Box sx={{
-                            borderRadius: 99,
-                            padding: theme.spacing(3),
-                            backgroundColor: theme.palette.common.white
-                        }}>
-                            <UserIcon width={"4rem"} height={"4rem"}
-                                      color={theme.palette.secondary.main}/>
-                        </Box>
-                        <Heading>Obserwuj swoją naukę</Heading>
-                        <Typography textAlign={"center"}>
-                            Śledź swój proces nauki i bądź świadom tego, w jaki sposób budujesz swoją wiedzę.
-                        </Typography>
-                    </Surface>
-                </Grid>
-                <Grid item lg={4} xs={12} paddingX={theme.spacing(8)} paddingY={theme.spacing(2)}>
-                    <Surface sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyItems: "center",
-                        paddingY: theme.spacing(4),
-                        gap: theme.spacing(4),
-                        height: "100%"
-                    }}>
-                        <Box sx={{
-                            borderRadius: 99,
-                            padding: theme.spacing(3),
-                            backgroundColor: theme.palette.common.white
-                        }}>
-                            <DistributedLearningIcon width={"4rem"} height={"4rem"}
-                                                     color={theme.palette.secondary.main}/>
-                        </Box>
-                        <Heading>Odkrywaj nowe zagadnienia</Heading>
-                        <Typography textAlign={"center"}>
-                            Korzystaj z mapy wiedzy, która pokaże ci nowe tematy bazując na twoich poprzednich osiągnięciach.
-                        </Typography>
-                    </Surface>
+                <Grid item lg={6} xs={12} sx={{padding: theme.spacing(4), display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: theme.spacing(4)}}>
+                    <SadColorfulFaceIcon width={"8rem"} height={"8rem"}/>
+                    <Heading variant={"h4"}>Ostatni rezultat</Heading>
+                    <Typography>Średnia ocena: 5</Typography>
+                    <Box sx={{display: "flex", gap: theme.spacing(2)}}>
+                        <Typography>Trudność: </Typography>
+                        <CircularProgress variant="determinate" value={67} thickness={8} color="secondary" size={"1.5rem"} />
+                    </Box>
+                    <RoundedButton label={"Zobacz ostatni feedback"} active/>
                 </Grid>
             </Grid>
         </NavLayout>
