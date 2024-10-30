@@ -208,7 +208,7 @@ function ActivityBlock({
                             }}
                         />
                         <Box sx={{display: "flex", flexDirection: "row-reverse"}}>
-                            <RoundedButton label={"Zakończ zadanie"} active/>
+                            <RoundedButton label={"Zakończ zadanie"} active onClick={() => setAssessmentLoading(true)}/>
                         </Box>
                     </Surface>
                     <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(4)}}>
