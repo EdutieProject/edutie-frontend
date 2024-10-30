@@ -158,15 +158,16 @@ function CourseList({
                 <Box sx={{
                     flexGrow: 1,
                     display: "flex",
-                    flexDirection: "column",
-                    gap: theme.spacing(2),
+                    gap: theme.spacing(12),
                     justifyContent: "center",
                     alignItems: "center",
                     my: theme.spacing(4)
                 }}>
                     <SweatFaceIcon width={"12rem"} height={"12rem"}/>
-                    <Heading variant="h6">Niczego nie znaleźliśmy</Heading>
-                    <Typography>Nie mamy takich zestawów...</Typography>
+                    <Box>
+                        <Heading variant="h6">Niczego nie znaleźliśmy</Heading>
+                        <Typography>Nie mamy takich zestawów...</Typography>
+                    </Box>
                 </Box>
             }
             <Pagination count={Math.ceil(filteredCourses.length / 3)} onChange={(e, value) => setPage(value)}/>
