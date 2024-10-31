@@ -183,7 +183,7 @@ function ActivityBlock({
             }}>
                 <Box sx={{gridArea: "left"}}>
                     <Surface >
-                        <Heading variant='h5' marginY={theme.spacing(2)}>Zadanie dla Ciebie</Heading>
+                        <Heading variant='h5' sx={{marginY: theme.spacing(2)}}>Zadanie dla Ciebie</Heading>
                         <Typography variant='body1'>
                             <MarkdownLaTeXRenderer content={activity.activityText}/>
                         </Typography>

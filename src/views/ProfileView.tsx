@@ -121,7 +121,7 @@ function StudentProfileView({ setError }: {setError: Dispatch<SetStateAction<any
         <Heading variant="h4">Twoja ostatnia aktywność:</Heading>
         {
           learningResults.length > 0 ?
-            learningResults.slice(0, 5).map((learningResult, i) => (
+            learningResults.slice(0, 3).map((learningResult, i) => (
               <Box sx={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: theme.spacing(2) }} key={i}>
                 <Divider flexItem orientation="horizontal" sx={{ marginBottom: theme.spacing(2) }} />
                 <Box sx={{ display: "flex", alignItems: "center", gap: theme.spacing(2) }}>
@@ -163,7 +163,7 @@ function StudentProfileView({ setError }: {setError: Dispatch<SetStateAction<any
       </Grid>
       <Grid item xs={6} sx={{ display: "grid", gridTemplateRows: `0.8fr 1fr`, gap: theme.spacing(2) }}>
         <Box sx={{ flexGrow: 1 }}>
-          <Heading variant="h2">0 🔥 dni nauki</Heading>
+          <Heading variant="h2">? 🔥 dni nauki</Heading>
           <Typography>Tyle dni z rzędu wykonujesz już zadania. Pamiętaj że liczy się systematyczność!</Typography>
           <Typography variant="overline" color={"grey"}>Uwaga! Funkcjonalność streaków nie jest jeszcze gotowa </Typography>
         </Box>
