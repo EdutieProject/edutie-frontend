@@ -28,7 +28,7 @@ function NavElement({item, isActive, setActiveNavbarElem}: NavElementProps) {
     return (
         <Box sx={{
             paddingX: theme.spacing(4),
-            paddingY: theme.spacing(2),
+            paddingY: theme.spacing(1),
             position: "relative"
         }}>
             <Box sx={{
@@ -36,8 +36,9 @@ function NavElement({item, isActive, setActiveNavbarElem}: NavElementProps) {
                 top: 0, left: 0, width: "100%", height: "100%",
                 backgroundColor: isActive ? theme.palette.common.white : "transparent",
                 boxShadow: isActive ? theme.shadows[3] : "none",
-                borderTopRightRadius: theme.shape.borderRadius,
-                borderBottomRightRadius: theme.shape.borderRadius,
+                borderRadius: 1,
+                borderTopLeftRadius: 0,
+                borderBottomLeftRadius: 0,
                 transform: "scaleX(1.08)"
             }}
             />
@@ -48,6 +49,13 @@ function NavElement({item, isActive, setActiveNavbarElem}: NavElementProps) {
                 }}
                 disableRipple
                 disableFocusRipple
+                sx={{
+                    padding: theme.spacing(2),
+                    transition: "200ms ease",
+                    "&:hover": {
+                        backgroundColor:  isActive ? "inherit" : theme.palette.primary.light,
+                    }
+                }}
             >
                 {item.icon(isActive ? theme.palette.primary.main : theme.palette.common.white)}
             </IconButton>

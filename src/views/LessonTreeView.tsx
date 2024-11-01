@@ -71,7 +71,7 @@ export default function LessonTreeView() {
 
     let treeLevelsArray = TreeGridInitializer.getTreeAsArray(lessonsResponse.data as unknown as Array<any>);
     return (
-        <NavLayout mode={"flex"} disablePadding activeSectionIdOverride={navSections.learningInTree} scroll relative>
+        <NavLayout disablePadding activeSectionIdOverride={navSections.learningInTree} relative>
             <Box sx={{ width: "100%", textAlign: "center", py: theme.spacing(2)}}>
                 <Heading variant="h4">{(courseDetailsResponse.data as unknown as any).name}</Heading>
                 <Typography variant="caption">{(courseDetailsResponse.data as unknown as any).description}</Typography>

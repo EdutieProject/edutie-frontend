@@ -1,8 +1,6 @@
-import {Box, Grid, Typography, useTheme} from "@mui/material"
+import {Box, CircularProgress, Divider, Grid, Typography, useTheme} from "@mui/material"
 import NavLayout from "./layout/NavLayout.js"
-import Surface from "../components/global/Surface.js"
-import CircleButton from "../components/global/CircleButton.js"
-import React, {CSSProperties, useEffect, useState} from "react"
+import React, {useEffect, useState} from "react"
 import {generateRandomFactLearningResource, getRandomFact} from "../services/learningService"
 import ErrorView from "./common/ErrorView.js"
 import LoadingView from "./common/LoadingView.js"
@@ -11,6 +9,14 @@ import Heading from "../components/global/Heading.js"
 import {useNavigate} from "react-router-dom"
 import {navigationPath} from "../features/navigation/navigationPath.js"
 import {getUserDetails} from "../services/userProfileService";
+import {getRandomFactSaveDate, getSavedRandomFact, saveRandomFact} from "../features/storage/RandomFactStorage";
+import {isItSameDay} from "../features/datetime/datetimeUtilities";
+import DistributedLearningIcon from "../components/customIcons/DistributedLearningIcon";
+import Surface from "../components/global/Surface";
+import UserIcon from "../components/customIcons/StudentUserIcon";
+import CoursesIcon from "../components/customIcons/CoursesIcon";
+import LightBulbDoodleIcon from "../components/customIcons/LightBulbIcon";
+import SadColorfulFaceIcon from "../components/customIcons/SadColorfulFaceIcon";
 
 export default function HomeView() {
     const theme = useTheme();
@@ -22,19 +28,25 @@ export default function HomeView() {
     const [dynamicLearningResourceLoading, setDynamicLearningResourceLoading] = useState<boolean>(false);
 
     async function initialLoad() {
-        const randomFactResponse = await getRandomFact();
-        if (randomFactResponse.success === false) {
-            setError(randomFactResponse.error);
-            return;
-        }
-        setRandomFact(randomFactResponse.data.fact);
-
-        const userDetailsResponse = await getUserDetails()
+        const userDetailsResponse = await getUserDetails();
         if (userDetailsResponse.success === false) {
             setError(userDetailsResponse.error);
             return;
         }
         setUserFirstName(userDetailsResponse.data.firstName);
+
+        const savedRandomFact = getSavedRandomFact();
+        if (savedRandomFact !== null && isItSameDay(new Date(), getRandomFactSaveDate() as Date)) {
+            setRandomFact(savedRandomFact);
+        } else {
+            const randomFactResponse = await getRandomFact();
+            if (randomFactResponse.success === false) {
+                setError(randomFactResponse.error);
+                return;
+            }
+            saveRandomFact(randomFactResponse.data.fact)
+            setRandomFact(randomFactResponse.data.fact);
+        }
 
         setInitialLoading(false);
     }
@@ -66,12 +78,13 @@ export default function HomeView() {
 
     return (
         <NavLayout>
-            <Grid container rowGap={theme.spacing(4)}>
-                <Grid item xs={12}>
-                    <Heading variant="h2">Hej {userFirstName}!</Heading>
-                    <Typography variant="subtitle1">Dobrze cię znowu widzieć 😁</Typography>
-                </Grid>
-                <Grid item xs={12}>
+            <Box>
+                <Heading variant="h2">Hej {userFirstName}!</Heading>
+                <Typography variant="subtitle1">Dobrze cię znowu widzieć 😁</Typography>
+            </Box>
+            <Box sx={{marginY: theme.spacing(6), display: 'flex', gap: theme.spacing(2), alignItems: "center"}}>
+                <LightBulbDoodleIcon width={"8rem"} height={"8rem"}/>
+                <Box>
                     <Heading variant="h6">Czy wiesz że...</Heading>
                     <Box sx={{
                         display: "flex",
@@ -83,83 +96,35 @@ export default function HomeView() {
                         <RoundedButton active label="Naucz się więcej"
                                        onClick={() => setDynamicLearningResourceLoading(true)}/>
                     </Box>
-                </Grid>
-                <Grid item xs={12} sm={6} paddingRight={theme.spacing(2)}>
-                    <Typography variant="h6" fontFamily="Baloo">Zobacz co więcej przygotowaliśmy dla
-                        Ciebie:</Typography>
-                    <Box sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        marginTop: theme.spacing(5),
-                        gap: theme.spacing(6)
-                    }}>
-                        {/**TODO? */}
+                </Box>
+            </Box>
+            <Divider flexItem/>
+            <Box sx={{display: "grid", placeItems: "center", my: theme.spacing(2)}}>
+                <Typography>Twoja ostatnia aktywność:</Typography>
+            </Box>
+            <Grid container rowSpacing={theme.spacing(6)} marginTop={1}>
+                <Grid item lg={6} xs={12} sx={{padding: theme.spacing(4), display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: theme.spacing(2)}}>
+                    <img src={"https://www.svgrepo.com/show/452651/globe.svg"} alt={"Course image"}
+                    style={{width: "8rem", height: "8rem"}}/>
+                    <Heading variant={"h4"}>Przykładowy zestaw</Heading>
+                    <Typography>Ostatnia lekcja: Trygonometria</Typography>
+                    <Box sx={{display: "flex", gap: theme.spacing(2)}}>
+                        <Typography>Postęp: </Typography>
+                        <CircularProgress variant="determinate" value={67} thickness={8} color="secondary" size={"1.5rem"} />
                     </Box>
+                    <RoundedButton label={"Wróć do ostatniego zestawu"} active/>
                 </Grid>
-                <Grid item xs={12} sm={6} paddingLeft={theme.spacing(2)}>
-                    {/**TODO! */}
+                <Grid item lg={6} xs={12} sx={{padding: theme.spacing(4), display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: theme.spacing(2)}}>
+                    <SadColorfulFaceIcon width={"8rem"} height={"8rem"}/>
+                    <Heading variant={"h4"}>Ostatni rezultat</Heading>
+                    <Typography>Średnia ocena: 5</Typography>
+                    <Box sx={{display: "flex", gap: theme.spacing(2)}}>
+                        <Typography>Trudność: </Typography>
+                        <CircularProgress variant="determinate" value={67} thickness={8} color="secondary" size={"1.5rem"} />
+                    </Box>
+                    <RoundedButton label={"Zobacz ostatni feedback"} active/>
                 </Grid>
             </Grid>
         </NavLayout>
     );
 }
-
-function HomeTile({course, lesson}: {course: any, lesson: any}) {
-    const theme = useTheme();
-    const styles = {
-        courseContainer: {
-            display: "flex",
-            gap: 2,
-            alignItems: "center"
-        },
-        lessonContainer: {
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center"
-        },
-        tag: {
-            backgroundColor: theme.palette.secondary.light,
-            padding: "0.8rem",
-            paddingBottom: "0.5rem",
-            borderRadius: "2rem",
-            boxSizing: "border-box",
-            width: "12rem",
-            fontFamily: "Baloo",
-            textAlign: "center",
-            fontSize: "1rem",
-            lineHeight: "1rem",
-            position: "absolute",
-            right: "15%",
-            top: "-20%",
-            color: theme.palette.getContrastText(theme.palette.secondary.light)
-        } satisfies CSSProperties
-    }
-    const Tag = () => (<div style={styles.tag}>{lesson.tag}</div>)
-    return (
-        <Surface sx={{position: "relative"}}>
-            <Grid>
-                <Tag/>
-                <Grid container justifyContent="space-between" alignItems="center">
-                    <Grid container flexWrap="nowrap" justifyContent="space-between" alignItems={"center"}
-                          style={{width: "auto", minWidth: "75%", maxWidth: "calc(100% - 6rem)"}}>
-                        <Box sx={styles.courseContainer} maxWidth="50%">
-                            <img src={course.img}
-                                 style={{height: "3.5rem", width: "3.5rem", aspectRatio: 1, fill: "black"}} alt=" "/>
-                            <Typography variant="h6" fontFamily="Baloo">{course.title}</Typography>
-                        </Box>
-                        <Box sx={styles.lessonContainer} minWidth="50%">
-                            <img src={lesson.img} style={{height: "2rem", width: "2rem", aspectRatio: 1, fill: "black"}}
-                                 alt=" "/>
-                            <Typography variant="h6" fontSize="0.8rem" textAlign="center" lineHeight="0.9rem"
-                                        style={{wordWrap: "break-word", padding: 0}}>{lesson.title}</Typography>
-                        </Box>
-                    </Grid>
-                    <LessonButton size="1.5rem"/>
-                </Grid>
-            </Grid>
-        </Surface>
-    )
-}
-
-const LessonButton = ({size}: {size: string}) => (<CircleButton size={size}><Typography fontFamily="Baloo" color="white"
-                                                                        fontSize={size}>{">"}</Typography></CircleButton>)

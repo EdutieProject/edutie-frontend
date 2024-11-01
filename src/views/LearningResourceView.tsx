@@ -1,10 +1,9 @@
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
-import {Box, Grid, Typography, useTheme} from '@mui/material';
+import {Box, Typography, useTheme} from '@mui/material';
 import NavLayout from './layout/NavLayout.js';
 import RoundedButton from '../components/global/RoundedButton.js';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import Surface from '../components/global/Surface.js';
-import CircleButton from '../components/global/CircleButton.js';
 import TurnAroundIcon from '../components/customIcons/TurnAroundIcon.js';
 import {generateLearningResultFromSolution, getLearningResourceById} from '../services/learningService';
 import LoadingView from './common/LoadingView.js';
@@ -13,6 +12,9 @@ import {navigationPath} from '../features/navigation/navigationPath';
 import MarkdownLaTeXRenderer from '../components/markdown/MarkdownLaTexRenderer.js';
 import TextArea from '../components/global/TextArea';
 import MermaidRenderer from '../components/mermaid/MermaidRenderer';
+import Heading from "../components/global/Heading";
+import QuestionMarkIcon from "../components/customIcons/QuestionMarkIcon";
+import LightBulbDoodleIcon from "../components/customIcons/LightBulbIcon";
 
 enum SubView {
     THEORY = "THEORY",
@@ -66,18 +68,15 @@ export default function LearningResourceView() {
 
     console.log(learningResource);
 
-    if (learningResource == null) {
-        return <LoadingView/>
-    }
-
     if (error)
         return <ErrorView error={error}/>
-
-    if (learningResource === null || assessmentLoading)
+    if (assessmentLoading)
+        return <LoadingView caption={"Oceniamy twoje rozwiązanie! Zazwyczaj zajmuje to około 15 sekund."}/>
+    if (learningResource === null)
         return <LoadingView/>;
 
     return (
-        <NavLayout mode={"flex"} scroll>
+        <NavLayout>
             <Box sx={{display: "flex", justifyContent: "space-between"}}>
                 <Box>
                     <Typography fontFamily={"Baloo"} variant='h3'>Naucz się</Typography>
@@ -140,7 +139,7 @@ function TheoryBlock({theory}: { theory: any }) {
             <Surface sx={{gridArea: "right"}}>
                 <Typography fontFamily={"Baloo"} variant='h5' marginY={theme.spacing(2)}>Naucz się na
                     przykładzie</Typography>
-                <Box sx={{display: "flex", flexDirection: "column", alignItems: "stretch"}}>
+                <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
                     <MermaidRenderer chart={theory.mermaidGraph}/>
                 </Box>
             </Surface>
@@ -183,60 +182,50 @@ function ActivityBlock({
       "left right right"
       `
             }}>
-                <Surface sx={{gridArea: "left"}}>
-                    <Typography fontFamily={"Baloo"} variant='h5' marginY={theme.spacing(2)}>Zadanie dla
-                        Ciebie</Typography>
-                    <Typography variant='body1'>
-                        <MarkdownLaTeXRenderer content={activity.activityText}/>
-                    </Typography>
-                </Surface>
-                <Surface sx={{gridArea: "right"}}>
-                    <Typography fontFamily={"Baloo"} variant='h5' marginY={theme.spacing(2)}>Twoje
-                        rozwiązanie</Typography>
-                    <Typography variant='body1'>
-                        Opisz swoje rozwiązanie. Zawrzyj w nim swój tok myślenia, pokaż szczegółowo krok po kroku w jaki
-                        sposób zadanie było rozwiązywane. Twoje rozwiązanie będzie oceniane na podstawie twojego
-                        zrozumienia tematu!
-                    </Typography>
-                    <TextArea
-                        minRows={10} maxRows={20}
-                        sx={{marginY: theme.spacing(4)}}
-                        label='Twoje rozwiązanie'
-                        value={solutionText}
-                        onChange={(e) => {
-                            setSolutionText(e.target.value);
-                        }}
-                    />
-                </Surface>
-            </Box>
-            <Box sx={{
-                marginY: theme.spacing(4),
-                display: "grid",
-                gap: theme.spacing(4),
-                gridTemplateColumns: 'repeat(6, 1fr)',
-                gridTemplateAreas: `
-      "bottom bottom bottom bottom bottom button"
-      `
-            }}>
-                <Surface
-                    sx={{gridArea: "bottom", display: "flex", justifyContent: "space-between", flexWrap: "nowrap"}}>
-                    <Typography fontFamily={"Baloo"} variant='h4' marginY={theme.spacing(2)}>Użyj
-                        podpowiedzi</Typography>
-                    <Grid container gap={theme.spacing(2)} justifyContent={"flex-end"}>
-                        {
-                            activity.hints.map(
-                                (hint: any, i: number) => <HintTile hint={hint} key={i}
-                                                                    isRevealed={hintsRevealed.includes(hint.id)}
-                                                                    setHintsRevealed={setHintsRevealed}/>
-                            )
-                        }
-                    </Grid>
-                </Surface>
-                <Box sx={{gridArea: "button", display: "flex", alignItems: "center", justifyContent: "center"}}>
-                    <CircleButton size={theme.spacing(7)} onClick={() => setAssessmentLoading(true)}>
-                        <Typography fontFamily={"Baloo"} fontSize={64}
-                                    color={theme.palette.common.white}>{">"}</Typography>
-                    </CircleButton>
+                <Box sx={{gridArea: "left"}}>
+                    <Surface >
+                        <Heading variant='h5' sx={{marginY: theme.spacing(2)}}>Zadanie dla Ciebie</Heading>
+                        <Typography variant='body1'>
+                            <MarkdownLaTeXRenderer content={activity.activityText}/>
+                        </Typography>
+                    </Surface>
+                </Box>
+                <Box sx={{gridArea: "right", display: "flex", flexDirection: "column", gap: theme.spacing(6)}}>
+                    <Surface>
+                        <Heading variant='h5' sx={{marginY: theme.spacing(2)}}>Twoje rozwiązanie</Heading>
+                        <Typography variant='body1'>
+                            Opisz swoje rozwiązanie. Zawrzyj w nim swój tok myślenia, pokaż szczegółowo krok po kroku w
+                            jaki
+                            sposób zadanie było rozwiązywane. Twoje rozwiązanie będzie oceniane na podstawie twojego
+                            zrozumienia tematu!
+                        </Typography>
+                        <TextArea
+                            minRows={10} maxRows={18}
+                            sx={{marginY: theme.spacing(4)}}
+                            label='Twoje rozwiązanie'
+                            value={solutionText}
+                            onChange={(e) => {
+                                setSolutionText(e.target.value);
+                            }}
+                        />
+                        <Box sx={{display: "flex", flexDirection: "row-reverse"}}>
+                            <RoundedButton label={"Zakończ zadanie"} active onClick={() => setAssessmentLoading(true)}/>
+                        </Box>
+                    </Surface>
+                    <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(4)}}>
+                        <LightBulbDoodleIcon width={"3rem"} height={"3rem"}/>
+                        <Typography>Możesz skorzystać z podpowiedzi!</Typography>
+                        <Box sx={{display: "flex", gap: theme.spacing(6), alignItems: "flex-start"}}>
+                            {
+                                activity.hints.map((hint: any) =>
+                                    <HintTile hint={hint}
+                                              isRevealed={hintsRevealed.filter(o => o.id === hint.id).length > 0}
+                                              setHintsRevealed={setHintsRevealed}
+                                    />
+                                )
+                            }
+                        </Box>
+                    </Box>
                 </Box>
             </Box>
         </Box>
@@ -255,37 +244,41 @@ function HintTile({hint, isRevealed, setHintsRevealed}: {
 
     if (!revealed)
         return (
-            <Grid item xs={3}>
-                <Surface sx={{
-                    backgroundColor: theme.palette.secondary.light,
-                    flex: "0 0 auto",
-                    aspectRatio: "5/3",
-                    display: "grid",
-                    placeItems: "center"
-                }}
-                         onClick={() => {
-                             setRevealed(true);
-                             setHintsRevealed((x) => {
-                                 x.push(hint.id);
-                                 return x;
-                             })
-                         }}
-                >
-                    <TurnAroundIcon width={"4em"} height={"4em"}/>
-                </Surface>
-            </Grid>
+            <Surface sx={{
+                backgroundColor: theme.palette.primary.light,
+                width: "12rem",
+                flex: "0 0 auto",
+                aspectRatio: "5/3",
+                textWrap: "wrap",
+                display: "grid",
+                placeItems: "center",
+                transition: "200ms ease",
+                "&:hover": {
+                    boxShadow: theme.shadows[2],
+                    transform: "translateY(-10px)"
+                }
+            }}
+                     onClick={() => {
+                         setRevealed(true);
+                         setHintsRevealed((x) => {
+                             x.push(hint);
+                             return x;
+                         })
+                     }}
+            >
+                <QuestionMarkIcon width={"4em"} height={"4em"} color={theme.palette.common.white}/>
+            </Surface>
         );
 
     return (
-        <Grid item xs={3}>
-            <Surface sx={{
-                backgroundColor: theme.palette.common.white,
-                flex: "0 0 auto",
-                aspectRatio: "5/3",
-                textWrap: "wrap"
-            }}>
-                <MarkdownLaTeXRenderer content={hint.text}/>
-            </Surface>
-        </Grid>
+        <Surface sx={{
+            // backgroundColor: theme.palette.common.white,
+            maxWidth: "12rem",
+            flex: "0 0 auto",
+            aspectRatio: "5/3",
+            textWrap: "wrap"
+        }}>
+            <MarkdownLaTeXRenderer content={hint.text}/>
+        </Surface>
     );
 }

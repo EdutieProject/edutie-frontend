@@ -14,6 +14,9 @@ import { daysAgo, getDayName } from "../features/datetime/datetimeUtilities.js";
 import { useNavigate } from "react-router-dom";
 import CircleButton from "../components/global/CircleButton.js";
 import React from "react";
+import CircularProgressWithLabel from "../components/progress/CircularProgressWithLabel";
+import CheckDoodleIcon from "../components/customIcons/CheckDoodleIcon";
+import CancelDoodleIcon from "../components/customIcons/CancelDoodleIcon";
 
 enum SubView {
   STUDENT = "STUDENT",
@@ -54,7 +57,7 @@ export default function ProfileView() {
     return <LoadingView/>
 
   return (
-    <NavLayout activeSectionIdOverride={navSections.profile} mode="flex" scroll>
+    <NavLayout activeSectionIdOverride={navSections.profile}>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box>
           <Heading variant='h3'>{userFirstName} - twój profil</Heading>
@@ -121,7 +124,7 @@ function StudentProfileView({ setError }: {setError: Dispatch<SetStateAction<any
         <Heading variant="h4">Twoja ostatnia aktywność:</Heading>
         {
           learningResults.length > 0 ?
-            learningResults.slice(0, 5).map((learningResult, i) => (
+            learningResults.slice(0, 3).map((learningResult, i) => (
               <Box sx={{ display: "flex", flexDirection: "column", alignItems: "stretch", gap: theme.spacing(2) }} key={i}>
                 <Divider flexItem orientation="horizontal" sx={{ marginBottom: theme.spacing(2) }} />
                 <Box sx={{ display: "flex", alignItems: "center", gap: theme.spacing(2) }}>
@@ -139,15 +142,18 @@ function StudentProfileView({ setError }: {setError: Dispatch<SetStateAction<any
                 {learningResult.assessments.map((assessment: any, i: number) =>
                     <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} key={i}>
                       <Typography>{assessment.learningRequirementName}</Typography>
-                      <Box sx={{ display: "flex", gap: theme.spacing(4) }}>
+                      <Box sx={{ display: "flex", gap: theme.spacing(4), alignItems: "center" }}>
                         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(2) }}>
-                          <CircularProgress variant="determinate" value={assessment.grade / 6 * 100} thickness={8} size={"1.75rem"} />
-                          <Typography>Ocena: {assessment.grade}</Typography>
+                          <CircularProgressWithLabel label={assessment.grade as string} value={assessment.grade / 6 * 100} thickness={6} size={"2.5rem"}/>
                         </Box>
                         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(2) }}>
-                          <CircularProgress variant="determinate" value={assessment.difficultyFactor * 100} thickness={8} color="secondary" size={"1.75rem"} />
-                          <Typography>Trudność</Typography>
+                          <CircularProgressWithLabel label={`${assessment.difficultyFactor * 100}%`} value={assessment.difficultyFactor * 100} color="secondary" thickness={6} size={"2.5rem"}/>
                         </Box>
+                        {
+                          assessment.grade > 4 ?
+                              <CheckDoodleIcon width={"3rem"} height={"3rem"}/>
+                              : <CancelDoodleIcon width={"3rem"} height={"3rem"}/>
+                        }
                       </Box>
                     </Box>
                 )}
@@ -163,7 +169,7 @@ function StudentProfileView({ setError }: {setError: Dispatch<SetStateAction<any
       </Grid>
       <Grid item xs={6} sx={{ display: "grid", gridTemplateRows: `0.8fr 1fr`, gap: theme.spacing(2) }}>
         <Box sx={{ flexGrow: 1 }}>
-          <Heading variant="h2">0 🔥 dni nauki</Heading>
+          <Heading variant="h2">? 🔥 dni nauki</Heading>
           <Typography>Tyle dni z rzędu wykonujesz już zadania. Pamiętaj że liczy się systematyczność!</Typography>
           <Typography variant="overline" color={"grey"}>Uwaga! Funkcjonalność streaków nie jest jeszcze gotowa </Typography>
         </Box>

@@ -62,7 +62,7 @@ export default function LRDCreationView() {
   }
 
   return (
-    <NavLayout mode="flex">
+    <NavLayout>
       <Typography fontFamily={"Baloo"} variant="h4">
         Wysokość w trójkącie (segment/lesson name)
       </Typography>
