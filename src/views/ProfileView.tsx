@@ -14,6 +14,9 @@ import { daysAgo, getDayName } from "../features/datetime/datetimeUtilities.js";
 import { useNavigate } from "react-router-dom";
 import CircleButton from "../components/global/CircleButton.js";
 import React from "react";
+import CircularProgressWithLabel from "../components/progress/CircularProgressWithLabel";
+import CheckDoodleIcon from "../components/customIcons/CheckDoodleIcon";
+import CancelDoodleIcon from "../components/customIcons/CancelDoodleIcon";
 
 enum SubView {
   STUDENT = "STUDENT",
@@ -139,15 +142,18 @@ function StudentProfileView({ setError }: {setError: Dispatch<SetStateAction<any
                 {learningResult.assessments.map((assessment: any, i: number) =>
                     <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} key={i}>
                       <Typography>{assessment.learningRequirementName}</Typography>
-                      <Box sx={{ display: "flex", gap: theme.spacing(4) }}>
+                      <Box sx={{ display: "flex", gap: theme.spacing(4), alignItems: "center" }}>
                         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(2) }}>
-                          <CircularProgress variant="determinate" value={assessment.grade / 6 * 100} thickness={8} size={"1.75rem"} />
-                          <Typography>Ocena: {assessment.grade}</Typography>
+                          <CircularProgressWithLabel label={assessment.grade as string} value={assessment.grade / 6 * 100} thickness={6} size={"2.5rem"}/>
                         </Box>
                         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(2) }}>
-                          <CircularProgress variant="determinate" value={assessment.difficultyFactor * 100} thickness={8} color="secondary" size={"1.75rem"} />
-                          <Typography>Trudność</Typography>
+                          <CircularProgressWithLabel label={`${assessment.difficultyFactor * 100}%`} value={assessment.difficultyFactor * 100} color="secondary" thickness={6} size={"2.5rem"}/>
                         </Box>
+                        {
+                          assessment.grade > 4 ?
+                              <CheckDoodleIcon width={"3rem"} height={"3rem"}/>
+                              : <CancelDoodleIcon width={"3rem"} height={"3rem"}/>
+                        }
                       </Box>
                     </Box>
                 )}
