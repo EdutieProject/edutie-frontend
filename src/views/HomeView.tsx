@@ -73,8 +73,10 @@ export default function HomeView() {
     if (error)
         return <ErrorView error={error}/>
 
-    if (initialLoading || dynamicLearningResourceLoading)
+    if (initialLoading)
         return <LoadingView/>
+    if (dynamicLearningResourceLoading)
+        return <LoadingView caption={"Przygotowujemy dla Ciebie materiały. Zazwyczaj zajmuje to około 15 sekund."}/>
 
     return (
         <NavLayout>

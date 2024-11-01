@@ -15,6 +15,8 @@ import {getActiveLessonId} from "../features/storage/activeLessonCache.js";
 import Heading from "../components/global/Heading";
 import CancelDoodleIcon from "../components/customIcons/CancelDoodleIcon";
 import CheckDoodleIcon from "../components/customIcons/CheckDoodleIcon";
+import {clearRandomFactStorage} from "../features/storage/RandomFactStorage";
+import {isDateWithinLast3Minutes} from "../features/datetime/datetimeUtilities";
 
 
 export default function LearningResultView() {
@@ -32,6 +34,10 @@ export default function LearningResultView() {
     useEffect(() => {
         if (learningResult != null) {
             console.log("Learning result supplied. No fetching invoked");
+            if (learningResult.learningResourceDefinitionType === "DYNAMIC" && isDateWithinLast3Minutes(new Date(learningResult.createdOn))) {
+                console.log("Resetting random fact storage - dynamic definition resource accomplished");
+                clearRandomFactStorage(); // clear random fact storage for dynamic definition. This may be changed in the future with dynamic definitions variations expansion.
+            }
             return;
         }
         getLearningResultById(resultId as string)
@@ -91,7 +97,12 @@ export default function LearningResultView() {
                         learningResult.assessments.map((assessment: any) =>
                             <Box sx={{marginTop: theme.spacing(6)}}>
                                 <Typography variant="h5">{assessment.learningRequirementName}</Typography>
-                                <Box sx={{display: "flex", alignItems: "center", gap: theme.spacing(2), my: theme.spacing(2)}}>
+                                <Box sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: theme.spacing(2),
+                                    my: theme.spacing(2)
+                                }}>
                                     {
                                         assessment.grade > 4 ?
                                             <CheckDoodleIcon width={"6rem"} height={"6rem"}/>
@@ -105,18 +116,27 @@ export default function LearningResultView() {
                                                     color="primary"
                                                     variant="determinate"
                                                     value={assessment.grade / 6 * 100}
-                                                    sx={{width: "100%", height: 10, borderRadius: theme.shape.borderRadius}}
+                                                    sx={{
+                                                        width: "100%",
+                                                        height: 10,
+                                                        borderRadius: theme.shape.borderRadius
+                                                    }}
                                                 />
                                             </Box>
                                         </Box>
                                         <Box sx={{display: "flex", gap: theme.spacing(2)}}>
-                                            <Heading variant="h4">Trudność: {(assessment.difficultyFactor * 100)}%</Heading>
+                                            <Heading
+                                                variant="h4">Trudność: {(assessment.difficultyFactor * 100)}%</Heading>
                                             <Box sx={{display: "flex", alignItems: "center", flexGrow: 1}}>
                                                 <LinearProgress
                                                     color="secondary"
                                                     variant="determinate"
                                                     value={assessment.difficultyFactor * 100}
-                                                    sx={{width: "100%", height: 10, borderRadius: theme.shape.borderRadius}}
+                                                    sx={{
+                                                        width: "100%",
+                                                        height: 10,
+                                                        borderRadius: theme.shape.borderRadius
+                                                    }}
                                                 />
                                             </Box>
                                         </Box>
@@ -133,9 +153,21 @@ export default function LearningResultView() {
                         gap: theme.spacing(4),
                         marginY: theme.spacing(6)
                     }}>
-                        <RoundedButton label="Wróć do drzewka"
-                                       onClick={() => navigate(navigationPath.fillPath(navigationPath.segmentTree, getActiveLessonId()))}/>
-                        <RoundedButton label="Spróbuj jeszcze raz" active onClick={() => setExerciseLoading(true)}/>
+                        {
+                            learningResult.definitionType === "STATIC" ? (
+                                <>
+                                    <RoundedButton label="Wróć do drzewka"
+                                                   onClick={() => navigate(navigationPath.fillPath(navigationPath.segmentTree, getActiveLessonId()))}/>
+                                    <RoundedButton label="Spróbuj jeszcze raz" active
+                                                   onClick={() => setExerciseLoading(true)}/>
+                                </>
+                            ) : (
+                                <>
+                                    <RoundedButton label="Wróć do ekranu głównego"
+                                                   onClick={() => navigate(navigationPath.home)} active/>
+                                </>
+                            )
+                        }
                     </Box>
                 </Grid>
             </Grid>

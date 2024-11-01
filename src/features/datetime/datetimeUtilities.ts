@@ -15,3 +15,8 @@ export function isItSameDay(d1: Date, d2: Date) {
         d1.getMonth() === d2.getMonth() &&
         d1.getDate() === d2.getDate();
 }
+
+export function isDateWithinLast3Minutes(date: Date): boolean {
+    const threeMinutesAgo = new Date(new Date().getTime() - 3 * 60 * 1000); // 3 minutes in milliseconds
+    return date >= threeMinutesAgo;
+}
