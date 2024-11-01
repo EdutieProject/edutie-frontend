@@ -70,12 +70,13 @@ export default function LearningResourceView() {
 
     if (error)
         return <ErrorView error={error}/>
-
-    if (learningResource === null || assessmentLoading)
+    if (assessmentLoading)
+        return <LoadingView caption={"Oceniamy twoje rozwiązanie! Zazwyczaj zajmuje to około 15 sekund."}/>
+    if (learningResource === null)
         return <LoadingView/>;
 
     return (
-        <NavLayout mode={"flex"} scroll>
+        <NavLayout>
             <Box sx={{display: "flex", justifyContent: "space-between"}}>
                 <Box>
                     <Typography fontFamily={"Baloo"} variant='h3'>Naucz się</Typography>

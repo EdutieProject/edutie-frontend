@@ -45,23 +45,23 @@ export default function SegmentTreeView() {
     const [error, setError] = useState<any>(null);
     const allSegments = useRef<Array<any>>([]);
     const [selectedSegment, setSelectedSegment] = useState<any>(null);
-    const [exerciseLoading, setExerciseLoading] = useState<boolean>(false);
+    const [learningResourceLoading, setLearningResourceLoading] = useState<boolean>(false);
 
     // exercise creation effect
     useEffect(() => {
-        if (!exerciseLoading)
+        if (!learningResourceLoading)
             return;
         generateLearningResource(selectedSegment.segment.learningResourceDefinitionId)
             .then((learningResourceResponse => {
                 if (learningResourceResponse.success === false) {
                     setError(learningResourceResponse.error);
-                    setExerciseLoading(false);
+                    setLearningResourceLoading(false);
                     return;
                 }
                 console.log(learningResourceResponse);
                 navigate(navigationPath.fillPath(navigationPath.exercise, learningResourceResponse.data.id), {state: learningResourceResponse.data});
             }));
-    }, [exerciseLoading]);
+    }, [learningResourceLoading]);
 
     async function initialLoad() {
         saveActiveLessonId(lessonId as string);
@@ -81,11 +81,12 @@ export default function SegmentTreeView() {
         initialLoad();
     }, []);
 
-    if (error !== null) {
+    if (error) {
         return <ErrorView error={error}/>
     }
-
-    if (exerciseLoading || segmentsLoading || selectedSegment == null) {
+    if (learningResourceLoading)
+        return <LoadingView caption={"Przygotowujemy dla Ciebie materiały. Zazwyczaj zajmuje to około 15 sekund."}/>
+    if (segmentsLoading || selectedSegment == null) {
         return <LoadingView/>
     }
 
@@ -97,14 +98,14 @@ export default function SegmentTreeView() {
     console.log(nextSegments);
 
     return (
-        <NavLayout mode="flex" scroll>
+        <NavLayout>
             <Box sx={{flexGrow: 1, display: "flex", felxDirection: "column", justifyContent: "center"}}>
                 <SegmentTree previousElement={previousSegment} mainElement={selectedSegment} nextElements={nextSegments}
                              setMainElement={setSelectedSegment}/>
             </Box>
             <Box sx={{display: "flex", px: theme.spacing(2), py: theme.spacing(4)}}>
                 <SelectedElementDescriptionTab selectedElement={selectedSegment}
-                                               setExerciseLoading={setExerciseLoading}/>
+                                               setExerciseLoading={setLearningResourceLoading}/>
             </Box>
         </NavLayout>
     );

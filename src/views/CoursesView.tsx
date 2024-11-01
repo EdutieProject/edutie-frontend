@@ -51,7 +51,7 @@ export default function CoursesView() {
     let sciences = sciencesData.current;
     let selectedScience = sciences[selectedScienceIndex];
     return (
-        <NavLayout mode="flex" activeSectionIdOverride={navSections.courses} scroll>
+        <NavLayout activeSectionIdOverride={navSections.courses}>
             <Box sx={{
                 display: "flex",
                 flexDirection: "row",

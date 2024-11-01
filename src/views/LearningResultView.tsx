@@ -75,7 +75,7 @@ export default function LearningResultView() {
         return <LoadingView/>
 
     return (
-        <NavLayout mode="flex" scroll>
+        <NavLayout>
             <Grid container flexGrow={1}>
                 <Grid item xs={6}>
                     <Box sx={{position: "fixed", display: "grid", placeItems: "center", height: "100vh", width: "40%"}}>

@@ -3,7 +3,6 @@ import NavBar from "../../components/global/NavBar";
 import React from "react";
 
 interface NavLayoutProps {
-    mode?: string;
     disablePadding?: boolean;
     activeSectionIdOverride?: string;
     scroll?: boolean;
@@ -13,7 +12,6 @@ interface NavLayoutProps {
 /**
  * Default application layout providing navigation bar
  * @param props parameters
- * @param props.mode "flex" if you want the inside box to be flex container
  * @param props.disablePadding whether to disable padding for the inside box
  * @param props.activeSectionIdOverride active section Id - overriding the active elem in the navbar
  * @param props.scroll whether internal container should be scrollable
@@ -37,11 +35,12 @@ export default function NavLayout(props: React.PropsWithChildren<NavLayoutProps>
                 <NavBar activeSectionIdOverride={props.activeSectionIdOverride}/>
                 <Box sx={{
                     flexGrow: 1,
-                    padding: props.disablePadding ? 0 : theme.spacing(8),
+                    paddingY: props.disablePadding ? 0 : theme.spacing(8),
                     paddingX: props.disablePadding ? 0 : theme.spacing(16),
-                    display: props.mode === "flex" ? "flex" : "block",
+                    display: "flex",
                     flexDirection: "column",
-                    overflowY: props.scroll ? "scroll" : "hidden",
+                    alignItems: "stretch",
+                    overflowY: "scroll",
                     position: props.relative ? "relative" : "static"
                 }}>
                     {props.children}

@@ -77,7 +77,7 @@ export default function HomeView() {
         return <LoadingView/>
 
     return (
-        <NavLayout mode={"flex"} scroll>
+        <NavLayout>
             <Box>
                 <Heading variant="h2">Hej {userFirstName}!</Heading>
                 <Typography variant="subtitle1">Dobrze cię znowu widzieć 😁</Typography>

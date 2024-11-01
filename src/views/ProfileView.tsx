@@ -54,7 +54,7 @@ export default function ProfileView() {
     return <LoadingView/>
 
   return (
-    <NavLayout activeSectionIdOverride={navSections.profile} mode="flex" scroll>
+    <NavLayout activeSectionIdOverride={navSections.profile}>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box>
           <Heading variant='h3'>{userFirstName} - twój profil</Heading>
