@@ -3,7 +3,6 @@
 To start an app locally, you need to:
 
 ```shell
-cd ./edutie-frontend
 bun i
 bun run dev
 ```
@@ -11,10 +10,12 @@ bun run dev
 However, running in the docker container is advised.
 
 # Run inside docker
-
-`docker-compose build` to build image - it makes the image codebase up-to-date.
-`docker-compose up` starts the container
-
+```shell
+# build a docker image - it makes the image codebase up-to-date.
+docker-compose build 
+# now, start the container
+docker-compose up
+```
 Build is required to make after any changes.
 
 # React + Vite

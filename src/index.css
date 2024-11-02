@@ -1,0 +1,96 @@
+/**
+DO NOT DELETE THIS FILE.
+This file contains root styling therefore it is relevant. Edit it to change core styling properties.
+**/
+@import url("fonts.css");
+
+:root {
+  font-family: "Geologica";
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: white;
+  color: black;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+html {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  margin: 0;
+  flex-grow: 1;
+  /* html acts as a flex-container for body */
+  display: flex;
+  flex-direction: column;
+  /* hide overflow & allow explicit scroll in the application */
+  overflow: hidden;
+}
+
+/* FORCE THE CONTAINING DIV TO BE FULL SIZE*/
+#root {
+  display: flex;
+  flex-grow: 1;
+  /* body acts as a flex-container for #root */
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #535bf2;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  border-color: #646cff;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+
+  a:hover {
+    color: #747bff;
+  }
+
+  button {
+    background-color: #f9f9f9;
+  }
+}
