@@ -1,6 +1,5 @@
-import {Box, ButtonBase, PaletteColor, Theme, useTheme} from "@mui/material";
-import React from "react";
-import {ReactNode} from "react";
+import {Box, ButtonBase, PaletteColor, SxProps, Theme, useTheme} from "@mui/material";
+import React, {ReactNode} from "react";
 
 // Define the interface for the props
 interface CircleButtonProps {
@@ -9,6 +8,7 @@ interface CircleButtonProps {
     onClick?: () => void;          // onClick is an optional function
     children?: ReactNode;          // children can be any valid React node
     shadow?: boolean;              // shadow is a boolean
+    sx?: SxProps<Theme>;
 }
 
 export default function CircleButton({
@@ -17,6 +17,7 @@ export default function CircleButton({
                                          onClick,
                                          children,
                                          shadow,
+                                         sx
                                      }: CircleButtonProps) {
     const theme: Theme = useTheme();
 
@@ -34,6 +35,7 @@ export default function CircleButton({
                 boxShadow: shadow ? theme.shadows[2] : "none",
                 ":hover": {backgroundColor: bgColor.dark},
                 transition: "ease 200ms",
+                ...sx
             }}
             onClick={onClick}
         >
