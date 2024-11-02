@@ -53,7 +53,7 @@ export default function LoadingView({embedded, caption}: { embedded?: boolean; c
                 <Box sx={{display: "grid", placeItems: "center"}}>
                     <CircularProgress thickness={5}/>
                 </Box>
-                <Typography variant={"overline"} color={theme.palette.grey[400]}>
+                <Typography variant={"overline"} textAlign={"center"} color={theme.palette.grey[400]}>
                     {caption ?? ""}
                 </Typography>
             </Box>
