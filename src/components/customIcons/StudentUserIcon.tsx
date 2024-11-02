@@ -5,7 +5,7 @@ import {SvgIcon} from "@mui/material";
  * Element for icon of svg present in assets/svg/user.svg
  * @returns JSX element for distributed learning icon
  */
-export default function UserIcon(params: CustomIconProps) {
+export default function StudentUserIcon(params: CustomIconProps) {
     return (
         <SvgIcon sx={{color: params.color, height: params.height, width: params.width}} htmlColor={params.color}>
             <svg fill={params.color} version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"

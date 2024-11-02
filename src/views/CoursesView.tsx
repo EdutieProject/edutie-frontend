@@ -14,7 +14,7 @@ import {navigationPath, navSections} from "../features/navigation/navigationPath
 import ErrorView from "./common/ErrorView.js";
 import RoundedButton from "../components/global/RoundedButton";
 import SweatFaceIcon from "../components/customIcons/SweatFaceIcon";
-import QuestionMarkIcon from "../components/customIcons/QuestionMarkIcon";
+import UserProfileDoodleIcon from "../components/customIcons/UserProfileDoodleIcon";
 
 export default function CoursesView() {
     const theme = useTheme();
@@ -202,32 +202,36 @@ const CourseTile = ({course}: { course: any }) => {
                 </Grid>
                 <Grid item xs={12} md={10} sx={{paddingLeft: theme.spacing(2), display: "flex"}}>
                     <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
-                        <Box
-                            sx={{
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "space-between",
-                                flexWrap: "wrap-reverse",
-                            }}>
-                            <Heading variant={"h4"}>{course.name}</Heading>
-                            <Box sx={{display: "flex", flexDirection: "row", gap: theme.spacing(2)}}>
-                                {course.courseTags.map((tag: any) => (
-                                    <Box
-                                        sx={{
-                                            color: theme.palette.getContrastText(theme.palette.secondary.light),
-                                            borderRadius: 1,
-                                            backgroundColor: theme.palette.secondary.light,
-                                            px: theme.spacing(2),
-                                            py: theme.spacing(1),
-                                            display: "grid",
-                                            placeItems: "center",
-                                        }}>
-                                        {tag.name}
-                                    </Box>
-                                ))}
+                        <Box>
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
+                                    flexWrap: "wrap-reverse",
+                                    marginBottom: theme.spacing(1)
+                                }}>
+                                <Heading variant={"h4"}>{course.name}</Heading>
+                                <Box sx={{display: "flex", flexDirection: "row", gap: theme.spacing(2)}}>
+                                    {course.courseTags.map((tag: any) => (
+                                        <Box
+                                            sx={{
+                                                color: theme.palette.getContrastText(theme.palette.secondary.light),
+                                                borderRadius: 1,
+                                                backgroundColor: theme.palette.secondary.light,
+                                                px: theme.spacing(2),
+                                                py: theme.spacing(1),
+                                                display: "grid",
+                                                placeItems: "center",
+                                            }}>
+                                            {tag.name}
+                                        </Box>
+                                    ))}
+                                </Box>
                             </Box>
+                            <Typography variant="body1">{course.description}</Typography>
                         </Box>
-                        <Typography variant="body1">{course.description}</Typography>
+
                         <Box
                             sx={{
                                 mt: theme.spacing(1),
@@ -237,8 +241,13 @@ const CourseTile = ({course}: { course: any }) => {
                                 alignItems: "flex-end"
                             }}>
                             <Box sx={{display: "grid", placeItems: "center"}}>
-                                <Box sx={{display: "flex", flexDirection: "row", gap: theme.spacing(2), alignItems: "center"}}>
-                                    <QuestionMarkIcon width={"4rem"} height={"4rem"}/> Autor nieznany
+                                <Box sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    gap: theme.spacing(2),
+                                    alignItems: "center"
+                                }}>
+                                    <UserProfileDoodleIcon width={"4rem"} height={"4rem"}/> Autor nieznany
                                 </Box>
                             </Box>
                             <RoundedButton

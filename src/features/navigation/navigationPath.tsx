@@ -3,7 +3,7 @@ import {NavigateFunction} from "react-router-dom";
 import DistributedLearningIcon from "../../components/customIcons/DistributedLearningIcon";
 import {getSavedCourseId} from "../storage/courseStorage";
 import CoursesIcon from "../../components/customIcons/CoursesIcon";
-import UserIcon from "../../components/customIcons/StudentUserIcon";
+import StudentUserIcon from "../../components/customIcons/StudentUserIcon";
 import React from "react";
 
 export const navigationPath = {
@@ -52,7 +52,7 @@ export const navElements = [
     },
     {
         id: navSections.profile,
-        icon: (color: string) => <UserIcon color={color} height={iconSize} width={iconSize}/>,
+        icon: (color: string) => <StudentUserIcon color={color} height={iconSize} width={iconSize}/>,
         navigate: (navigate: NavigateFunction) => navigate(navigationPath.fillPath(navigationPath.account, "myself"))
     }
 ];
