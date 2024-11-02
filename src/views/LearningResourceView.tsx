@@ -266,7 +266,7 @@ function HintTile({hint, isRevealed, setHintsRevealed}: {
                          })
                      }}
             >
-                <QuestionMarkIcon width={"4em"} height={"4em"} color={theme.palette.common.white}/>
+                <TurnAroundIcon width={"4em"} height={"4em"} color={theme.palette.common.white}/>
             </Surface>
         );
 

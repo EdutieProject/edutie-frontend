@@ -13,7 +13,7 @@ import {getRandomFactSaveDate, getSavedRandomFact, saveRandomFact} from "../feat
 import {isItSameDay} from "../features/datetime/datetimeUtilities";
 import DistributedLearningIcon from "../components/customIcons/DistributedLearningIcon";
 import Surface from "../components/global/Surface";
-import UserIcon from "../components/customIcons/StudentUserIcon";
+import StudentUserIcon from "../components/customIcons/StudentUserIcon";
 import CoursesIcon from "../components/customIcons/CoursesIcon";
 import LightBulbDoodleIcon from "../components/customIcons/LightBulbIcon";
 import SadColorfulFaceIcon from "../components/customIcons/SadColorfulFaceIcon";
