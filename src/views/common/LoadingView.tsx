@@ -49,7 +49,7 @@ export default function LoadingView({embedded, caption}: { embedded?: boolean; c
                 gap: theme.spacing(4),
                 transform: "translateY(-10px)"
             }}>
-                <Typography>{headingFact}</Typography>
+                <Typography textAlign={"center"}>{headingFact}</Typography>
                 <Box sx={{display: "grid", placeItems: "center"}}>
                     <CircularProgress thickness={5}/>
                 </Box>
