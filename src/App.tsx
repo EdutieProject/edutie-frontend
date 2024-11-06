@@ -29,6 +29,7 @@ export default function App() {
             <Route path={navigationPath.courses} element={<CoursesView />} />
             <Route path={navigationPath.learningResult} element={<LearningResultView />} />
             <Route path={navigationPath.creation} element={<LRDCreationView />} />
+            <Route path={navigationPath.play} element={<PlaygroundView />} />
           </Routes>
         </BrowserRouter>
       </SelectedNavigationSectionProvider>
