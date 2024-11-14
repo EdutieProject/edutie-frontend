@@ -30,7 +30,7 @@ export default function RoundedButton({
                 backgroundColor: disabled && active
                     ? theme.palette.primary.light
                     : active
-                        ? theme.palette.primary.main
+                        ? theme.palette.secondary.main
                         : theme.palette.common.white,
                 textTransform: "none",
                 paddingY: theme.spacing(1),
@@ -38,7 +38,7 @@ export default function RoundedButton({
                 boxShadow: shadow ? theme.shadows[2] : 0,
                 letterSpacing: 2,
                 "&:hover": {
-                    backgroundColor: active ? theme.palette.primary.dark : theme.palette.grey[200],
+                    backgroundColor: active ? theme.palette.secondary.dark : theme.palette.surface.main,
                 },
                 "&:disabled": {
                     "&:hover": {
