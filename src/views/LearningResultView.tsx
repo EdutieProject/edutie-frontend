@@ -142,7 +142,7 @@ export default function LearningResultView() {
                                         </Box>
                                     </Box>
                                 </Box>
-                                <MarkdownLaTeXRenderer content={assessment.feedbackText}/>
+                                <MarkdownLaTeXRenderer content={assessment.feedback.text}/>
                             </Box>
                         )
                     }
