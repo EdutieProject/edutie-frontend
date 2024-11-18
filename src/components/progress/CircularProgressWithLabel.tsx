@@ -13,7 +13,7 @@ declare module '@mui/material/CircularProgress' {
 }
 
 export default function CircularProgressWithLabel(
-    props: CircularProgressProps & { label: string; color: string },
+    props: CircularProgressProps & { label: string; color?: string },
 ) {
     return (
         <Box sx={{ position: 'relative', display: 'inline-flex' }}>

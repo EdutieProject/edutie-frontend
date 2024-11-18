@@ -16,6 +16,8 @@ import CircleButton from "../components/global/CircleButton.js";
 import CircularProgressWithLabel from "../components/progress/CircularProgressWithLabel";
 import CheckDoodleIcon from "../components/customIcons/CheckDoodleIcon";
 import CancelDoodleIcon from "../components/customIcons/CancelDoodleIcon";
+import TrophyDoodleIcon from "../components/customIcons/TrophyDoodleIcon";
+import CognitionDoodleIcon from "../components/customIcons/CognitionDoodleIcon";
 
 enum SubView {
     STUDENT = "STUDENT",
@@ -157,27 +159,27 @@ function StudentProfileView({setError}: { setError: Dispatch<SetStateAction<any>
                                     <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}
                                          key={i}>
                                         <Typography>{assessment.learningRequirementName}</Typography>
-                                        <Box sx={{display: "flex", gap: theme.spacing(4), alignItems: "center", marginRight: theme.spacing(12)}}>
+                                        <Box sx={{display: "flex", gap: theme.spacing(4), alignItems: "center", marginRight: theme.spacing(6)}}>
                                             <Box sx={{
                                                 display: "flex",
-                                                flexDirection: "column",
                                                 alignItems: "center",
-                                                gap: theme.spacing(2)
+                                                gap: theme.spacing(1)
                                             }}>
+                                                <TrophyDoodleIcon width={"3rem"} height={"3rem"}/>
                                                 <CircularProgressWithLabel label={assessment.grade as string}
                                                                            value={assessment.grade / 6 * 100}
-                                                                           thickness={6} size={"2.5rem"}/>
+                                                                           thickness={6} size={"2rem"}/>
                                             </Box>
                                             <Box sx={{
                                                 display: "flex",
-                                                flexDirection: "column",
                                                 alignItems: "center",
-                                                gap: theme.spacing(2)
+                                                gap: theme.spacing(1)
                                             }}>
+                                                <CognitionDoodleIcon width={"3rem"} height={"3rem"}/>
                                                 <CircularProgressWithLabel
                                                     label={`${assessment.difficultyFactor * 100}%`}
                                                     value={assessment.difficultyFactor * 100} color="secondary"
-                                                    thickness={6} size={"2.5rem"}/>
+                                                    thickness={6} size={"2rem"}/>
                                             </Box>
                                         </Box>
                                     </Box>
