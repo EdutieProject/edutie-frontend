@@ -4,8 +4,14 @@ import "@mui/material";
 
 declare module '@mui/material/styles' {
     interface Palette {
-        accent: {
+        accentFirst: {
             light: string;
+            main: string;
+            dark: string;
+        };
+        accentSecond: {
+            light: string;
+            main: string;
             dark: string;
         };
         surface: {
@@ -14,8 +20,14 @@ declare module '@mui/material/styles' {
     }
     // allow configuration using `createTheme()`
     interface PaletteOptions {
-        accent: {
+        accentFirst: {
             light: string;
+            main: string;
+            dark: string;
+        };
+        accentSecond: {
+            light: string;
+            main: string;
             dark: string;
         };
         surface: {
@@ -36,9 +48,15 @@ const theme = createTheme({
         secondary: {
             main: "#58ABB6"
         },
-        accent: {
-            light: "#F5C129",
-            dark: "#3A2552"
+        accentFirst: {
+            light: "#F7CD50",
+            main: "#F5C129",
+            dark: "#EAB20B"
+        },
+        accentSecond: {
+            light: "#513371",
+            main: "#3C2654",
+            dark: "#281938",
         },
         surface: {
             main: "#E7ECEE"

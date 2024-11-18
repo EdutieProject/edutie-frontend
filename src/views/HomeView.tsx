@@ -17,6 +17,7 @@ import StudentUserIcon from "../components/customIcons/StudentUserIcon";
 import CoursesIcon from "../components/customIcons/CoursesIcon";
 import LightBulbDoodleIcon from "../components/customIcons/LightBulbIcon";
 import SadColorfulFaceIcon from "../components/customIcons/SadColorfulFaceIcon";
+import CircularProgressWithLabel from "../components/progress/CircularProgressWithLabel";
 
 export default function HomeView() {
     const theme = useTheme();
@@ -81,7 +82,7 @@ export default function HomeView() {
     return (
         <NavLayout>
             <Box>
-                <Heading variant="h2">Hej {userFirstName}!</Heading>
+                <Heading variant="h2">Hej <span style={{color: theme.palette.accentSecond.main}}>{userFirstName}</span>!</Heading>
                 <Typography variant="subtitle1">Dobrze cię znowu widzieć 😁</Typography>
             </Box>
             <Box sx={{marginY: theme.spacing(6), display: 'flex', gap: theme.spacing(2), alignItems: "center"}}>
@@ -112,7 +113,7 @@ export default function HomeView() {
                     <Typography>Ostatnia lekcja: Trygonometria</Typography>
                     <Box sx={{display: "flex", gap: theme.spacing(2)}}>
                         <Typography>Postęp: </Typography>
-                        <CircularProgress variant="determinate" value={67} thickness={8} color="secondary" size={"1.5rem"} />
+                        <CircularProgressWithLabel label={"67%"} variant="determinate" value={67} thickness={8} color="accentSecond" size={"1.5rem"} />
                     </Box>
                     <RoundedButton label={"Wróć do ostatniego zestawu"} active/>
                 </Grid>
@@ -122,7 +123,7 @@ export default function HomeView() {
                     <Typography>Średnia ocena: 5</Typography>
                     <Box sx={{display: "flex", gap: theme.spacing(2)}}>
                         <Typography>Trudność: </Typography>
-                        <CircularProgress variant="determinate" value={67} thickness={8} color="secondary" size={"1.5rem"} />
+                        <CircularProgressWithLabel label={"67%"} variant="determinate" value={80} thickness={8} color="accentFirst" size={"1.5rem"} />
                     </Box>
                     <RoundedButton label={"Zobacz ostatni feedback"} active/>
                 </Grid>
