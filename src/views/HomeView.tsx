@@ -7,7 +7,7 @@ import LoadingView from "./common/LoadingView.js"
 import RoundedButton from "../components/global/RoundedButton.js"
 import Heading from "../components/global/Heading.js"
 import {useNavigate} from "react-router-dom"
-import {navigationPath} from "../features/navigation/navigationPath.js"
+import {navigationPath, navSections} from "../features/navigation/navigationPath.js"
 import {getUserDetails} from "../services/userProfileService";
 import {getRandomFactSaveDate, getSavedRandomFact, saveRandomFact} from "../features/storage/RandomFactStorage";
 import {isItSameDay} from "../features/datetime/datetimeUtilities";
@@ -81,7 +81,7 @@ export default function HomeView() {
         return <LoadingView caption={"Przygotowujemy dla Ciebie materiały. Zazwyczaj zajmuje to około 15 sekund."}/>
 
     return (
-        <NavLayout>
+        <NavLayout activeSectionIdOverride={navSections.home}>
             <Box>
                 <Heading variant="h2">Hej <span style={{color: theme.palette.accentSecond.main}}>{userFirstName}</span>!</Heading>
                 <Typography variant="subtitle1">Dobrze cię znowu widzieć 😁</Typography>
@@ -143,7 +143,7 @@ export default function HomeView() {
                         <SweatFaceIcon width={"12rem"} height={"12rem"}/>
                         <Box>
                             <Heading variant="h6">Niczego nie znaleźliśmy</Heading>
-                            <Typography>Widocznie nie uczyłeś się ostatnio zbyt wiele...</Typography>
+                            <Typography>Widocznie niewiele się ostatnio uczysz... </Typography>
                         </Box>
                     </Box>
                 )
