@@ -206,7 +206,7 @@ function StudentProfileView({setError}: { setError: Dispatch<SetStateAction<any>
                     <Heading variant="h2">? 🔥 dni nauki</Heading>
                     <Typography>Tyle dni z rzędu wykonujesz już zadania. Pamiętaj że liczy się
                         systematyczność!</Typography>
-                    <Typography variant="overline" color={"grey"}>Uwaga! Funkcjonalność streaków nie jest jeszcze
+                    <Typography variant="overline" color={"grey"}>Uwaga! Funkcjonalność streaków i rankingów nie jest jeszcze
                         gotowa </Typography>
                 </Box>
                 <Box sx={{display: "flex", flexDirection: "column", gap: theme.spacing(2)}}>
