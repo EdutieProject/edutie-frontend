@@ -15,7 +15,7 @@ export default function Surface({ children, sx, onClick }: SurfaceProps) {
       <Box sx={{
         padding: theme.spacing(2),
         borderRadius: 1,
-        background: theme.palette.grey[200],
+        background: theme.palette.surface.main,
         boxShadow: theme.shadows[1],
         ...sx }} onClick={onClick}>
         {children}

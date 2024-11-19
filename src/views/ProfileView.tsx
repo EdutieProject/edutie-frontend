@@ -61,7 +61,7 @@ export default function ProfileView() {
         <NavLayout activeSectionIdOverride={navSections.profile}>
             <Box sx={{display: "flex", justifyContent: "space-between"}}>
                 <Box>
-                    <Heading variant='h3'>{userFirstName} - twój profil</Heading>
+                    <Heading variant='h3'><span style={{color: theme.palette.accentSecond.main}}>{userFirstName}</span> - twój profil</Heading>
 
                     <Typography variant="body1">{viewDetails}</Typography>
 
@@ -162,24 +162,23 @@ function StudentProfileView({setError}: { setError: Dispatch<SetStateAction<any>
                                         <Box sx={{display: "flex", gap: theme.spacing(4), alignItems: "center", marginRight: theme.spacing(6)}}>
                                             <Box sx={{
                                                 display: "flex",
-                                                alignItems: "center",
-                                                gap: theme.spacing(1)
+                                                alignItems: "center"
                                             }}>
                                                 <TrophyDoodleIcon width={"3rem"} height={"3rem"}/>
-                                                <CircularProgressWithLabel label={assessment.grade as string}
-                                                                           value={assessment.grade / 6 * 100}
-                                                                           thickness={6} size={"2rem"}/>
+                                                <CircularProgressWithLabel
+                                                    label={assessment.grade as string}
+                                                    value={assessment.grade / 6 * 100} color="accentFirst"
+                                                    thickness={6} size={"1.5rem"}/>
                                             </Box>
                                             <Box sx={{
                                                 display: "flex",
-                                                alignItems: "center",
-                                                gap: theme.spacing(1)
+                                                alignItems: "center"
                                             }}>
                                                 <CognitionDoodleIcon width={"3rem"} height={"3rem"}/>
                                                 <CircularProgressWithLabel
                                                     label={`${assessment.difficultyFactor * 100}%`}
-                                                    value={assessment.difficultyFactor * 100} color="secondary"
-                                                    thickness={6} size={"2rem"}/>
+                                                    value={assessment.difficultyFactor * 100} color="accentSecond"
+                                                    thickness={6} size={"1.5rem"}/>
                                             </Box>
                                         </Box>
                                     </Box>
