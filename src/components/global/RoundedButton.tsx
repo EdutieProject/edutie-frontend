@@ -1,5 +1,5 @@
 import {ButtonBase, SxProps, Theme, Typography, useTheme} from "@mui/material";
-import React from "react";
+import React, {Component, ReactElement} from "react";
 
 // Define the prop types for the RoundedButton component
 interface RoundedButtonProps {
@@ -8,6 +8,8 @@ interface RoundedButtonProps {
     onClick?: () => void;           // Click event handler
     shadow?: boolean;               // Determines if the button has a shadow
     disabled?: boolean;             // Determines if the button is disabled
+    leftIcon?: ReactElement;
+    rightIcon?: ReactElement;
     sx?: SxProps<Theme>;            // Optional custom styles
 }
 
@@ -19,6 +21,8 @@ export default function RoundedButton({
                                           onClick,
                                           shadow,
                                           disabled,
+                                          leftIcon,
+                                          rightIcon,
                                           sx,
                                       }: RoundedButtonProps) {
     const theme = useTheme();
@@ -30,7 +34,7 @@ export default function RoundedButton({
                 backgroundColor: disabled && active
                     ? theme.palette.primary.light
                     : active
-                        ? theme.palette.primary.main
+                        ? theme.palette.secondary.main
                         : theme.palette.common.white,
                 textTransform: "none",
                 paddingY: theme.spacing(1),
@@ -38,7 +42,7 @@ export default function RoundedButton({
                 boxShadow: shadow ? theme.shadows[2] : 0,
                 letterSpacing: 2,
                 "&:hover": {
-                    backgroundColor: active ? theme.palette.primary.dark : theme.palette.grey[200],
+                    backgroundColor: active ? theme.palette.secondary.dark : theme.palette.surface.main,
                 },
                 "&:disabled": {
                     "&:hover": {
@@ -55,9 +59,11 @@ export default function RoundedButton({
             disabled={disabled}
             onClick={onClick}
         >
+            {leftIcon !== null ? leftIcon : ""}
             <Typography variant="h6" fontFamily={"Baloo"}>
                 {label}
             </Typography>
+            {rightIcon !== null ? rightIcon : ""}
         </ButtonBase>
     );
 }

@@ -245,7 +245,7 @@ function HintTile({hint, isRevealed, setHintsRevealed}: {
     if (!revealed)
         return (
             <Surface sx={{
-                backgroundColor: theme.palette.primary.light,
+                backgroundColor: theme.palette.accentFirst.main,
                 width: "12rem",
                 flex: "0 0 auto",
                 aspectRatio: "5/3",
