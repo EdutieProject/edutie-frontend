@@ -155,7 +155,7 @@ export default function LearningResultView() {
                         marginY: theme.spacing(6)
                     }}>
                         {
-                            learningResult.definitionType === "STATIC" ? (
+                            learningResult.learningResourceDefinitionType === "STATIC" ? (
                                 <>
                                     <RoundedButton label="Wróć do drzewka"
                                                    onClick={() => navigate(navigationPath.fillPath(navigationPath.segmentTree, getActiveLessonId()))}/>
