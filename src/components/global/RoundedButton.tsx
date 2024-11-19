@@ -1,5 +1,5 @@
 import {ButtonBase, SxProps, Theme, Typography, useTheme} from "@mui/material";
-import React from "react";
+import React, {Component, ReactElement} from "react";
 
 // Define the prop types for the RoundedButton component
 interface RoundedButtonProps {
@@ -8,6 +8,8 @@ interface RoundedButtonProps {
     onClick?: () => void;           // Click event handler
     shadow?: boolean;               // Determines if the button has a shadow
     disabled?: boolean;             // Determines if the button is disabled
+    leftIcon?: ReactElement;
+    rightIcon?: ReactElement;
     sx?: SxProps<Theme>;            // Optional custom styles
 }
 
@@ -19,6 +21,8 @@ export default function RoundedButton({
                                           onClick,
                                           shadow,
                                           disabled,
+                                          leftIcon,
+                                          rightIcon,
                                           sx,
                                       }: RoundedButtonProps) {
     const theme = useTheme();
@@ -55,9 +59,11 @@ export default function RoundedButton({
             disabled={disabled}
             onClick={onClick}
         >
+            {leftIcon !== null ? leftIcon : ""}
             <Typography variant="h6" fontFamily={"Baloo"}>
                 {label}
             </Typography>
+            {rightIcon !== null ? rightIcon : ""}
         </ButtonBase>
     );
 }

@@ -1,15 +1,16 @@
-import { Box, ButtonBase, Grid, Typography, useTheme } from "@mui/material";
+import {Box, ButtonBase, Divider, Grid, Typography, useTheme} from "@mui/material";
 import NavLayout from "./layout/NavLayout.js";
-import { useEffect, useState } from "react";
-import { getCourseDetailsById, getLessonsByCourse } from "../services/studyProgramLearningService.js";
+import React, {useEffect, useState} from "react";
+import {getCourseDetailsById, getLessonsByCourse} from "../services/studyProgramLearningService.js";
 import Xarrow from "react-xarrows";
 import LoadingView from "./common/LoadingView.js";
-import { useNavigate, useParams } from "react-router-dom";
-import { navigationPath, navSections } from "../features/navigation/navigationPath";
+import {useNavigate, useParams} from "react-router-dom";
+import {navigationPath, navSections} from "../features/navigation/navigationPath";
 import ErrorView from "./common/ErrorView.js";
-import { noSavedCourseIdPlaceholder, saveCourseId } from "../features/storage/courseStorage.js";
+import {clearSavedCourseId, saveCourseId} from "../features/storage/courseStorage.js";
 import Heading from "../components/global/Heading.js";
-import React from "react";
+import RoundedButton from "../components/global/RoundedButton";
+import ReturnDoodleIcon from "../components/customIcons/ReturnDoodleIcon";
 
 class TreeGridInitializer {
     static getFirstLevel(data: Array<any>): Array<any> {
@@ -34,10 +35,11 @@ class TreeGridInitializer {
 
 export default function LessonTreeView() {
     const theme = useTheme();
+    const navigate = useNavigate();
     /** Course Id may be injected from storage in the navigation */
-    const { courseId } = useParams();
-    const [lessonsResponse, setLessonsResponse] = useState({ data: null, error: null, success: false });
-    const [courseDetailsResponse, setCourseDetailsResponse] = useState({ data: null, error: null, success: false });
+    const {courseId} = useParams();
+    const [lessonsResponse, setLessonsResponse] = useState({data: null, error: null, success: false});
+    const [courseDetailsResponse, setCourseDetailsResponse] = useState({data: null, error: null, success: false});
     const [error, setError] = useState<any>(null);
     const [initialLoading, setInitialLoading] = useState(true);
 
@@ -59,30 +61,47 @@ export default function LessonTreeView() {
         setInitialLoading(false);
     }
 
+    const coursesViewComeback = () => {
+        clearSavedCourseId();
+        navigate(navigationPath.courses);
+    }
+
     useEffect(() => {
-        initialLoad();
+        initialLoad().finally();
     }, []);
 
     if (error)
-        return <ErrorView error={error} />
+        return <ErrorView error={error}/>
 
     if (initialLoading)
-        return (<LoadingView />);
+        return (<LoadingView/>);
 
     let treeLevelsArray = TreeGridInitializer.getTreeAsArray(lessonsResponse.data as unknown as Array<any>);
     return (
-        <NavLayout disablePadding activeSectionIdOverride={navSections.learningInTree} relative>
-            <Box sx={{ width: "100%", textAlign: "center", py: theme.spacing(2)}}>
-                <Heading variant="h4">{(courseDetailsResponse.data as unknown as any).name}</Heading>
-                <Typography variant="caption">{(courseDetailsResponse.data as unknown as any).description}</Typography>
+        <NavLayout disablePadding activeSectionIdOverride={navSections.courses}>
+            <Box sx={{py: theme.spacing(4), px: theme.spacing(8), display: "flex", alignItems: "center", justifyItems: "space-between"}}>
+                <Box sx={{width: "100%"}}>
+                    <Heading variant="h3">{(courseDetailsResponse.data as unknown as any).name}</Heading>
+                    <Typography
+                        variant="body1">{(courseDetailsResponse.data as unknown as any).description}</Typography>
+                </Box>
+                <RoundedButton label={"Wróć do zestawów"}
+                               sx={{
+                                   backgroundColor: theme.palette.accentFirst.main,
+                                   "&:hover": {backgroundColor: theme.palette.accentFirst.light}
+                               }}
+                               leftIcon={<ReturnDoodleIcon width={"2rem"} height={"2rem"}/>}
+                               onClick={coursesViewComeback}
+                />
             </Box>
+            <Divider variant={"middle"}/>
             <Grid container>
                 {
                     treeLevelsArray.map((treeLevel) =>
                         treeLevel.map(lessonView =>
                             <Grid item sm={12 / treeLevel.length}>
-                                <Box sx={{ paddingY: theme.spacing(8), display: "grid", placeItems: "center" }}>
-                                    <LessonViewTile lessonView={lessonView} />
+                                <Box sx={{paddingY: theme.spacing(8), display: "grid", placeItems: "center"}}>
+                                    <LessonViewTile lessonView={lessonView}/>
                                 </Box>
                             </Grid>
                         )
@@ -93,12 +112,12 @@ export default function LessonTreeView() {
     );
 }
 
-function LessonViewTile({ lessonView }: {lessonView: any}) {
+function LessonViewTile({lessonView}: { lessonView: any }) {
     const theme = useTheme();
     const navigate = useNavigate();
 
     return (
-        <Box sx={{ display: "flex", flexDirection: "column", gap: theme.spacing(2), alignItems: "center" }}>
+        <Box sx={{display: "flex", flexDirection: "column", gap: theme.spacing(2), alignItems: "center"}}>
             <ButtonBase sx={{
                 borderRadius: theme.shape.borderRadius,
                 border: "3px solid",
@@ -112,7 +131,7 @@ function LessonViewTile({ lessonView }: {lessonView: any}) {
                     boxShadow: theme.shadows[2]
                 },
             }}
-                onClick={() => navigate(navigationPath.fillPath(navigationPath.segmentTree, lessonView.lesson.id))}
+                        onClick={() => navigate(navigationPath.fillPath(navigationPath.segmentTree, lessonView.lesson.id))}
             >
                 <Box id={lessonView.lesson.id} sx={{
                     position: "absolute",
@@ -127,19 +146,23 @@ function LessonViewTile({ lessonView }: {lessonView: any}) {
                     }
                 }}>
                     {lessonView.progressState === "NONE" ?
-                        <Typography variant="h3" color={theme.palette.primary.main} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>?</Typography>
+                        <Typography variant="h3" color={theme.palette.primary.main} fontFamily={"Baloo"}
+                                    sx={{userSelect: "none"}}>?</Typography>
                         : lessonView.progressState === "IN_PROGRESS" ?
-                        <Typography variant="h3" color={theme.palette.secondary.main} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>!</Typography>
-                        :
-                        <Typography variant="h3" color={theme.palette.common.white} fontFamily={"Baloo"} sx={{ userSelect: "none" }}>x</Typography>
-                    
+                            <Typography variant="h3" color={theme.palette.secondary.main} fontFamily={"Baloo"}
+                                        sx={{userSelect: "none"}}>!</Typography>
+                            :
+                            <Typography variant="h3" color={theme.palette.common.white} fontFamily={"Baloo"}
+                                        sx={{userSelect: "none"}}>x</Typography>
+
                     }
 
                 </Box>
                 {
                     lessonView.lesson.previousElement != null ?
                         <Xarrow start={lessonView.lesson.id} end={lessonView.lesson.previousElement.id}
-                            curveness={0.2} color={theme.palette.grey[200]} showHead={false} showTail={false} zIndex={-1} />
+                                curveness={0.2} color={theme.palette.grey[200]} showHead={false} showTail={false}
+                                zIndex={-1}/>
                         : <></>
                 }
             </ButtonBase>

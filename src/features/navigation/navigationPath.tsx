@@ -1,7 +1,7 @@
 import GlobeIcon from "../../components/customIcons/GlobeIcon";
 import {NavigateFunction} from "react-router-dom";
 import DistributedLearningIcon from "../../components/customIcons/DistributedLearningIcon";
-import {getSavedCourseId} from "../storage/courseStorage";
+import {getSavedCourseId, noSavedCourseIdPlaceholder} from "../storage/courseStorage";
 import CoursesIcon from "../../components/customIcons/CoursesIcon";
 import StudentUserIcon from "../../components/customIcons/StudentUserIcon";
 import React from "react";
@@ -40,15 +40,17 @@ export const navElements = [
         icon: (color: string) => <GlobeIcon color={color} height={iconSize} width={iconSize}/>,
         navigate: (navigate: NavigateFunction) => navigate(navigationPath.home),
     },
-    {
-        id: navSections.learningInTree,
-        icon: (color: string) => <DistributedLearningIcon color={color} height={iconSize} width={iconSize}/>,
-        navigate: (navigate: NavigateFunction) => navigate(navigationPath.fillPath(navigationPath.lessonTree, getSavedCourseId()))
-    },
+    // {
+    //     id: navSections.learningInTree,
+    //     icon: (color: string) => <DistributedLearningIcon color={color} height={iconSize} width={iconSize}/>,
+    //     navigate: (navigate: NavigateFunction) => navigate(navigationPath.fillPath(navigationPath.lessonTree, getSavedCourseId()))
+    // },
     {
         id: navSections.courses,
         icon: (color: string) => <CoursesIcon color={color} height={iconSize} width={iconSize}/>,
-        navigate: (navigate: NavigateFunction) => navigate(navigationPath.courses)
+        navigate: (navigate: NavigateFunction) => getSavedCourseId() === noSavedCourseIdPlaceholder ?
+            navigate(navigationPath.courses)
+            : navigate(navigationPath.fillPath(navigationPath.lessonTree, getSavedCourseId()))
     },
     {
         id: navSections.profile,
