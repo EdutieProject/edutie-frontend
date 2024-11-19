@@ -18,6 +18,7 @@ import CoursesIcon from "../components/customIcons/CoursesIcon";
 import LightBulbDoodleIcon from "../components/customIcons/LightBulbIcon";
 import SadColorfulFaceIcon from "../components/customIcons/SadColorfulFaceIcon";
 import CircularProgressWithLabel from "../components/progress/CircularProgressWithLabel";
+import SweatFaceIcon from "../components/customIcons/SweatFaceIcon";
 
 export default function HomeView() {
     const theme = useTheme();
@@ -105,29 +106,49 @@ export default function HomeView() {
             <Box sx={{display: "grid", placeItems: "center", my: theme.spacing(2)}}>
                 <Typography>Twoja ostatnia aktywność:</Typography>
             </Box>
-            <Grid container rowSpacing={theme.spacing(6)} marginTop={1}>
-                <Grid item lg={6} xs={12} sx={{padding: theme.spacing(4), display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: theme.spacing(2)}}>
-                    <img src={"https://www.svgrepo.com/show/452651/globe.svg"} alt={"Course image"}
-                    style={{width: "8rem", height: "8rem"}}/>
-                    <Heading variant={"h4"}>Przykładowy zestaw</Heading>
-                    <Typography>Ostatnia lekcja: Trygonometria</Typography>
-                    <Box sx={{display: "flex", gap: theme.spacing(2)}}>
-                        <Typography>Postęp: </Typography>
-                        <CircularProgressWithLabel label={"67%"} variant="determinate" value={67} thickness={8} color="accentSecond" size={"1.5rem"} />
+            {
+                [].length > 0 ? (
+                    <Grid container rowSpacing={theme.spacing(6)} marginTop={1}>
+                        <Grid item lg={6} xs={12} sx={{padding: theme.spacing(4), display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: theme.spacing(2)}}>
+                            <img src={"https://www.svgrepo.com/show/452651/globe.svg"} alt={"Course image"}
+                                 style={{width: "8rem", height: "8rem"}}/>
+                            <Heading variant={"h4"}>Przykładowy zestaw</Heading>
+                            <Typography>Ostatnia lekcja: Trygonometria</Typography>
+                            <Box sx={{display: "flex", gap: theme.spacing(2)}}>
+                                <Typography>Postęp: </Typography>
+                                <CircularProgressWithLabel label={"67%"} variant="determinate" value={67} thickness={8} color="accentSecond" size={"1.5rem"} />
+                            </Box>
+                            <RoundedButton label={"Wróć do ostatniego zestawu"} active/>
+                        </Grid>
+                        <Grid item lg={6} xs={12} sx={{padding: theme.spacing(4), display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: theme.spacing(2)}}>
+                            <SadColorfulFaceIcon width={"8rem"} height={"8rem"}/>
+                            <Heading variant={"h4"}>Ostatni rezultat</Heading>
+                            <Typography>Średnia ocena: 5</Typography>
+                            <Box sx={{display: "flex", gap: theme.spacing(2)}}>
+                                <Typography>Trudność: </Typography>
+                                <CircularProgressWithLabel label={"67%"} variant="determinate" value={80} thickness={8} color="accentFirst" size={"1.5rem"} />
+                            </Box>
+                            <RoundedButton label={"Zobacz ostatni feedback"} active/>
+                        </Grid>
+                    </Grid>
+                ) : (
+                    <Box sx={{
+                        flexGrow: 1,
+                        display: "flex",
+                        gap: theme.spacing(12),
+                        justifyContent: "center",
+                        alignItems: "center",
+                        my: theme.spacing(4)
+                    }}>
+                        <SweatFaceIcon width={"12rem"} height={"12rem"}/>
+                        <Box>
+                            <Heading variant="h6">Niczego nie znaleźliśmy</Heading>
+                            <Typography>Widocznie nie uczyłeś się ostatnio zbyt wiele...</Typography>
+                        </Box>
                     </Box>
-                    <RoundedButton label={"Wróć do ostatniego zestawu"} active/>
-                </Grid>
-                <Grid item lg={6} xs={12} sx={{padding: theme.spacing(4), display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: theme.spacing(2)}}>
-                    <SadColorfulFaceIcon width={"8rem"} height={"8rem"}/>
-                    <Heading variant={"h4"}>Ostatni rezultat</Heading>
-                    <Typography>Średnia ocena: 5</Typography>
-                    <Box sx={{display: "flex", gap: theme.spacing(2)}}>
-                        <Typography>Trudność: </Typography>
-                        <CircularProgressWithLabel label={"67%"} variant="determinate" value={80} thickness={8} color="accentFirst" size={"1.5rem"} />
-                    </Box>
-                    <RoundedButton label={"Zobacz ostatni feedback"} active/>
-                </Grid>
-            </Grid>
+                )
+            }
+
         </NavLayout>
     );
 }
