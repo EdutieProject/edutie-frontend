@@ -70,6 +70,12 @@ export default function LessonTreeView() {
         initialLoad().finally();
     }, []);
 
+    // TODO: pass the alert status into the courses view
+    if (error !== null && error.code === "PERSISTENCE-NOT-FOUND-404") {
+        clearSavedCourseId();
+        navigate(navigationPath.courses);
+    }
+
     if (error)
         return <ErrorView error={error}/>
 
