@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
-import {Box, Typography, useTheme} from '@mui/material';
+import {Box, Divider, IconButton, Typography, useTheme} from '@mui/material';
 import NavLayout from './layout/NavLayout.js';
 import RoundedButton from '../components/global/RoundedButton.js';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
@@ -11,14 +11,15 @@ import ErrorView from './common/ErrorView.js';
 import {navigationPath} from '../features/navigation/navigationPath';
 import MarkdownLaTeXRenderer from '../components/markdown/MarkdownLaTexRenderer.js';
 import TextArea from '../components/global/TextArea';
-import MermaidRenderer from '../components/mermaid/MermaidRenderer';
 import Heading from "../components/global/Heading";
-import QuestionMarkIcon from "../components/customIcons/QuestionMarkIcon";
 import LightBulbDoodleIcon from "../components/customIcons/LightBulbIcon";
+import MermaidRenderer from "../components/mermaid/MermaidRenderer";
+import {ChevronLeft, ChevronRight} from "@mui/icons-material";
 
 enum SubView {
     THEORY = "THEORY",
-    ACTIVITY = "ACTIVITY"
+    ACTIVITY = "ACTIVITY",
+    VISUALISATION = "VISUALISATION"
 }
 
 export default function LearningResourceView() {
@@ -32,7 +33,8 @@ export default function LearningResourceView() {
     const [error, setError] = useState(null);
     const [currentView, setCurrentView] = useState<SubView>(SubView.THEORY);
 
-    /* solution states workaround */
+    /* sub-view states workarounds */
+    const [activeTheoryCardIdx, setActiveTheoryCardIdx] = useState<number>(0);
     const [hintsRevealed, setHintsRevealed] = useState<Array<any>>([]);
     const [solutionText, setSolutionText] = useState<string>("");
     const [assessmentLoading, setAssessmentLoading] = useState(false);
@@ -77,18 +79,22 @@ export default function LearningResourceView() {
 
     return (
         <NavLayout>
-            <Box sx={{display: "flex", justifyContent: "space-between"}}>
+            <Box sx={{display: "flex", justifyContent: "space-between", marginBottom: theme.spacing(4)}}>
                 <Box>
                     <Typography fontFamily={"Baloo"} variant='h3'>Naucz się</Typography>
-                    <Typography variant="body1">{learningResource.learningRequirementNames.join(" • ")}</Typography>
+                    <Typography
+                        variant="body1">{learningResource.learningRequirements.map((o: any) => o.name).join(" • ")}</Typography>
                 </Box>
                 <Box sx={{display: "flex", gap: theme.spacing(4), alignItems: "center"}}>
+                    <RoundedButton label={"Wizualizacja"} active={currentView === SubView.VISUALISATION}
+                                   onClick={() => setCurrentView(SubView.VISUALISATION)}/>
                     <RoundedButton label={"Teoria"} active={currentView === SubView.THEORY}
                                    onClick={() => setCurrentView(SubView.THEORY)}/>
                     <RoundedButton label={"Praktyka"} active={currentView === SubView.ACTIVITY}
                                    onClick={() => setCurrentView(SubView.ACTIVITY)}/>
                 </Box>
             </Box>
+            <Divider variant={"middle"}/>
             {
                 currentView === SubView.ACTIVITY ?
                     <ActivityBlock
@@ -99,51 +105,75 @@ export default function LearningResourceView() {
                         solutionText={solutionText}
                         setSolutionText={setSolutionText}
                     />
-                    :
-                    <TheoryBlock theory={learningResource.theory}/>
+                    : currentView === SubView.VISUALISATION ?
+                        <VisualisationBlock mermaidVisualisationString={learningResource.mermaidVisualisationString}/> :
+                        <TheoryBlock theoryCards={learningResource.theoryCards}
+                                     learningRequirements={learningResource.learningRequirements}
+                                     activeCardIdx={activeTheoryCardIdx}
+                                     setActiveCardIdx={setActiveTheoryCardIdx}/>
             }
         </NavLayout>
     );
 }
 
-
-function TheoryLayout({children}: { children: React.ReactNode }) {
+function VisualisationBlock({mermaidVisualisationString}: { mermaidVisualisationString: string }) {
     const theme = useTheme();
     return (
         <Box sx={{
             flexGrow: 1,
-            marginY: theme.spacing(4),
-            display: "grid",
-            gap: theme.spacing(4),
-            gridTemplateColumns: 'repeat(8, 1fr)',
-            gridTemplateRows: 'repeat(3, 1fr)',
-            gridTemplateAreas: `
-      "left left left left left right right right"
-      "left left left left left right right right"
-      "left left left left left right right right"
-      `
-        }}> {children} </Box>
-    )
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginTop: theme.spacing(4)
+        }}>
+            <MermaidRenderer chart={mermaidVisualisationString}/>
+        </Box>
+    );
 }
 
-function TheoryBlock({theory}: { theory: any }) {
+function TheoryBlock({theoryCards, learningRequirements, activeCardIdx, setActiveCardIdx}: {
+    theoryCards: Array<any>;
+    learningRequirements: Array<any>;
+    activeCardIdx: number;
+    setActiveCardIdx: Dispatch<SetStateAction<number>>
+}) {
     const theme = useTheme();
+
+    let learningRequirement = learningRequirements.find(o => o.learningRequirementId === theoryCards[activeCardIdx].learningRequirementId);
     return (
-        <TheoryLayout>
-            <Surface sx={{gridArea: "left"}}>
-                <Typography fontFamily={"Baloo"} variant='h5' marginY={theme.spacing(2)}>Materiały do nauki</Typography>
-                <Typography variant='body1'>
-                    <MarkdownLaTeXRenderer content={theory.overview}/>
-                </Typography>
-            </Surface>
-            <Surface sx={{gridArea: "right"}}>
-                <Typography fontFamily={"Baloo"} variant='h5' marginY={theme.spacing(2)}>Naucz się na
-                    przykładzie</Typography>
-                <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-                    <MermaidRenderer chart={theory.mermaidGraph}/>
+        <Box sx={{
+            flexGrow: 1,
+            marginY: theme.spacing(4),
+        }}>
+            <Box sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: theme.spacing(6),
+                marginBottom: theme.spacing(2)
+            }}>
+                <IconButton onClick={() => setActiveCardIdx((x: number) => (x - 1) % theoryCards.length)}
+                            disabled={theoryCards.length === 1}>
+                    <ChevronLeft/>
+                </IconButton>
+                <Box sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center"
+                }}>
+                    <Typography variant="body1" width={"24rem"} textAlign={"center"}>{learningRequirement.name}</Typography>
                 </Box>
+                <IconButton onClick={() => setActiveCardIdx((x: number) => (x + 1) % theoryCards.length)}
+                            disabled={theoryCards.length === 1}>
+                    <ChevronRight/>
+                </IconButton>
+            </Box>
+            <Surface>
+                <MarkdownLaTeXRenderer content={theoryCards[activeCardIdx].overview}/>
             </Surface>
-        </TheoryLayout>
+        </Box>
     )
 }
 
@@ -183,7 +213,7 @@ function ActivityBlock({
       `
             }}>
                 <Box sx={{gridArea: "left"}}>
-                    <Surface >
+                    <Surface>
                         <Heading variant='h5' sx={{marginY: theme.spacing(2)}}>Zadanie dla Ciebie</Heading>
                         <Typography variant='body1'>
                             <MarkdownLaTeXRenderer content={activity.activityText}/>
@@ -215,7 +245,7 @@ function ActivityBlock({
                     <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(4)}}>
                         <LightBulbDoodleIcon width={"3rem"} height={"3rem"}/>
                         <Typography>Możesz skorzystać z podpowiedzi!</Typography>
-                        <Box sx={{display: "flex", gap: theme.spacing(6), alignItems: "flex-start"}}>
+                        <Box sx={{display: "flex", gap: theme.spacing(6), alignItems: "flex-start", flexWrap: "wrap"}}>
                             {
                                 activity.hints.map((hint: any) =>
                                     <HintTile hint={hint}
@@ -254,8 +284,9 @@ function HintTile({hint, isRevealed, setHintsRevealed}: {
                 placeItems: "center",
                 transition: "200ms ease",
                 "&:hover": {
+                    backgroundColor: theme.palette.accentFirst.light,
                     boxShadow: theme.shadows[2],
-                    transform: "translateY(-10px)"
+                    transform: "translateY(-5px)"
                 }
             }}
                      onClick={() => {
@@ -276,7 +307,9 @@ function HintTile({hint, isRevealed, setHintsRevealed}: {
             maxWidth: "12rem",
             flex: "0 0 auto",
             aspectRatio: "5/3",
-            textWrap: "wrap"
+            textWrap: "wrap",
+            transform: "translateY(-5px)",
+            backgroundColor: theme.palette.accentFirst.light
         }}>
             <MarkdownLaTeXRenderer content={hint.text}/>
         </Surface>
