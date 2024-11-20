@@ -25,7 +25,7 @@ interface SelectedNavigationSectionProviderProps {
  * @returns JSX element
  */
 export const SelectedNavigationSectionProvider = ({children}: SelectedNavigationSectionProviderProps) => {
-    const [selectedSectionId, setSelectedSectionId] = useState(navSections.home);
+    const [selectedSectionId, setSelectedSectionId] = useState("");
 
     return (
         <SelectedNavigationSectionContext.Provider

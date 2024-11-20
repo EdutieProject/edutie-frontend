@@ -89,7 +89,7 @@ export default function NavBar({activeSectionIdOverride}: NavBarProps) {
             backgroundColor: theme.palette.primary.main,
             gap: theme.spacing(2),
             boxShadow: theme.shadows[4],
-            paddingY: theme.spacing(4)
+            paddingY: theme.spacing(6)
         }}>
             {navElements.map((item, idx) => (
                 <NavElement

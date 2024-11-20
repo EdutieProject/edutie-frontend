@@ -18,7 +18,7 @@ import UserProfileDoodleIcon from "../components/customIcons/UserProfileDoodleIc
 
 export default function CoursesView() {
     const theme = useTheme();
-    const [error, setError] = useState();
+    const [error, setError] = useState<any>();
     let sciencesData: MutableRefObject<Array<any>> = useRef([]);
     const [selectedScienceIndex, setSelectedScienceIndex] = useState(0);
     const [initialLoading, setInitialLoading] = useState(true);
