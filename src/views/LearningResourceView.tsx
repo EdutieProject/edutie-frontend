@@ -153,7 +153,7 @@ function TheoryBlock({theoryCards, learningRequirements, activeCardIdx, setActiv
                 gap: theme.spacing(6),
                 marginBottom: theme.spacing(2)
             }}>
-                <IconButton onClick={() => setActiveCardIdx((x: number) => (x - 1) % theoryCards.length)}
+                <IconButton onClick={() => setActiveCardIdx((x: number) => Math.abs((x - 1) % theoryCards.length))}
                             disabled={theoryCards.length === 1}>
                     <ChevronLeft/>
                 </IconButton>
@@ -165,7 +165,7 @@ function TheoryBlock({theoryCards, learningRequirements, activeCardIdx, setActiv
                 }}>
                     <Typography variant="body1" width={"24rem"} textAlign={"center"}>{learningRequirement.name}</Typography>
                 </Box>
-                <IconButton onClick={() => setActiveCardIdx((x: number) => (x + 1) % theoryCards.length)}
+                <IconButton onClick={() => setActiveCardIdx((x: number) => Math.abs((x + 1) % theoryCards.length))}
                             disabled={theoryCards.length === 1}>
                     <ChevronRight/>
                 </IconButton>
