@@ -186,11 +186,7 @@ const CourseTile = ({course}: { course: any }) => {
             <Grid container>
                 <Grid item xs={12} md={2} sx={{display: "grid", placeItems: "center"}}>
                     <img
-                        src={
-                            course.imageSource === null
-                                ? "https://www.svgrepo.com/show/452651/globe.svg"
-                                : course.imageSource
-                        }
+                        src={course.imageSource ?? "https://www.svgrepo.com/show/452479/question-mark.svg"}
                         width="100%"
                         style={{aspectRatio: 1, objectFit: "cover", borderRadius: theme.shape.borderRadius}}
                         alt={"Course"}

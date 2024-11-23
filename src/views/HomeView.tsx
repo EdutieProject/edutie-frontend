@@ -95,8 +95,6 @@ export default function HomeView() {
     if (dynamicLearningResourceLoading)
         return <LoadingView caption={"Przygotowujemy dla Ciebie materiały. Zazwyczaj zajmuje to około 15 sekund."}/>
 
-    console.log(latestActivity.latestLearningResult.averageGradeRounded);
-
     return (
         <NavLayout activeSectionIdOverride={navSections.home}>
             <Box>
@@ -154,7 +152,8 @@ export default function HomeView() {
                                                     thickness={8}
                                                     color="accentSecond" size={"1.5rem"}/>
                                             </Box>
-                                            <RoundedButton label={"Wróć do ostatniego zestawu"} active/>
+                                            <RoundedButton label={"Wróć do ostatniego zestawu"} active
+                                                           onClick={() => navigate(navigationPath.fillPath(navigationPath.lessonTree, latestActivity.latestCourseView.course.id))}/>
                                         </Grid>
                                         <Grid item lg={6} xs={12} sx={{
                                             padding: theme.spacing(4),
@@ -177,7 +176,8 @@ export default function HomeView() {
                                                     thickness={8} color="accentFirst"
                                                     size={"1.5rem"}/>
                                             </Box>
-                                            <RoundedButton label={"Zobacz ostatni feedback"} active/>
+                                            <RoundedButton label={"Zobacz ostatni feedback"} active
+                                                           onClick={() => navigate(navigationPath.fillPath(navigationPath.learningResult, latestActivity.latestLearningResult.id))}/>
                                         </Grid>
                                     </Grid>
                                 ) : (
@@ -200,7 +200,8 @@ export default function HomeView() {
                                                 variant="determinate" value={80} thickness={8} color="accentFirst"
                                                 size={"1.5rem"}/>
                                         </Box>
-                                        <RoundedButton label={"Zobacz ostatni feedback"} active/>
+                                        <RoundedButton label={"Zobacz ostatni feedback"} active
+                                                       onClick={() => navigate(navigationPath.fillPath(navigationPath.learningResult, latestActivity.latestLearningResult.id))}/>
                                     </Grid>
                                 )
                         }
