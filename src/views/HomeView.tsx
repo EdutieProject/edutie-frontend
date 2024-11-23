@@ -128,7 +128,7 @@ export default function HomeView() {
                                         justifyContent: "center",
                                         gap: theme.spacing(2)
                                     }}>
-                                        <img src={"https://www.svgrepo.com/show/452651/globe.svg"} alt={"Course image"}
+                                        <img src={latestActivity.latestCourseView.course.imageSource ?? "https://www.svgrepo.com/show/452479/question-mark.svg"} alt={"Course image"}
                                              style={{width: "8rem", height: "8rem"}}/>
                                         <Heading variant={"h4"}>{latestActivity.latestCourseView.course.name}</Heading>
                                         <Typography>w: {latestActivity.latestCourseView.course.science.name}</Typography>

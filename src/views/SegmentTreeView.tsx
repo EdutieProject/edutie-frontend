@@ -128,7 +128,8 @@ function SelectedElementDescriptionTab({selectedElement, setExerciseLoading}: {
             <Box sx={{
                 display: "flex",
                 justifyContent: "space-between",
-                marginTop: theme.spacing(2)
+                marginTop: theme.spacing(2),
+                flexWrap: "wrap"
             }}>
                 <Box sx={{display: "flex", gap: theme.spacing(4)}}>
                     <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
@@ -165,7 +166,7 @@ function SelectedElementDescriptionTab({selectedElement, setExerciseLoading}: {
                         </Typography>
                     </Box>
                 </Box>
-                <Box sx={{marginTop: theme.spacing(2), display: "flex", gap: theme.spacing(4), alignItems: "center"}}>
+                <Box sx={{marginTop: theme.spacing(2), display: "flex", gap: theme.spacing(4), alignItems: "center", flexWrap: "wrap"}}>
                     <RoundedButton label={"Zobacz poprzednie wyniki"} disabled/>
                     <RoundedButton label={"Przejdź do nauki"} active onClick={() => setExerciseLoading(true)}/>
                 </Box>

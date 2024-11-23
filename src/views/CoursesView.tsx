@@ -78,11 +78,7 @@ export default function CoursesView() {
                 }}>
                     <Heading variant="h3">{selectedScience.name}</Heading>
                     <img
-                        src={
-                            selectedScience.imageSource === null
-                                ? "https://www.svgrepo.com/show/453302/mobius-strip.svg"
-                                : selectedScience.imageSource
-                        }
+                        src={selectedScience.imageSource ?? "https://www.svgrepo.com/show/452479/question-mark.svg"}
                         alt="Science Picture"
                         width={200}
                         style={{
