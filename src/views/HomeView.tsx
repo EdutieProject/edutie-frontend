@@ -1,7 +1,7 @@
-import {Box, CircularProgress, Divider, Grid, Typography, useTheme} from "@mui/material"
+import {Box, Divider, Grid, Typography, useTheme} from "@mui/material"
 import NavLayout from "./layout/NavLayout.js"
 import React, {useEffect, useState} from "react"
-import {generateRandomFactLearningResource, getRandomFact} from "../services/learningService"
+import {generateRandomFactLearningResource, getLatestActivity, getRandomFact} from "../services/learningService"
 import ErrorView from "./common/ErrorView.js"
 import LoadingView from "./common/LoadingView.js"
 import RoundedButton from "../components/global/RoundedButton.js"
@@ -11,10 +11,6 @@ import {navigationPath, navSections} from "../features/navigation/navigationPath
 import {getUserDetails} from "../services/userProfileService";
 import {getRandomFactSaveDate, getSavedRandomFact, saveRandomFact} from "../features/storage/RandomFactStorage";
 import {isItSameDay} from "../features/datetime/datetimeUtilities";
-import DistributedLearningIcon from "../components/customIcons/DistributedLearningIcon";
-import Surface from "../components/global/Surface";
-import StudentUserIcon from "../components/customIcons/StudentUserIcon";
-import CoursesIcon from "../components/customIcons/CoursesIcon";
 import LightBulbDoodleIcon from "../components/customIcons/LightBulbIcon";
 import SadColorfulFaceIcon from "../components/customIcons/SadColorfulFaceIcon";
 import CircularProgressWithLabel from "../components/progress/CircularProgressWithLabel";
@@ -28,6 +24,9 @@ export default function HomeView() {
     const [randomFact, setRandomFact] = useState<string>("?");
     const [userFirstName, setUserFirstName] = useState(null);
     const [dynamicLearningResourceLoading, setDynamicLearningResourceLoading] = useState<boolean>(false);
+    const [latestActivity, setLatestActivity] = useState<any>(null);
+
+    const average = (array: Array<any>) => array.reduce((a, b) => a + b) / array.length;
 
     async function initialLoad() {
         const userDetailsResponse = await getUserDetails();
@@ -49,6 +48,14 @@ export default function HomeView() {
             saveRandomFact(randomFactResponse.data.fact)
             setRandomFact(randomFactResponse.data.fact);
         }
+
+        const latestActivityResponse = await getLatestActivity();
+        if (latestActivityResponse.success === false && latestActivityResponse.error.code !== "NO-CONTENT-200") {
+            setError(latestActivityResponse.error);
+            return;
+        }
+        console.log(latestActivityResponse.data);
+        setLatestActivity(latestActivityResponse.data);
 
         setInitialLoading(false);
     }
@@ -107,30 +114,83 @@ export default function HomeView() {
                 <Typography>Twoja ostatnia aktywność:</Typography>
             </Box>
             {
-                [].length > 0 ? (
-                    <Grid container rowSpacing={theme.spacing(6)} marginTop={1}>
-                        <Grid item lg={6} xs={12} sx={{padding: theme.spacing(4), display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: theme.spacing(2)}}>
-                            <img src={"https://www.svgrepo.com/show/452651/globe.svg"} alt={"Course image"}
-                                 style={{width: "8rem", height: "8rem"}}/>
-                            <Heading variant={"h4"}>Przykładowy zestaw</Heading>
-                            <Typography>Ostatnia lekcja: Trygonometria</Typography>
-                            <Box sx={{display: "flex", gap: theme.spacing(2)}}>
-                                <Typography>Postęp: </Typography>
-                                <CircularProgressWithLabel label={"67%"} variant="determinate" value={67} thickness={8} color="accentSecond" size={"1.5rem"} />
-                            </Box>
-                            <RoundedButton label={"Wróć do ostatniego zestawu"} active/>
-                        </Grid>
-                        <Grid item lg={6} xs={12} sx={{padding: theme.spacing(4), display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: theme.spacing(2)}}>
-                            <SadColorfulFaceIcon width={"8rem"} height={"8rem"}/>
-                            <Heading variant={"h4"}>Ostatni rezultat</Heading>
-                            <Typography>Średnia ocena: 5</Typography>
-                            <Box sx={{display: "flex", gap: theme.spacing(2)}}>
-                                <Typography>Trudność: </Typography>
-                                <CircularProgressWithLabel label={"67%"} variant="determinate" value={80} thickness={8} color="accentFirst" size={"1.5rem"} />
-                            </Box>
-                            <RoundedButton label={"Zobacz ostatni feedback"} active/>
-                        </Grid>
-                    </Grid>
+                latestActivity !== null ? (
+                    <>
+                        {
+                        latestActivity.latestCourseView !== null ?
+                            (
+                                <Grid container rowSpacing={theme.spacing(6)} marginTop={1}>
+                                    <Grid item lg={6} xs={12} sx={{
+                                        padding: theme.spacing(4),
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        gap: theme.spacing(2)
+                                    }}>
+                                        <img src={"https://www.svgrepo.com/show/452651/globe.svg"} alt={"Course image"}
+                                             style={{width: "8rem", height: "8rem"}}/>
+                                        <Heading variant={"h4"}>{latestActivity.latestCourseView.course.name}</Heading>
+                                        <Typography>w: {latestActivity.latestCourseView.course.science.name}</Typography>
+                                        <Box sx={{display: "flex", gap: theme.spacing(2)}}>
+                                            <Typography>Postęp: </Typography>
+                                            <CircularProgressWithLabel
+                                                label={`${latestActivity.latestCourseView.progressIndicator * 100}%`}
+                                                variant="determinate"
+                                                value={latestActivity.latestCourseView.progressIndicator * 100}
+                                                thickness={8}
+                                                color="accentSecond" size={"1.5rem"}/>
+                                        </Box>
+                                        <RoundedButton label={"Wróć do ostatniego zestawu"} active/>
+                                    </Grid>
+                                    <Grid item lg={6} xs={12} sx={{
+                                        padding: theme.spacing(4),
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        gap: theme.spacing(2)
+                                    }}>
+                                        <SadColorfulFaceIcon width={"8rem"} height={"8rem"}/>
+                                        <Heading variant={"h4"}>Ostatni rezultat</Heading>
+                                        <Typography>Średnia
+                                            ocena: {latestActivity.latestLearningResult.averageGradeRounded}</Typography>
+                                        <Box sx={{display: "flex", gap: theme.spacing(2)}}>
+                                            <Typography>Trudność: </Typography>
+                                            <CircularProgressWithLabel
+                                                label={`${average(latestActivity.latestLearningResult.assessments.map((o: any) => o.difficultyFactor * 100))}%`}
+                                                variant="determinate" value={average(latestActivity.latestLearningResult.assessments.map((o: any) => o.difficultyFactor * 100))}
+                                                thickness={8} color="accentFirst"
+                                                size={"1.5rem"}/>
+                                        </Box>
+                                        <RoundedButton label={"Zobacz ostatni feedback"} active/>
+                                    </Grid>
+                                </Grid>
+                            ) : (
+                                <Grid item xs={12} sx={{
+                                    padding: theme.spacing(4),
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    gap: theme.spacing(2)
+                                }}>
+                                    <SadColorfulFaceIcon width={"8rem"} height={"8rem"}/>
+                                    <Heading variant={"h4"}>Ostatni rezultat</Heading>
+                                    <Typography>Średnia
+                                        ocena: {latestActivity.latestLearningResult.averageGradeRounded}</Typography>
+                                    <Box sx={{display: "flex", gap: theme.spacing(2)}}>
+                                        <Typography>Trudność: </Typography>
+                                        <CircularProgressWithLabel
+                                            label={`${average(latestActivity.latestLearningResult.assessments.map((o: any) => o.difficultyFactor * 100))}%`}
+                                            variant="determinate" value={80} thickness={8} color="accentFirst"
+                                            size={"1.5rem"}/>
+                                    </Box>
+                                    <RoundedButton label={"Zobacz ostatni feedback"} active/>
+                                </Grid>
+                            )
+                    }
+                    </>
                 ) : (
                     <Box sx={{
                         flexGrow: 1,
@@ -150,5 +210,6 @@ export default function HomeView() {
             }
 
         </NavLayout>
-    );
+    )
+        ;
 }
