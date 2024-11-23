@@ -15,6 +15,8 @@ import LightBulbDoodleIcon from "../components/customIcons/LightBulbIcon";
 import SadColorfulFaceIcon from "../components/customIcons/SadColorfulFaceIcon";
 import CircularProgressWithLabel from "../components/progress/CircularProgressWithLabel";
 import SweatFaceIcon from "../components/customIcons/SweatFaceIcon";
+import JoyColorfulFaceIcon from "../components/customIcons/JoyColorfulFaceIcon";
+import NormalColorfulFaceIcon from "../components/customIcons/NormalColorfulFaceIcon";
 
 export default function HomeView() {
     const theme = useTheme();
@@ -27,6 +29,12 @@ export default function HomeView() {
     const [latestActivity, setLatestActivity] = useState<any>(null);
 
     const average = (array: Array<any>) => array.reduce((a, b) => a + b) / array.length;
+
+    const iconSize = "8rem";
+    const getIcon = (averageGrade: number) => averageGrade > 4 ?
+        <JoyColorfulFaceIcon width={iconSize} height={iconSize}/>
+        : averageGrade > 2 ? <NormalColorfulFaceIcon width={iconSize} height={iconSize}/>
+            : <SadColorfulFaceIcon width={iconSize} height={iconSize}/>;
 
     async function initialLoad() {
         const userDetailsResponse = await getUserDetails();
@@ -87,6 +95,8 @@ export default function HomeView() {
     if (dynamicLearningResourceLoading)
         return <LoadingView caption={"Przygotowujemy dla Ciebie materiały. Zazwyczaj zajmuje to około 15 sekund."}/>
 
+    console.log(latestActivity.latestLearningResult.averageGradeRounded);
+
     return (
         <NavLayout activeSectionIdOverride={navSections.home}>
             <Box>
@@ -117,33 +127,61 @@ export default function HomeView() {
                 latestActivity !== null ? (
                     <>
                         {
-                        latestActivity.latestCourseView !== null ?
-                            (
-                                <Grid container rowSpacing={theme.spacing(6)} marginTop={1}>
-                                    <Grid item lg={6} xs={12} sx={{
-                                        padding: theme.spacing(4),
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        gap: theme.spacing(2)
-                                    }}>
-                                        <img src={latestActivity.latestCourseView.course.imageSource ?? "https://www.svgrepo.com/show/452479/question-mark.svg"} alt={"Course image"}
-                                             style={{width: "8rem", height: "8rem"}}/>
-                                        <Heading variant={"h4"}>{latestActivity.latestCourseView.course.name}</Heading>
-                                        <Typography>w: {latestActivity.latestCourseView.course.science.name}</Typography>
-                                        <Box sx={{display: "flex", gap: theme.spacing(2)}}>
-                                            <Typography>Postęp: </Typography>
-                                            <CircularProgressWithLabel
-                                                label={`${latestActivity.latestCourseView.progressIndicator * 100}%`}
-                                                variant="determinate"
-                                                value={latestActivity.latestCourseView.progressIndicator * 100}
-                                                thickness={8}
-                                                color="accentSecond" size={"1.5rem"}/>
-                                        </Box>
-                                        <RoundedButton label={"Wróć do ostatniego zestawu"} active/>
+                            latestActivity.latestCourseView !== null ?
+                                (
+                                    <Grid container rowSpacing={theme.spacing(6)} marginTop={1}>
+                                        <Grid item lg={6} xs={12} sx={{
+                                            padding: theme.spacing(4),
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            gap: theme.spacing(2)
+                                        }}>
+                                            <img
+                                                src={latestActivity.latestCourseView.course.imageSource ?? "https://www.svgrepo.com/show/452479/question-mark.svg"}
+                                                alt={"Course image"}
+                                                style={{width: "8rem", height: "8rem"}}/>
+                                            <Heading
+                                                variant={"h4"}>{latestActivity.latestCourseView.course.name}</Heading>
+                                            <Typography>w: {latestActivity.latestCourseView.course.science.name}</Typography>
+                                            <Box sx={{display: "flex", gap: theme.spacing(2)}}>
+                                                <Typography>Postęp: </Typography>
+                                                <CircularProgressWithLabel
+                                                    label={`${latestActivity.latestCourseView.progressIndicator * 100}%`}
+                                                    variant="determinate"
+                                                    value={latestActivity.latestCourseView.progressIndicator * 100}
+                                                    thickness={8}
+                                                    color="accentSecond" size={"1.5rem"}/>
+                                            </Box>
+                                            <RoundedButton label={"Wróć do ostatniego zestawu"} active/>
+                                        </Grid>
+                                        <Grid item lg={6} xs={12} sx={{
+                                            padding: theme.spacing(4),
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            gap: theme.spacing(2)
+                                        }}>
+                                            {getIcon(latestActivity.latestLearningResult.averageGradeRounded)}
+                                            <Heading variant={"h4"}>Ostatni rezultat</Heading>
+                                            <Typography>Średnia
+                                                ocena: {latestActivity.latestLearningResult.averageGradeRounded}</Typography>
+                                            <Box sx={{display: "flex", gap: theme.spacing(2)}}>
+                                                <Typography>Trudność: </Typography>
+                                                <CircularProgressWithLabel
+                                                    label={`${average(latestActivity.latestLearningResult.assessments.map((o: any) => o.difficultyFactor * 100))}%`}
+                                                    variant="determinate"
+                                                    value={average(latestActivity.latestLearningResult.assessments.map((o: any) => o.difficultyFactor * 100))}
+                                                    thickness={8} color="accentFirst"
+                                                    size={"1.5rem"}/>
+                                            </Box>
+                                            <RoundedButton label={"Zobacz ostatni feedback"} active/>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item lg={6} xs={12} sx={{
+                                ) : (
+                                    <Grid item xs={12} sx={{
                                         padding: theme.spacing(4),
                                         display: "flex",
                                         flexDirection: "column",
@@ -151,7 +189,7 @@ export default function HomeView() {
                                         justifyContent: "center",
                                         gap: theme.spacing(2)
                                     }}>
-                                        <SadColorfulFaceIcon width={"8rem"} height={"8rem"}/>
+                                        {getIcon(latestActivity.latestLearningResult.averageGradeRounded)}
                                         <Heading variant={"h4"}>Ostatni rezultat</Heading>
                                         <Typography>Średnia
                                             ocena: {latestActivity.latestLearningResult.averageGradeRounded}</Typography>
@@ -159,37 +197,13 @@ export default function HomeView() {
                                             <Typography>Trudność: </Typography>
                                             <CircularProgressWithLabel
                                                 label={`${average(latestActivity.latestLearningResult.assessments.map((o: any) => o.difficultyFactor * 100))}%`}
-                                                variant="determinate" value={average(latestActivity.latestLearningResult.assessments.map((o: any) => o.difficultyFactor * 100))}
-                                                thickness={8} color="accentFirst"
+                                                variant="determinate" value={80} thickness={8} color="accentFirst"
                                                 size={"1.5rem"}/>
                                         </Box>
                                         <RoundedButton label={"Zobacz ostatni feedback"} active/>
                                     </Grid>
-                                </Grid>
-                            ) : (
-                                <Grid item xs={12} sx={{
-                                    padding: theme.spacing(4),
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    gap: theme.spacing(2)
-                                }}>
-                                    <SadColorfulFaceIcon width={"8rem"} height={"8rem"}/>
-                                    <Heading variant={"h4"}>Ostatni rezultat</Heading>
-                                    <Typography>Średnia
-                                        ocena: {latestActivity.latestLearningResult.averageGradeRounded}</Typography>
-                                    <Box sx={{display: "flex", gap: theme.spacing(2)}}>
-                                        <Typography>Trudność: </Typography>
-                                        <CircularProgressWithLabel
-                                            label={`${average(latestActivity.latestLearningResult.assessments.map((o: any) => o.difficultyFactor * 100))}%`}
-                                            variant="determinate" value={80} thickness={8} color="accentFirst"
-                                            size={"1.5rem"}/>
-                                    </Box>
-                                    <RoundedButton label={"Zobacz ostatni feedback"} active/>
-                                </Grid>
-                            )
-                    }
+                                )
+                        }
                     </>
                 ) : (
                     <Box sx={{
