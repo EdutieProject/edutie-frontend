@@ -66,7 +66,9 @@ export default function CoursesView() {
                         if (sciences[selectedScienceIndex - 1]) {
                             setSelectedScienceIndex(selectedScienceIndex - 1);
                         }
-                    }}>
+                    }}
+                    disabled={sciences.length === 1}
+                    >
                     <ChevronLeft fontSize={"large"}/>
                 </IconButton>
                 <Box sx={{
@@ -98,7 +100,9 @@ export default function CoursesView() {
                         if (sciences[selectedScienceIndex + 1]) {
                             setSelectedScienceIndex(selectedScienceIndex + 1);
                         }
-                    }}>
+                    }}
+                    disabled={sciences.length === 1}
+                    >
                     <ChevronRight fontSize={"large"}/>
                 </IconButton>
             </Box>
