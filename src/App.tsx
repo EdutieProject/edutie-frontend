@@ -11,6 +11,7 @@ import CoursesView from "./views/CoursesView";
 import LRDCreationView from "./views/LRDCreationView";
 import LearningResourceView from "./views/LearningResourceView";
 import LearningResultView from "./views/LearningResultView";
+import PlaygroundView from "./views/PlaygroundView";
 import ProfileView from "./views/ProfileView";
 import { navigationPath } from "./features/navigation/navigationPath";
 import React from "react";
