@@ -1,6 +1,6 @@
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import NavLayout from "./layout/NavLayout.js";
-import {Box, Grid, LinearProgress, Typography, useTheme} from "@mui/material";
+import {Box, Grid, Typography, useTheme} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {generateLearningResource, getLearningResultById} from "../services/learningService";
 import ErrorView from "./common/ErrorView.js";
@@ -17,6 +17,7 @@ import CancelDoodleIcon from "../components/customIcons/CancelDoodleIcon";
 import CheckDoodleIcon from "../components/customIcons/CheckDoodleIcon";
 import {clearRandomFactStorage} from "../features/storage/RandomFactStorage";
 import {isDateWithinLast3Minutes} from "../features/datetime/datetimeUtilities";
+import CustomLinearProgress from "../components/progress/LinearProgress";
 
 
 export default function LearningResultView() {
@@ -89,7 +90,7 @@ export default function LearningResultView() {
                     </Box>
                 </Grid>
                 <Grid item xs={6} sx={{padding: theme.spacing(4)}}>
-                    <Heading variant="h3" sx={{color: "grey"}}>
+                    <Heading variant="h3" sx={{color: theme.palette.accentSecond.main}}>
                         {getHeading(learningResult.averageGrade)}
                     </Heading>
                     <MarkdownLaTeXRenderer content={learningResult.feedback.text}/>
@@ -112,8 +113,8 @@ export default function LearningResultView() {
                                         <Box sx={{display: "flex", gap: theme.spacing(2)}}>
                                             <Heading variant="h4">Ocena: {assessment.grade}</Heading>
                                             <Box sx={{display: "flex", alignItems: "center", flexGrow: 1}}>
-                                                <LinearProgress
-                                                    color="primary"
+                                                <CustomLinearProgress
+                                                    color="accentFirst"
                                                     variant="determinate"
                                                     value={assessment.grade / 6 * 100}
                                                     sx={{
@@ -128,8 +129,8 @@ export default function LearningResultView() {
                                             <Heading
                                                 variant="h4">Trudność: {(assessment.difficultyFactor * 100)}%</Heading>
                                             <Box sx={{display: "flex", alignItems: "center", flexGrow: 1}}>
-                                                <LinearProgress
-                                                    color="secondary"
+                                                <CustomLinearProgress
+                                                    color="accentSecond"
                                                     variant="determinate"
                                                     value={assessment.difficultyFactor * 100}
                                                     sx={{
@@ -142,7 +143,7 @@ export default function LearningResultView() {
                                         </Box>
                                     </Box>
                                 </Box>
-                                <MarkdownLaTeXRenderer content={assessment.feedbackText}/>
+                                <MarkdownLaTeXRenderer content={assessment.feedback.text}/>
                             </Box>
                         )
                     }
@@ -154,7 +155,7 @@ export default function LearningResultView() {
                         marginY: theme.spacing(6)
                     }}>
                         {
-                            learningResult.definitionType === "STATIC" ? (
+                            learningResult.learningResourceDefinitionType === "STATIC" ? (
                                 <>
                                     <RoundedButton label="Wróć do drzewka"
                                                    onClick={() => navigate(navigationPath.fillPath(navigationPath.segmentTree, getActiveLessonId()))}/>

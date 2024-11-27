@@ -59,3 +59,13 @@ export async function getRandomFact() {
         }
     );
 }
+
+export async function getLatestActivity() {
+    return await catchClientErrors(
+        async () => {
+            const response = await fetch(`${LEARNING_API}/ancillaries/latest-activity`,
+                { method: "GET", headers: await getDefaultHeadersAuthenticated()});
+            return await response.json();
+        }
+    );
+}

@@ -16,6 +16,8 @@ import CircleButton from "../components/global/CircleButton.js";
 import CircularProgressWithLabel from "../components/progress/CircularProgressWithLabel";
 import CheckDoodleIcon from "../components/customIcons/CheckDoodleIcon";
 import CancelDoodleIcon from "../components/customIcons/CancelDoodleIcon";
+import TrophyDoodleIcon from "../components/customIcons/TrophyDoodleIcon";
+import CognitionDoodleIcon from "../components/customIcons/CognitionDoodleIcon";
 
 enum SubView {
     STUDENT = "STUDENT",
@@ -59,7 +61,7 @@ export default function ProfileView() {
         <NavLayout activeSectionIdOverride={navSections.profile}>
             <Box sx={{display: "flex", justifyContent: "space-between"}}>
                 <Box>
-                    <Heading variant='h3'>{userFirstName} - twój profil</Heading>
+                    <Heading variant='h3'><span style={{color: theme.palette.accentSecond.main}}>{userFirstName}</span> - twój profil</Heading>
 
                     <Typography variant="body1">{viewDetails}</Typography>
 
@@ -157,27 +159,26 @@ function StudentProfileView({setError}: { setError: Dispatch<SetStateAction<any>
                                     <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}
                                          key={i}>
                                         <Typography>{assessment.learningRequirementName}</Typography>
-                                        <Box sx={{display: "flex", gap: theme.spacing(4), alignItems: "center", marginRight: theme.spacing(12)}}>
+                                        <Box sx={{display: "flex", gap: theme.spacing(4), alignItems: "center", marginRight: theme.spacing(6)}}>
                                             <Box sx={{
                                                 display: "flex",
-                                                flexDirection: "column",
-                                                alignItems: "center",
-                                                gap: theme.spacing(2)
+                                                alignItems: "center"
                                             }}>
-                                                <CircularProgressWithLabel label={assessment.grade as string}
-                                                                           value={assessment.grade / 6 * 100}
-                                                                           thickness={6} size={"2.5rem"}/>
+                                                <TrophyDoodleIcon width={"3rem"} height={"3rem"}/>
+                                                <CircularProgressWithLabel
+                                                    label={assessment.grade as string}
+                                                    value={assessment.grade / 6 * 100} color="accentFirst"
+                                                    thickness={6} size={"1.5rem"}/>
                                             </Box>
                                             <Box sx={{
                                                 display: "flex",
-                                                flexDirection: "column",
-                                                alignItems: "center",
-                                                gap: theme.spacing(2)
+                                                alignItems: "center"
                                             }}>
+                                                <CognitionDoodleIcon width={"3rem"} height={"3rem"}/>
                                                 <CircularProgressWithLabel
                                                     label={`${assessment.difficultyFactor * 100}%`}
-                                                    value={assessment.difficultyFactor * 100} color="secondary"
-                                                    thickness={6} size={"2.5rem"}/>
+                                                    value={assessment.difficultyFactor * 100} color="accentSecond"
+                                                    thickness={6} size={"1.5rem"}/>
                                             </Box>
                                         </Box>
                                     </Box>
@@ -204,7 +205,7 @@ function StudentProfileView({setError}: { setError: Dispatch<SetStateAction<any>
                     <Heading variant="h2">? 🔥 dni nauki</Heading>
                     <Typography>Tyle dni z rzędu wykonujesz już zadania. Pamiętaj że liczy się
                         systematyczność!</Typography>
-                    <Typography variant="overline" color={"grey"}>Uwaga! Funkcjonalność streaków nie jest jeszcze
+                    <Typography variant="overline" color={"grey"}>Uwaga! Funkcjonalność streaków i rankingów nie jest jeszcze
                         gotowa </Typography>
                 </Box>
                 <Box sx={{display: "flex", flexDirection: "column", gap: theme.spacing(2)}}>
