@@ -1,30 +1,40 @@
+import React, { useEffect, useState } from "react";
+import { Button } from "@mui/material";
+import TextArea from "./TextArea";
 import katex from "katex";
 import "katex/dist/katex.min.css";
-import React, { useState } from "react";
-import { useEffect } from "react";
-import { useRef } from "react";
+import MarkdownLaTeXRenderer from "../markdown/MarkdownLaTexRenderer";
+import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 import KaTeX from "./KaTeX";
-import TextArea from "./TextArea";
-import { Button } from "@mui/material";
 
 export default function MathKeyboard() {
   const [textAreaValue, setTextAreaValue] = useState("");
+
   return (
     <>
       <Button
-        onClick={(e: any) => {
-          let mathChar = katex.renderToString("sqrt{}");
-          console.log(mathChar);
-          setTextAreaValue(mathChar);
+        onClick={async () => {
+          const num = prompt("Jaką liczbę chcesz spierwiastkować?");
+          if (num) {
+            await setTextAreaValue((prevValue) => prevValue + "\\sqrt{" + num + "}");
+          }
         }}>
-        <KaTeX texExpression="\sqrt{}"></KaTeX>
+        Wstaw pierwiastek
       </Button>
+      <Button
+        onClick={() => {
+          setTextAreaValue((prevValue) => prevValue + "\\frac 1 8");
+        }}>
+        Ułamek
+      </Button>
+      <KaTeX texExpression={textAreaValue}></KaTeX>
       <TextArea
         value={textAreaValue}
-        onChange={(e: any) => {
-          setTextAreaValue(e.target.value);
-        }}></TextArea>
-      <KaTeX texExpression="\sqrt{3}"></KaTeX>
+        minRows={2}
+        maxRows={5}
+        onChange={(e: any) => setTextAreaValue(e.target.value)}></TextArea>
     </>
   );
 }

@@ -11,5 +11,5 @@ export default function KaTeX({ texExpression }: { texExpression: string }) {
     katex.render(texExpression, containerRef.current as HTMLInputElement);
   }, [texExpression]);
 
-  return <div ref={containerRef} />;
+  return <div contentEditable ref={containerRef} />;
 }
