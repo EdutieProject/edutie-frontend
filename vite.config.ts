@@ -3,7 +3,7 @@ import type { UserConfig } from 'vite'
 
 export default {
   plugins: [react()],
-  base: "./",
+  base: "/app",
   build: {
     assetsDir: "./app/assets",
   }

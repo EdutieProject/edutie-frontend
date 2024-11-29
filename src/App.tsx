@@ -16,10 +16,11 @@ import { navigationPath } from "./features/navigation/navigationPath";
 import React from "react";
 
 export default function App() {
+
   return (
     <ThemeProvider theme={theme}>
       <SelectedNavigationSectionProvider>
-        <BrowserRouter>
+        <BrowserRouter basename={"/app"}>
           <Routes>
             <Route path={navigationPath.home} element={<HomeView />} />
             <Route path={navigationPath.lessonTree} element={<LessonTreeView />} />
