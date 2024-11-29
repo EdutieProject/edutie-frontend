@@ -20,7 +20,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <SelectedNavigationSectionProvider>
-        <BrowserRouter basename={"/app"}>
+        <BrowserRouter basename={import.meta.env.VITE_BASE_PATH}>
           <Routes>
             <Route path={navigationPath.home} element={<HomeView />} />
             <Route path={navigationPath.lessonTree} element={<LessonTreeView />} />
