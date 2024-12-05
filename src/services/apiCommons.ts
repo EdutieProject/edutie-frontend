@@ -1,9 +1,9 @@
 import { getAuthorizationToken } from "./authPlaceholder";
 
-const BACKEND_HOST = "localhost:8081";
+const BACKEND_HOST = import.meta.env.VITE_DOMAIN_HOSTNAME;
 const API_VERSION = "v1";
 
-export const API_PATH = `http://${BACKEND_HOST}/api/${API_VERSION}`;
+export const API_PATH = `http://${BACKEND_HOST}/system/api/${API_VERSION}`;
 
 export const LEARNING_API = `${API_PATH}/learning`;
 export const MANAGEMENT_API = `${API_PATH}/management`;
@@ -17,7 +17,9 @@ export const defaultHeaders = {
 export async function getDefaultHeadersAuthenticated() {
     return {
         ...defaultHeaders,
-        "Authorization": `Bearer ${await getAuthorizationToken()}`
+        // "Authorization": `Bearer ${await getAuthorizationToken()}`
+        // TODO: resolve security - csrf token
+        // "X-CSRF-Token": getCookie("XSRF-TOKEN")
     }
 }
 
@@ -25,7 +27,7 @@ export async function getDefaultHeadersAuthenticated() {
  * Util function for client error generation
  */
 const clientError = (ex: Error) => {
-    return { code: "CLIENT-API-ERROR", message: ex.message } 
+    return { code: "CLIENT-ERROR-[" + ex.name + "]", message: ex.message }
 };
 
 /**
