@@ -13,7 +13,7 @@ export const SessionProvider = ({children}: { children: ReactNode }) => {
         try {
             setIsLoading(true);
             //TODO: change realm name, move function to services
-            const response = await fetch(window.location.protocol + "//" +import.meta.env.VITE_AUTH_HOST + "/realms/baeldung/protocol/openid-connect/userinfo", {credentials: "include"});
+            const response = await fetch(window.location.protocol + "//" +import.meta.env.VITE_BACKEND_HOST + "/api/v1/inspection/test-authentication", {credentials: "include"});
             if (response.ok) {
                 setIsActive(true);
             } else {

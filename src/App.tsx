@@ -20,9 +20,9 @@ export default function App() {
 
     return (
         <ThemeProvider theme={theme}>
-            <BrowserRouter basename={import.meta.env.VITE_BASE_PATH}>
-                <SessionProvider>
-                    <SelectedNavigationSectionProvider>
+            <SessionProvider>
+                <SelectedNavigationSectionProvider>
+                    <BrowserRouter basename={import.meta.env.VITE_BASE_PATH_OVERRIDE}>
                         <Routes>
                             <Route path={navigationPath.home} element={<HomeView/>}/>
                             <Route path={navigationPath.lessonTree} element={<LessonTreeView/>}/>
@@ -33,9 +33,9 @@ export default function App() {
                             <Route path={navigationPath.learningResult} element={<LearningResultView/>}/>
                             <Route path={navigationPath.creation} element={<LRDCreationView/>}/>
                         </Routes>
-                    </SelectedNavigationSectionProvider>
-                </SessionProvider>
-            </BrowserRouter>
+                    </BrowserRouter>
+                </SelectedNavigationSectionProvider>
+            </SessionProvider>
         </ThemeProvider>
     );
 }

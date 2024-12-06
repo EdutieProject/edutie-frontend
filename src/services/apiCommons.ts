@@ -1,9 +1,10 @@
 import { getAuthorizationToken } from "./authPlaceholder";
 
-const BACKEND_HOST = import.meta.env.VITE_DOMAIN_HOSTNAME;
+const BACKEND_HOST = import.meta.env.VITE_BACKEND_HOST;
 const API_VERSION = "v1";
 
-export const API_PATH = `http://${BACKEND_HOST}/system/api/${API_VERSION}`;
+// TODO: is https applicable here?
+export const API_PATH = `http://${BACKEND_HOST}/api/${API_VERSION}`;
 
 export const LEARNING_API = `${API_PATH}/learning`;
 export const MANAGEMENT_API = `${API_PATH}/management`;
