@@ -7,8 +7,8 @@ dotenv.config();
 
 export default {
   plugins: [react()],
-  base: '.' + process.env.VITE_BASE_PATH,
+  base: '.' + process.env.VITE_BASE_PATH_OVERRIDE,
   build: {
-    assetsDir: '.' + process.env.VITE_BASE_PATH as string + process.env.VITE_ASSETS_DIR as string,
+    assetsDir: '.' + process.env.VITE_BASE_PATH_OVERRIDE as string + process.env.VITE_ASSETS_DIR as string,
   }
 } satisfies UserConfig

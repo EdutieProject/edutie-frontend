@@ -3,8 +3,8 @@
 interface ImportMetaEnv {
     readonly VITE_BASE_PATH: string;
     readonly VITE_ASSETS_DIR: string;
-    readonly VITE_DOMAIN_HOSTNAME: string;
-    // more env variables...
+    readonly VITE_BACKEND_HOST: string;
+    readonly VITE_AUTH_HOST: string;
 }
 
 interface ImportMeta {
