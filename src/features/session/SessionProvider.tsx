@@ -3,6 +3,7 @@ import React from "react";
 import {SessionContext} from "./SessionContext";
 import LoadingView from "../../views/common/LoadingView";
 import NoSessionView from "../../views/common/NoSessionView";
+import {authenticationCheck} from "../../services/authenticationService";
 
 export const SessionProvider = ({children}: { children: ReactNode }) => {
     const [isActive, setIsActive] = useState(false);
@@ -12,8 +13,7 @@ export const SessionProvider = ({children}: { children: ReactNode }) => {
     const verifySession = async () => {
         try {
             setIsLoading(true);
-            //TODO: change realm name, move function to services
-            const response = await fetch(window.location.protocol + "//" +import.meta.env.VITE_BACKEND_HOST + "/api/v1/inspection/test-authentication", {credentials: "include"});
+            const response = await authenticationCheck();
             if (response.ok) {
                 setIsActive(true);
             } else {

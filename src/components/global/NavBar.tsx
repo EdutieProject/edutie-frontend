@@ -8,6 +8,7 @@ import {
     SelectedNavigationSelectionContextType
 } from "../../features/navigation/navigationState";
 import {Logout} from "@mui/icons-material";
+import {logout} from "../../services/authenticationService";
 
 
 
@@ -83,14 +84,6 @@ export default function NavBar({activeSectionIdOverride}: NavBarProps) {
         }
     }, [activeSectionIdOverride]);
 
-    async function logout() {
-        const response = await fetch(window.location.protocol + "//" + import.meta.env.VITE_BACKEND_HOST + "/logout",
-            { method: "POST", credentials: "include" });
-        console.log(response)
-        if (response.ok) {
-            window.location.href = window.location.origin + import.meta.env.VITE_BASE_PATH_OVERRIDE;
-        }
-    }
 
     return (
         <Box sx={{
@@ -118,8 +111,8 @@ export default function NavBar({activeSectionIdOverride}: NavBarProps) {
             <Box>
                 <NavElement item={{
                     id: "logout",
-                    icon: (color) => <Logout/>,
-                    navigate: (navigate) => { logout().then() }
+                    icon: (_) => <Logout color={"white"}/>,
+                    navigate: (_) => { logout().then() }
                 }} isActive={false} setActiveNavbarElem={() => {}}/>
             </Box>
         </Box>

@@ -1,4 +1,22 @@
 
+// ==== COOKIE AUTHENTICATION FUNCTIONS ====
+
+export async function logout() {
+    const response = await fetch(window.location.protocol + "//" + import.meta.env.VITE_BACKEND_HOST + "/logout",
+        { method: "POST", credentials: "include" });
+    console.log(response)
+    if (response.ok) {
+        window.location.href = window.location.origin + import.meta.env.VITE_BASE_PATH_OVERRIDE;
+    }
+}
+
+export async function authenticationCheck() {
+    return await fetch(window.location.protocol + "//" +import.meta.env.VITE_BACKEND_HOST + "/api/v1/inspection/test-authentication", {credentials: "include"});
+}
+
+
+// ==== DEVELOPMENT TOKEN SERVICE ====
+
 const TOKEN_URL = "http://localhost:8080/auth/realms/baeldung/protocol/openid-connect/token";
 
 export async function getAuthorizationToken() {

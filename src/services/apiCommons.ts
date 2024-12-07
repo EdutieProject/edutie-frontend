@@ -1,4 +1,4 @@
-import { getAuthorizationToken } from "./authPlaceholder";
+import { getAuthorizationToken } from "./authenticationService";
 
 const BACKEND_HOST = import.meta.env.VITE_BACKEND_HOST;
 const API_VERSION = "v1";
