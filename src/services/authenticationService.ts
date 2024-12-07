@@ -14,6 +14,10 @@ export async function authenticationCheck() {
     return await fetch(window.location.protocol + "//" +import.meta.env.VITE_BACKEND_HOST + "/api/v1/inspection/test-authentication", {credentials: "include"});
 }
 
+export function getLoginUrl() {
+    return window.location.protocol + "//" + import.meta.env.VITE_BACKEND_HOST + "/oauth2/authorization/edutie";
+}
+
 
 // ==== DEVELOPMENT TOKEN SERVICE ====
 

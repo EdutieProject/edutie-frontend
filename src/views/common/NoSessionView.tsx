@@ -3,7 +3,7 @@ import React from "react";
 import DizzinessFaceIcon from "../../components/customIcons/DizzinessFaceIcon";
 import Heading from "../../components/global/Heading";
 import RoundedButton from "../../components/global/RoundedButton";
-import {Link} from "react-router-dom";
+import {getLoginUrl} from "../../services/authenticationService";
 
 
 export default function NoSessionView() {
@@ -27,7 +27,7 @@ export default function NoSessionView() {
                     <Typography padding={"1em 0"} variant="body1" color="initial">Zaloguj się aby korzystać z
                         Edutie</Typography>
                     <RoundedButton label={"Zaloguj się"} active onClick={() => {
-                        window.location.href = window.location.protocol + "//" + import.meta.env.VITE_BACKEND_HOST + "/oauth2/authorization/baeldung"
+                        window.location.href = getLoginUrl();
                     }}/>
                 </Grid>
             </Grid>
