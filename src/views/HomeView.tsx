@@ -20,6 +20,7 @@ import NormalColorfulFaceIcon from "../components/customIcons/NormalColorfulFace
 import { IconButton } from "@mui/material";
 import { Container } from "@mui/material";
 import "./layout/mobile.scss";
+import { BorderColorTwoTone } from "@mui/icons-material";
 
 export default function HomeView() {
   const theme = useTheme();
@@ -105,7 +106,17 @@ export default function HomeView() {
           justifyContent: "center",
           alignItems: "center",
         }}>
-        <Grid sx={{ marginBottom: 20 }}>HEADER z logo</Grid>
+        <Grid
+          sx={{
+            clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 80%)",
+            backgroundColor: "white",
+            height: 180,
+            marginBottom: 20,
+            position: "fixed",
+            width: "100%",
+          }}>
+          BIG ASS LOGO EDUTIE
+        </Grid>
         <Grid
           container
           direction="row"
@@ -113,15 +124,20 @@ export default function HomeView() {
             justifyContent: "center",
             alignItems: "center",
           }}>
-          <Grid sx={{ margin: theme.spacing(1) }}>
-            <Typography align="center" color="white" fontFamily={"Baloo"} variant="h5">
+          <Grid sx={{ marginTop: theme.spacing(28) }}>
+            <Typography align="center" color={theme.palette.accentSecond.dark} fontFamily={"Baloo"} variant="h5">
               Cześć!
             </Typography>
-            <Typography align="center" color="white" fontFamily={"Geologica"} variant="body1">
+            <Typography
+              sx={{ marginLeft: 5, marginRight: 5, marginBottom: 2 }}
+              align="center"
+              color={theme.palette.accentSecond.dark}
+              fontFamily={"Geologica"}
+              variant="body1">
               Tym razem to my jesteśmy nieprzygotowani i na urządzeniach mobilnych nasza strona nie jest jeszcze
               dostępna.
             </Typography>
-            <Typography align="center" color="white" fontFamily={"Geologica"} variant="body1">
+            <Typography align="center" color={theme.palette.accentSecond.dark} fontFamily={"Geologica"} variant="body1">
               ...chyba będzie minus do dzienniczka.
             </Typography>
             <Grid
@@ -130,12 +146,14 @@ export default function HomeView() {
               sx={{
                 justifyContent: "center",
                 alignItems: "center",
+                marginTop: theme.spacing(2),
               }}>
-              <img src="..\src\assets\img\pleading-face.png" alt="emoji" height="auto" width="30px" />
+              <img src="..\src\assets\img\pleading-face.png" alt="emoji" height="auto" width="35px" />
               <Grid
                 container
                 direction="row"
                 sx={{
+                  gap: 1,
                   justifyContent: "center",
                   alignItems: "center",
                 }}>
@@ -144,14 +162,26 @@ export default function HomeView() {
                 <img src="..\src\assets\img\left-hand.png" alt="emoji" height="auto" width="30px" />
               </Grid>
             </Grid>
-            <Typography align="center" color="white" fontFamily={"Geologica"} variant="body1">
-              Zapraszamy na naszego discorda!
-            </Typography>
-            <IconButton>
+            <Grid
+              container
+              sx={{
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 5,
+              }}>
               <a href="https://discord.com/invite/UAYCpZXFAE">
-                <img src="..\src\assets\img\discord.png" alt="discord" height="auto" width="30px" />
+                <RoundedButton
+                  sx={{
+                    border: 2,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: 3,
+                  }}
+                  leftIcon={<img src="..\src\assets\img\discord.png" alt="discord" height="auto" width="30px" />}
+                  label={"Dołącz do discorda"}
+                  active={true}></RoundedButton>
               </a>
-            </IconButton>
+            </Grid>
           </Grid>
         </Grid>
       </Container>
