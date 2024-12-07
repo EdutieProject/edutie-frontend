@@ -9,7 +9,6 @@ export const API_PATH = `http://${BACKEND_HOST}/api/${API_VERSION}`;
 export const LEARNING_API = `${API_PATH}/learning`;
 export const MANAGEMENT_API = `${API_PATH}/management`;
 
-//TODO: switch to cookie-based auth
 export const defaultHeaders = {
     Accept: "application/json",
     "Content-Type": "application/json;charset=UTF-8",

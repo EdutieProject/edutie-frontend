@@ -7,6 +7,7 @@ import {
     SelectedNavigationSectionContext,
     SelectedNavigationSelectionContextType
 } from "../../features/navigation/navigationState";
+import {Logout} from "@mui/icons-material";
 
 
 
@@ -82,23 +83,45 @@ export default function NavBar({activeSectionIdOverride}: NavBarProps) {
         }
     }, [activeSectionIdOverride]);
 
+    async function logout() {
+        const response = await fetch(window.location.protocol + "//" + import.meta.env.VITE_BACKEND_HOST + "/logout",
+            { method: "POST", credentials: "include" });
+        console.log(response)
+        if (response.ok) {
+            window.location.href = window.location.origin + import.meta.env.VITE_BASE_PATH_OVERRIDE;
+        }
+    }
+
     return (
         <Box sx={{
             display: "flex",
             flexDirection: "column",
+            justifyContent: "space-between",
             backgroundColor: theme.palette.primary.main,
-            gap: theme.spacing(2),
             boxShadow: theme.shadows[4],
             paddingY: theme.spacing(6)
         }}>
-            {navElements.map((item, idx) => (
-                <NavElement
-                    key={idx}
-                    item={item}
-                    isActive={item.id === selectedSectionId}
-                    setActiveNavbarElem={setSelectedSectionId}
-                />
-            ))}
+            <Box sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: theme.spacing(2)
+            }}>
+                {navElements.map((item, idx) => (
+                    <NavElement
+                        key={idx}
+                        item={item}
+                        isActive={item.id === selectedSectionId}
+                        setActiveNavbarElem={setSelectedSectionId}
+                    />
+                ))}
+            </Box>
+            <Box>
+                <NavElement item={{
+                    id: "logout",
+                    icon: (color) => <Logout/>,
+                    navigate: (navigate) => { logout().then() }
+                }} isActive={false} setActiveNavbarElem={() => {}}/>
+            </Box>
         </Box>
     );
 }
