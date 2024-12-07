@@ -6,6 +6,15 @@ import NoSessionView from "../../views/common/NoSessionView";
 import {authenticationCheck} from "../../services/authenticationService";
 
 export const SessionProvider = ({children}: { children: ReactNode }) => {
+    // Omit session management for non-prod env
+    if (import.meta.env.VITE_ENV_MODE !== "prod") {
+        return (
+            <SessionContext.Provider value={{ isActive: true }}>
+                {children}
+            </SessionContext.Provider>
+        );
+    }
+
     const [isActive, setIsActive] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 

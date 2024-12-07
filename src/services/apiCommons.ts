@@ -15,12 +15,18 @@ export const defaultHeaders = {
 };
 
 export async function getDefaultHeadersAuthenticated() {
+    if (import.meta.env.VITE_ENV_MODE !== "prod") {
+        return {
+            ...defaultHeaders,
+            "Authorization": `Bearer ${await getAuthorizationToken()}`
+        };
+    }
     return {
         ...defaultHeaders,
         // "Authorization": `Bearer ${await getAuthorizationToken()}`
         // TODO: resolve security - csrf token
         // "X-CSRF-Token": getCookie("XSRF-TOKEN")
-    }
+    };
 }
 
 /**

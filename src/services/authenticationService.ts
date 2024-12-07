@@ -21,19 +21,19 @@ export function getLoginUrl() {
 
 // ==== DEVELOPMENT TOKEN SERVICE ====
 
-const TOKEN_URL = "http://localhost:8080/auth/realms/baeldung/protocol/openid-connect/token";
+const TOKEN_URL = "http://localhost:8080/auth/realms/edutie/protocol/openid-connect/token";
 
 export async function getAuthorizationToken() {
     const response = await fetch(TOKEN_URL, { 
         method: "POST", 
         headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
         body: new URLSearchParams({
-            "client_id": "baeldung-confidential",
+            "client_id": "edutie-confidential",
             "client_secret": "secret",
             "grant_type": "password",
             "username": "admin123",
             "password": "admin",
-            "redirect_uri": "http://127.0.0.1:7080/bff/login/oauth2/code/baeldung"
+            "redirect_uri": "http://127.0.0.1:7080/system/login/oauth2/code/edutie"
         })
     });
     const data = await response.json();
