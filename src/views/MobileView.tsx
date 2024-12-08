@@ -59,7 +59,7 @@ export default function MobileView() {
                 alignItems: "center",
                 marginTop: theme.spacing(2),
               }}>
-              <img src="..\src\assets\img\pleading-face.png" alt="emoji" height="auto" width="35px" />
+              <img src="https://www.svgrepo.com/show/398092/pleading-face.svg" alt="emoji" height="auto" width="35px" />
               <Grid
                 container
                 direction="row"
@@ -68,9 +68,9 @@ export default function MobileView() {
                   justifyContent: "center",
                   alignItems: "center",
                 }}>
-                <img src="..\src\assets\img\right-hand.png" alt="emoji" height="auto" width="30px" />
+                <img src="https://www.svgrepo.com/show/434006/backhand-index-pointing-right.svg" alt="emoji" height="auto" width="30px" />
 
-                <img src="..\src\assets\img\left-hand.png" alt="emoji" height="auto" width="30px" />
+                <img src="https://www.svgrepo.com/show/433999/backhand-index-pointing-left.svg" alt="emoji" height="auto" width="30px" />
               </Grid>
             </Grid>
             <Grid
