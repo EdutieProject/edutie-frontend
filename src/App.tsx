@@ -14,9 +14,32 @@ import LearningResultView from "./views/LearningResultView";
 import PlaygroundView from "./views/PlaygroundView";
 import ProfileView from "./views/ProfileView";
 import { navigationPath } from "./features/navigation/navigationPath";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import MobileView from "./views/MobileView";
 
 export default function App() {
+  const [width, setWidth] = useState<number>(window.innerWidth);
+
+  function handleWindowSizeChange() {
+    setWidth(window.innerWidth);
+  }
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
+  }, []);
+
+  const isMobile = width <= 1000;
+
+  if (isMobile) {
+    return (
+      <ThemeProvider theme={theme}>
+        <MobileView />
+      </ThemeProvider>
+    );
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <SelectedNavigationSectionProvider>
