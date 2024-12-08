@@ -7,6 +7,8 @@ import {
     SelectedNavigationSectionContext,
     SelectedNavigationSelectionContextType
 } from "../../features/navigation/navigationState";
+import {Logout} from "@mui/icons-material";
+import {logout} from "../../services/authenticationService";
 
 
 
@@ -82,23 +84,37 @@ export default function NavBar({activeSectionIdOverride}: NavBarProps) {
         }
     }, [activeSectionIdOverride]);
 
+
     return (
         <Box sx={{
             display: "flex",
             flexDirection: "column",
+            justifyContent: "space-between",
             backgroundColor: theme.palette.primary.main,
-            gap: theme.spacing(2),
             boxShadow: theme.shadows[4],
             paddingY: theme.spacing(6)
         }}>
-            {navElements.map((item, idx) => (
-                <NavElement
-                    key={idx}
-                    item={item}
-                    isActive={item.id === selectedSectionId}
-                    setActiveNavbarElem={setSelectedSectionId}
-                />
-            ))}
+            <Box sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: theme.spacing(2)
+            }}>
+                {navElements.map((item, idx) => (
+                    <NavElement
+                        key={idx}
+                        item={item}
+                        isActive={item.id === selectedSectionId}
+                        setActiveNavbarElem={setSelectedSectionId}
+                    />
+                ))}
+            </Box>
+            <Box>
+                <NavElement item={{
+                    id: "logout",
+                    icon: (_) => <Logout color={"white"}/>,
+                    navigate: (_) => { logout().then() }
+                }} isActive={false} setActiveNavbarElem={() => {}}/>
+            </Box>
         </Box>
     );
 }
