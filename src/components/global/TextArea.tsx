@@ -1,5 +1,6 @@
 import { SxProps, TextField, useTheme } from "@mui/material";
 import React from "react";
+type SxProps = typeof SxProps;
 interface Props {
   label?: string;
   value?: string;
@@ -25,7 +26,7 @@ export default function TextArea(props: Props) {
         "& fieldset:enabled": {
           border: 0,
         },
-        ...props.sx
+        ...props.sx,
       }}
       onChange={props.onChange}
     />
