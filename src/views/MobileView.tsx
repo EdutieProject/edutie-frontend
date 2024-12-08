@@ -89,7 +89,7 @@ export default function MobileView() {
                     alignItems: "center",
                     gap: 3,
                   }}
-                  leftIcon={<img src="..\src\assets\img\discord.png" alt="discord" height="auto" width="30px" />}
+                  leftIcon={<img src="../assets/svg/discord-logo.svg" alt="discord" height="auto" width="30px" />}
                   label={"Dołącz do discorda"}
                   active={true}></RoundedButton>
               </a>
