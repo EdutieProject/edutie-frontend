@@ -245,7 +245,7 @@ function ActivityBlock({
                     <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(4)}}>
                         <LightBulbDoodleIcon width={"3rem"} height={"3rem"}/>
                         <Typography>Możesz skorzystać z podpowiedzi!</Typography>
-                        <Box sx={{display: "flex", gap: theme.spacing(6), alignItems: "flex-start", flexWrap: "wrap"}}>
+                        <Box sx={{display: "flex", gap: theme.spacing(6), alignItems: "flex-start", flexWrap: "wrap", justifyContent: "center"}}>
                             {
                                 activity.hints.map((hint: any) =>
                                     <HintTile hint={hint}
