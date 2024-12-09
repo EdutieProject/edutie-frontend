@@ -15,6 +15,8 @@ import Heading from "../components/global/Heading";
 import LightBulbDoodleIcon from "../components/customIcons/LightBulbIcon";
 import MermaidRenderer from "../components/mermaid/MermaidRenderer";
 import {ChevronLeft, ChevronRight} from "@mui/icons-material";
+import Editor, {normalizeEditorOutputData} from "../components/editors/Editor";
+import {OutputData} from "@editorjs/editorjs";
 
 enum SubView {
     THEORY = "THEORY",
@@ -36,7 +38,7 @@ export default function LearningResourceView() {
     /* sub-view states workarounds */
     const [activeTheoryCardIdx, setActiveTheoryCardIdx] = useState<number>(0);
     const [hintsRevealed, setHintsRevealed] = useState<Array<any>>([]);
-    const [solutionText, setSolutionText] = useState<string>("");
+    const [solutionData, setSolutionData] = useState<OutputData>(null); //TODO fix
     const [assessmentLoading, setAssessmentLoading] = useState(false);
 
     useEffect(() => {
@@ -54,7 +56,7 @@ export default function LearningResourceView() {
 
     useEffect(() => {
         if (assessmentLoading) {
-            generateLearningResultFromSolution(learningResource.id, solutionText, hintsRevealed.length)
+            generateLearningResultFromSolution(learningResource.id, normalizeEditorOutputData(solutionData), hintsRevealed.length)
                 .then(learningResultResponse => {
                     console.log(learningResultResponse);
                     if (learningResultResponse.success === false) {
@@ -102,8 +104,8 @@ export default function LearningResourceView() {
                         setAssessmentLoading={setAssessmentLoading}
                         hintsRevealed={hintsRevealed}
                         setHintsRevealed={setHintsRevealed}
-                        solutionText={solutionText}
-                        setSolutionText={setSolutionText}
+                        solutionData={solutionData}
+                        setSolutionData={setSolutionData}
                     />
                     : currentView === SubView.VISUALISATION ?
                         <VisualisationBlock mermaidVisualisationString={learningResource.mermaidVisualisationString}/> :
@@ -180,8 +182,8 @@ function TheoryBlock({theoryCards, learningRequirements, activeCardIdx, setActiv
 interface ActivityBlockProps {
     activity: any;
     setAssessmentLoading: Dispatch<SetStateAction<boolean>>;
-    solutionText: string;
-    setSolutionText: Dispatch<SetStateAction<string>>;
+    solutionData: OutputData;
+    setSolutionData: Dispatch<SetStateAction<OutputData>>;
     hintsRevealed: Array<any>;
     setHintsRevealed: Dispatch<SetStateAction<any>>;
 }
@@ -190,8 +192,8 @@ interface ActivityBlockProps {
 function ActivityBlock({
                            activity,
                            setAssessmentLoading,
-                           solutionText,
-                           setSolutionText,
+                           solutionData,
+                           setSolutionData,
                            hintsRevealed,
                            setHintsRevealed
                        }: ActivityBlockProps) {
@@ -229,15 +231,7 @@ function ActivityBlock({
                             sposób zadanie było rozwiązywane. Twoje rozwiązanie będzie oceniane na podstawie twojego
                             zrozumienia tematu!
                         </Typography>
-                        <TextArea
-                            minRows={10} maxRows={18}
-                            sx={{marginY: theme.spacing(4)}}
-                            label='Twoje rozwiązanie'
-                            value={solutionText}
-                            onChange={(e) => {
-                                setSolutionText(e.target.value);
-                            }}
-                        />
+                        <Editor currentContent={solutionData} setCurrentContent={setSolutionData}/>
                         <Box sx={{display: "flex", flexDirection: "row-reverse"}}>
                             <RoundedButton label={"Zakończ zadanie"} active onClick={() => setAssessmentLoading(true)}/>
                         </Box>
