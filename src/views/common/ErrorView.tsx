@@ -13,7 +13,7 @@ export default function ErrorView({error}: { error: any }) {
     const iconSize = "24rem";
 
     return (
-        <NavLayout mode="flex" scroll>
+        <NavLayout scroll>
             <Grid container flexGrow={1}>
                 <Grid item xs={6}>
                     <Box sx={{position: "fixed", display: "grid", placeItems: "center", height: "100vh", width: "40%"}}>

@@ -1,31 +1,39 @@
-import { getAuthorizationToken } from "./authPlaceholder";
+import { getAuthorizationToken } from "./authenticationService";
 
-const BACKEND_HOST = "localhost:8081";
+const BACKEND_HOST = import.meta.env.VITE_BACKEND_HOST;
 const API_VERSION = "v1";
 
+// TODO: is https applicable here?
 export const API_PATH = `http://${BACKEND_HOST}/api/${API_VERSION}`;
 
 export const LEARNING_API = `${API_PATH}/learning`;
 export const MANAGEMENT_API = `${API_PATH}/management`;
 
-//TODO: switch to cookie-based auth
 export const defaultHeaders = {
     Accept: "application/json",
     "Content-Type": "application/json;charset=UTF-8",
 };
 
 export async function getDefaultHeadersAuthenticated() {
+    if (import.meta.env.VITE_ENV_MODE !== "prod") {
+        return {
+            ...defaultHeaders,
+            "Authorization": `Bearer ${await getAuthorizationToken()}`
+        };
+    }
     return {
         ...defaultHeaders,
-        "Authorization": `Bearer ${await getAuthorizationToken()}`
-    }
+        // "Authorization": `Bearer ${await getAuthorizationToken()}`
+        // TODO: resolve security - csrf token
+        // "X-CSRF-Token": getCookie("XSRF-TOKEN")
+    };
 }
 
 /**
  * Util function for client error generation
  */
 const clientError = (ex: Error) => {
-    return { code: "CLIENT-API-ERROR", message: ex.message } 
+    return { code: "CLIENT-ERROR-[" + ex.name + "]", message: ex.message }
 };
 
 /**

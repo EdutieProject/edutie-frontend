@@ -66,7 +66,9 @@ export default function CoursesView() {
                         if (sciences[selectedScienceIndex - 1]) {
                             setSelectedScienceIndex(selectedScienceIndex - 1);
                         }
-                    }}>
+                    }}
+                    disabled={sciences.length === 1}
+                    >
                     <ChevronLeft fontSize={"large"}/>
                 </IconButton>
                 <Box sx={{
@@ -78,11 +80,7 @@ export default function CoursesView() {
                 }}>
                     <Heading variant="h3">{selectedScience.name}</Heading>
                     <img
-                        src={
-                            selectedScience.imageSource === null
-                                ? "https://www.svgrepo.com/show/453302/mobius-strip.svg"
-                                : selectedScience.imageSource
-                        }
+                        src={selectedScience.imageSource ?? "https://www.svgrepo.com/show/452479/question-mark.svg"}
                         alt="Science Picture"
                         width={200}
                         style={{
@@ -102,7 +100,9 @@ export default function CoursesView() {
                         if (sciences[selectedScienceIndex + 1]) {
                             setSelectedScienceIndex(selectedScienceIndex + 1);
                         }
-                    }}>
+                    }}
+                    disabled={sciences.length === 1}
+                    >
                     <ChevronRight fontSize={"large"}/>
                 </IconButton>
             </Box>
@@ -190,11 +190,7 @@ const CourseTile = ({course}: { course: any }) => {
             <Grid container>
                 <Grid item xs={12} md={2} sx={{display: "grid", placeItems: "center"}}>
                     <img
-                        src={
-                            course.imageSource === null
-                                ? "https://www.svgrepo.com/show/452651/globe.svg"
-                                : course.imageSource
-                        }
+                        src={course.imageSource ?? "https://www.svgrepo.com/show/452479/question-mark.svg"}
                         width="100%"
                         style={{aspectRatio: 1, objectFit: "cover", borderRadius: theme.shape.borderRadius}}
                         alt={"Course"}
