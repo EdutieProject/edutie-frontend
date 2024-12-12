@@ -6,7 +6,7 @@ export async function logout() {
         { method: "POST", credentials: "include" });
     console.log(response)
     if (response.ok) {
-        window.location.href = window.location.origin + import.meta.env.VITE_BASE_PATH_OVERRIDE;
+        window.location.href = window.location.origin; // Return to main page by convention
     }
 }
 
