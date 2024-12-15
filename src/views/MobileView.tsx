@@ -19,7 +19,7 @@ export default function MobileView() {
           position: "absolute",
           width: "100%",
         }}>
-        BIG ASS LOGO EDUTIE
+        {/*BIG ASS LOGO EDUTIE*/}
       </Box>
       <Container
         direction="column"

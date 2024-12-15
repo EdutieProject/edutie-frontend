@@ -1,10 +1,10 @@
-import { getAuthorizationToken } from "./authenticationService";
+import {getAuthorizationToken, getProtocol, logout} from "./authenticationService";
 
 const BACKEND_HOST = import.meta.env.VITE_BACKEND_HOST;
 const API_VERSION = "v1";
 
 // TODO: is https applicable here?
-export const API_PATH = `http://${BACKEND_HOST}/api/${API_VERSION}`;
+export const API_PATH = `${getProtocol()}//${BACKEND_HOST}/api/${API_VERSION}`;
 
 export const LEARNING_API = `${API_PATH}/learning`;
 export const MANAGEMENT_API = `${API_PATH}/management`;
@@ -42,7 +42,11 @@ const clientError = (ex: Error) => {
  */
 export const catchClientErrors = async (fetchFunction: () => Promise<any>) => {
     try {
-        return await fetchFunction();
+        const response = await fetchFunction();
+        if (response.error && response.error.code === "INVALID-AUTHENTICATION-401") {
+            logout().then();
+        }
+        return response;
     } catch (e: unknown) {
         return { data: null, error: clientError(e as Error), success: false }
     }

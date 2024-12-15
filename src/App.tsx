@@ -13,24 +13,13 @@ import LearningResourceView from "./views/LearningResourceView";
 import LearningResultView from "./views/LearningResultView";
 import ProfileView from "./views/ProfileView";
 import { navigationPath } from "./features/navigation/navigationPath";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import MobileView from "./views/MobileView";
 import {SessionProvider} from "./features/session/SessionProvider";
+import {mobileCheck} from "./features/mobileDetection";
 
 export default function App() {
-  const [width, setWidth] = useState<number>(window.innerWidth);
-
-  function handleWindowSizeChange() {
-    setWidth(window.innerWidth);
-  }
-  useEffect(() => {
-    window.addEventListener("resize", handleWindowSizeChange);
-    return () => {
-      window.removeEventListener("resize", handleWindowSizeChange);
-    };
-  }, []);
-
-  const isMobile = width <= 1000;
+  const isMobile = mobileCheck();
 
   if (isMobile) {
     return (

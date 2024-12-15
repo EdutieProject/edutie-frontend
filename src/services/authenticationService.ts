@@ -1,21 +1,25 @@
 
 // ==== COOKIE AUTHENTICATION FUNCTIONS ====
 
+export function getProtocol(): string {
+    return import.meta.env.VITE_ENV_MODE === "prod" ? "https:" : "http:";
+}
+
 export async function logout() {
-    const response = await fetch(window.location.protocol + "//" + import.meta.env.VITE_BACKEND_HOST + "/logout",
+    const response = await fetch(getProtocol() + "//" + import.meta.env.VITE_BACKEND_HOST + "/logout",
         { method: "POST", credentials: "include" });
     console.log(response)
     if (response.ok) {
-        window.location.href = window.location.origin + import.meta.env.VITE_BASE_PATH_OVERRIDE;
+        window.location.href = window.location.origin; // Return to main page by convention
     }
 }
 
 export async function authenticationCheck() {
-    return await fetch(window.location.protocol + "//" +import.meta.env.VITE_BACKEND_HOST + "/api/v1/inspection/test-authentication", {credentials: "include"});
+    return await fetch(getProtocol() + "//" +import.meta.env.VITE_BACKEND_HOST + "/api/v1/inspection/test-authentication", {credentials: "include"});
 }
 
 export function getLoginUrl() {
-    return window.location.protocol + "//" + import.meta.env.VITE_BACKEND_HOST + "/oauth2/authorization/edutie";
+    return getProtocol() + "//" + import.meta.env.VITE_BACKEND_HOST + "/oauth2/authorization/edutie";
 }
 
 
