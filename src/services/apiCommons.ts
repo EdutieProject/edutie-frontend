@@ -1,4 +1,4 @@
-import {getAuthorizationToken, getProtocol} from "./authenticationService";
+import {getAuthorizationToken, getProtocol, logout} from "./authenticationService";
 
 const BACKEND_HOST = import.meta.env.VITE_BACKEND_HOST;
 const API_VERSION = "v1";
@@ -42,7 +42,11 @@ const clientError = (ex: Error) => {
  */
 export const catchClientErrors = async (fetchFunction: () => Promise<any>) => {
     try {
-        return await fetchFunction();
+        const response = await fetchFunction();
+        if (response.error && response.error.code === "INVALID-AUTHENTICATION-401") {
+            logout().then();
+        }
+        return response;
     } catch (e: unknown) {
         return { data: null, error: clientError(e as Error), success: false }
     }
