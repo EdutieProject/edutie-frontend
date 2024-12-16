@@ -15,7 +15,7 @@ export const defaultHeaders = {
 };
 
 export async function getDefaultHeadersAuthenticated() {
-    if (import.meta.env.VITE_ENV_MODE !== "prod") {
+    if (import.meta.env.VITE_ENV_MODE === "dev") {
         return {
             ...defaultHeaders,
             "Authorization": `Bearer ${await getAuthorizationToken()}`

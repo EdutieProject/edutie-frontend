@@ -7,7 +7,7 @@ import {authenticationCheck} from "../../services/authenticationService";
 
 export const SessionProvider = ({children}: { children: ReactNode }) => {
     // Omit session management for non-prod env
-    if (import.meta.env.VITE_ENV_MODE !== "prod") {
+    if (import.meta.env.VITE_ENV_MODE === "dev") {
         return (
             <SessionContext.Provider value={{ isActive: true }}>
                 {children}
