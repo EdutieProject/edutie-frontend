@@ -167,7 +167,6 @@ function SelectedElementDescriptionTab({selectedElement, setExerciseLoading}: {
                     </Box>
                 </Box>
                 <Box sx={{marginTop: theme.spacing(2), display: "flex", gap: theme.spacing(4), alignItems: "center", flexWrap: "wrap"}}>
-                    <RoundedButton label={"Zobacz poprzednie wyniki"} disabled/>
                     <RoundedButton label={"Przejdź do nauki"} active onClick={() => setExerciseLoading(true)}/>
                 </Box>
             </Box>
