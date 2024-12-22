@@ -127,7 +127,7 @@ export default function LearningResultView() {
                                         </Box>
                                         <Box sx={{display: "flex", gap: theme.spacing(2)}}>
                                             <Heading
-                                                variant="h4">Trudność: {(assessment.difficultyFactor * 100)}%</Heading>
+                                                variant="h4">Trudność: {(Math.round(assessment.difficultyFactor * 100))}%</Heading>
                                             <Box sx={{display: "flex", alignItems: "center", flexGrow: 1}}>
                                                 <CustomLinearProgress
                                                     color="accentSecond"

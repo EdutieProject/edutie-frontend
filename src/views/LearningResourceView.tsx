@@ -108,7 +108,7 @@ export default function LearningResourceView() {
                         setSolutionData={setSolutionData}
                     />
                     : currentView === SubView.VISUALISATION ?
-                        <VisualisationBlock mermaidVisualisationString={learningResource.mermaidVisualisationString}/> :
+                        <VisualisationBlock mermaidVisualisationString={learningResource.visualisation.code}/> :
                         <TheoryBlock theoryCards={learningResource.theoryCards}
                                      learningRequirements={learningResource.learningRequirements}
                                      activeCardIdx={activeTheoryCardIdx}

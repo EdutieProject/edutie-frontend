@@ -1,7 +1,7 @@
 import { Box, Divider, Grid, Typography, useTheme } from "@mui/material";
 import NavLayout from "./layout/NavLayout.js";
 import React, { useEffect, useState } from "react";
-import { generateRandomFactLearningResource, getLatestActivity, getRandomFact } from "../services/learningService";
+import { generateDynamicLearningResource, getLatestActivity, getRandomFact } from "../services/learningService";
 import ErrorView from "./common/ErrorView.js";
 import LoadingView from "./common/LoadingView.js";
 import RoundedButton from "../components/global/RoundedButton.js";
@@ -82,7 +82,7 @@ export default function HomeView() {
 
   async function dynamicLearningResourceLoad() {
     if (!dynamicLearningResourceLoading) return;
-    const learningResourceResponse = await generateRandomFactLearningResource(randomFact);
+    const learningResourceResponse = await generateDynamicLearningResource(randomFact);
     if (learningResourceResponse.success === false) {
       setError(learningResourceResponse.error);
       return;

@@ -176,7 +176,7 @@ function StudentProfileView({setError}: { setError: Dispatch<SetStateAction<any>
                                             }}>
                                                 <CognitionDoodleIcon width={"3rem"} height={"3rem"}/>
                                                 <CircularProgressWithLabel
-                                                    label={`${assessment.difficultyFactor * 100}%`}
+                                                    label={`${Math.round(assessment.difficultyFactor * 100)}%`}
                                                     value={assessment.difficultyFactor * 100} color="accentSecond"
                                                     thickness={6} size={"1.5rem"}/>
                                             </Box>
