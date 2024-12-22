@@ -13,7 +13,7 @@ export async function generateLearningResource(learningResourceDefinitionId: str
 export async function generateDynamicLearningResource(context: string) {
     return await catchClientErrors(
         async () => {
-            const body = JSON.stringify({ context: context });
+            const body = JSON.stringify({ contextText: context, contextType: "RANDOM_FACT" });
             const response = await fetch(`${LEARNING_API}/resources/create-dynamic`, { method: "POST", headers: await getDefaultHeadersAuthenticated(), body: body });
             return await response.json();
         }
