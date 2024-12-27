@@ -10,6 +10,16 @@ export async function generateLearningResource(learningResourceDefinitionId: str
     );
 }
 
+export async function generateSimilarLearningResource(learningResourceId: string): Promise<any> {
+    return await catchClientErrors(
+        async () => {
+            const body = JSON.stringify({ learningResourceId: learningResourceId });
+            const response = await fetch(`${LEARNING_API}/resources/create-similar`, { method: "POST", headers: await getDefaultHeadersAuthenticated(), body: body });
+            return await response.json();
+        }
+    );
+}
+
 export async function generateDynamicLearningResource(context: string) {
     return await catchClientErrors(
         async () => {
@@ -24,6 +34,16 @@ export async function getLearningResourceById(learningResourceId: string) {
     return await catchClientErrors(
         async () => {
             const response = await fetch(`${LEARNING_API}/resources/${learningResourceId}`,
+                { method: "GET", headers: await getDefaultHeadersAuthenticated()});
+            return await response.json();
+        }
+    );
+}
+
+export async function getLatestLearningResourcesById(): Promise<Array<any>> {
+    return await catchClientErrors(
+        async () => {
+            const response = await fetch(`${LEARNING_API}/resources/get-latest`,
                 { method: "GET", headers: await getDefaultHeadersAuthenticated()});
             return await response.json();
         }

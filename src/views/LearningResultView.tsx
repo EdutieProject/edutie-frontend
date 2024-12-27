@@ -2,7 +2,11 @@ import {useLocation, useNavigate, useParams} from "react-router-dom";
 import NavLayout from "./layout/NavLayout.js";
 import {Box, Grid, Typography, useTheme} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {generateLearningResource, getLearningResultById} from "../services/learningService";
+import {
+    generateLearningResource,
+    generateSimilarLearningResource,
+    getLearningResultById
+} from "../services/learningService";
 import ErrorView from "./common/ErrorView.js";
 import JoyColorfulFaceIcon from "../components/customIcons/JoyColorfulFaceIcon.js";
 import SadColorfulFaceIcon from "../components/customIcons/SadColorfulFaceIcon.js";
@@ -53,7 +57,7 @@ export default function LearningResultView() {
     useEffect(() => {
         if (!exerciseLoading)
             return;
-        generateLearningResource(learningResult.learningResourceDefinitionId)
+        generateSimilarLearningResource(learningResult.associatedLearningResourceId)
             .then((learningResourceResponse => {
                 if (learningResourceResponse.success === false) {
                     setError(learningResourceResponse.error);
