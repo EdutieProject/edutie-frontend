@@ -31,6 +31,7 @@ export function normalizeEditorOutputData(editorOutputData: OutputData): string 
     let outputStr = "";
     for (let block of editorOutputData.blocks) {
         outputStr += block.data.text ?? block.data.latex;
+        outputStr += " "; // Add space after block end
     }
     return outputStr;
 }
