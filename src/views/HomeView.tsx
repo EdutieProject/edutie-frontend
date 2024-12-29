@@ -287,9 +287,9 @@ export default function HomeView() {
                 <Box sx={{ display: "flex", gap: theme.spacing(2) }}>
                   <Typography>Trudność: </Typography>
                   <CircularProgressWithLabel
-                    label={`${average(
+                    label={`${Math.round(average(
                       latestActivity.latestLearningResult.assessments.map((o: any) => o.difficultyFactor * 100)
-                    )}%`}
+                    ))}%`}
                     variant="determinate"
                     value={average(
                       latestActivity.latestLearningResult.assessments.map((o: any) => o.difficultyFactor * 100)
@@ -328,9 +328,9 @@ export default function HomeView() {
               <Box sx={{ display: "flex", gap: theme.spacing(2) }}>
                 <Typography>Trudność: </Typography>
                 <CircularProgressWithLabel
-                  label={`${average(
+                  label={`${Math.round(average(
                     latestActivity.latestLearningResult.assessments.map((o: any) => o.difficultyFactor * 100)
-                  )}%`}
+                  ))}%`}
                   variant="determinate"
                   value={80}
                   thickness={8}
