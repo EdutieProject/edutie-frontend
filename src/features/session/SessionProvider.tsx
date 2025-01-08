@@ -3,7 +3,7 @@ import React from "react";
 import {SessionContext} from "./SessionContext";
 import LoadingView from "../../views/common/LoadingView";
 import NoSessionView from "../../views/common/NoSessionView";
-import {authenticationCheck} from "../../services/authenticationService";
+import {authenticationCheck, getLoginUrl} from "../../services/authenticationService";
 
 export const SessionProvider = ({children}: { children: ReactNode }) => {
     // Omit session management for non-prod env
@@ -45,7 +45,7 @@ export const SessionProvider = ({children}: { children: ReactNode }) => {
     }
 
     if (!isActive) {
-        console.log("Returning no-session view");
+        window.location.href = getLoginUrl();
         return <NoSessionView/>;
     }
 

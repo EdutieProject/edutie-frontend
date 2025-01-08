@@ -4,6 +4,8 @@ import {useState} from "react";
 import {Link} from "react-router-dom";
 import DeadZombieFaceIcon from "../../components/customIcons/DeadZombieFaceIcon.js";
 import React from "react";
+import {invalidAuthenticationCode} from "../../services/authenticationService";
+import NoSessionView from "./NoSessionView";
 
 
 export default function ErrorView({error}: { error: any }) {
@@ -11,6 +13,10 @@ export default function ErrorView({error}: { error: any }) {
     const [showDetails, setShowDetails] = useState(false);
 
     const iconSize = "24rem";
+
+    if (error.code === invalidAuthenticationCode) {
+        return <NoSessionView/>
+    }
 
     return (
         <NavLayout scroll>

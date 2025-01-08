@@ -2,10 +2,13 @@ import {Box, Container, Grid, Theme, Typography, useTheme} from "@mui/material";
 import React from "react";
 import DizzinessFaceIcon from "../../components/customIcons/DizzinessFaceIcon";
 import Heading from "../../components/global/Heading";
-import RoundedButton from "../../components/global/RoundedButton";
 import {getLoginUrl} from "../../services/authenticationService";
 
 
+/**
+ * A specific error view for session timeout
+ * @constructor
+ */
 export default function NoSessionView() {
     const theme = useTheme();
 
@@ -24,11 +27,10 @@ export default function NoSessionView() {
                 </Grid>
                 <Grid item xs={6} sx={{padding: theme.spacing(4)}}>
                     <Heading variant="h2" color="grey">Nie poznaję cię...</Heading>
-                    <Typography padding={"1em 0"} variant="body1" color="initial">Zaloguj się aby korzystać z
-                        Edutie</Typography>
-                    <RoundedButton label={"Zaloguj się"} active onClick={() => {
-                        window.location.href = getLoginUrl();
-                    }}/>
+                    <Typography padding={"1em 0"} variant="body1" color="initial">
+                        Powinieneś zostać przekierowany - jeśli to się nie stanie kliknij <a
+                        href={getLoginUrl()}> tutaj </a>
+                    </Typography>
                 </Grid>
             </Grid>
         </Container>

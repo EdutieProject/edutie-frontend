@@ -22,6 +22,7 @@ export function getLoginUrl() {
     return getProtocol() + "//" + import.meta.env.VITE_BACKEND_HOST + "/oauth2/authorization/edutie";
 }
 
+export const invalidAuthenticationCode = "INVALID-AUTHENTICATION-401";
 
 // ==== DEVELOPMENT TOKEN SERVICE ====
 
