@@ -1,10 +1,11 @@
-import { Typography } from "@mui/material";
-import { TypographyProps, SxProps, Theme } from "@mui/material";
+import {Typography, TypographyProps} from "@mui/material";
 import React from "react";
+import Box from "@mui/material/Box";
+import {SxProps} from "@mui/system";
 
 // Define the interface for the props
 interface HeadingProps extends TypographyProps {
-    sx?: SxProps<Theme>;   // Optional style overrides using the SxProps type
+    sx?: SxProps;   // Optional style overrides using the SxProps type
 }
 
 export default function Heading({ variant, children, sx }: HeadingProps) {
