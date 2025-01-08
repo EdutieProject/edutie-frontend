@@ -1,7 +1,8 @@
-import {Box, Container, Grid, Theme, useTheme} from "@mui/material";
+import {Box, Container, Grid, Theme, Typography, useTheme} from "@mui/material";
 import React from "react";
 import DizzinessFaceIcon from "../../components/customIcons/DizzinessFaceIcon";
 import Heading from "../../components/global/Heading";
+import {getLoginUrl} from "../../services/authenticationService";
 
 
 /**
@@ -26,6 +27,10 @@ export default function NoSessionView() {
                 </Grid>
                 <Grid item xs={6} sx={{padding: theme.spacing(4)}}>
                     <Heading variant="h2" color="grey">Nie poznaję cię...</Heading>
+                    <Typography padding={"1em 0"} variant="body1" color="initial">
+                        Powinieneś zostać przekierowany - jeśli to się nie stanie kliknij <a
+                        href={getLoginUrl()}> tutaj </a>
+                    </Typography>
                 </Grid>
             </Grid>
         </Container>
