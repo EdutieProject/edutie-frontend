@@ -61,7 +61,16 @@ export default function Editor(props: EditorComponentProps) {
                 props.setCurrentContent(content);
             },
             tools: {
-                math: MathEditor
+                math: {
+                    class: MathEditor,
+                    inlineToolbar: true,
+                    config: {
+                        virtualKeyboardMode: 'onfocus',
+                        defaultMode: 'math',
+                        smartMode: true,
+                        virtualKeyboardTheme: 'apple',
+                    },
+                }
             },
             minHeight: theme.spacing(6)
         });
