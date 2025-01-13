@@ -17,7 +17,7 @@ export default function MobileView() {
                     position: "absolute",
                     width: "100%",
                 }}>
-                {/*BIG ASS LOGO EDUTIE*/}
+                <img src={"/app/assets/img/logo.png"} alt={"logo"}/>
             </Box>
             <Container
                 className="hero-gradient"

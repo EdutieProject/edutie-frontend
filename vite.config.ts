@@ -5,11 +5,10 @@ import dotenv from 'dotenv'
 /* Use dotenv instead of vite import.meta property inside vite's config  */
 dotenv.config();
 
-type UserConfig = typeof UserConfig;
 export default {
   plugins: [react()],
-  base: '.' + process.env.VITE_BASE_PATH_OVERRIDE,
+  base: "/app",
   build: {
-    assetsDir: '.' + process.env.VITE_BASE_PATH_OVERRIDE as string + process.env.VITE_ASSETS_DIR as string,
+    assetsDir: "app/assets",
   }
 } satisfies UserConfig;
