@@ -1,15 +1,36 @@
 import React, {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
 import EditorJS, {OutputData} from "@editorjs/editorjs";
 import MathEditor from "editorjs-mathlive";
+import Header from "@editorjs/header"
 import {useTheme} from "@mui/material";
 
 const DEFAULT_INITIAL_DATA: OutputData = {
     "time": new Date().getTime(),
     "blocks": [
         {
+            "type": "header",
+            "data": {
+                "text": "Podejście do problemu",
+                "level": 2
+            }
+        },
+        {
             "type": "paragraph",
             "data": {
-                "text": "Tutaj opisz swoje rozwiązanie...",
+                "text": "Problemy rozwiążę poprzez zastosowanie [...]. Korzystam z tego, ponieważ [...]"
+            }
+        },
+        {
+            "type": "header",
+            "data": {
+                "text": "Obliczenia",
+                "level": 2
+            }
+        },
+        {
+            "type": "paragraph",
+            "data": {
+                "text": "Poniżej zawieram obliczenia (o ile są potrzebne)"
             }
         },
         {
@@ -19,9 +40,16 @@ const DEFAULT_INITIAL_DATA: OutputData = {
             }
         },
         {
+            "type": "header",
+            "data": {
+                "text": "Podsumowanie rozwiązania",
+                "level": 2
+            }
+        },
+        {
             "type": "paragraph",
             "data": {
-                "text": "Możesz dodawać też działania tak jak wyżej!",
+                "text": "Zastosowane zostały założenia zagadnienia [...]",
             }
         },
     ]
@@ -61,7 +89,17 @@ export default function Editor(props: EditorComponentProps) {
                 props.setCurrentContent(content);
             },
             tools: {
-                math: MathEditor
+                math: {
+                    class: MathEditor,
+                    inlineToolbar: true,
+                    config: {
+                        virtualKeyboardMode: 'onfocus',
+                        defaultMode: 'math',
+                        smartMode: true,
+                        virtualKeyboardTheme: 'apple',
+                    },
+                },
+                header: Header
             },
             minHeight: theme.spacing(6)
         });

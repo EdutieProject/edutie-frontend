@@ -26,7 +26,7 @@ export const invalidAuthenticationCode = "INVALID-AUTHENTICATION-401";
 
 // ==== DEVELOPMENT TOKEN SERVICE ====
 
-const TOKEN_URL = "http://localhost:8080/auth/realms/edutie/protocol/openid-connect/token";
+const TOKEN_URL = `http://${import.meta.env.VITE_AUTH_HOST}/realms/edutie/protocol/openid-connect/token`;
 
 export async function getAuthorizationToken() {
     const response = await fetch(TOKEN_URL, { 

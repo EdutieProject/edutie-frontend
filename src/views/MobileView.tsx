@@ -1,6 +1,10 @@
 import {Box, Container, Grid, Typography, useTheme} from "@mui/material";
 import React from "react";
 import RoundedButton from "../components/global/RoundedButton";
+import logo from "../assets/img/logo.png"
+import leftHand from "../assets/img/left-hand.png"
+import rightHand from "../assets/img/right-hand.png"
+import pleadingFace from "../assets/img/pleading-face.png"
 
 export default function MobileView() {
     const theme = useTheme();
@@ -16,8 +20,10 @@ export default function MobileView() {
                     margin: 0,
                     position: "absolute",
                     width: "100%",
+                    display: "grid",
+                    placeItems: "center"
                 }}>
-                {/*BIG ASS LOGO EDUTIE*/}
+                <img src={logo} alt={"logo"}/>
             </Box>
             <Container
                 className="hero-gradient"
@@ -60,8 +66,7 @@ export default function MobileView() {
                                 alignItems: "center",
                                 marginTop: theme.spacing(2),
                             }}>
-                            <img src="https://www.svgrepo.com/show/398092/pleading-face.svg" alt="emoji" height="auto"
-                                 width="35px"/>
+                            <img src={pleadingFace} alt="emoji" height="auto" width="270px"/>
                             <Grid
                                 container
                                 direction="row"
@@ -70,11 +75,9 @@ export default function MobileView() {
                                     justifyContent: "center",
                                     alignItems: "center",
                                 }}>
-                                <img src="https://www.svgrepo.com/show/434006/backhand-index-pointing-right.svg"
-                                     alt="emoji" height="auto" width="30px"/>
+                                <img src={rightHand} alt="emoji" height="auto" width="30px"/>
 
-                                <img src="https://www.svgrepo.com/show/433999/backhand-index-pointing-left.svg"
-                                     alt="emoji" height="auto" width="30px"/>
+                                <img src={leftHand} alt="emoji" height="auto" width="30px"/>
                             </Grid>
                         </Grid>
                         <Grid
