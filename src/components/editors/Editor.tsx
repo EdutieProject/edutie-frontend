@@ -1,8 +1,8 @@
 import React, {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
 import EditorJS, {OutputData} from "@editorjs/editorjs";
-import MathEditor from "editorjs-mathlive";
 import Header from "@editorjs/header"
 import {useTheme} from "@mui/material";
+import MathTool from "./mathTool"
 
 const DEFAULT_INITIAL_DATA: OutputData = {
     "time": new Date().getTime(),
@@ -89,19 +89,10 @@ export default function Editor(props: EditorComponentProps) {
                 props.setCurrentContent(content);
             },
             tools: {
-                math: {
-                    class: MathEditor,
-                    inlineToolbar: true,
-                    config: {
-                        virtualKeyboardMode: 'onfocus',
-                        defaultMode: 'math',
-                        smartMode: true,
-                        virtualKeyboardTheme: 'apple',
-                    },
-                },
+                math: MathTool,
                 header: Header
             },
-            minHeight: theme.spacing(6)
+            minHeight: theme.spacing(6) as unknown as number
         });
     };
 
