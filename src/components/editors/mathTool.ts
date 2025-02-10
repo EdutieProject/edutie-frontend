@@ -74,7 +74,9 @@ export default class MathTool {
         this.textContentHolder.innerHTML = this.mathField.value; // Update the hidden text content holder
 
         if (e.inputType === "insertLineBreak") {
-            this.api.blocks.insert("paragraph", { text: "" }, undefined, undefined, true, false, (Math.random() * 100) as unknown as string);
+            e.preventDefault();
+            // this.api.blocks.insert("paragraph", { text: "." }, undefined, undefined, true, false, (Math.random() * 100));
+            this.api.blocks.insertNewBlock();
         }
     }
 
