@@ -19,6 +19,10 @@ export default class MathTool {
         };
     }
 
+    static get enableLineBreaks() {
+        return true;
+    }
+
     constructor({ data, api, config, readOnly, block }: {data: BlockToolData, api: API, config: ToolConfig, readOnly: ReadOnly, block: BlockAPI}) {
         this.data = data;
         this.api = api;
@@ -57,21 +61,21 @@ export default class MathTool {
         this.mathField.style.width = "100%";
         container.appendChild(this.mathField); // Append the Math field to the container
 
-        this.mathField.addEventListener("input", (e) => this.handleMathFieldInput(e)); // Handle input events for math field
+        this.mathField.addEventListener("input", (e) => this.handleMathFieldInput(e as InputEvent)); // Handle input events for math field
     }
 
     /**
      * Handle input events for math field
      * @param {InputEvent} e input event
      */
-    handleMathFieldInput(e: Event) {
-        console.log(e);
+    handleMathFieldInput(e: InputEvent) {
         this.block.save().then();
         this.data.math = this.mathField.value; // Update the data on input
         this.textContentHolder.innerHTML = this.mathField.value; // Update the hidden text content holder
 
-        console.log(this.mathField.value);
-        console.log(this.block.isEmpty);
+        if (e.inputType === "insertLineBreak") {
+            this.api.blocks.insert("paragraph", { text: "" }, undefined, undefined, true, false, (Math.random() * 100) as unknown as string);
+        }
     }
 
     // Save the content of the Math field
