@@ -10,7 +10,6 @@ import LoadingView from './common/LoadingView.js';
 import ErrorView from './common/ErrorView.js';
 import {navigationPath} from '../features/navigation/navigationPath';
 import MarkdownLaTeXRenderer from '../components/markdown/MarkdownLaTexRenderer.js';
-import TextArea from '../components/global/TextArea';
 import Heading from "../components/global/Heading";
 import LightBulbDoodleIcon from "../components/customIcons/LightBulbIcon";
 import MermaidRenderer from "../components/mermaid/MermaidRenderer";
@@ -22,6 +21,57 @@ enum SubView {
     THEORY = "THEORY",
     ACTIVITY = "ACTIVITY",
     VISUALISATION = "VISUALISATION"
+}
+
+const solutionTemplateEditorData: OutputData = {
+    "time": new Date().getTime(),
+    "blocks": [
+        {
+            "type": "header",
+            "data": {
+                "text": "Podejście do problemu",
+                "level": 2
+            }
+        },
+        {
+            "type": "paragraph",
+            "data": {
+                "text": "Problemy rozwiążę poprzez zastosowanie [...]. Korzystam z tego, ponieważ [...]"
+            }
+        },
+        {
+            "type": "header",
+            "data": {
+                "text": "Obliczenia",
+                "level": 2
+            }
+        },
+        {
+            "type": "paragraph",
+            "data": {
+                "text": "Poniżej zawieram obliczenia (o ile są potrzebne)"
+            }
+        },
+        {
+            "type": "math",
+            "data": {
+                "latex": "1+2^3=3^2",
+            }
+        },
+        {
+            "type": "header",
+            "data": {
+                "text": "Podsumowanie rozwiązania",
+                "level": 2
+            }
+        },
+        {
+            "type": "paragraph",
+            "data": {
+                "text": "Zastosowane zostały założenia zagadnienia [...]",
+            }
+        },
+    ]
 }
 
 export default function LearningResourceView() {
@@ -38,7 +88,7 @@ export default function LearningResourceView() {
     /* sub-view states workarounds */
     const [activeTheoryCardIdx, setActiveTheoryCardIdx] = useState<number>(0);
     const [hintsRevealed, setHintsRevealed] = useState<Array<any>>([]);
-    const [solutionData, setSolutionData] = useState<OutputData>(null); //TODO fix
+    const [solutionData, setSolutionData] = useState<OutputData>(solutionTemplateEditorData);
     const [assessmentLoading, setAssessmentLoading] = useState(false);
 
     useEffect(() => {
@@ -236,9 +286,6 @@ function ActivityBlock({
                             <RoundedButton label={"Zakończ zadanie"} active onClick={() => setAssessmentLoading(true)}/>
                         </Box>
                     </Surface>
-                    <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(4)}}>
-                        <LightBulbDoodleIcon width={"3rem"} height={"3rem"}/>
-                        <Typography>Możesz skorzystać z podpowiedzi!</Typography>
                         <Box sx={{display: "flex", gap: theme.spacing(6), alignItems: "flex-start", flexWrap: "wrap", justifyContent: "center"}}>
                             {
                                 activity.hints.map((hint: any) =>
@@ -249,7 +296,6 @@ function ActivityBlock({
                                 )
                             }
                         </Box>
-                    </Box>
                 </Box>
             </Box>
         </Box>
@@ -291,7 +337,7 @@ function HintTile({hint, isRevealed, setHintsRevealed}: {
                          })
                      }}
             >
-                <TurnAroundIcon width={"4em"} height={"4em"} color={theme.palette.common.white}/>
+                <LightBulbDoodleIcon width={"4rem"} height={"4rem"} />
             </Surface>
         );
 
