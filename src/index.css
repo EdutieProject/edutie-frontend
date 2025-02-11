@@ -2,8 +2,6 @@
 DO NOT DELETE THIS FILE.
 This file contains root styling therefore it is relevant. Edit it to change core styling properties.
 **/
-@import url("fonts.css");
-
 :root {
   font-family: "Geologica", monospace;
   line-height: 1.5;
