@@ -10,7 +10,6 @@ import LoadingView from './common/LoadingView.js';
 import ErrorView from './common/ErrorView.js';
 import {navigationPath} from '../features/navigation/navigationPath';
 import MarkdownLaTeXRenderer from '../components/markdown/MarkdownLaTexRenderer.js';
-import TextArea from '../components/global/TextArea';
 import Heading from "../components/global/Heading";
 import LightBulbDoodleIcon from "../components/customIcons/LightBulbIcon";
 import MermaidRenderer from "../components/mermaid/MermaidRenderer";
@@ -22,6 +21,57 @@ enum SubView {
     THEORY = "THEORY",
     ACTIVITY = "ACTIVITY",
     VISUALISATION = "VISUALISATION"
+}
+
+const solutionTemplateEditorData: OutputData = {
+    "time": new Date().getTime(),
+    "blocks": [
+        {
+            "type": "header",
+            "data": {
+                "text": "Podejście do problemu",
+                "level": 2
+            }
+        },
+        {
+            "type": "paragraph",
+            "data": {
+                "text": "Problemy rozwiążę poprzez zastosowanie [...]. Korzystam z tego, ponieważ [...]"
+            }
+        },
+        {
+            "type": "header",
+            "data": {
+                "text": "Obliczenia",
+                "level": 2
+            }
+        },
+        {
+            "type": "paragraph",
+            "data": {
+                "text": "Poniżej zawieram obliczenia (o ile są potrzebne)"
+            }
+        },
+        {
+            "type": "math",
+            "data": {
+                "latex": "1+2^3=3^2",
+            }
+        },
+        {
+            "type": "header",
+            "data": {
+                "text": "Podsumowanie rozwiązania",
+                "level": 2
+            }
+        },
+        {
+            "type": "paragraph",
+            "data": {
+                "text": "Zastosowane zostały założenia zagadnienia [...]",
+            }
+        },
+    ]
 }
 
 export default function LearningResourceView() {
@@ -38,7 +88,7 @@ export default function LearningResourceView() {
     /* sub-view states workarounds */
     const [activeTheoryCardIdx, setActiveTheoryCardIdx] = useState<number>(0);
     const [hintsRevealed, setHintsRevealed] = useState<Array<any>>([]);
-    const [solutionData, setSolutionData] = useState<OutputData>(null); //TODO fix
+    const [solutionData, setSolutionData] = useState<OutputData>(solutionTemplateEditorData);
     const [assessmentLoading, setAssessmentLoading] = useState(false);
 
     useEffect(() => {
