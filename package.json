@@ -16,7 +16,6 @@
     "@editorjs/header": "^2.8.8",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
-    "@fontsource/inter": "^5.0.13",
     "@material-ui/icons": "^4.11.3",
     "@mui/icons-material": "^5.14.14",
     "@mui/joy": "",
