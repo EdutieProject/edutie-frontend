@@ -286,9 +286,6 @@ function ActivityBlock({
                             <RoundedButton label={"Zakończ zadanie"} active onClick={() => setAssessmentLoading(true)}/>
                         </Box>
                     </Surface>
-                    <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", gap: theme.spacing(4)}}>
-                        <LightBulbDoodleIcon width={"3rem"} height={"3rem"}/>
-                        <Typography>Możesz skorzystać z podpowiedzi!</Typography>
                         <Box sx={{display: "flex", gap: theme.spacing(6), alignItems: "flex-start", flexWrap: "wrap", justifyContent: "center"}}>
                             {
                                 activity.hints.map((hint: any) =>
@@ -299,7 +296,6 @@ function ActivityBlock({
                                 )
                             }
                         </Box>
-                    </Box>
                 </Box>
             </Box>
         </Box>
@@ -341,7 +337,7 @@ function HintTile({hint, isRevealed, setHintsRevealed}: {
                          })
                      }}
             >
-                <TurnAroundIcon width={"4em"} height={"4em"} color={theme.palette.common.white}/>
+                <LightBulbDoodleIcon width={"4rem"} height={"4rem"} />
             </Surface>
         );
 
