@@ -1,4 +1,4 @@
-import {getAuthorizationToken, getProtocol, invalidAuthenticationCode, logout} from "./authenticationService";
+import {getAuthorizationToken, getProtocol, invalidAuthenticationCode, logout} from "src/services/authenticationService";
 
 const BACKEND_HOST = import.meta.env.VITE_BACKEND_HOST;
 const API_VERSION = "v1";

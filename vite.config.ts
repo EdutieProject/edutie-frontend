@@ -10,5 +10,10 @@ export default {
   base: "/app",
   build: {
     assetsDir: "app/assets",
+  },
+  resolve: {
+    alias: {
+      src: "/src"
+    }
   }
 } satisfies UserConfig;
