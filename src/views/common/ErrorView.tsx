@@ -12,7 +12,9 @@ export default function ErrorView({error}: { error: any }) {
     const theme = useTheme();
     const [showDetails, setShowDetails] = useState(false);
 
-    const iconSize = "24rem";
+    const iconSize = "18rem";
+
+    console.log(error.toString());
 
     if (error.code === invalidAuthenticationCode) {
         return <NoSessionView/>
@@ -31,17 +33,38 @@ export default function ErrorView({error}: { error: any }) {
                 <Grid item xs={6} sx={{padding: theme.spacing(4)}}>
                     <Typography variant="h2" color="grey" fontFamily={"Baloo"}>Coś poszło nie tak...</Typography>
                     <Typography padding={"1em 0"} variant="body1" color="initial">Spróbuj ponownie później lub
-                        <a href={"https://discord.gg/bFXMnYB5c7"}>zgłoś błąd</a></Typography>
+                        <a href={"https://discord.gg/bFXMnYB5c7"} target={"_blank"}> zgłoś błąd</a></Typography>
                     <Link to={"#"}
                           onClick={() => setShowDetails(true)}>
                         {'Zobacz szczegóły'}
                     </Link>
                     {
                         showDetails ? (
-                            <Box sx={{width: "100%"}}>
-                                <Typography>Kod błędu: {error.code ?? error}</Typography>
-                                <Typography>Komunikat: {error.message}</Typography>
-                            </Box>
+                            <>
+                                {
+                                    error.code ? (
+                                        <Box sx={{width: "100%"}}>
+                                            <Typography>Kod błędu: {error.code}</Typography>
+                                            <Typography>
+                                                Komunikat: <br/>
+                                                <code style={{padding: "0.2rem", borderRadius: theme.shape.borderRadius, backgroundColor: theme.palette.grey["100"]}}>
+                                                    {error.message}
+                                                </code>
+                                            </Typography>
+                                        </Box>
+                                    ) : (
+                                        <Box sx={{width: "100%"}}>
+                                            <Typography>
+                                                Błąd:<br/>
+                                                <code>
+                                                    {typeof error === 'object' ? error.toString() : error}
+                                                </code>
+                                            </Typography>
+                                        </Box>
+                                    )
+                                }
+                            </>
+
                         ) : (<></>)
                     }
                 </Grid>

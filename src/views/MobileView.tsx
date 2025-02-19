@@ -23,7 +23,7 @@ export default function MobileView() {
                     display: "grid",
                     placeItems: "center"
                 }}>
-                <img src={logo} alt={"logo"}/>
+                <img src={logo} alt={"logo"} width={"50%"}/>
             </Box>
             <Container
                 className="hero-gradient"
@@ -66,7 +66,7 @@ export default function MobileView() {
                                 alignItems: "center",
                                 marginTop: theme.spacing(2),
                             }}>
-                            <img src={pleadingFace} alt="emoji" height="auto" width="270px"/>
+                            <img src={pleadingFace} alt="emoji" height="auto" width="70px"/>
                             <Grid
                                 container
                                 direction="row"
