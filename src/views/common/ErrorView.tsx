@@ -12,7 +12,9 @@ export default function ErrorView({error}: { error: any }) {
     const theme = useTheme();
     const [showDetails, setShowDetails] = useState(false);
 
-    const iconSize = "24rem";
+    const iconSize = "18rem";
+
+    console.log(error.toString());
 
     if (error.code === invalidAuthenticationCode) {
         return <NoSessionView/>
@@ -38,10 +40,31 @@ export default function ErrorView({error}: { error: any }) {
                     </Link>
                     {
                         showDetails ? (
-                            <Box sx={{width: "100%"}}>
-                                <Typography>Kod błędu: {error.code ?? error}</Typography>
-                                <Typography>Komunikat: {error.message}</Typography>
-                            </Box>
+                            <>
+                                {
+                                    error.code ? (
+                                        <Box sx={{width: "100%"}}>
+                                            <Typography>Kod błędu: {error.code}</Typography>
+                                            <Typography>
+                                                Komunikat: <br/>
+                                                <code style={{padding: "0.2rem", borderRadius: theme.shape.borderRadius, backgroundColor: theme.palette.grey["100"]}}>
+                                                    {error.message}
+                                                </code>
+                                            </Typography>
+                                        </Box>
+                                    ) : (
+                                        <Box sx={{width: "100%"}}>
+                                            <Typography>
+                                                Błąd:<br/>
+                                                <code>
+                                                    {typeof error === 'object' ? error.toString() : error}
+                                                </code>
+                                            </Typography>
+                                        </Box>
+                                    )
+                                }
+                            </>
+
                         ) : (<></>)
                     }
                 </Grid>
