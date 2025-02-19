@@ -31,7 +31,7 @@ export default function ErrorView({error}: { error: any }) {
                 <Grid item xs={6} sx={{padding: theme.spacing(4)}}>
                     <Typography variant="h2" color="grey" fontFamily={"Baloo"}>Coś poszło nie tak...</Typography>
                     <Typography padding={"1em 0"} variant="body1" color="initial">Spróbuj ponownie później lub
-                        <a href={"https://discord.gg/bFXMnYB5c7"}>zgłoś błąd</a></Typography>
+                        <a href={"https://discord.gg/bFXMnYB5c7"} target={"_blank"}> zgłoś błąd</a></Typography>
                     <Link to={"#"}
                           onClick={() => setShowDetails(true)}>
                         {'Zobacz szczegóły'}
