@@ -7,7 +7,7 @@ dotenv.config();
 
 export default {
   plugins: [react()],
-  base: "/app",
+  base: "/" + process.env.VITE_BASE_PATH_OVERRIDE,
   build: {
     assetsDir: "app/assets",
   },
