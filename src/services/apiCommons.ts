@@ -50,3 +50,7 @@ export const catchClientErrors = async (fetchFunction: () => Promise<any>) => {
         return { data: null, error: clientError(e as Error), success: false }
     }
 };
+
+export function useEndpoint<T>(serviceFunction: () => Promise<ApiResponse<T>>) {
+    //TODO as of #106
+}
