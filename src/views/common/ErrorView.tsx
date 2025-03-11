@@ -1,7 +1,7 @@
 import {Box, Grid, Typography, useTheme} from "@mui/material";
-import NavLayout from "../layout/NavLayout";
+import NavLayout from "src/views/common/NavLayout";
 import {useState} from "react";
-import {Link} from "react-router-dom";
+import {Link} from "react-router";
 import DeadZombieFaceIcon from "../../components/customIcons/DeadZombieFaceIcon.js";
 import React from "react";
 import {invalidAuthenticationCode} from "../../services/authenticationService";

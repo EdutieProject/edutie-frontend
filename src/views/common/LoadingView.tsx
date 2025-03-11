@@ -1,5 +1,5 @@
 import {Box, CircularProgress, Typography, useTheme} from "@mui/material";
-import NavLayout from "../layout/NavLayout";
+import NavLayout from "src/views/common/NavLayout";
 import React, {useEffect, useState} from "react";
 
 

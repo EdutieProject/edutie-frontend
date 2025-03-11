@@ -27,12 +27,11 @@ export default function NavLayout(props: React.PropsWithChildren<NavLayoutProps>
                 disableGutters
                 sx={{
                     display: "flex",
-                    flexDirection: "row",
+                    flexDirection: "column",
                     justifyItems: "stretch",
                     height: "100vh"
                 }}
             >
-                <NavBar activeSectionIdOverride={props.activeSectionIdOverride}/>
                 <Box sx={{
                     flexGrow: 1,
                     paddingY: props.disablePadding ? 0 : theme.spacing(8),
@@ -45,6 +44,7 @@ export default function NavLayout(props: React.PropsWithChildren<NavLayoutProps>
                 }}>
                     {props.children}
                 </Box>
+                <NavBar activeSectionIdOverride={props.activeSectionIdOverride}/>
             </Container>
     );
 }

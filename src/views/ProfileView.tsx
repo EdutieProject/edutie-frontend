@@ -1,5 +1,5 @@
 import {Box, Divider, Grid, Typography, useTheme} from "@mui/material";
-import NavLayout from "./layout/NavLayout.js";
+import NavLayout from "src/views/common/NavLayout";
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import RoundedButton from "../components/global/RoundedButton.js";
 import Heading from "../components/global/Heading.js"
@@ -11,7 +11,7 @@ import SweatFaceIcon from "../components/customIcons/SweatFaceIcon.js";
 import LatestStudentActivityChart from "../components/charts/studentProfile/LatestStudentActivityChart";
 import DisappointedFaceIcon from "../components/customIcons/DisappointedFaceIcon.js";
 import {daysAgo, getDayName} from "../features/datetime/datetimeUtilities.js";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import CircleButton from "../components/global/CircleButton.js";
 import CircularProgressWithLabel from "../components/progress/CircularProgressWithLabel";
 import CheckDoodleIcon from "../components/customIcons/CheckDoodleIcon";

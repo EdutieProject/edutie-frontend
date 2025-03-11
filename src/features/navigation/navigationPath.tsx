@@ -1,5 +1,5 @@
 import GlobeIcon from "../../components/customIcons/GlobeIcon";
-import { NavigateFunction } from "react-router-dom";
+import { NavigateFunction } from "react-router";
 import DistributedLearningIcon from "../../components/customIcons/DistributedLearningIcon";
 import { getSavedCourseId, noSavedCourseIdPlaceholder } from "../storage/courseStorage";
 import CoursesIcon from "../../components/customIcons/CoursesIcon";
