@@ -9,6 +9,7 @@ import {SessionProvider} from "src/features/session/SessionProvider";
 import {BrowserRouter, Route, Routes} from "react-router";
 import HomeView from "src/views/home";
 import CreateView from "src/views/create";
+import CreateLearningSubjectView from "src/views/create/learningsubject";
 
 export default function App() {
 
@@ -20,6 +21,7 @@ export default function App() {
                         <Routes>
                             <Route path={navigationPath.home} element={<HomeView/>}/>
                             <Route path={navigationPath.create} element={<CreateView/>}/>
+                            <Route path={navigationPath.createLearningSubject} element={<CreateLearningSubjectView/>}/>
                         </Routes>
                     </BrowserRouter>
                 </SelectedNavigationSectionProvider>
