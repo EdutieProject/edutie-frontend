@@ -64,7 +64,7 @@ const theme = createTheme({
         tonalOffset: 0.2
     },
     shape: {
-        borderRadius: 20
+        borderRadius: 10
     }
 });
 

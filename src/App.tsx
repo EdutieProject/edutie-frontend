@@ -6,7 +6,6 @@ import {SelectedNavigationSectionProvider} from "src/features/navigation/navigat
 import {navigationPath} from "src/features/navigation/navigationPath";
 import {SessionProvider} from "src/features/session/SessionProvider";
 
-import ProfileView from "src/views/ProfileView";
 import {BrowserRouter, Route, Routes} from "react-router";
 import HomeView from "src/views/home";
 
@@ -19,7 +18,6 @@ export default function App() {
                     <BrowserRouter basename={import.meta.env.BASE_URL}>
                         <Routes>
                             <Route path={navigationPath.home} element={<HomeView/>}/>
-                            <Route path={navigationPath.account} element={<ProfileView/>}/>
                         </Routes>
                     </BrowserRouter>
                 </SelectedNavigationSectionProvider>

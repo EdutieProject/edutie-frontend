@@ -34,11 +34,11 @@ export default function NavLayout(props: React.PropsWithChildren<NavLayoutProps>
             >
                 <Box sx={{
                     flexGrow: 1,
-                    paddingY: props.disablePadding ? 0 : theme.spacing(8),
-                    paddingX: props.disablePadding ? 0 : theme.spacing(16),
+                    paddingY: props.disablePadding ? 0 : theme.spacing(2),
+                    paddingX: props.disablePadding ? 0 : theme.spacing(2),
                     display: "flex",
                     flexDirection: "column",
-                    alignItems: "stretch",
+                    alignItems: "center",
                     overflowY: "scroll",
                     position: props.relative ? "relative" : "static"
                 }}>
