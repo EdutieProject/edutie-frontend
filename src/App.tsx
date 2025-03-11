@@ -8,6 +8,7 @@ import {SessionProvider} from "src/features/session/SessionProvider";
 
 import {BrowserRouter, Route, Routes} from "react-router";
 import HomeView from "src/views/home";
+import CreateView from "src/views/create";
 
 export default function App() {
 
@@ -18,6 +19,7 @@ export default function App() {
                     <BrowserRouter basename={import.meta.env.BASE_URL}>
                         <Routes>
                             <Route path={navigationPath.home} element={<HomeView/>}/>
+                            <Route path={navigationPath.create} element={<CreateView/>}/>
                         </Routes>
                     </BrowserRouter>
                 </SelectedNavigationSectionProvider>

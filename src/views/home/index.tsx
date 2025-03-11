@@ -1,4 +1,4 @@
-import {Autocomplete, Box, TextField, useTheme} from "@mui/material";
+import {Autocomplete, Box, Button, TextField, useTheme} from "@mui/material";
 import NavLayout from "src/views/common/NavLayout";
 import React from "react";
 import {navSections} from "src/features/navigation/navigationPath";
@@ -11,25 +11,32 @@ export default function HomeView() {
 
     return (
         <NavLayout activeSectionIdOverride={navSections.home}>
-            <Box sx={{alignSelf: "stretch", padding: theme.spacing(1), display: "flex", justifyContent: "flex-end"}}>
-                user panel
+            <Box sx={{alignSelf: "stretch", padding: theme.spacing(1), display: "flex", gap: 2, justifyContent: "flex-end"}}>
+                <Button color={"secondary"}>Sign in</Button>
+                <Button variant={"contained"} color={"secondary"}>Register</Button>
             </Box>
             <Box sx={{
                 flexGrow: 1,
                 display: "flex",
                 flexDirection: "column",
-                gap: 2,
+                gap: 4,
                 alignItems: "center",
                 justifyContent: "center"
             }}>
-                <img src={logo} alt={""} width={"80%"}/>
+                <img src={logo} alt={""} width={"100%"}/>
                 <Autocomplete
                     disablePortal
-                    options={[]}
-                    sx={{width: 350}}
-                    renderInput={(params) => <TextField {...params} label="Search learning subjects"/>}
+                    options={[
+                        { label: 'The Shawshank Redemption', year: 1994 },
+                        { label: 'The Godfather', year: 1972 },
+                        { label: 'The Godfather: Part II', year: 1974 },
+                        { label: 'The Dark Knight', year: 2008 },
+                        { label: '12 Angry Men', year: 1957 },
+                    ]}
+                    sx={{width: {xs: "100%", md: "80%"}}}
+                    renderInput={(params) => <TextField {...params} label="What would you like to learn?"/>}
                 />
-                <Box sx={{py: 10}}>
+                <Box sx={{py: 12}}>
                     {/* Spacer */}
                 </Box>
             </Box>

@@ -1,13 +1,7 @@
 export const navigationPath = {
     home: "/",
-    courses: "/courses",
-    lessonTree: "/courses/:courseId",
-    segmentTree: "/lessons/:lessonId",
-    segment: "/segments/:segmentId",
-    exercise: "/learning-resource/:resourceId",
-    learningResult: "/learning-result/:resultId",
     account: "/profiles/:id",
-    creation: "/create/lrd",
+    create: "/create",
     play: "/play",
     /**
      * Fills a navigation path with provided arguments.
