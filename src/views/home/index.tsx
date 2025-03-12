@@ -10,11 +10,7 @@ export default function HomeView() {
 
 
     return (
-        <NavLayout activeSectionIdOverride={navSections.home}>
-            <Box sx={{alignSelf: "stretch", padding: theme.spacing(1), display: "flex", gap: 2, justifyContent: "flex-end"}}>
-                <Button color={"secondary"}>Sign in</Button>
-                <Button variant={"contained"} color={"secondary"}>Register</Button>
-            </Box>
+        <NavLayout activeSectionIdOverride={navSections.home} variant={"searchHome"}>
             <Box sx={{
                 flexGrow: 1,
                 display: "flex",

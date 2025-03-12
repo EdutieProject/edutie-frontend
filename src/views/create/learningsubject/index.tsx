@@ -41,37 +41,7 @@ export default function CreateLearningSubjectView() {
     const handleClose = () => setModalOpen(false);
 
     return (
-        <NavLayout activeSectionIdOverride={navSections.home}>
-            <Box sx={{
-                alignSelf: "stretch",
-                padding: theme.spacing(1),
-                display: "flex",
-                gap: 2,
-                justifyContent: "space-between",
-                mb: 2,
-                position: "relative"
-            }}>
-                <Box sx={{display: "grid", placeItems: "center"}}>
-                    <Link to={navigationPath.create}>
-                        <ArrowBack sx={{color: "black"}}/>
-                    </Link>
-                </Box>
-                <Box sx={{display: "flex", gap: 2}}>
-                    <Button color={"secondary"}>Sign in</Button>
-                    <Button variant={"contained"} color={"secondary"}>Register</Button>
-                </Box>
-                <Box sx={{
-                    position: "absolute",
-                    width: "100%",
-                    top: 0,
-                    left: {xs: "-20%", md: 0},
-                    display: "grid",
-                    placeItems: "center",
-                    zIndex: "-1"
-                }}>
-                    <img src={logo} alt={""} height={"45"}/>
-                </Box>
-            </Box>
+        <NavLayout activeSectionIdOverride={navSections.home} variant={"view"}>
             <Container sx={{mt: 2}}>
                 <Typography variant={"h3"} sx={{mb: 4}}>
                     <RadioRounded sx={{mr: 2}}/>

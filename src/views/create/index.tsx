@@ -12,27 +12,7 @@ export default function CreateView() {
     const navigate = useNavigate();
 
     return (
-        <NavLayout activeSectionIdOverride={navSections.home}>
-            <Box sx={{
-                alignSelf: "stretch",
-                padding: theme.spacing(1),
-                display: "flex",
-                gap: 2,
-                justifyContent: "flex-end",
-                mb: {xs: 2, md: 1}
-            }}>
-                <Button color={"secondary"}>Sign in</Button>
-                <Button variant={"contained"} color={"secondary"}>Register</Button>
-            </Box>
-            <Box sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 4,
-                alignItems: "center",
-                justifyContent: "center"
-            }}>
-                <img src={logo} alt={""} width={"60%"}/>
-            </Box>
+        <NavLayout activeSectionIdOverride={navSections.home} variant={"home"}>
             <Box sx={{my: 8, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 4}}>
                 <Box sx={{
                     p: 4,
