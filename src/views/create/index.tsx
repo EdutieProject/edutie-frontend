@@ -40,7 +40,7 @@ export default function CreateView() {
                     borderRadius: 1,
                     border: "1px solid lightgray",
                     gap: 2,
-                    width: "18rem",
+                    width: {xs: "100%", sm: "18rem"},
                     transition: "200ms ease",
                     "&:hover": {
                         boxShadow: theme.shadows[2],
@@ -50,7 +50,8 @@ export default function CreateView() {
                     <RadioRounded/>
                     <Box sx={{display: "flex", flexDirection: "column"}}>
                         <Typography variant={"h6"}>Learning Subject</Typography>
-                        <Typography variant={"subtitle1"} color={"textSecondary"}>Create a learning subject with requirements you can learn from.</Typography>
+                        <Typography variant={"subtitle1"} color={"textSecondary"}>Create a learning subject with
+                            requirements you can learn from.</Typography>
                     </Box>
                 </Box>
                 <Box sx={{
@@ -64,7 +65,8 @@ export default function CreateView() {
                     <RadioRounded/>
                     <Box sx={{display: "flex", flexDirection: "column"}}>
                         <Typography variant={"h6"}>Story</Typography>
-                        <Typography variant={"subtitle1"} color={"textSecondary"}>Create a story - collection of lessons curating a path for a learner.</Typography>
+                        <Typography variant={"subtitle1"} color={"textSecondary"}>Create a story - collection of lessons
+                            curating a path for a learner.</Typography>
                     </Box>
                 </Box>
             </Box>
