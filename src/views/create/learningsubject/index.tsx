@@ -2,6 +2,7 @@ import {
     Autocomplete,
     Backdrop,
     Box,
+    CircularProgress,
     Container,
     Fade,
     Modal,
@@ -14,27 +15,35 @@ import {
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import NavLayout from "src/views/common/NavLayout";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {navSections} from "src/features/navigation/navigationPath";
 
-import {Add, InfoOutlined, RadioRounded} from "@mui/icons-material";
-import {Link} from "react-router";
+import {Add, DataArrayOutlined, InfoOutlined, RadioRounded} from "@mui/icons-material";
+import {Link, useParams} from "react-router";
 
 import sleepyEmoji from "src/assets/svg/emoji/sleepy.svg";
+import {KnowledgeSubjectSearchView, LearningSubject} from "src/services/management/types";
+import {searchKnowledgeSubjects} from "src/services/management/knowledgeSubjectService";
+import {getLearningSubjectById, setKnowledgeSubject} from "src/services/management/learningSubjectService";
+import LoadingView from "src/views/common/LoadingView";
 
 const modalStyle = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: {xs: "20rem", md: "24rem"},
     bgcolor: 'background.paper',
     boxShadow: 24,
     p: 4,
 };
 
-export default function CreateLearningSubjectView() {
+export default function LearningSubjectEditorView() {
     const theme = useTheme();
+    const {learningSubjectId} = useParams<{ learningSubjectId: string }>();
+
+    const [learningSubject, setLearningSubject] = useState<LearningSubject>();
+    const [selectedRequirementId, setSelectedRequirementId] = useState<string>();
 
     const [requirementModalOpen, setRequirementModalOpen] = React.useState(false);
     const handleRequirementModalOpen = () => setRequirementModalOpen(true);
@@ -44,16 +53,56 @@ export default function CreateLearningSubjectView() {
     const handleKnowledgeSourceModalOpen = () => setKnowledgeSourceModalOpen(true);
     const handleKnowledgeSourceModalClose = () => setKnowledgeSourceModalOpen(false);
 
+    async function loadLearningSubject() {
+        const response = await getLearningSubjectById(learningSubjectId as string);
+        if (!response.success)
+            return; //TODO error handling
+        setLearningSubject(response.data);
+    }
+
+    useEffect(() => {
+        loadLearningSubject().then();
+    }, [learningSubject === undefined]);
+
+    if (learningSubject === null || learningSubject === undefined) {
+        return <LoadingView/>
+    }
+
+    async function handleLearningSubjectSetKnowledgeSubject(knowledgeSubjectId: string) {
+        const response = await setKnowledgeSubject(learningSubject.id, knowledgeSubjectId);
+        if (!response.success)
+            return; //TODO error handling
+        setLearningSubject(undefined); //reset the view to re-load learning subject
+    }
+
     return (
         <NavLayout activeSectionIdOverride={navSections.home} variant={"view"}>
             <Container sx={{mt: 2}}>
                 <Typography variant={"h3"} sx={{mb: 4}}>
                     <RadioRounded sx={{mr: 2}}/>
-                    Integration by parts
+                    {learningSubject.name}
                 </Typography>
                 <Grid container spacing={6} sx={{marginTop: 2}}>
                     <Grid size={{xs: 12, md: 4}}>
                         <Typography>Knowledge sources:</Typography>
+                        {
+                            learningSubject.knowledgeOrigin?.knowledgeSubjectId === null ? (
+                                <Box sx={{display: "flex", flexDirection: "column", mt: 2, gap: 2}}>
+                                    <Box sx={{
+                                        p: 4,
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center",
+                                        borderRadius: 1,
+                                        border: "1px solid lightgray",
+                                        gap: 2,
+                                    }} >
+                                        <DataArrayOutlined/>
+                                        <Typography variant={"h6"}>Knowledge subject {learningSubject.knowledgeOrigin?.knowledgeSubjectId}</Typography>
+                                    </Box>
+                                </Box>
+                            ) : (<></>)
+                        }
                         <Box sx={{display: "flex", flexDirection: "column", mt: 2, gap: 2}}>
                             <Box sx={{
                                 p: 4,
@@ -62,7 +111,10 @@ export default function CreateLearningSubjectView() {
                                 alignItems: "center",
                                 borderRadius: 1,
                                 border: "1px solid lightgray",
-                                gap: 2
+                                gap: 2,
+                                cursor: "pointer",
+                                transition: "200ms ease",
+                                "&:hover": {boxShadow: theme.shadows[2]}
                             }} onClick={handleKnowledgeSourceModalOpen}>
                                 <Add sx={{color: "gray"}}/>
                                 <Typography variant={"h6"} color={"textSecondary"}>Add new</Typography>
@@ -71,15 +123,11 @@ export default function CreateLearningSubjectView() {
                     </Grid>
                     <Grid size={{xs: 12, md: 4}} sx={{padding: {xs: 1, md: 3}}}>
                         <Stepper orientation={"vertical"}>
-                            <Step key={"A"}>
-                                <StepLabel>A</StepLabel>
-                            </Step>
-                            <Step key={"B"}>
-                                <StepLabel>Handling cyclic cases</StepLabel>
-                            </Step>
-                            <Step key={"C"}>
-                                <StepLabel>C</StepLabel>
-                            </Step>
+                            {
+                                learningSubject?.requirements.map(o =>
+                                    <Step key={o.id}><StepLabel>{o.title}</StepLabel></Step>
+                                )
+                            }
                         </Stepper>
                         <Box sx={{display: "flex", flexDirection: "column", mt: 2, gap: 1}}>
                             <Link onClick={handleRequirementModalOpen} to={"#"}>
@@ -88,7 +136,7 @@ export default function CreateLearningSubjectView() {
                         </Box>
                     </Grid>
                     <Grid size={{xs: 12, md: 4}}>
-                        {1 != 1 ? (
+                        {learningSubject?.requirements.length !== 0 && selectedRequirementId ? (
                             <>
                                 <Box sx={{my: 2}}>
                                     <Box sx={{display: "flex", alignItems: "center", gap: 1, mb: 1}}>
@@ -130,63 +178,132 @@ export default function CreateLearningSubjectView() {
                     </Grid>
                 </Grid>
             </Container>
-
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                open={requirementModalOpen}
-                onClose={handleRequirementModalClose}
-                closeAfterTransition
-                slots={{backdrop: Backdrop}}
-                slotProps={{
-                    backdrop: {
-                        timeout: 500,
-                    },
-                }}
-            >
-                <Fade in={requirementModalOpen}>
-                    <Box sx={modalStyle}>
-                        <Typography id="transition-modal-title" variant="h6" component="h2">
-                            Add Requirement
-                        </Typography>
-                        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                    </Box>
-                </Fade>
-            </Modal>
-
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                open={knowledgeSourceModalOpen}
-                onClose={handleKnowledgeSourceModalClose}
-                closeAfterTransition
-                slots={{backdrop: Backdrop}}
-                slotProps={{
-                    backdrop: {
-                        timeout: 500,
-                    },
-                }}
-            >
-                <Fade in={knowledgeSourceModalOpen}>
-                    <Box sx={modalStyle}>
-                        <Typography id="transition-modal-title" variant="h6" component="h2" sx={{mb: 2}}>
-                            Add Knowledge sources
-                        </Typography>
-                        <Autocomplete
-                            disablePortal
-                            options={[
-                                {label: 'The Shawshank Redemption', year: 1994},
-                                {label: 'The Godfather', year: 1972},
-                                {label: 'The Godfather: Part II', year: 1974},
-                                {label: 'The Dark Knight', year: 2008},
-                                {label: '12 Angry Men', year: 1957},
-                            ]}
-                            sx={{width: {xs: "100%", md: "80%"}}}
-                            renderInput={(params) => <TextField {...params} label="Add knowledge subject"/>}
-                        />
-                    </Box>
-                </Fade>
-            </Modal>
+            <KnowledgeOriginModal isOpen={knowledgeSourceModalOpen} handleClose={handleKnowledgeSourceModalClose}
+                                  setLearningSubjectKnowledgeSubjectId={handleLearningSubjectSetKnowledgeSubject}/>
+            <AddRequirementModal isOpen={requirementModalOpen} handleClose={handleRequirementModalClose}/>
         </NavLayout>
     );
+}
+
+interface KnowledgeOriginModalParams extends UniversalModalParams {
+    setLearningSubjectKnowledgeSubjectId: (id: string) => Promise<void>;
+}
+
+function KnowledgeOriginModal(params: KnowledgeOriginModalParams) {
+    const theme = useTheme();
+    const [searchedKnowledgeSubjects, setSearchedKnowledgeSubjects] = useState<Array<KnowledgeSubjectSearchView>>([]);
+    const [knowledgeSubjectSetLoading, setKnowledgeSubjectSetLoading] = useState(false);
+
+    async function updateSearchResults(searchPhrase: string) {
+        const apiResponse = await searchKnowledgeSubjects(searchPhrase);
+        if (!apiResponse.success)
+            return; //TODO handle failure
+        setSearchedKnowledgeSubjects(apiResponse.data as Array<KnowledgeSubjectSearchView>);
+    }
+
+    function handleKnowledgeSubjectChoice(knowledgeSubjectId: string) {
+        setKnowledgeSubjectSetLoading(true);
+        params.setLearningSubjectKnowledgeSubjectId(knowledgeSubjectId)
+            .then(o => {
+                setKnowledgeSubjectSetLoading(false);
+            });
+    }
+
+    if (knowledgeSubjectSetLoading) {
+        return (
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={params.isOpen}
+                onClose={params.handleClose}
+                closeAfterTransition
+                slots={{backdrop: Backdrop}}
+                slotProps={{
+                    backdrop: {
+                        timeout: 500,
+                    },
+                }}
+            >
+                <Fade in={params.isOpen}>
+                    <Box sx={modalStyle}>
+                        <Box sx={{width: "100%", display: "grid", placeItems: "center"}}>
+                            <CircularProgress/>
+                        </Box>
+                    </Box>
+                </Fade>
+            </Modal>
+        );
+    }
+
+    return (
+        <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            open={params.isOpen}
+            onClose={params.handleClose}
+            closeAfterTransition
+            slots={{backdrop: Backdrop}}
+            slotProps={{
+                backdrop: {
+                    timeout: 500,
+                },
+            }}
+        >
+            <Fade in={params.isOpen}>
+                <Box sx={modalStyle}>
+                    <Typography id="transition-modal-title" variant="h6" component="h2" sx={{mb: 2}}>
+                        Add Knowledge sources
+                    </Typography>
+                    <Autocomplete
+                        options={searchedKnowledgeSubjects}
+                        getOptionLabel={(option) => option.title}
+                        sx={{width: {xs: "100%", md: "80%"}}}
+                        renderInput={(params) =>
+                            <TextField {...params}
+                                       label="Add knowledge subject"
+                                       onChange={(e) => updateSearchResults(e.target.value)}/>
+                        }
+                        renderOption={(props, option) => (
+                            <Box
+                                sx={{p: 1, "&:hover": {backgroundColor: theme.palette.grey[50]}}}
+                                onClick={() => handleKnowledgeSubjectChoice(option.knowledgeSubjectReference.id)}
+                            >
+                                <Typography>{option.title}</Typography>
+                                <Typography variant={"caption"}
+                                            color={"textSecondary"}>{option.description}</Typography>
+                            </Box>
+                        )}
+                    />
+                </Box>
+            </Fade>
+        </Modal>
+    );
+}
+
+function AddRequirementModal(params: UniversalModalParams) {
+
+    return (
+        <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            open={params.isOpen}
+            onClose={params.handleClose}
+            closeAfterTransition
+            slots={{backdrop: Backdrop}}
+            slotProps={{
+                backdrop: {
+                    timeout: 500,
+                },
+            }}
+        >
+            <Fade in={params.isOpen}>
+                <Box sx={modalStyle}>
+                    <Typography id="transition-modal-title" variant="h6" component="h2">
+                        Add Requirement
+                    </Typography>
+                    <TextField id="outlined-basic" label="Outlined" variant="outlined"/>
+                </Box>
+            </Fade>
+        </Modal>
+    )
 }

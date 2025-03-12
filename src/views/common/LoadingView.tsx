@@ -39,7 +39,7 @@ export default function LoadingView({embedded, caption}: { embedded?: boolean; c
     }, []);
 
     return (
-        <NavLayout>
+        <NavLayout variant={"none"}>
             <Box sx={{
                 flexGrow: 1,
                 display: "flex",
