@@ -5,8 +5,6 @@ const API_VERSION = "v1";
 
 export const API_PATH = `${getProtocol()}//${BACKEND_HOST}/api/${API_VERSION}`;
 
-export const LEARNING_API = `${API_PATH}/learning`;
-export const MANAGEMENT_API = `${API_PATH}/management`;
 
 export const defaultHeaders = {
     Accept: "application/json",
@@ -28,6 +26,7 @@ export async function getDefaultHeadersAuthenticated() {
     };
 }
 
+
 /**
  * Util function for client error generation
  */
@@ -35,11 +34,12 @@ const clientError = (ex: Error) => {
     return { code: "CLIENT-ERROR-[" + ex.name + "]", message: ex.message }
 };
 
+
 /**
  * Utility function used to catch client errors in service functions
  * @returns 
  */
-export const catchClientErrors = async (fetchFunction: () => Promise<any>) => {
+export const catchClientErrors = async <T>(fetchFunction: () => Promise<ApiResponse<T>>) => {
     try {
         const response = await fetchFunction();
         if (response.error && response.error.code === invalidAuthenticationCode) {
@@ -47,9 +47,10 @@ export const catchClientErrors = async (fetchFunction: () => Promise<any>) => {
         }
         return response;
     } catch (e: unknown) {
-        return { data: null, error: clientError(e as Error), success: false }
+        return { data: null, error: clientError(e as Error), success: false } as ApiResponse<T>
     }
 };
+
 
 export function useEndpoint<T>(serviceFunction: () => Promise<ApiResponse<T>>) {
     //TODO as of #106

@@ -1,25 +1,25 @@
 import {
+    Autocomplete,
     Backdrop,
     Box,
-    Button,
     Container,
     Fade,
     Modal,
     Step,
     StepLabel,
     Stepper,
+    TextField,
     Typography,
     useTheme
 } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import NavLayout from "src/views/common/NavLayout";
 import React from "react";
-import {navigationPath, navSections} from "src/features/navigation/navigationPath";
+import {navSections} from "src/features/navigation/navigationPath";
 
-import {Add, ArrowBack, InfoOutlined, RadioRounded} from "@mui/icons-material";
+import {Add, InfoOutlined, RadioRounded} from "@mui/icons-material";
 import {Link} from "react-router";
 
-import logo from "src/assets/svg/logo.svg";
 import sleepyEmoji from "src/assets/svg/emoji/sleepy.svg";
 
 const modalStyle = {
@@ -36,9 +36,13 @@ const modalStyle = {
 export default function CreateLearningSubjectView() {
     const theme = useTheme();
 
-    const [modalOpen, setModalOpen] = React.useState(false);
-    const handleOpen = () => setModalOpen(true);
-    const handleClose = () => setModalOpen(false);
+    const [requirementModalOpen, setRequirementModalOpen] = React.useState(false);
+    const handleRequirementModalOpen = () => setRequirementModalOpen(true);
+    const handleRequirementModalClose = () => setRequirementModalOpen(false);
+
+    const [knowledgeSourceModalOpen, setKnowledgeSourceModalOpen] = React.useState(false);
+    const handleKnowledgeSourceModalOpen = () => setKnowledgeSourceModalOpen(true);
+    const handleKnowledgeSourceModalClose = () => setKnowledgeSourceModalOpen(false);
 
     return (
         <NavLayout activeSectionIdOverride={navSections.home} variant={"view"}>
@@ -50,7 +54,6 @@ export default function CreateLearningSubjectView() {
                 <Grid container spacing={6} sx={{marginTop: 2}}>
                     <Grid size={{xs: 12, md: 4}}>
                         <Typography>Knowledge sources:</Typography>
-
                         <Box sx={{display: "flex", flexDirection: "column", mt: 2, gap: 2}}>
                             <Box sx={{
                                 p: 4,
@@ -60,21 +63,7 @@ export default function CreateLearningSubjectView() {
                                 borderRadius: 1,
                                 border: "1px solid lightgray",
                                 gap: 2
-                            }}>
-                                <RadioRounded/>
-                                <Typography variant={"h6"}>Learning Subject</Typography>
-                            </Box>
-                        </Box>
-                        <Box sx={{display: "flex", flexDirection: "column", mt: 2, gap: 2}}>
-                            <Box sx={{
-                                p: 4,
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",
-                                borderRadius: 1,
-                                border: "1px solid lightgray",
-                                gap: 2
-                            }}>
+                            }} onClick={handleKnowledgeSourceModalOpen}>
                                 <Add sx={{color: "gray"}}/>
                                 <Typography variant={"h6"} color={"textSecondary"}>Add new</Typography>
                             </Box>
@@ -93,7 +82,7 @@ export default function CreateLearningSubjectView() {
                             </Step>
                         </Stepper>
                         <Box sx={{display: "flex", flexDirection: "column", mt: 2, gap: 1}}>
-                            <Link onClick={handleOpen} to={"#"}>
+                            <Link onClick={handleRequirementModalOpen} to={"#"}>
                                 Add new requirement
                             </Link>
                         </Box>
@@ -145,8 +134,8 @@ export default function CreateLearningSubjectView() {
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
-                open={modalOpen}
-                onClose={handleClose}
+                open={requirementModalOpen}
+                onClose={handleRequirementModalClose}
                 closeAfterTransition
                 slots={{backdrop: Backdrop}}
                 slotProps={{
@@ -155,14 +144,46 @@ export default function CreateLearningSubjectView() {
                     },
                 }}
             >
-                <Fade in={modalOpen}>
+                <Fade in={requirementModalOpen}>
                     <Box sx={modalStyle}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            Text in a modal
+                            Add Requirement
                         </Typography>
-                        <Typography id="transition-modal-description" sx={{mt: 2}}>
-                            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                    </Box>
+                </Fade>
+            </Modal>
+
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={knowledgeSourceModalOpen}
+                onClose={handleKnowledgeSourceModalClose}
+                closeAfterTransition
+                slots={{backdrop: Backdrop}}
+                slotProps={{
+                    backdrop: {
+                        timeout: 500,
+                    },
+                }}
+            >
+                <Fade in={knowledgeSourceModalOpen}>
+                    <Box sx={modalStyle}>
+                        <Typography id="transition-modal-title" variant="h6" component="h2" sx={{mb: 2}}>
+                            Add Knowledge sources
                         </Typography>
+                        <Autocomplete
+                            disablePortal
+                            options={[
+                                {label: 'The Shawshank Redemption', year: 1994},
+                                {label: 'The Godfather', year: 1972},
+                                {label: 'The Godfather: Part II', year: 1974},
+                                {label: 'The Dark Knight', year: 2008},
+                                {label: '12 Angry Men', year: 1957},
+                            ]}
+                            sx={{width: {xs: "100%", md: "80%"}}}
+                            renderInput={(params) => <TextField {...params} label="Add knowledge subject"/>}
+                        />
                     </Box>
                 </Fade>
             </Modal>
