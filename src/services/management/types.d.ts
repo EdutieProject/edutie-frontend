@@ -1,6 +1,13 @@
+export interface LearningSubjectManagementView {
+    learningSubject: LearningSubject
+    knowledgeSubjectDetails: KnowledgeSubjectDetails
+}
+
 export interface LearningSubject {
     id: string
     createdOn: string
+    updatedOn: string
+    updatedBy: string
     createdBy: string
     authorEducator: AuthorEducator
     name: string
@@ -33,6 +40,16 @@ export interface Requirement {
 export interface KnowledgeOrigin {
     knowledgeSubjectId: string
     empty: boolean
+}
+
+export interface KnowledgeSubjectDetails {
+    knowledgeSubjectReference: KnowledgeSubjectReference
+    title: string
+    description: string
+}
+
+export interface KnowledgeSubjectReference {
+    id: string
 }
 
 export interface KnowledgeSubjectSearchView {
