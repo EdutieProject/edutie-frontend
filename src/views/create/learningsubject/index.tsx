@@ -1,7 +1,8 @@
 import {
     Autocomplete,
     Backdrop,
-    Box, Button,
+    Box,
+    Button,
     CircularProgress,
     Container,
     Fade,
@@ -30,6 +31,7 @@ import {
     setKnowledgeSubject
 } from "src/services/management/learningSubjectService";
 import LoadingView from "src/views/common/LoadingView";
+import MarkdownLaTeXRenderer from "src/components/markdown/MarkdownLaTexRenderer";
 
 const modalStyle = {
     position: 'absolute',
@@ -47,7 +49,7 @@ export default function LearningSubjectEditorView() {
     const {learningSubjectId} = useParams<{ learningSubjectId: string }>();
 
     const [learningSubjectView, setLearningSubjectView] = useState<LearningSubjectManagementView>();
-    const [selectedRequirementId, setSelectedRequirementId] = useState<string>();
+    const [selectedRequirementIdx, setSelectedRequirementIdx] = useState<number>(0);
 
     const [requirementModalOpen, setRequirementModalOpen] = React.useState(false);
     const handleRequirementModalOpen = () => setRequirementModalOpen(true);
@@ -87,6 +89,8 @@ export default function LearningSubjectEditorView() {
         if (!response.success)
             return; //TODO error handling
         setLearningSubjectView(undefined);
+        // @ts-ignore
+        setSelectedRequirementIdx(learningSubjectView?.learningSubject.requirements.length);
         setRequirementModalOpen(false);
     }
 
@@ -145,7 +149,13 @@ export default function LearningSubjectEditorView() {
                         <Stepper orientation={"vertical"}>
                             {
                                 learningSubjectView.learningSubject.requirements.map(o =>
-                                    <Step key={o.id}><StepLabel>{o.title}</StepLabel></Step>
+                                    <Step
+                                        key={o.id}
+                                        onClick={() => setSelectedRequirementIdx(o.ordinal)}
+                                        active={o.ordinal === selectedRequirementIdx}
+                                    >
+                                        <StepLabel>{o.title}</StepLabel>
+                                    </Step>
                                 )
                             }
                         </Stepper>
@@ -156,7 +166,7 @@ export default function LearningSubjectEditorView() {
                         </Box>
                     </Grid>
                     <Grid size={{xs: 12, md: 4}}>
-                        {learningSubjectView.learningSubject.requirements.length !== 0 && selectedRequirementId ? (
+                        {learningSubjectView.learningSubject.requirements.length !== 0 ? (
                             <>
                                 <Box sx={{my: 2}}>
                                     <Box sx={{display: "flex", alignItems: "center", gap: 1, mb: 1}}>
@@ -165,7 +175,8 @@ export default function LearningSubjectEditorView() {
                                         </Typography>
                                         <InfoOutlined sx={{fontSize: 16}}/>
                                     </Box>
-                                    <Typography variant={"h5"}>Handling cyclic cases</Typography>
+                                    <Typography
+                                        variant={"h5"}>{learningSubjectView.learningSubject.requirements[selectedRequirementIdx].title}</Typography>
                                 </Box>
                                 <Box sx={{my: 2}}>
                                     <Box sx={{display: "flex", alignItems: "center", gap: 1, mb: 1}}>
@@ -174,10 +185,8 @@ export default function LearningSubjectEditorView() {
                                         </Typography>
                                         <InfoOutlined sx={{fontSize: 16}}/>
                                     </Box>
-                                    <Typography variant={"body2"}>Some integrals (e.g., ∫excos⁡(x)dx\int e^x \cos(x)
-                                        dx∫excos(x)dx) form cycles where repeating integration by parts returns to the
-                                        original
-                                        integral. Solve such cases algebraically.</Typography>
+                                    <MarkdownLaTeXRenderer
+                                        content={learningSubjectView.learningSubject.requirements[selectedRequirementIdx].studentObjective}/>
                                 </Box>
                             </>
                         ) : (
@@ -190,8 +199,10 @@ export default function LearningSubjectEditorView() {
                                 justifyContent: "center"
                             }}>
                                 <img src={sleepyEmoji} alt={""} width={"100px"}/>
-                                <Typography variant={"h5"}>Nothing to be seen here.</Typography>
-                                <Typography>Add a requirement to edit it in this section.</Typography>
+                                <Typography variant={"h4"} sx={{mb: 1, textAlign: "center"}}><b>Nothing to be seen
+                                    here.</b></Typography>
+                                <Typography sx={{mb: 1, textAlign: "center"}}>Add a requirement to edit it in this
+                                    section.</Typography>
                             </Box>
                         )}
 
