@@ -1,11 +1,15 @@
 import {Backdrop, Box, Button, CircularProgress, Fade, Modal, TextField, Typography, useTheme} from "@mui/material";
 import NavLayout from "src/views/common/NavLayout";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {navigationPath, navSections} from "src/features/navigation/navigationPath";
 
 import {RadioRounded} from "@mui/icons-material";
 import {useNavigate} from "react-router";
-import {createLearningSubject} from "src/services/management/learningSubjectService";
+import {createLearningSubject, getCreatedLearningSubjects} from "src/services/management/learningSubjectService";
+import {LearningSubject} from "src/services/management/types";
+
+import sleepyEmoji from "src/assets/svg/emoji/sleepy.svg";
+import LoadingView from "src/views/common/LoadingView";
 
 const modalStyle = {
     position: 'absolute',
@@ -29,10 +33,27 @@ export default function CreateView() {
     const [createLearningSubjectModalOpen, setCreateLearningSubjectModalOpen] = useState(false);
     const handleClose = () => setCreateLearningSubjectModalOpen(false);
     const handleOpen = () => setCreateLearningSubjectModalOpen(true);
+    // @ts-ignore
+    const [createdLearningSubjects, setCreatedLearningSubjects] = useState<Array<LearningSubject>>(undefined);
+
+    async function loadCreatedLearningSubjects() {
+        const response = await getCreatedLearningSubjects();
+        if (!response.success)
+            return //TODO!
+        setCreatedLearningSubjects(response.data);
+    }
+
+    useEffect(() => {
+        loadCreatedLearningSubjects().then();
+    }, []);
+
+    if (createdLearningSubjects === null || createdLearningSubjects === undefined)
+        return <LoadingView/>
 
     return (
         <NavLayout activeSectionIdOverride={navSections.home} variant={"home"}>
-            <Box sx={{my: 8, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 4}}>
+            <Typography variant={"h3"} sx={{mt: 1}}><b>Let's create your learning frameworks</b></Typography>
+            <Box sx={{my: 6, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 4}}>
                 <Box sx={{
                     p: 4,
                     display: "flex",
@@ -55,42 +76,43 @@ export default function CreateView() {
                 </Box>
             </Box>
             <Typography>Or let's see what you've created:</Typography>
-            <Box sx={{my: 8, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 4}}>
-                <Box sx={{
-                    display: "flex",
-                    gap: 2,
-                    width: "18rem"
-                }}>
-                    <RadioRounded/>
-                    <Box sx={{display: "flex", flexDirection: "column"}}>
-                        <Typography variant={"h6"}>Blue banana</Typography>
-                        <Typography variant={"subtitle1"} color={"textSecondary"}>Learning Subject</Typography>
-                    </Box>
-                </Box>
-                <Box sx={{
-                    display: "flex",
-                    gap: 2,
-                    width: "18rem"
-                }}>
-                    <RadioRounded/>
-                    <Box sx={{display: "flex", flexDirection: "column"}}>
-                        <Typography variant={"h6"}>An amazing story</Typography>
-                        <Typography variant={"subtitle1"} color={"textSecondary"}>Story in mathematics</Typography>
-                    </Box>
-                </Box>
-                <Box sx={{
-                    display: "flex",
-                    gap: 2,
-                    width: "18rem"
-                }}>
-                    <RadioRounded/>
-                    <Box sx={{display: "flex", flexDirection: "column"}}>
-                        <Typography variant={"h6"}>An amazing story</Typography>
-                        <Typography variant={"subtitle1"} color={"textSecondary"}>Story in mathematics</Typography>
-                    </Box>
-                </Box>
+            <Box sx={{my: 8, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 4, maxWidth: "64rem"}}>
+                {
+                    createdLearningSubjects?.length === 0 ? (
+                        <Box sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: 2
+                        }}>
+                            <img src={sleepyEmoji} width={"100px"} alt={""}/>
+                            <Box sx={{display: "flex", flexDirection: "column"}}>
+                                <Typography variant={"h6"}>Seems you didn't create anything...</Typography>
+                            </Box>
+                        </Box>
+                    ) : createdLearningSubjects.slice(0,6).map(
+                        (o) =>
+                            <Box sx={{
+                                display: "flex",
+                                gap: 2,
+                                width: "18rem",
+                                cursor: "pointer",
+                                "&:hover": {
+                                    "& .learning-subject-title": {color: theme.palette.primary.main}
+                                }
+                            }} onClick={() => navigate(navigationPath.fillPath(navigationPath.learningSubjectEditor, o.id))}>
+                                <RadioRounded/>
+                                <Box sx={{display: "flex", flexDirection: "column"}}>
+                                    <Typography variant={"h5"}
+                                                className={"learning-subject-title"}>{o.name}</Typography>
+                                    <Typography variant={"subtitle1"} color={"textSecondary"}>Learning
+                                        Subject</Typography>
+                                </Box>
+                            </Box>
+                    )
+                }
             </Box>
-            <Typography>See more</Typography>
+            {/*<Typography>See more</Typography>*/}
             <CreateLearningSubjectModal isOpen={createLearningSubjectModalOpen} handleClose={handleClose}/>
         </NavLayout>
     );

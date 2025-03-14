@@ -68,7 +68,7 @@ export default function NavLayout(props: React.PropsWithChildren<NavLayoutProps>
                                 alignItems: "center",
                                 justifyContent: "center"
                             }}>
-                                <img src={logo} alt={""} width={"60%"}/>
+                                <img src={logo} alt={""} width={"50%"}/>
                             </Box>
                         </>
                     ) : props.variant === "searchHome" ? (

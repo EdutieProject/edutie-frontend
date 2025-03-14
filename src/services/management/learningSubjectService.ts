@@ -11,6 +11,16 @@ export async function getLearningSubjectById(id: string): Promise<ApiResponse<Le
     );
 }
 
+export async function getCreatedLearningSubjects(): Promise<ApiResponse<Array<LearningSubject>>> {
+    return await catchClientErrors(
+        async () => {
+            const response = await fetch(`${API_PATH}/learning-subject/created`,
+                {method: "GET", headers: await getDefaultHeadersAuthenticated()});
+            return await response.json();
+        }
+    );
+}
+
 export async function createLearningSubject(name: string): Promise<ApiResponse<LearningSubject>> {
     let body = JSON.stringify({
         "learningSubjectName": name
