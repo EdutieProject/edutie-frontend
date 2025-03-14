@@ -32,6 +32,7 @@ import {
 } from "src/services/management/learningSubjectService";
 import LoadingView from "src/views/common/LoadingView";
 import MarkdownLaTeXRenderer from "src/components/markdown/MarkdownLaTexRenderer";
+import Tooltip from '@mui/material/Tooltip';
 
 const modalStyle = {
     position: 'absolute',
@@ -173,7 +174,10 @@ export default function LearningSubjectEditorView() {
                                         <Typography color={"textSecondary"} variant={"caption"}>
                                             <b>Title</b>
                                         </Typography>
-                                        <InfoOutlined sx={{fontSize: 16}}/>
+                                        <Tooltip title={"Title is being displayed to the learners and is not used in the learning materials generation process."}
+                                                 placement={"right"}>
+                                            <InfoOutlined sx={{fontSize: 16}}/>
+                                        </Tooltip>
                                     </Box>
                                     <Typography
                                         variant={"h5"}>{learningSubjectView.learningSubject.requirements[selectedRequirementIdx].title}</Typography>
@@ -183,7 +187,10 @@ export default function LearningSubjectEditorView() {
                                         <Typography color={"textSecondary"} variant={"caption"}>
                                             <b>Student objective</b>
                                         </Typography>
-                                        <InfoOutlined sx={{fontSize: 16}}/>
+                                        <Tooltip title={"Student objective is being used in learning materials generation process."}
+                                                 placement={"right"}>
+                                            <InfoOutlined sx={{fontSize: 16}}/>
+                                        </Tooltip>
                                     </Box>
                                     <MarkdownLaTeXRenderer
                                         content={learningSubjectView.learningSubject.requirements[selectedRequirementIdx].studentObjective}/>
@@ -368,13 +375,13 @@ function AddRequirementModal(params: AddRequirementModalParams) {
             }}
         >
             <Fade in={params.isOpen}>
-                <Box sx={{...modalStyle, display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
+                <Box sx={{...modalStyle, display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 2}}>
                     <Typography id="transition-modal-title" variant="h6" component="h2">
                         Add Learning Subject Requirement
                     </Typography>
                     <TextField id="outlined-basic" label="Requirement Name" variant="outlined"
                                onChange={(e) => setInputRequirementName(e.target.value)}/>
-                    <Button onClick={handleAddRequirement}>Add requirement</Button>
+                    <Button onClick={handleAddRequirement} variant={"contained"}>Add requirement</Button>
                 </Box>
             </Fade>
         </Modal>
