@@ -3,6 +3,7 @@ export const navigationPath = {
     account: "/profiles/:id",
     create: "/create",
     learningSubjectEditor: "/create/learning-subject/:learningSubjectId",
+    learningSubjectLearn: "/learn/learning-subject/:learningSubjectId",
     play: "/play",
     /**
      * Fills a navigation path with provided arguments.

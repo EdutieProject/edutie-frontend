@@ -1,10 +1,10 @@
-import {LearningSubject, LearningSubjectManagementView} from "src/services/management/types";
 import {API_PATH, catchClientErrors, getDefaultHeadersAuthenticated} from "src/services/apiCommons";
+import {ApiResponse, LearningSubjectManagementView, LearningSubject} from "src/services/types";
 
 export async function getLearningSubjectById(id: string): Promise<ApiResponse<LearningSubjectManagementView>> {
     return await catchClientErrors(
         async () => {
-            const response = await fetch(`${API_PATH}/learning-subject/${id}`,
+            const response = await fetch(`${API_PATH}/learning-subject/${id}/management`,
                 {method: "GET", headers: await getDefaultHeadersAuthenticated()});
             return await response.json();
         }

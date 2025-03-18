@@ -17,13 +17,13 @@ import {
 import Grid from '@mui/material/Grid2';
 import NavLayout from "src/views/common/NavLayout";
 import React, {useEffect, useState} from "react";
-import {navSections} from "src/features/navigation/navigationPath";
+import {navigationPath, navSections} from "src/features/navigation/navigationPath";
 
 import {Add, DataArrayOutlined, InfoOutlined, RadioRounded} from "@mui/icons-material";
-import {Link, useParams} from "react-router";
+import {Link, useNavigate, useParams} from "react-router";
 
 import sleepyEmoji from "src/assets/svg/emoji/sleepy.svg";
-import {KnowledgeSubjectSearchView, LearningSubjectManagementView} from "src/services/management/types";
+import {KnowledgeSubjectSearchView, LearningSubjectManagementView} from "src/services/types";
 import {searchKnowledgeSubjects} from "src/services/management/knowledgeSubjectService";
 import {
     addLearningSubjectRequirement,
@@ -47,6 +47,7 @@ const modalStyle = {
 
 export default function LearningSubjectEditorView() {
     const theme = useTheme();
+    const navigate = useNavigate();
     const {learningSubjectId} = useParams<{ learningSubjectId: string }>();
 
     const [learningSubjectView, setLearningSubjectView] = useState<LearningSubjectManagementView>();
@@ -174,8 +175,9 @@ export default function LearningSubjectEditorView() {
                                         <Typography color={"textSecondary"} variant={"caption"}>
                                             <b>Title</b>
                                         </Typography>
-                                        <Tooltip title={"Title is being displayed to the learners and is not used in the learning materials generation process."}
-                                                 placement={"right"}>
+                                        <Tooltip
+                                            title={"Title is being displayed to the learners and is not used in the learning materials generation process."}
+                                            placement={"right"}>
                                             <InfoOutlined sx={{fontSize: 16}}/>
                                         </Tooltip>
                                     </Box>
@@ -187,8 +189,9 @@ export default function LearningSubjectEditorView() {
                                         <Typography color={"textSecondary"} variant={"caption"}>
                                             <b>Student objective</b>
                                         </Typography>
-                                        <Tooltip title={"Student objective is being used in learning materials generation process."}
-                                                 placement={"right"}>
+                                        <Tooltip
+                                            title={"Student objective is being used in learning materials generation process."}
+                                            placement={"right"}>
                                             <InfoOutlined sx={{fontSize: 16}}/>
                                         </Tooltip>
                                     </Box>
@@ -212,7 +215,9 @@ export default function LearningSubjectEditorView() {
                                     section.</Typography>
                             </Box>
                         )}
-
+                        <Button onClick={() => navigate(
+                            navigationPath.fillPath(navigationPath.learningSubjectLearn, learningSubjectView?.learningSubject.id)
+                        )}>Go to learning view</Button>
                     </Grid>
                 </Grid>
             </Container>

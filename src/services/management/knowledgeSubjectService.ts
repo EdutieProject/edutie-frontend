@@ -1,5 +1,5 @@
 import {API_PATH, catchClientErrors, getDefaultHeadersAuthenticated} from "src/services/apiCommons";
-import {KnowledgeSubjectSearchView} from "src/services/management/types";
+import {ApiResponse, KnowledgeSubjectSearchView} from "src/services/types";
 
 
 export async function searchKnowledgeSubjects(searchName: string): Promise<ApiResponse<Array<KnowledgeSubjectSearchView>>> {

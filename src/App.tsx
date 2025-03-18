@@ -7,9 +7,10 @@ import {navigationPath} from "src/features/navigation/navigationPath";
 import {SessionProvider} from "src/features/session/SessionProvider";
 
 import {BrowserRouter, Route, Routes} from "react-router";
-import HomeView from "src/views/home";
+import HomeView from "src/views/learn";
 import CreateView from "src/views/create";
 import LearningSubjectEditorView from "src/views/create/learningsubject";
+import LearningSubjectLearnView from "src/views/learn/learningsubject";
 
 export default function App() {
 
@@ -22,6 +23,7 @@ export default function App() {
                             <Route path={navigationPath.home} element={<HomeView/>}/>
                             <Route path={navigationPath.create} element={<CreateView/>}/>
                             <Route path={navigationPath.learningSubjectEditor} element={<LearningSubjectEditorView/>}/>
+                            <Route path={navigationPath.learningSubjectLearn} element={<LearningSubjectLearnView/>}/>
                         </Routes>
                     </BrowserRouter>
                 </SelectedNavigationSectionProvider>
