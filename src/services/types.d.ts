@@ -74,3 +74,37 @@ export interface KnowledgeSubjectReference {
     id: string
 }
 
+export interface LearningExperience<T> {
+    id: string
+    createdOn: string
+    updatedOn: any
+    updatedBy: any
+    createdBy: string
+    requirements: Requirement[]
+    activity: T
+    notes: Notes
+    studentId: string
+}
+
+export interface Requirement {
+    id: string
+}
+
+export interface SimpleProblemActivity {
+    id: string
+    introductionText: string
+    problemText: string
+    activityType: string
+}
+
+export interface Notes {
+    id: string
+    paragraphs: Paragraph[]
+}
+
+export interface Paragraph {
+    id: string
+    content: any
+    ordinal: number
+}
+
