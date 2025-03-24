@@ -43,6 +43,7 @@ const modalStyle = {
     bgcolor: 'background.paper',
     boxShadow: 24,
     p: 4,
+    borderRadius: 1
 };
 
 export default function LearningSubjectEditorView() {
@@ -237,20 +238,29 @@ function KnowledgeOriginModal(params: KnowledgeOriginModalParams) {
     const theme = useTheme();
     const [searchedKnowledgeSubjects, setSearchedKnowledgeSubjects] = useState<Array<KnowledgeSubjectSearchView>>([]);
     const [knowledgeSubjectSetLoading, setKnowledgeSubjectSetLoading] = useState(false);
+    const [searchPhrase, setSearchPhrase] = useState(""); // Track input value
+
+    // Debounce function using useEffect
+    useEffect(() => {
+        if (searchPhrase.trim() === "") return;
+
+        const handler = setTimeout(() => {
+            updateSearchResults(searchPhrase).then();
+        }, 500); // 500ms delay
+
+        return () => clearTimeout(handler); // Cleanup function cancels previous calls
+    }, [searchPhrase]); // Re-run when searchPhrase changes
 
     async function updateSearchResults(searchPhrase: string) {
         const apiResponse = await searchKnowledgeSubjects(searchPhrase);
-        if (!apiResponse.success)
-            return; //TODO handle failure
+        if (!apiResponse.success) return; // TODO: handle failure
         setSearchedKnowledgeSubjects(apiResponse.data as Array<KnowledgeSubjectSearchView>);
     }
 
     function handleKnowledgeSubjectChoice(knowledgeSubjectId: string) {
         setKnowledgeSubjectSetLoading(true);
         params.setLearningSubjectKnowledgeSubjectId(knowledgeSubjectId)
-            .then(o => {
-                setKnowledgeSubjectSetLoading(false);
-            });
+            .then(() => setKnowledgeSubjectSetLoading(false));
     }
 
     if (knowledgeSubjectSetLoading) {
@@ -305,7 +315,8 @@ function KnowledgeOriginModal(params: KnowledgeOriginModalParams) {
                         renderInput={(params) =>
                             <TextField {...params}
                                        label="Add knowledge subject"
-                                       onChange={(e) => updateSearchResults(e.target.value)}/>
+                                       onChange={(e) => setSearchPhrase(e.target.value)} // Update search phrase state
+                            />
                         }
                         renderOption={(props, option) => (
                             <Box
@@ -313,8 +324,7 @@ function KnowledgeOriginModal(params: KnowledgeOriginModalParams) {
                                 onClick={() => handleKnowledgeSubjectChoice(option.knowledgeSubjectReference.id)}
                             >
                                 <Typography>{option.title}</Typography>
-                                <Typography variant={"caption"}
-                                            color={"textSecondary"}>{option.description}</Typography>
+                                <Typography variant="caption" color="textSecondary">{option.description}</Typography>
                             </Box>
                         )}
                     />
