@@ -2,17 +2,19 @@ import {Button, Container, Step, StepLabel, Stepper, Typography, useTheme} from 
 import Grid from '@mui/material/Grid2';
 import NavLayout from "src/views/common/NavLayout";
 import React, {useEffect, useState} from "react";
-import {navSections} from "src/features/navigation/navigationPath";
+import {navigationPath, navSections} from "src/features/navigation/navigationPath";
 
 import {RadioRounded} from "@mui/icons-material";
-import {useParams} from "react-router";
+import {useNavigate, useParams} from "react-router";
 import {LearningSubjectLearningView} from "src/services/types";
 import {getLearningSubjectById} from "src/services/learning/learningSubjectService";
 import LoadingView from "src/views/common/LoadingView";
+import {createLearningExperience} from "src/services/learning/learningExperienceService";
 
 
 export default function LearningSubjectLearnView() {
     const theme = useTheme();
+    const navigate = useNavigate();
     const {learningSubjectId} = useParams<{ learningSubjectId: string }>();
 
     const [learningSubjectView, setLearningSubjectView] = useState<LearningSubjectLearningView>();
@@ -34,8 +36,11 @@ export default function LearningSubjectLearnView() {
         return <LoadingView/>
     }
 
-    async function handleCreateLearningExperience(knowledgeSubjectId: string) {
-        //todo
+    async function handleCreateLearningExperience() {
+        const response = await createLearningExperience(learningSubjectId as string, null);
+        if (!response.success)
+            return; //TODO error handling
+        navigate(navigationPath.fillPath(navigationPath.learningExperience, response.data.id), {state: {learningExperience: response.data}})
     }
 
     console.log(learningSubjectView);
@@ -65,8 +70,8 @@ export default function LearningSubjectLearnView() {
                     </Grid>
                     <Grid size={{xs: 12, md: 8}}>
                         <Typography variant={"h4"} sx={{mb: 4}}>Learn</Typography>
-                        <Button variant={"contained"} color={"secondary"}>Let's Learn</Button>
-
+                        <Button variant={"contained"} color={"secondary"} onClick={handleCreateLearningExperience}>Let's
+                            Learn</Button>
                     </Grid>
                 </Grid>
             </Container>

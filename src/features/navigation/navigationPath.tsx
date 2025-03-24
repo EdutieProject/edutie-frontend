@@ -5,6 +5,7 @@ export const navigationPath = {
     learningSubjectEditor: "/create/learning-subject/:learningSubjectId",
     learningSubjectLearn: "/learn/learning-subject/:learningSubjectId",
     play: "/play",
+    learningExperience: "/learn/learning-experience/:learningExperienceId",
     /**
      * Fills a navigation path with provided arguments.
      * @param {string} p path to fill
