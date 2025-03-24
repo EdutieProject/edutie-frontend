@@ -74,7 +74,7 @@ export interface KnowledgeSubjectReference {
     id: string
 }
 
-export interface LearningExperience<T> {
+export interface LearningExperience<T extends Activity> {
     id: string
     createdOn: string
     updatedOn: any
@@ -90,7 +90,11 @@ export interface Requirement {
     id: string
 }
 
-export interface SimpleProblemActivity {
+export interface Activity {
+    activityName: string
+}
+
+export interface SimpleProblemActivity extends Activity{
     id: string
     introductionText: string
     problemText: string

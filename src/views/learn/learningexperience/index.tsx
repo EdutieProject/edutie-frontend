@@ -3,7 +3,7 @@ import NavLayout from "src/views/common/NavLayout";
 import React, {useEffect, useState} from "react";
 import {navSections} from "src/features/navigation/navigationPath";
 import {useLocation, useParams} from "react-router";
-import {LearningExperience} from "src/services/types";
+import {Activity, LearningExperience} from "src/services/types";
 import LoadingView from "src/views/common/LoadingView";
 import {getLearningExperienceById} from "src/services/learning/learningExperienceService";
 
@@ -11,10 +11,10 @@ import {getLearningExperienceById} from "src/services/learning/learningExperienc
 export default function LearningExperienceView() {
     const theme = useTheme();
     const location = useLocation();
-    const {cachedLearningExperience} = location.state as { cachedLearningExperience: LearningExperience<unknown> };
+    const {cachedLearningExperience} = location.state as { cachedLearningExperience: LearningExperience<Activity> };
     const {learningExperienceId} = useParams<{ learningExperienceId: string }>();
 
-    const [learningExperience, setLearningExperience] = useState<LearningExperience<unknown>>(cachedLearningExperience);
+    const [learningExperience, setLearningExperience] = useState<LearningExperience<Activity>>(cachedLearningExperience);
 
     console.log(cachedLearningExperience);
     console.log(learningExperienceId);

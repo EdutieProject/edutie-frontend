@@ -1,8 +1,8 @@
 import {API_PATH, catchClientErrors, getDefaultHeadersAuthenticated} from "src/services/apiCommons";
-import {ApiResponse, LearningExperience, LearningSubjectLearningView} from "src/services/types";
+import {Activity, ApiResponse, LearningExperience, LearningSubjectLearningView} from "src/services/types";
 
 
-export async function createLearningExperience(learningSubjectId: string, elementalRequirementId: string | null): Promise<ApiResponse<LearningExperience<unknown>>> {
+export async function createLearningExperience(learningSubjectId: string, elementalRequirementId: string | null): Promise<ApiResponse<LearningExperience<Activity>>> {
     let body = JSON.stringify({
         "learningSubjectId": learningSubjectId,
         "elementalRequirementId": elementalRequirementId
@@ -16,7 +16,7 @@ export async function createLearningExperience(learningSubjectId: string, elemen
     );
 }
 
-export async function getLearningExperienceById(id: string): Promise<ApiResponse<LearningExperience<unknown>>> {
+export async function getLearningExperienceById(id: string): Promise<ApiResponse<LearningExperience<Activity>>> {
     return await catchClientErrors(
         async () => {
             const response = await fetch(`${API_PATH}/learning-experience/${id}`,
