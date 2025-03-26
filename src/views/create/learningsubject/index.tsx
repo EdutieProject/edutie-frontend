@@ -23,7 +23,7 @@ import {Add, DataArrayOutlined, InfoOutlined, RadioRounded} from "@mui/icons-mat
 import {Link, useNavigate, useParams} from "react-router";
 
 import sleepyEmoji from "src/assets/svg/emoji/sleepy.svg";
-import {KnowledgeSubjectSearchView, LearningSubjectManagementView} from "src/services/types";
+import {ApiError, KnowledgeSubjectSearchView, LearningSubjectManagementView} from "src/services/types";
 import {searchKnowledgeSubjects} from "src/services/management/knowledgeSubjectService";
 import {
     addLearningSubjectRequirement,
@@ -33,6 +33,7 @@ import {
 import LoadingView from "src/views/common/LoadingView";
 import MarkdownLaTeXRenderer from "src/components/markdown/MarkdownLaTexRenderer";
 import Tooltip from '@mui/material/Tooltip';
+import ErrorView from "src/views/common/ErrorView";
 
 const modalStyle = {
     position: 'absolute',
@@ -50,6 +51,7 @@ export default function LearningSubjectEditorView() {
     const theme = useTheme();
     const navigate = useNavigate();
     const {learningSubjectId} = useParams<{ learningSubjectId: string }>();
+    const [error, setError] = useState<ApiError>();
 
     const [learningSubjectView, setLearningSubjectView] = useState<LearningSubjectManagementView>();
     const [selectedRequirementIdx, setSelectedRequirementIdx] = useState<number>(0);
@@ -62,10 +64,15 @@ export default function LearningSubjectEditorView() {
     const handleKnowledgeSourceModalOpen = () => setKnowledgeSourceModalOpen(true);
     const handleKnowledgeSourceModalClose = () => setKnowledgeSourceModalOpen(false);
 
+    if (error)
+        return <ErrorView error={error}/>
+
     async function loadLearningSubject() {
         const response = await getLearningSubjectById(learningSubjectId as string);
-        if (!response.success)
-            return; //TODO error handling
+        if (!response.success) {
+            setError(response.error);
+            return;
+        }
         setLearningSubjectView(response.data);
     }
 
@@ -80,8 +87,10 @@ export default function LearningSubjectEditorView() {
     async function handleLearningSubjectSetKnowledgeSubject(knowledgeSubjectId: string) {
         // @ts-ignore
         const response = await setKnowledgeSubject(learningSubjectView?.learningSubject.id, knowledgeSubjectId);
-        if (!response.success)
-            return; //TODO error handling
+        if (!response.success) {
+            setError(response.error);
+            return;
+        }
         setLearningSubjectView(undefined); //reset the view to re-load learning subject
         setKnowledgeSourceModalOpen(false);
     }
@@ -89,8 +98,10 @@ export default function LearningSubjectEditorView() {
     async function handleAddLearningSubjectRequirement(title: string) {
         // @ts-ignore
         const response = await addLearningSubjectRequirement(learningSubjectView?.learningSubject.id, title, learningSubjectView?.learningSubject.requirements.length);
-        if (!response.success)
-            return; //TODO error handling
+        if (!response.success) {
+            setError(response.error);
+            return;
+        }
         setLearningSubjectView(undefined);
         // @ts-ignore
         setSelectedRequirementIdx(learningSubjectView?.learningSubject.requirements.length);

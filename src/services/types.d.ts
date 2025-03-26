@@ -1,6 +1,11 @@
+interface ApiError {
+    code: string;
+    message: string;
+}
+
 interface ApiResponse<T> {
     data: T;
-    error: { code: string; message: string };
+    error: ApiError;
     success: boolean;
 }
 
@@ -94,7 +99,7 @@ export interface Activity {
     activityName: string
 }
 
-export interface SimpleProblemActivity extends Activity{
+export interface SimpleProblemActivity extends Activity {
     id: string
     introductionText: string
     problemText: string

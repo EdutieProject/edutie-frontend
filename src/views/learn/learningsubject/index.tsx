@@ -6,25 +6,32 @@ import {navigationPath, navSections} from "src/features/navigation/navigationPat
 
 import {RadioRounded} from "@mui/icons-material";
 import {useNavigate, useParams} from "react-router";
-import {LearningSubjectLearningView} from "src/services/types";
+import {ApiError, LearningSubjectLearningView} from "src/services/types";
 import {getLearningSubjectById} from "src/services/learning/learningSubjectService";
 import LoadingView from "src/views/common/LoadingView";
 import {createLearningExperience} from "src/services/learning/learningExperienceService";
+import ErrorView from "src/views/common/ErrorView";
 
 
 export default function LearningSubjectLearnView() {
     const theme = useTheme();
     const navigate = useNavigate();
     const {learningSubjectId} = useParams<{ learningSubjectId: string }>();
+    const [error, setError] = useState<ApiError>();
 
     const [learningSubjectView, setLearningSubjectView] = useState<LearningSubjectLearningView>();
     const [selectedRequirementIdx, setSelectedRequirementIdx] = useState<number>(0);
+    const [learningExperienceLoading, setLearningExperienceLoading] = useState(false);
 
+    if (error)
+        return <ErrorView error={error}/>;
 
     async function loadLearningSubject() {
         const response = await getLearningSubjectById(learningSubjectId as string);
-        if (!response.success)
-            return; //TODO error handling
+        if (!response.success) {
+            setError(response.error);
+            return;
+        }
         setLearningSubjectView(response.data);
     }
 
@@ -32,14 +39,17 @@ export default function LearningSubjectLearnView() {
         loadLearningSubject().then();
     }, [learningSubjectView === undefined]);
 
-    if (learningSubjectView === null || learningSubjectView === undefined) {
+    if (learningSubjectView === null || learningSubjectView === undefined || learningExperienceLoading) {
         return <LoadingView/>
     }
 
     async function handleCreateLearningExperience() {
+        setLearningExperienceLoading(true);
         const response = await createLearningExperience(learningSubjectId as string, null);
-        if (!response.success)
-            return; //TODO error handling
+        if (!response.success) {
+            setError(response.error);
+            return;
+        }
         navigate(navigationPath.fillPath(navigationPath.learningExperience, response.data.id), {state: {learningExperience: response.data}})
     }
 

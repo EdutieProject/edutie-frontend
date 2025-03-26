@@ -6,10 +6,11 @@ import {navigationPath, navSections} from "src/features/navigation/navigationPat
 import {RadioRounded} from "@mui/icons-material";
 import {useNavigate} from "react-router";
 import {createLearningSubject, getCreatedLearningSubjects} from "src/services/management/learningSubjectService";
-import {LearningSubject} from "src/services/management/types";
+import {ApiError, LearningSubject} from "src/services/types";
 
 import sleepyEmoji from "src/assets/svg/emoji/sleepy.svg";
 import LoadingView from "src/views/common/LoadingView";
+import ErrorView from "src/views/common/ErrorView";
 
 const modalStyle = {
     position: 'absolute',
@@ -23,7 +24,8 @@ const modalStyle = {
     display: "flex",
     flexDirection: "column",
     gap: 2,
-    alignItems: "flex-start"
+    alignItems: "flex-start",
+    borderRadius: 1
 };
 
 export default function CreateView() {
@@ -33,13 +35,19 @@ export default function CreateView() {
     const [createLearningSubjectModalOpen, setCreateLearningSubjectModalOpen] = useState(false);
     const handleClose = () => setCreateLearningSubjectModalOpen(false);
     const handleOpen = () => setCreateLearningSubjectModalOpen(true);
-    // @ts-ignore
-    const [createdLearningSubjects, setCreatedLearningSubjects] = useState<Array<LearningSubject>>(undefined);
+    const [createdLearningSubjects, setCreatedLearningSubjects] = useState<Array<LearningSubject>>();
+
+    const [error, setError] = useState<ApiError>()
+
+    if (error)
+        return <ErrorView error={error} />;
 
     async function loadCreatedLearningSubjects() {
         const response = await getCreatedLearningSubjects();
-        if (!response.success)
-            return //TODO!
+        if (!response.success) {
+            setError(response.error);
+            return;
+        }
         setCreatedLearningSubjects(response.data);
     }
 

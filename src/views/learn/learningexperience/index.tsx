@@ -6,6 +6,7 @@ import {useLocation, useParams} from "react-router";
 import {Activity, LearningExperience} from "src/services/types";
 import LoadingView from "src/views/common/LoadingView";
 import {getLearningExperienceById} from "src/services/learning/learningExperienceService";
+import ErrorView from "src/views/common/ErrorView";
 
 
 export default function LearningExperienceView() {
@@ -24,7 +25,7 @@ export default function LearningExperienceView() {
     async function loadLearningExperience() {
         const response = await getLearningExperienceById(learningExperienceId as string);
         if (!response.success)
-            return; //TODO error handling
+            return <ErrorView error={response.error}/>;
         setLearningExperience(response.data);
     }
 
