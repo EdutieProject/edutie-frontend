@@ -87,7 +87,7 @@ export interface LearningExperience<T extends Activity> {
     createdBy: string
     requirements: Requirement[]
     activity: T
-    notes: Notes
+    notes: LearningNotes
     studentId: string
 }
 
@@ -106,7 +106,7 @@ export interface SimpleProblemActivity extends Activity {
     activityType: string
 }
 
-export interface Notes {
+export interface LearningNotes {
     id: string
     paragraphs: Paragraph[]
 }
