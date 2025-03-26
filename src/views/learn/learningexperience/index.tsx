@@ -8,6 +8,7 @@ import LoadingView from "src/views/common/LoadingView";
 import {getLearningExperienceById} from "src/services/learning/learningExperienceService";
 import ErrorView from "src/views/common/ErrorView";
 import LearningNotesComponent from "src/views/learn/learningexperience/LearningNotes";
+import ActivityRouter from "src/views/learn/learningexperience/activities/ActivityRouter";
 
 enum ActiveViewPart {
     NOTES = "NOTES",
@@ -70,7 +71,7 @@ export default function LearningExperienceView() {
                 activeViewPart === ActiveViewPart.NOTES ?
                     <LearningNotesComponent notes={learningExperience.notes}/>
                     :
-                    <></>
+                    <ActivityRouter activity={learningExperience.activity}/>
             }
             <ViewPartSwitch activePart={activeViewPart} switchView={setActiveViewPart}/>
         </NavLayout>
