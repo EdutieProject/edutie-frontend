@@ -21,43 +21,35 @@ interface EditorComponentProps {
 
 export default function Editor(props: EditorComponentProps) {
     const theme = useTheme();
-    const ejInstance = useRef<any>(null);
+    const ejInstance = useRef<any>({ isReady: false });
     const [editorContentState, _] = useState<OutputData>(props.currentContent);
 
-
-    const initEditor = () => {
-        const editor = new EditorJS({
-            holder: 'editorjs',
-            onReady: () => {
-                ejInstance.current = editor;
-            },
-            autofocus: true,
-            data: editorContentState,
-            onChange: async () => {
-                let content = await editor.saver.save();
-                console.log(content);
-                props.setCurrentContent(content);
-            },
-            tools: {
-                math: MathTool,
-                header: Header
-            },
-            minHeight: theme.spacing(6) as unknown as number
-        });
-    };
-
+    // @ts-ignore todo: type error
+    let editor: EditorJS = { isReady: false };
     useEffect(() => {
-        if (ejInstance.current === null) {
-            initEditor();
+        if (!editor.isReady) {
+            editor = new EditorJS({
+                holder: 'editorjs',
+                onReady: () => {
+                    ejInstance.current = editor;
+                },
+                autofocus: true,
+                data: editorContentState,
+                onChange: async () => {
+                    let content = await editor.saver.save();
+                    console.log(content);
+                    props.setCurrentContent(content);
+                },
+                tools: {
+                    math: MathTool,
+                    header: Header
+                },
+                minHeight: theme.spacing(6) as unknown as number
+            });
         }
-
-        return () => {
-            ejInstance?.current?.destroy();
-            ejInstance.current = null;
-        };
     }, []);
 
-    return (<>
+    return (
         <div id='editorjs' style={{
             padding: theme.spacing(2),
             backgroundColor: theme.palette.common.white,
@@ -65,5 +57,5 @@ export default function Editor(props: EditorComponentProps) {
             marginTop: theme.spacing(6),
             marginBottom: theme.spacing(6)
         }}></div>
-    </>);
+    );
 }
