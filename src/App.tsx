@@ -12,6 +12,7 @@ import CreateView from "src/views/create";
 import LearningSubjectEditorView from "src/views/create/learningsubject";
 import LearningSubjectLearnView from "src/views/learn/learningsubject";
 import LearningExperienceView from "src/views/learn/learningexperience";
+import LearningResultView from "src/views/learn/learningresult";
 
 export default function App() {
 
@@ -26,6 +27,7 @@ export default function App() {
                             <Route path={navigationPath.learningSubjectEditor} element={<LearningSubjectEditorView/>}/>
                             <Route path={navigationPath.learningSubjectLearn} element={<LearningSubjectLearnView/>}/>
                             <Route path={navigationPath.learningExperience} element={<LearningExperienceView/>}/>
+                            <Route path={navigationPath.learningResult} element={<LearningResultView/>}/>
                         </Routes>
                     </BrowserRouter>
                 </SelectedNavigationSectionProvider>

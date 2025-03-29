@@ -37,6 +37,7 @@ export default function LearningExperienceView() {
     const theme = useTheme();
     const location = useLocation();
 
+    //TODO: this does not work as the link is of different name
     const {cachedLearningExperience} = (location.state ?? {}) as {
         cachedLearningExperience: LearningExperience<Activity>
     };
