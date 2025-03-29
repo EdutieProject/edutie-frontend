@@ -23,8 +23,15 @@ export default function LearningSubjectLearnView() {
     const [selectedRequirementIdx, setSelectedRequirementIdx] = useState<number>(0);
     const [learningExperienceLoading, setLearningExperienceLoading] = useState(false);
 
-    if (error)
-        return <ErrorView error={error}/>;
+    async function handleCreateLearningExperience() {
+        setLearningExperienceLoading(true);
+        const response = await createLearningExperience(learningSubjectId as string, null);
+        if (!response.success) {
+            setError(response.error);
+            return;
+        }
+        navigate(navigationPath.fillPath(navigationPath.learningExperience, response.data.id), {state: {learningExperience: response.data}})
+    }
 
     async function loadLearningSubject() {
         const response = await getLearningSubjectById(learningSubjectId as string);
@@ -39,18 +46,10 @@ export default function LearningSubjectLearnView() {
         loadLearningSubject().then();
     }, [learningSubjectView === undefined]);
 
+    if (error)
+        return <ErrorView error={error}/>;
     if (learningSubjectView === null || learningSubjectView === undefined || learningExperienceLoading) {
         return <LoadingView/>
-    }
-
-    async function handleCreateLearningExperience() {
-        setLearningExperienceLoading(true);
-        const response = await createLearningExperience(learningSubjectId as string, null);
-        if (!response.success) {
-            setError(response.error);
-            return;
-        }
-        navigate(navigationPath.fillPath(navigationPath.learningExperience, response.data.id), {state: {learningExperience: response.data}})
     }
 
     console.log(learningSubjectView);
