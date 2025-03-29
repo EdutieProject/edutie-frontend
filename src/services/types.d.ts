@@ -117,3 +117,53 @@ export interface Paragraph {
     ordinal: number
 }
 
+
+export interface LearningResult<T extends SolutionSubmission> {
+    id: string
+    createdOn: string
+    updatedOn: any
+    updatedBy: any
+    createdBy: any
+    learningEvaluation: LearningEvaluation
+    solutionSubmission: T
+    learningExperienceId: string
+    studentId: string
+}
+
+export interface LearningEvaluation {
+    id: string
+    assessments: Assessment[]
+}
+
+export interface Assessment {
+    id: string
+    masteryPointsAmount: number
+    elementalRequirementId: string
+    feedback: Feedback
+}
+
+export interface Feedback {
+    text: string
+}
+
+export interface SimpleProblemActivitySolutionSubmission extends SolutionSubmission {
+    solutionParagraphs: SolutionParagraph[]
+}
+
+export interface SolutionSubmission {
+    id: string
+    learningType: string
+    solutionSubmissionType: string
+}
+
+export interface SolutionParagraph {
+    id: string
+    content: TextContent
+    ordinal: number
+}
+
+export interface TextContent {
+    textContentType: string
+    text: string
+}
+

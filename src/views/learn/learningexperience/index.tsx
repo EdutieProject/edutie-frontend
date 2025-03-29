@@ -1,9 +1,9 @@
-import {BottomNavigation, BottomNavigationAction, Box, Button, useTheme} from "@mui/material";
+import {BottomNavigation, BottomNavigationAction, Box, useTheme} from "@mui/material";
 import NavLayout from "src/views/common/NavLayout";
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {navSections} from "src/features/navigation/navigationPath";
 import {useLocation, useParams} from "react-router";
-import {Activity, LearningExperience} from "src/services/types";
+import {Activity, ApiError, LearningExperience} from "src/services/types";
 import LoadingView from "src/views/common/LoadingView";
 import {getLearningExperienceById} from "src/services/learning/learningExperienceService";
 import ErrorView from "src/views/common/ErrorView";
@@ -20,7 +20,7 @@ function ViewPartSwitch({activePart, switchView}: {
     switchView: Dispatch<SetStateAction<ActiveViewPart>>
 }) {
     return (
-        <Box sx={{position: "fixed", bottom: 80, width: "100%", display: "grid", placeItems: "center"}}>
+        <Box sx={{position: "fixed", bottom: 80, width: "100%", display: "grid", placeItems: "center", zIndex: 50}}>
             <BottomNavigation
                 showLabels
                 value={activePart}
@@ -36,21 +36,24 @@ function ViewPartSwitch({activePart, switchView}: {
 export default function LearningExperienceView() {
     const theme = useTheme();
     const location = useLocation();
-    const {cachedLearningExperience} = location.state as { cachedLearningExperience: LearningExperience<Activity> };
+
+    const {cachedLearningExperience} = (location.state ?? {}) as {
+        cachedLearningExperience: LearningExperience<Activity>
+    };
     const {learningExperienceId} = useParams<{ learningExperienceId: string }>();
 
     const [activeViewPart, setActiveViewPart] = useState<ActiveViewPart>(ActiveViewPart.NOTES);
     const [learningExperience, setLearningExperience] = useState<LearningExperience<Activity>>(cachedLearningExperience);
 
-    console.log(cachedLearningExperience);
-    console.log(learningExperienceId);
-    console.log(learningExperience);
-
+    const [learningResultLoading, setLearningResultLoading] = useState(false);
+    const [error, setError] = useState<ApiError>()
 
     async function loadLearningExperience() {
         const response = await getLearningExperienceById(learningExperienceId as string);
-        if (!response.success)
-            return <ErrorView error={response.error}/>;
+        if (!response.success) {
+            setError(error);
+            return;
+        }
         setLearningExperience(response.data);
     }
 
@@ -58,12 +61,13 @@ export default function LearningExperienceView() {
         loadLearningExperience().then();
     }, [learningExperience === undefined]);
 
-    if (learningExperience === null || learningExperience === undefined) {
+
+    if (error)
+        return <ErrorView error={error}/>
+
+    if (learningExperience === null || learningExperience === undefined || learningResultLoading) {
         return <LoadingView/>
     }
-
-
-    console.log(learningExperience);
 
     return (
         <NavLayout activeSectionIdOverride={navSections.home} variant={"view"} relative={true}>
@@ -71,7 +75,12 @@ export default function LearningExperienceView() {
                 activeViewPart === ActiveViewPart.NOTES ?
                     <LearningNotesComponent notes={learningExperience.notes}/>
                     :
-                    <ActivityRouter activity={learningExperience.activity}/>
+                    <ActivityRouter
+                        activity={learningExperience.activity}
+                        setLearningResultLoading={setLearningResultLoading}
+                        learningExperienceId={learningExperience.id}
+                        setError={setError}
+                    />
             }
             <ViewPartSwitch activePart={activeViewPart} switchView={setActiveViewPart}/>
         </NavLayout>
