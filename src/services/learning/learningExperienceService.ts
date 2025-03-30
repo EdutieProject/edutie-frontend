@@ -2,7 +2,7 @@ import {API_PATH, catchClientErrors, getDefaultHeadersAuthenticated} from "src/s
 import {Activity, ApiResponse, LearningExperience, LearningSubjectLearningView} from "src/services/types";
 
 
-export async function createLearningExperience(learningSubjectId: string, elementalRequirementId: string | null): Promise<ApiResponse<LearningExperience<Activity>>> {
+export async function createLearningExperience(learningSubjectId: string, elementalRequirementId: string): Promise<ApiResponse<LearningExperience<Activity>>> {
     let body = JSON.stringify({
         "learningSubjectId": learningSubjectId,
         "elementalRequirementId": elementalRequirementId

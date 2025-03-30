@@ -138,8 +138,13 @@ export interface LearningEvaluation {
 export interface Assessment {
     id: string
     masteryPointsAmount: number
-    elementalRequirementId: string
+    elementalRequirementSnapshot: ElementalRequirementSnapshot
     feedback: Feedback
+}
+
+export interface ElementalRequirementSnapshot {
+    elementalRequirementId: string
+    title: string
 }
 
 export interface Feedback {

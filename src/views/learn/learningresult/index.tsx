@@ -54,6 +54,8 @@ export default function LearningResultView() {
         return <LoadingView/>
     }
 
+    console.log(learningResult);
+
     return (
         <NavLayout activeSectionIdOverride={navSections.home} variant={"view"} relative={true}>
             <Box sx={{display: "flex", gap: 4, flexWrap: "wrap", alignItems: "center", mb: 8}}>
@@ -79,8 +81,7 @@ export default function LearningResultView() {
                             }} onClick={() => console.log("hey")}>
                                 <RadioRounded/>
                                 <Box sx={{display: "flex", flexDirection: "column"}}>
-                                    <Typography variant={"h5"}
-                                                className={"learning-subject-title"}>{o.elementalRequirementId}</Typography>
+                                    <Typography variant={"h5"}>{o.elementalRequirementSnapshot.title}</Typography>
                                     <Typography variant={"subtitle1"} color={"textSecondary"}>{o.masteryPointsAmount} mastery points</Typography>
                                 </Box>
                             </Box>

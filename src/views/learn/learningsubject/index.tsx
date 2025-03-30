@@ -23,9 +23,15 @@ export default function LearningSubjectLearnView() {
     const [selectedRequirementIdx, setSelectedRequirementIdx] = useState<number>(0);
     const [learningExperienceLoading, setLearningExperienceLoading] = useState(false);
 
+    function getSelectedRequirementId(): string | undefined {
+        return learningSubjectView?.learningSubject.requirements[selectedRequirementIdx].id;
+    }
+
     async function handleCreateLearningExperience() {
         setLearningExperienceLoading(true);
-        const response = await createLearningExperience(learningSubjectId as string, null);
+        const response = await createLearningExperience(
+            learningSubjectId as string, getSelectedRequirementId() as string
+        );
         if (!response.success) {
             setError(response.error);
             return;
