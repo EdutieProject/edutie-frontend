@@ -1,8 +1,8 @@
-import {Box, Container, Typography, useTheme} from "@mui/material";
+import {Box, Button, Container, Typography, useTheme} from "@mui/material";
 import NavLayout from "src/views/common/NavLayout";
 import React, {useEffect, useState} from "react";
 import {navigationPath, navSections} from "src/features/navigation/navigationPath";
-import {useLocation, useParams} from "react-router";
+import {useLocation, useNavigate, useParams} from "react-router";
 import {ApiError, LearningResult} from "src/services/types";
 import LoadingView from "src/views/common/LoadingView";
 import ErrorView from "src/views/common/ErrorView";
@@ -10,10 +10,12 @@ import {getLearningResultById} from "src/services/learning/learningResultService
 import cool from "src/assets/svg/emoji/cool.svg"
 import Grid from "@mui/material/Grid2";
 import {RadioRounded} from "@mui/icons-material";
+import {createSimilarLearningExperience} from "src/services/learning/learningExperienceService";
 
 
 export default function LearningResultView() {
     const theme = useTheme();
+    const navigate = useNavigate();
     const location = useLocation();
 
     const {cachedLearningResult} = (location.state ?? {}) as {
@@ -23,12 +25,14 @@ export default function LearningResultView() {
 
     const [learningResult, setLearningResult] = useState<LearningResult<any>>(cachedLearningResult);
 
-    const [error, setError] = useState<ApiError>()
+    const [error, setError] = useState<ApiError>();
+
+    const [similarLearningExperienceLoading, setSimilarLearningExperienceLoading] = useState<boolean>(false);
 
     async function loadLearningResult() {
         const response = await getLearningResultById(learningResultId as string);
         if (!response.success) {
-            setError(error);
+            setError(response.error);
             return;
         }
         setLearningResult(response.data);
@@ -42,15 +46,26 @@ export default function LearningResultView() {
             }, 0);
     }
 
+    async function handleCreateSimilarLearningExperience() {
+        setSimilarLearningExperienceLoading(true);
+        const response = await createSimilarLearningExperience(learningResult.learningExperienceId);
+        if (!response.success) {
+            setError(response.error);
+            return;
+        }
+        navigate(navigationPath.fillPath(navigationPath.learningExperience, response.data.id), {state: {learningExperience: response.data}});
+    }
+
     useEffect(() => {
         loadLearningResult().then();
     }, [learningResult === undefined]);
 
+    console.log(error);
 
     if (error)
         return <ErrorView error={error}/>
 
-    if (learningResult === null || learningResult === undefined) {
+    if (learningResult === null || learningResult === undefined || similarLearningExperienceLoading) {
         return <LoadingView/>
     }
 
@@ -96,6 +111,17 @@ export default function LearningResultView() {
                     </Grid>
                 </Grid>
             </Container>
+            <Box sx={{
+                position: "fixed",
+                width: " 100%",
+                left: 0,
+                bottom: 150,
+                display: "grid",
+                placeItems: "center",
+                zIndex: 50
+            }}>
+                <Button variant={"contained"} onClick={handleCreateSimilarLearningExperience}>Continue learning</Button>
+            </Box>
         </NavLayout>
     );
 }
