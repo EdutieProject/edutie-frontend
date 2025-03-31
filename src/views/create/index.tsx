@@ -39,9 +39,6 @@ export default function CreateView() {
 
     const [error, setError] = useState<ApiError>()
 
-    if (error)
-        return <ErrorView error={error} />;
-
     async function loadCreatedLearningSubjects() {
         const response = await getCreatedLearningSubjects();
         if (!response.success) {
@@ -54,6 +51,9 @@ export default function CreateView() {
     useEffect(() => {
         loadCreatedLearningSubjects().then();
     }, []);
+
+    if (error)
+        return <ErrorView error={error} />;
 
     if (createdLearningSubjects === null || createdLearningSubjects === undefined)
         return <LoadingView/>
