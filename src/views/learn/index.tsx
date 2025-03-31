@@ -77,8 +77,7 @@ export default function LearnHomeView() {
                                         <RadioRounded/>
                                         <Box sx={{display: "flex", flexDirection: "column"}}>
                                             <Typography variant={"h6"}>{o.name}</Typography>
-                                            <Typography variant={"subtitle1"} color={"textSecondary"}>Create a learning subject with
-                                                requirements you can learn from.</Typography>
+                                            <Typography variant={"subtitle1"} color={"textSecondary"}>Learning Subject</Typography>
                                         </Box>
                                     </Box>
                                 </Grid>
