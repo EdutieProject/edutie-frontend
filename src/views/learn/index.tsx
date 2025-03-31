@@ -10,7 +10,7 @@ import ErrorView from "src/views/common/ErrorView";
 import {RadioRounded} from "@mui/icons-material";
 import {useNavigate} from "react-router";
 
-export default function HomeView() {
+export default function LearnHomeView() {
     const theme = useTheme();
     const navigate = useNavigate();
 

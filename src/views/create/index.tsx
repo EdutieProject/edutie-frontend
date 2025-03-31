@@ -28,7 +28,7 @@ const modalStyle = {
     borderRadius: 1
 };
 
-export default function CreateView() {
+export default function CreateHomeView() {
     const theme = useTheme();
     const navigate = useNavigate();
 
