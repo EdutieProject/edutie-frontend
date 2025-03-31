@@ -66,7 +66,8 @@ export default function NavLayout(props: React.PropsWithChildren<NavLayoutProps>
                                 flexDirection: "column",
                                 gap: 4,
                                 alignItems: "center",
-                                justifyContent: "center"
+                                justifyContent: "center",
+                                marginBottom: 2
                             }}>
                                 <img src={logo} alt={""} width={"50%"}/>
                             </Box>
