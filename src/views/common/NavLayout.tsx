@@ -11,7 +11,8 @@ interface NavLayoutProps {
     activeSectionIdOverride?: string;
     scroll?: boolean;
     relative?: boolean;
-    variant: "home" | "searchHome" | "view" | "none"
+    variant: "home" | "searchHome" | "view" | "none";
+    backLink?: string;
 }
 
 /**
@@ -94,7 +95,7 @@ export default function NavLayout(props: React.PropsWithChildren<NavLayoutProps>
                             position: "relative"
                         }}>
                             <Box sx={{display: "grid", placeItems: "center"}}>
-                                <Link to={navigationPath.create}>
+                                <Link to={props.backLink ?? navigationPath.learnHome}>
                                     <ArrowBack sx={{color: "black"}}/>
                                 </Link>
                             </Box>

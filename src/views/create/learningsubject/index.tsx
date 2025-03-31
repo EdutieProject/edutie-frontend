@@ -34,6 +34,8 @@ import LoadingView from "src/views/common/LoadingView";
 import MarkdownLaTeXRenderer from "src/components/markdown/MarkdownLaTexRenderer";
 import Tooltip from '@mui/material/Tooltip';
 import ErrorView from "src/views/common/ErrorView";
+import LearningSubjectIcon from "src/components/icons/LearningSubjectIcon";
+import KnowledgeSubjectIcon from "src/components/icons/KnowledgeSubjectIcon";
 
 const modalStyle = {
     position: 'absolute',
@@ -113,10 +115,15 @@ export default function LearningSubjectEditorView() {
     return (
         <NavLayout activeSectionIdOverride={navSections.home} variant={"view"}>
             <Container sx={{mt: 2}}>
-                <Typography variant={"h3"} sx={{mb: 4}}>
-                    <RadioRounded sx={{mr: 2}}/>
-                    {learningSubjectView.learningSubject.name}
-                </Typography>
+                <Box sx={{display: "flex", justifyContent: "space-between"}}>
+                    <Typography variant={"h3"} sx={{mb: 4}}>
+                        <LearningSubjectIcon sx={{mr: 2}}/>
+                        {learningSubjectView.learningSubject.name}
+                    </Typography>
+                    <Button onClick={() => navigate(
+                        navigationPath.fillPath(navigationPath.learningSubjectLearn, learningSubjectView?.learningSubject.id)
+                    )}>Go to learning view</Button>
+                </Box>
                 <Grid container spacing={6} sx={{marginTop: 2}}>
                     <Grid size={{xs: 12, md: 4}}>
                         <Typography>Knowledge sources:</Typography>
@@ -150,7 +157,7 @@ export default function LearningSubjectEditorView() {
                                         border: "1px solid lightgray",
                                         gap: 2,
                                     }}>
-                                        <DataArrayOutlined/>
+                                        <KnowledgeSubjectIcon/>
                                         <Typography
                                             variant={"h6"}>{learningSubjectView.knowledgeSubjectDetails.title}</Typography>
                                         <Typography variant={"subtitle1"}>Knowledge Subject</Typography>
@@ -227,9 +234,6 @@ export default function LearningSubjectEditorView() {
                                     section.</Typography>
                             </Box>
                         )}
-                        <Button onClick={() => navigate(
-                            navigationPath.fillPath(navigationPath.learningSubjectLearn, learningSubjectView?.learningSubject.id)
-                        )}>Go to learning view</Button>
                     </Grid>
                 </Grid>
             </Container>

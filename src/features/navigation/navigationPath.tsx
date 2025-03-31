@@ -1,7 +1,7 @@
 export const navigationPath = {
-    home: "/",
+    learnHome: "/",
+    createHome: "/create",
     account: "/profiles/:id",
-    create: "/create",
     learningSubjectEditor: "/create/learning-subject/:learningSubjectId",
     learningSubjectLearn: "/learn/learning-subject/:learningSubjectId",
     play: "/play",

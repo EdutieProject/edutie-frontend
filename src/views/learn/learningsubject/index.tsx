@@ -11,6 +11,7 @@ import {getLearningSubjectById} from "src/services/learning/learningSubjectServi
 import LoadingView from "src/views/common/LoadingView";
 import {createLearningExperience} from "src/services/learning/learningExperienceService";
 import ErrorView from "src/views/common/ErrorView";
+import LearningSubjectIcon from "src/components/icons/LearningSubjectIcon";
 
 
 export default function LearningSubjectLearnView() {
@@ -64,7 +65,7 @@ export default function LearningSubjectLearnView() {
         <NavLayout activeSectionIdOverride={navSections.home} variant={"view"}>
             <Container sx={{mt: 2}}>
                 <Typography variant={"h3"} sx={{mb: 4}}>
-                    <RadioRounded sx={{mr: 2}}/>
+                    <LearningSubjectIcon sx={{mr: 2}}/>
                     {learningSubjectView.learningSubject.name}
                 </Typography>
                 <Grid container spacing={6} sx={{marginTop: 2}}>

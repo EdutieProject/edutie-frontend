@@ -11,6 +11,7 @@ import {ApiError, LearningSubject} from "src/services/types";
 import sleepyEmoji from "src/assets/svg/emoji/sleepy.svg";
 import LoadingView from "src/views/common/LoadingView";
 import ErrorView from "src/views/common/ErrorView";
+import LearningSubjectIcon from "src/components/icons/LearningSubjectIcon";
 
 const modalStyle = {
     position: 'absolute',
@@ -75,7 +76,7 @@ export default function CreateHomeView() {
                         boxShadow: theme.shadows[2]
                     }
                 }} onClick={handleOpen}>
-                    <RadioRounded/>
+                    <LearningSubjectIcon/>
                     <Box sx={{display: "flex", flexDirection: "column"}}>
                         <Typography variant={"h6"}>Learning Subject</Typography>
                         <Typography variant={"subtitle1"} color={"textSecondary"}>Create a learning subject with
@@ -83,7 +84,7 @@ export default function CreateHomeView() {
                     </Box>
                 </Box>
             </Box>
-            <Typography>Or let's see what you've created:</Typography>
+            <Typography>Or let's edit what you've created:</Typography>
             <Box sx={{my: 8, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 4, maxWidth: "64rem"}}>
                 {
                     createdLearningSubjects?.length === 0 ? (
@@ -109,7 +110,7 @@ export default function CreateHomeView() {
                                     "& .learning-subject-title": {color: theme.palette.primary.main}
                                 }
                             }} onClick={() => navigate(navigationPath.fillPath(navigationPath.learningSubjectEditor, o.id))}>
-                                <RadioRounded/>
+                                <LearningSubjectIcon/>
                                 <Box sx={{display: "flex", flexDirection: "column"}}>
                                     <Typography variant={"h5"}
                                                 className={"learning-subject-title"}>{o.name}</Typography>

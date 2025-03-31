@@ -22,8 +22,8 @@ export default function App() {
                 <SelectedNavigationSectionProvider>
                     <BrowserRouter basename={import.meta.env.BASE_URL}>
                         <Routes>
-                            <Route path={navigationPath.home} element={<LearnHomeView/>}/>
-                            <Route path={navigationPath.create} element={<CreateHomeView/>}/>
+                            <Route path={navigationPath.learnHome} element={<LearnHomeView/>}/>
+                            <Route path={navigationPath.createHome} element={<CreateHomeView/>}/>
                             <Route path={navigationPath.learningSubjectEditor} element={<LearningSubjectEditorView/>}/>
                             <Route path={navigationPath.learningSubjectLearn} element={<LearningSubjectLearnView/>}/>
                             <Route path={navigationPath.learningExperience} element={<LearningExperienceView/>}/>

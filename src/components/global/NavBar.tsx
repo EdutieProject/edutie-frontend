@@ -41,7 +41,7 @@ export default function NavBar({activeSectionIdOverride}: NavBarProps) {
             mb: 1
         }}>
             <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}
-                onClick={() => navigate(navigationPath.home)}
+                onClick={() => navigate(navigationPath.learnHome)}
             >
                 <Search/>
                 <label>
@@ -49,7 +49,7 @@ export default function NavBar({activeSectionIdOverride}: NavBarProps) {
                 </label>
             </div>
             <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}
-                onClick={() => navigate(navigationPath.create)}
+                onClick={() => navigate(navigationPath.createHome)}
             >
                 <Add/>
                 <label>

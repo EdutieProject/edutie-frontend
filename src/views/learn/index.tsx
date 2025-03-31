@@ -7,8 +7,9 @@ import {ApiError, LearningSubject} from "src/services/types";
 import {getCreatedLearningSubjects} from "src/services/management/learningSubjectService";
 import LoadingView from "src/views/common/LoadingView";
 import ErrorView from "src/views/common/ErrorView";
-import {RadioRounded} from "@mui/icons-material";
+import {AdjustOutlined, RadioRounded} from "@mui/icons-material";
 import {useNavigate} from "react-router";
+import LearningSubjectIcon from "src/components/icons/LearningSubjectIcon";
 
 export default function LearnHomeView() {
     const theme = useTheme();
@@ -74,7 +75,7 @@ export default function LearnHomeView() {
                                             boxShadow: theme.shadows[2]
                                         }
                                     }} onClick={() => navigate(navigationPath.fillPath(navigationPath.learningSubjectLearn, o.id))}>
-                                        <RadioRounded/>
+                                        <LearningSubjectIcon/>
                                         <Box sx={{display: "flex", flexDirection: "column"}}>
                                             <Typography variant={"h6"}>{o.name}</Typography>
                                             <Typography variant={"subtitle1"} color={"textSecondary"}>Learning Subject</Typography>

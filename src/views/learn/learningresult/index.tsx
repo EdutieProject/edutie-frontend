@@ -11,6 +11,7 @@ import cool from "src/assets/svg/emoji/cool.svg"
 import Grid from "@mui/material/Grid2";
 import {RadioRounded} from "@mui/icons-material";
 import {createSimilarLearningExperience} from "src/services/learning/learningExperienceService";
+import LearningSubjectIcon from "src/components/icons/LearningSubjectIcon";
 
 
 export default function LearningResultView() {
@@ -94,7 +95,7 @@ export default function LearningResultView() {
                                     "& .learning-subject-title": {color: theme.palette.primary.main}
                                 }
                             }} onClick={() => console.log("hey")}>
-                                <RadioRounded/>
+                                <LearningSubjectIcon/>
                                 <Box sx={{display: "flex", flexDirection: "column"}}>
                                     <Typography variant={"h5"}>{o.elementalRequirementSnapshot.title}</Typography>
                                     <Typography variant={"subtitle1"} color={"textSecondary"}>{o.masteryPointsAmount} mastery points</Typography>
