@@ -19,7 +19,7 @@ import NavLayout from "src/views/common/NavLayout";
 import React, {useEffect, useState} from "react";
 import {navigationPath, navSections} from "src/features/navigation/navigationPath";
 
-import {Add, DataArrayOutlined, InfoOutlined, RadioRounded} from "@mui/icons-material";
+import {Add, InfoOutlined, Warning} from "@mui/icons-material";
 import {Link, useNavigate, useParams} from "react-router";
 
 import sleepyEmoji from "src/assets/svg/emoji/sleepy.svg";
@@ -36,6 +36,7 @@ import Tooltip from '@mui/material/Tooltip';
 import ErrorView from "src/views/common/ErrorView";
 import LearningSubjectIcon from "src/components/icons/LearningSubjectIcon";
 import KnowledgeSubjectIcon from "src/components/icons/KnowledgeSubjectIcon";
+import {UniversalModalParams} from "src/views/common/types";
 
 const modalStyle = {
     position: 'absolute',
@@ -115,35 +116,48 @@ export default function LearningSubjectEditorView() {
     return (
         <NavLayout activeSectionIdOverride={navSections.home} variant={"view"}>
             <Container sx={{mt: 2}}>
-                <Box sx={{display: "flex", justifyContent: "space-between"}}>
+                <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                     <Typography variant={"h3"} sx={{mb: 4}}>
                         <LearningSubjectIcon sx={{mr: 2}}/>
                         {learningSubjectView.learningSubject.name}
                     </Typography>
-                    <Button onClick={() => navigate(
-                        navigationPath.fillPath(navigationPath.learningSubjectLearn, learningSubjectView?.learningSubject.id)
-                    )}>Go to learning view</Button>
+                    {
+                        learningSubjectView.learningSubject.learningEligible ? (
+                            <Button onClick={() => navigate(
+                                navigationPath.fillPath(navigationPath.learningSubjectLearn, learningSubjectView?.learningSubject.id)
+                            )}>Go to learning view</Button>
+                        ) : (<></>)
+                    }
+
                 </Box>
                 <Grid container spacing={6} sx={{marginTop: 2}}>
                     <Grid size={{xs: 12, md: 4}}>
                         <Typography>Knowledge sources:</Typography>
                         {
                             learningSubjectView.learningSubject.knowledgeOriginEmpty ? (
-                                <Box sx={{display: "flex", flexDirection: "column", mt: 2, gap: 2}}>
-                                    <Box sx={{
-                                        p: 4,
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        alignItems: "center",
-                                        borderRadius: 1,
-                                        border: "1px solid lightgray",
-                                        gap: 2,
-                                        cursor: "pointer",
-                                        transition: "200ms ease",
-                                        "&:hover": {boxShadow: theme.shadows[2]}
-                                    }} onClick={handleKnowledgeSourceModalOpen}>
-                                        <Add sx={{color: "gray"}}/>
-                                        <Typography variant={"h6"} color={"textSecondary"}>Add new</Typography>
+                                <Box sx={{display: "flex", flexDirection: "column", alignItems: "stretch", gap: 2}}>
+                                    <Box sx={{display: "flex", flexDirection: "column", mt: 2, gap: 2}}>
+                                        <Box sx={{
+                                            p: 4,
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "center",
+                                            borderRadius: 1,
+                                            border: "1px solid lightgray",
+                                            gap: 2,
+                                            cursor: "pointer",
+                                            transition: "200ms ease",
+                                            "&:hover": {boxShadow: theme.shadows[2]}
+                                        }} onClick={handleKnowledgeSourceModalOpen}>
+                                            <Add sx={{color: "gray"}}/>
+                                            <Typography variant={"h6"} color={"textSecondary"}>Add new</Typography>
+                                        </Box>
+                                    </Box>
+                                    <Box>
+                                        <Typography variant={"subtitle1"} color={"textSecondary"}>
+                                            <Warning sx={{mr: 1}}/>Learning subjects without knowledge subjects are not
+                                            eligible for learning.
+                                        </Typography>
                                     </Box>
                                 </Box>
                             ) : (
@@ -180,11 +194,37 @@ export default function LearningSubjectEditorView() {
                                 )
                             }
                         </Stepper>
-                        <Box sx={{display: "flex", flexDirection: "column", mt: 2, gap: 1}}>
-                            <Link onClick={handleRequirementModalOpen} to={"#"}>
-                                Add new requirement
-                            </Link>
-                        </Box>
+                        {
+                            learningSubjectView.learningSubject.knowledgeOriginEmpty ? (
+                                <Box>
+                                    <Typography variant={"subtitle1"} color={"textSecondary"}>
+                                        <Warning sx={{mr: 1}}/> You must add knowledge sources to the learning subject
+                                        before you can add requirements.
+                                    </Typography>
+                                </Box>
+                            ) : learningSubjectView.learningSubject.requirements.length === 0 ? (
+                                <>
+                                    <Box sx={{display: "flex", flexDirection: "column", mt: 2, gap: 1}}>
+                                        <Link onClick={handleRequirementModalOpen} to={"#"}>
+                                            Add new requirement
+                                        </Link>
+                                    </Box>
+                                    <Box>
+                                        <Typography variant={"subtitle1"} color={"textSecondary"}>
+                                            <Warning sx={{mr: 1}}/> Learning subjects without requirements are not
+                                            eligible
+                                            for learning.
+                                        </Typography>
+                                    </Box>
+                                </>
+                            ) : (
+                                <Box sx={{display: "flex", flexDirection: "column", mt: 2, gap: 1}}>
+                                    <Link onClick={handleRequirementModalOpen} to={"#"}>
+                                        Add new requirement
+                                    </Link>
+                                </Box>
+                            )
+                        }
                     </Grid>
                     <Grid size={{xs: 12, md: 4}}>
                         {learningSubjectView.learningSubject.requirements.length !== 0 ? (
@@ -238,9 +278,11 @@ export default function LearningSubjectEditorView() {
                 </Grid>
             </Container>
             <KnowledgeOriginModal isOpen={knowledgeSourceModalOpen} handleClose={handleKnowledgeSourceModalClose}
-                                  setLearningSubjectKnowledgeSubjectId={handleLearningSubjectSetKnowledgeSubject}/>
+                                  setLearningSubjectKnowledgeSubjectId={handleLearningSubjectSetKnowledgeSubject}
+                                  setError={setError}/>
             <AddRequirementModal isOpen={requirementModalOpen} handleClose={handleRequirementModalClose}
-                                 addLearningSubjectRequirement={handleAddLearningSubjectRequirement}/>
+                                 addLearningSubjectRequirement={handleAddLearningSubjectRequirement}
+                                 setError={setError}/>
         </NavLayout>
     );
 }
@@ -249,7 +291,7 @@ interface KnowledgeOriginModalParams extends UniversalModalParams {
     setLearningSubjectKnowledgeSubjectId: (id: string) => Promise<void>;
 }
 
-function KnowledgeOriginModal(params: KnowledgeOriginModalParams) {
+function KnowledgeOriginModal(props: KnowledgeOriginModalParams) {
     const theme = useTheme();
     const [searchedKnowledgeSubjects, setSearchedKnowledgeSubjects] = useState<Array<KnowledgeSubjectSearchView>>([]);
     const [knowledgeSubjectSetLoading, setKnowledgeSubjectSetLoading] = useState(false);
@@ -268,13 +310,16 @@ function KnowledgeOriginModal(params: KnowledgeOriginModalParams) {
 
     async function updateSearchResults(searchPhrase: string) {
         const apiResponse = await searchKnowledgeSubjects(searchPhrase);
-        if (!apiResponse.success) return; // TODO: handle failure
+        if (!apiResponse.success) {
+            props.setError(apiResponse.error);
+            return;
+        }
         setSearchedKnowledgeSubjects(apiResponse.data as Array<KnowledgeSubjectSearchView>);
     }
 
     function handleKnowledgeSubjectChoice(knowledgeSubjectId: string) {
         setKnowledgeSubjectSetLoading(true);
-        params.setLearningSubjectKnowledgeSubjectId(knowledgeSubjectId)
+        props.setLearningSubjectKnowledgeSubjectId(knowledgeSubjectId)
             .then(() => setKnowledgeSubjectSetLoading(false));
     }
 
@@ -283,8 +328,8 @@ function KnowledgeOriginModal(params: KnowledgeOriginModalParams) {
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
-                open={params.isOpen}
-                onClose={params.handleClose}
+                open={props.isOpen}
+                onClose={props.handleClose}
                 closeAfterTransition
                 slots={{backdrop: Backdrop}}
                 slotProps={{
@@ -293,7 +338,7 @@ function KnowledgeOriginModal(params: KnowledgeOriginModalParams) {
                     },
                 }}
             >
-                <Fade in={params.isOpen}>
+                <Fade in={props.isOpen}>
                     <Box sx={modalStyle}>
                         <Box sx={{width: "100%", display: "grid", placeItems: "center"}}>
                             <CircularProgress/>
@@ -308,8 +353,8 @@ function KnowledgeOriginModal(params: KnowledgeOriginModalParams) {
         <Modal
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
-            open={params.isOpen}
-            onClose={params.handleClose}
+            open={props.isOpen}
+            onClose={props.handleClose}
             closeAfterTransition
             slots={{backdrop: Backdrop}}
             slotProps={{
@@ -318,7 +363,7 @@ function KnowledgeOriginModal(params: KnowledgeOriginModalParams) {
                 },
             }}
         >
-            <Fade in={params.isOpen}>
+            <Fade in={props.isOpen}>
                 <Box sx={modalStyle}>
                     <Typography id="transition-modal-title" variant="h6" component="h2" sx={{mb: 2}}>
                         Add Knowledge sources
@@ -333,6 +378,7 @@ function KnowledgeOriginModal(params: KnowledgeOriginModalParams) {
                                        onChange={(e) => setSearchPhrase(e.target.value)} // Update search phrase state
                             />
                         }
+                        clearOnBlur={false} clearOnEscape={false}
                         renderOption={(props, option) => (
                             <Box
                                 sx={{p: 1, "&:hover": {backgroundColor: theme.palette.grey[50]}}}

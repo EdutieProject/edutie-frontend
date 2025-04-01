@@ -31,6 +31,7 @@ export interface LearningSubject {
     requirements: Requirement[]
     knowledgeOrigin: KnowledgeOrigin
     knowledgeOriginEmpty: boolean
+    learningEligible: string
 }
 
 export interface AuthorEducator {

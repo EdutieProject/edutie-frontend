@@ -4,12 +4,12 @@ import React, {useEffect, useState} from "react";
 import {navigationPath, navSections} from "src/features/navigation/navigationPath";
 import Grid from "@mui/material/Grid2";
 import {ApiError, LearningSubject} from "src/services/types";
-import {getCreatedLearningSubjects} from "src/services/management/learningSubjectService";
 import LoadingView from "src/views/common/LoadingView";
 import ErrorView from "src/views/common/ErrorView";
 import {useNavigate} from "react-router";
 import LearningSubjectIcon from "src/components/icons/LearningSubjectIcon";
 import straightFaceEmoji from "src/assets/svg/emoji/expressionless.svg";
+import {getCreatedEligibleLearningSubjects} from "src/services/learning/learningSubjectService";
 
 export default function LearnHomeView() {
     const theme = useTheme();
@@ -20,7 +20,7 @@ export default function LearnHomeView() {
     const [learningSubjects, setLearningSubjects] = useState<Array<LearningSubject>>();
 
     async function fetchLearningSubjects() {
-        const response = await getCreatedLearningSubjects();
+        const response = await getCreatedEligibleLearningSubjects();
         if (!response.success) {
             setError(response.error);
             return;
@@ -66,8 +66,8 @@ export default function LearnHomeView() {
                                     <img src={straightFaceEmoji} alt={""} width={"100px"}/>
                                     <Typography variant={"h4"} sx={{mb: 1, textAlign: "center"}}><b>Nothing to be seen
                                         here.</b></Typography>
-                                    <Typography sx={{mb: 1, textAlign: "center"}}>Go to create tab to learn something
-                                        new!</Typography>
+                                    <Typography sx={{mb: 1, textAlign: "center"}}>None of your learning subjects are
+                                        eligible for learning.</Typography>
                                 </Box>
                             ) :
                             learningSubjects.map(o => {
