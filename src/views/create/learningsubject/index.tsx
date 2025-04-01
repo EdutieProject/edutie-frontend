@@ -66,9 +66,6 @@ export default function LearningSubjectEditorView() {
     const handleKnowledgeSourceModalOpen = () => setKnowledgeSourceModalOpen(true);
     const handleKnowledgeSourceModalClose = () => setKnowledgeSourceModalOpen(false);
 
-    if (error)
-        return <ErrorView error={error}/>
-
     async function loadLearningSubject() {
         const response = await getLearningSubjectById(learningSubjectId as string);
         if (!response.success) {
@@ -76,14 +73,6 @@ export default function LearningSubjectEditorView() {
             return;
         }
         setLearningSubjectView(response.data);
-    }
-
-    useEffect(() => {
-        loadLearningSubject().then();
-    }, [learningSubjectView === undefined]);
-
-    if (learningSubjectView === null || learningSubjectView === undefined) {
-        return <LoadingView/>
     }
 
     async function handleLearningSubjectSetKnowledgeSubject(knowledgeSubjectId: string) {
@@ -108,6 +97,17 @@ export default function LearningSubjectEditorView() {
         // @ts-ignore
         setSelectedRequirementIdx(learningSubjectView?.learningSubject.requirements.length);
         setRequirementModalOpen(false);
+    }
+
+    useEffect(() => {
+        loadLearningSubject().then();
+    }, [learningSubjectView === undefined]);
+
+    if (error)
+        return <ErrorView error={error}/>
+
+    if (learningSubjectView === null || learningSubjectView === undefined) {
+        return <LoadingView/>
     }
 
     console.log(learningSubjectView);
