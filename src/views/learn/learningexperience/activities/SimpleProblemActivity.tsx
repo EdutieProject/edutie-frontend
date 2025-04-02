@@ -5,7 +5,7 @@ import {
     SolutionParagraph
 } from "src/services/types";
 import {Box, Button, Container, Typography} from "@mui/material";
-import React, {Dispatch, SetStateAction, useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import Editor from "src/components/editors/Editor";
 import {OutputData} from "@editorjs/editorjs";
 import {createSimpleProblemActivityLearningResult} from "src/services/learning/learningResultService";
@@ -84,12 +84,14 @@ interface SimpleProblemActivityComponentProps {
     learningExperienceId: string;
     activity: SimpleProblemActivity;
     setLearningResultLoading: Dispatch<SetStateAction<boolean>>;
-    setError: Dispatch<SetStateAction<ApiError>>
+    setError: Dispatch<SetStateAction<ApiError | undefined>>;
+    setCachedSolution: Dispatch<SetStateAction<OutputData | undefined>>;
+    cachedSolution: OutputData | undefined;
 }
 
 export default function SimpleProblemActivityComponent(props: SimpleProblemActivityComponentProps) {
     const navigate = useNavigate();
-    const [solution, setSolution] = useState<OutputData>(solutionTemplateEditorData); //TODO: move this up so it does not disappear while moving contents
+    const [solution, setSolution] = useState<OutputData>(props.cachedSolution ?? solutionTemplateEditorData); //TODO: move this up so it does not disappear while moving contents
 
     async function handleCreateLearningResult() {
         props.setLearningResultLoading(true);
@@ -102,6 +104,10 @@ export default function SimpleProblemActivityComponent(props: SimpleProblemActiv
         }
         navigate(navigationPath.fillPath(navigationPath.learningResult, response.data.id), {state: {learningResult: response.data}})
     }
+
+    useEffect(() => {
+        props.setCachedSolution(solution);
+    }, [solution]);
 
     let activity = props.activity;
     return (

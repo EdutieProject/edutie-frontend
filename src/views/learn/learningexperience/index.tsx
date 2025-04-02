@@ -9,6 +9,7 @@ import {getLearningExperienceById} from "src/services/learning/learningExperienc
 import ErrorView from "src/views/common/ErrorView";
 import LearningNotesComponent from "src/views/learn/learningexperience/LearningNotes";
 import ActivityRouter from "src/views/learn/learningexperience/activities/ActivityRouter";
+import {OutputData} from "@editorjs/editorjs";
 
 enum ActiveViewPart {
     NOTES = "NOTES",
@@ -46,6 +47,7 @@ export default function LearningExperienceView() {
     const [activeViewPart, setActiveViewPart] = useState<ActiveViewPart>(ActiveViewPart.NOTES);
     const [learningExperience, setLearningExperience] = useState<LearningExperience<Activity>>(cachedLearningExperience);
 
+    const [cachedSolution, setCachedSolution] = useState<OutputData>();
     const [learningResultLoading, setLearningResultLoading] = useState(false);
     const [error, setError] = useState<ApiError>()
 
@@ -81,6 +83,8 @@ export default function LearningExperienceView() {
                         setLearningResultLoading={setLearningResultLoading}
                         learningExperienceId={learningExperience.id}
                         setError={setError}
+                        setCachedSolution={setCachedSolution}
+                        cachedSolution={cachedSolution}
                     />
             }
             <ViewPartSwitch activePart={activeViewPart} switchView={setActiveViewPart}/>
