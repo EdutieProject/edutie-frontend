@@ -457,7 +457,7 @@ function AddRequirementModal(params: AddRequirementModalParams) {
                     </Typography>
                     <TextField id="outlined-basic" label="Requirement Name" variant="outlined"
                                onChange={(e) => setInputRequirementName(e.target.value)}/>
-                    <Button onClick={handleAddRequirement} variant={"contained"}>Add requirement</Button>
+                    <Button onClick={handleAddRequirement} variant={"contained"} disabled={inputRequirementName.length <= 3}>Add requirement</Button>
                 </Box>
             </Fade>
         </Modal>
