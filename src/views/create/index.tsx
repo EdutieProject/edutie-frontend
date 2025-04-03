@@ -192,7 +192,9 @@ function CreateLearningSubjectModal(params: UniversalModalParams) {
                     <TextField id="outlined-basic" label="Learning Subject name" variant="outlined"
                                onChange={(e) => setInputSubjectName(e.target.value)}/>
                     <Button variant={"contained"}
-                            onClick={() => handleCreateLearningSubject(inputSubjectName)}>Create</Button>
+                            onClick={() => handleCreateLearningSubject(inputSubjectName)}
+                            disabled={inputSubjectName.length < 3}
+                    >Create</Button>
                 </Box>
             </Fade>
         </Modal>
