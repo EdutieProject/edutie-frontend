@@ -1,9 +1,20 @@
-import {Backdrop, Box, Button, CircularProgress, Fade, Modal, TextField, Typography, useTheme} from "@mui/material";
+import {
+    Backdrop,
+    Box,
+    Button,
+    CircularProgress,
+    Container,
+    Fade,
+    Modal,
+    TextField,
+    Typography,
+    useTheme
+} from "@mui/material";
 import NavLayout from "src/views/common/NavLayout";
 import React, {useEffect, useState} from "react";
 import {navigationPath, navSections} from "src/features/navigation/navigationPath";
 
-import {RadioRounded} from "@mui/icons-material";
+import {Check, RadioRounded} from "@mui/icons-material";
 import {useNavigate} from "react-router";
 import {createLearningSubject, getCreatedLearningSubjects} from "src/services/management/learningSubjectService";
 import {ApiError, LearningSubject} from "src/services/types";
@@ -13,6 +24,7 @@ import LoadingView from "src/views/common/LoadingView";
 import ErrorView from "src/views/common/ErrorView";
 import LearningSubjectIcon from "src/components/icons/LearningSubjectIcon";
 import {UniversalModalParams} from "src/views/common/types";
+import Grid from "@mui/material/Grid2";
 
 const modalStyle = {
     position: 'absolute',
@@ -86,41 +98,59 @@ export default function CreateHomeView() {
                 </Box>
             </Box>
             <Typography>Or let's edit what you've created:</Typography>
-            <Box sx={{my: 8, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 4, maxWidth: "64rem"}}>
-                {
-                    createdLearningSubjects?.length === 0 ? (
-                        <Box sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            gap: 2
-                        }}>
-                            <img src={sleepyEmoji} width={"100px"} alt={""}/>
-                            <Box sx={{display: "flex", flexDirection: "column"}}>
-                                <Typography variant={"h6"}>Seems you didn't create anything...</Typography>
-                            </Box>
-                        </Box>
-                    ) : createdLearningSubjects.slice(0,6).map(
-                        (o) =>
+            <Container maxWidth={"xl"} sx={{my: 8, px: {xs: 2, md: 16}}}>
+                <Grid container width={"100%"} spacing={6}>
+                    {
+                        createdLearningSubjects?.length === 0 ? (
                             <Box sx={{
+                                width: "100%",
+                                my: 2,
+                                py: 4,
                                 display: "flex",
-                                gap: 2,
-                                width: "18rem",
-                                cursor: "pointer",
-                                "&:hover": {
-                                    "& .learning-subject-title": {color: theme.palette.primary.main}
-                                }
-                            }} onClick={() => navigate(navigationPath.fillPath(navigationPath.learningSubjectEditor, o.id))}>
-                                <LearningSubjectIcon/>
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                gap: 2
+                            }}>
+                                <img src={sleepyEmoji} width={"100px"} alt={""}/>
                                 <Box sx={{display: "flex", flexDirection: "column"}}>
-                                    <Typography variant={"h5"}
-                                                className={"learning-subject-title"}>{o.name}</Typography>
-                                    <Typography variant={"subtitle1"} color={"textSecondary"}>Learning
-                                        Subject</Typography>
+                                    <Typography variant={"h6"}>Seems you didn't create anything...</Typography>
                                 </Box>
                             </Box>
-                    )
-                }
+                        ) : createdLearningSubjects.map(
+                            (o) =>
+                                <Grid size={{xs: 12, md: 4}}>
+                                    <Box sx={{
+                                        display: "flex",
+                                        gap: 2,
+                                        width: "100%",
+                                        cursor: "pointer",
+                                        "&:hover": {
+                                            "& .learning-subject-title": {color: theme.palette.primary.main}
+                                        }
+                                    }} onClick={() => navigate(navigationPath.fillPath(navigationPath.learningSubjectEditor, o.id))}>
+                                        <LearningSubjectIcon/>
+                                        <Box sx={{display: "flex", flexDirection: "column"}}>
+                                            <Typography variant={"h5"}
+                                                        className={"learning-subject-title"}>{o.name}</Typography>
+                                            <Typography variant={"subtitle1"} color={"textSecondary"}>Learning
+                                                Subject</Typography>
+                                            {
+                                                o.learningEligible ?
+                                                    <Typography variant={"caption"} color={"secondary"}>
+                                                        <Check sx={{mr: 1, fontSize: "12px"}}/><b>Learning Eligible</b>
+                                                    </Typography> : ""
+                                            }
+
+                                        </Box>
+                                    </Box>
+                                </Grid>
+                        )
+                    }
+                </Grid>
+            </Container>
+            <Box sx={{my: 8, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 4, maxWidth: "64rem"}}>
+
             </Box>
             {/*<Typography>See more</Typography>*/}
             <CreateLearningSubjectModal isOpen={createLearningSubjectModalOpen} handleClose={handleClose} setError={setError}/>
