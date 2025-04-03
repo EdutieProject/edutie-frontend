@@ -91,7 +91,7 @@ interface SimpleProblemActivityComponentProps {
 
 export default function SimpleProblemActivityComponent(props: SimpleProblemActivityComponentProps) {
     const navigate = useNavigate();
-    const [solution, setSolution] = useState<OutputData>(props.cachedSolution ?? solutionTemplateEditorData); //TODO: move this up so it does not disappear while moving contents
+    const [solution, setSolution] = useState<OutputData>(props.cachedSolution ?? solutionTemplateEditorData);
 
     async function handleCreateLearningResult() {
         props.setLearningResultLoading(true);

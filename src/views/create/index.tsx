@@ -12,6 +12,7 @@ import sleepyEmoji from "src/assets/svg/emoji/sleepy.svg";
 import LoadingView from "src/views/common/LoadingView";
 import ErrorView from "src/views/common/ErrorView";
 import LearningSubjectIcon from "src/components/icons/LearningSubjectIcon";
+import {UniversalModalParams} from "src/views/common/types";
 
 const modalStyle = {
     position: 'absolute',
@@ -122,7 +123,7 @@ export default function CreateHomeView() {
                 }
             </Box>
             {/*<Typography>See more</Typography>*/}
-            <CreateLearningSubjectModal isOpen={createLearningSubjectModalOpen} handleClose={handleClose}/>
+            <CreateLearningSubjectModal isOpen={createLearningSubjectModalOpen} handleClose={handleClose} setError={setError}/>
         </NavLayout>
     );
 }

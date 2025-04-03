@@ -12,7 +12,7 @@ export default function LatestStudentActivityChart({ data }: LatestStudentActivi
         <TinyLineChart
             lineDataKeyName="zadania"
             axisDataKeyName="dayName"
-            strokeColor={theme.palette.accentSecond.main}
+            strokeColor={theme.palette.secondary.main}
             data={data}
         />
     );
