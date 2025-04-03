@@ -56,14 +56,14 @@ export default function NavBar({activeSectionIdOverride}: NavBarProps) {
                     Create
                 </label>
             </div>
-            <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}
-                 onClick={() => navigate(navigationPath.account)}
-            >
-                <Person/>
-                <label>
-                    You
-                </label>
-            </div>
+            {/*<div style={{display: "flex", flexDirection: "column", alignItems: "center"}}*/}
+            {/*     onClick={() => navigate(navigationPath.account)}*/}
+            {/*>*/}
+            {/*    <Person/>*/}
+            {/*    <label>*/}
+            {/*        You*/}
+            {/*    </label>*/}
+            {/*</div>*/}
         </Box>
     );
 }
