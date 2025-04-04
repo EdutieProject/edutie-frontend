@@ -173,3 +173,9 @@ export interface TextContent {
     text: string
 }
 
+export interface UserDetails {
+    userId: string
+    username: string
+    firstName: string
+}
+
