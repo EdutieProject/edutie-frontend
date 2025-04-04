@@ -5,10 +5,10 @@ import React, {useEffect, useState} from "react";
 
 const learningFact = {
     values: [
-        "Dziękujemy że uczysz się razem z nami.",
-        "Zamiast mówić sobie: „Nie jestem dobry w matematyce”, przyjmij podejście „Uczę się i mogę być coraz lepszy”.",
-        "Przed sesją nauki zrób szybki spacer lub wykonaj lekkie ćwiczenia. Ruch w przerwach (np. przy technice Pomodoro) też dobrze wpływa na zapamiętywanie.",
-        "Zamiast jednej długiej sesji, staraj się uczyć regularnie, np. codziennie przez 20–30 minut. Twój mózg lepiej zapamiętuje materiał rozłożony w czasie."
+        "Thank you for learning with us.",
+        "Instead of saying, 'I'm not good at math,' adopt the mindset, 'I'm learning and can get better and better.'",
+        "Before a study session, take a quick walk or do some light exercise. Movement during breaks (e.g., with the Pomodoro technique) also helps with memory retention.",
+        "Instead of one long study session, try to learn regularly, for example, 20–30 minutes a day. Your brain retains material better when it's spaced out over time."
     ],
     getRandom: () =>  {
         return learningFact.values[Math.floor(Math.random() * learningFact.values.length)];

@@ -172,9 +172,23 @@ export default function LearningSubjectEditorView() {
                                         gap: 2,
                                     }}>
                                         <KnowledgeSubjectIcon/>
-                                        <Typography
-                                            variant={"h6"}>{learningSubjectView.knowledgeSubjectDetails.title}</Typography>
-                                        <Typography variant={"subtitle1"}>Knowledge Subject</Typography>
+                                        <Typography variant={"h6"}>
+                                            {learningSubjectView.knowledgeSubjectDetails.title}
+                                        </Typography>
+                                        <Typography variant={"subtitle1"}>
+                                            Knowledge Subject
+                                        </Typography>
+                                        <Typography variant={"caption"} color={"secondary"}
+                                                    sx={{
+                                                        "&:hover": {
+                                                            textDecoration: "underline",
+                                                            color: theme.palette.secondary.light,
+                                                            cursor: "pointer"
+                                                        }
+                                                    }}
+                                                    onClick={handleKnowledgeSourceModalOpen}>
+                                            Edit
+                                        </Typography>
                                     </Box>
                                 </Box>
                             )
@@ -204,7 +218,7 @@ export default function LearningSubjectEditorView() {
                                 </Box>
                             ) : learningSubjectView.learningSubject.requirements.length === 0 ? (
                                 <>
-                                    <Box sx={{display: "flex", flexDirection: "column", mt: 2, gap: 1}}>
+                                    <Box sx={{display: "flex", flexDirection: "column", my: 2, gap: 1}}>
                                         <Link onClick={handleRequirementModalOpen} to={"#"}>
                                             Add new requirement
                                         </Link>
@@ -457,7 +471,8 @@ function AddRequirementModal(params: AddRequirementModalParams) {
                     </Typography>
                     <TextField id="outlined-basic" label="Requirement Name" variant="outlined"
                                onChange={(e) => setInputRequirementName(e.target.value)}/>
-                    <Button onClick={handleAddRequirement} variant={"contained"} disabled={inputRequirementName.length <= 3}>Add requirement</Button>
+                    <Button onClick={handleAddRequirement} variant={"contained"}
+                            disabled={inputRequirementName.length <= 3}>Add requirement</Button>
                 </Box>
             </Fade>
         </Modal>
