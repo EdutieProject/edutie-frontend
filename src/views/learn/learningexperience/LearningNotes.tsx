@@ -1,8 +1,9 @@
-import {Box, Container, useTheme} from "@mui/material";
+import {Box, Container} from "@mui/material";
 import React from "react";
 import {LearningNotes} from "src/services/types";
-import MarkdownLaTeXRenderer from "src/components/markdown/MarkdownLaTexRenderer";
-import MermaidRenderer from "src/components/mermaid/MermaidRenderer";
+import MarkdownLaTeXRenderer from "src/components/renderers/MarkdownLaTexRenderer";
+import MermaidRenderer from "src/components/renderers/MermaidRenderer";
+
 
 interface LearningNotesProps {
     notes: LearningNotes
@@ -15,7 +16,9 @@ export default function LearningNotesComponent(props: LearningNotesProps) {
             {
                 props.notes.paragraphs.map(o => {
                     if (o.content.textContentType === "MARKDOWN")
-                        return <Box sx={{px: {xs: 1, sm:2, md: 4}}}><MarkdownLaTeXRenderer content={o.content.text} /></Box>
+                        return <Box sx={{px: {xs: 1, sm: 2, md: 4}}}>
+                            <MarkdownLaTeXRenderer content={o.content.text}/>
+                        </Box>
                     if (o.content.visualisationType === "MERMAID")
                         return <MermaidRenderer chart={o.content.code}/>
                 })

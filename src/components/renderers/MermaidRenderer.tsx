@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
 import mermaid from "mermaid";
-import MarkdownLaTeXRenderer from "../markdown/MarkdownLaTexRenderer";
 
 mermaid.initialize({
     startOnLoad: true,

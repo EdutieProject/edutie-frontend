@@ -11,6 +11,7 @@ import {OutputData} from "@editorjs/editorjs";
 import {createSimpleProblemActivityLearningResult} from "src/services/learning/learningResultService";
 import {useNavigate} from "react-router";
 import {navigationPath} from "src/features/navigation/navigationPath";
+import MarkdownLaTeXRenderer from "src/components/renderers/MarkdownLaTexRenderer";
 
 const solutionTemplateEditorData: OutputData = {
     "time": new Date().getTime(),
@@ -114,7 +115,9 @@ export default function SimpleProblemActivityComponent(props: SimpleProblemActiv
         <Container maxWidth={"md"} sx={{pb: 16}}>
             <Typography>{activity.introductionText}</Typography>
             <hr/>
-            <Typography variant={"h5"}>{activity.problemText}</Typography>
+            <Typography variant={"h5"}>
+                <MarkdownLaTeXRenderer content={activity.problemText}/>
+            </Typography>
             <Editor currentContent={solution} setCurrentContent={setSolution}/>
             <Box sx={{
                 position: "fixed",
