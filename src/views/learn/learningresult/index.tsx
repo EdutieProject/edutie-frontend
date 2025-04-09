@@ -12,6 +12,7 @@ import Grid from "@mui/material/Grid2";
 import {RadioRounded} from "@mui/icons-material";
 import {createSimilarLearningExperience} from "src/services/learning/learningExperienceService";
 import LearningSubjectIcon from "src/components/icons/LearningSubjectIcon";
+import MarkdownLaTeXRenderer from "src/components/renderers/MarkdownLaTexRenderer";
 
 
 export default function LearningResultView() {
@@ -106,7 +107,9 @@ export default function LearningResultView() {
                     <Grid size={{xs: 12, md: 8}}>
                         {learningResult.learningEvaluation.assessments.map(o =>
                             <Box sx={{display: "flex", alignItems: "center"}}>
-                                <Typography>{o.feedback.text}</Typography>
+                                <Typography>
+                                    <MarkdownLaTeXRenderer content={o.feedback.text}/>
+                                </Typography>
                             </Box>
                         )}
                     </Grid>
