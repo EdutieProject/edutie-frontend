@@ -120,10 +120,13 @@ export default function LearningResultView() {
                 width: " 100%",
                 left: 0,
                 bottom: 150,
-                display: "grid",
-                placeItems: "center",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 4,
                 zIndex: 50
             }}>
+                <Button variant={"outlined"} onClick={handleCreateSimilarLearningExperience} disabled>Go back to source</Button>
                 <Button variant={"contained"} onClick={handleCreateSimilarLearningExperience}>Continue learning</Button>
             </Box>
         </NavLayout>
