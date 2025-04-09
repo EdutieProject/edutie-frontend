@@ -31,7 +31,7 @@ import {
     setKnowledgeSubject
 } from "src/services/management/learningSubjectService";
 import LoadingView from "src/views/common/LoadingView";
-import MarkdownLaTeXRenderer from "src/components/markdown/MarkdownLaTexRenderer";
+import MarkdownLaTeXRenderer from "src/components/renderers/MarkdownLaTexRenderer";
 import Tooltip from '@mui/material/Tooltip';
 import ErrorView from "src/views/common/ErrorView";
 import LearningSubjectIcon from "src/components/icons/LearningSubjectIcon";
