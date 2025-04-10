@@ -179,3 +179,8 @@ export interface UserDetails {
     firstName: string
 }
 
+export interface LearningResultViewData<T extends SolutionSubmission> {
+    learningResult: LearningResult<T>
+    sourceId: string
+    currentSourceName: string
+}

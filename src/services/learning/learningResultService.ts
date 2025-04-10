@@ -1,9 +1,8 @@
 import {API_PATH, catchClientErrors, getDefaultHeadersAuthenticated} from "src/services/apiCommons";
 import {
-    Activity,
     ApiResponse,
-    LearningExperience,
     LearningResult,
+    LearningResultViewData,
     SimpleProblemActivitySolutionSubmission
 } from "src/services/types";
 
@@ -22,7 +21,7 @@ export async function createSimpleProblemActivityLearningResult(learningExperien
     );
 }
 
-export async function getLearningResultById(id: string): Promise<ApiResponse<LearningResult<any>>> {
+export async function getLearningResultById(id: string): Promise<ApiResponse<LearningResultViewData<any>>> {
     return await catchClientErrors(
         async () => {
             const response = await fetch(`${API_PATH}/learning-result/${id}`,
